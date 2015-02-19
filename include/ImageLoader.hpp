@@ -5,7 +5,7 @@
 #include <vector>
 #include <cstdint>
 
-#include "../include/Vector2.hpp"
+#include <Vector2.hpp>
 
 namespace zeno {
 	

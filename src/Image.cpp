@@ -1,6 +1,6 @@
-#include "../include/Image.hpp"
+#include <Image.hpp>
 
-#include "../include/ImageLoader.hpp"
+#include <ImageLoader.hpp>
 
 namespace zeno {
 

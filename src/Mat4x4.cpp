@@ -1,4 +1,4 @@
-#include "Mat4x4.hpp"
+#include <Mat4x4.hpp>
 
 #include <iostream>
 #include <sstream>
