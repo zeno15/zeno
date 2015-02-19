@@ -164,4 +164,10 @@ Time& operator %=(Time& _left, const Time& _right)
 	return _left;
 }
 
+std::ostream& operator <<(std::ostream& os, zeno::Time const& _time)
+{
+	os << _time.asMicroseconds() << " us";
+	return os;
+}
+
 } //~ namespace zeno

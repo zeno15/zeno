@@ -1,6 +1,8 @@
 #ifndef INCLUDED_VECTOR_3_HPP
 #define INCLUDED_VECTOR_3_HPP
 
+#include <ostream>
+
 #include <cmath>
 
 namespace zeno {
@@ -188,6 +190,14 @@ bool operator ==(const Vector3<T>& _left, const Vector3<T>& _right);
 ////////////////////////////////////////////////////////////
 template <typename T>
 bool operator !=(const Vector3<T>& _left, const Vector3<T>& _right);
+
+////////////////////////////////////////////////////////////
+//
+//	Overload of << operator for std::ostream
+//
+////////////////////////////////////////////////////////////
+template <typename T>
+std::ostream& operator <<(std::ostream& os, zeno::Vector3<T> const& _vec);
 
 
 

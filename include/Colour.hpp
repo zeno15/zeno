@@ -1,6 +1,8 @@
 #ifndef INCLUDED_COLOUR_HPP
 #define INCLUDED_COLOUR_HPP
 
+#include <ostream>
+
 namespace zeno {
 
 ////////////////////////////////////////////////////////////
@@ -170,6 +172,13 @@ Colour& operator *=(Colour& _left, float _val);
 //
 ////////////////////////////////////////////////////////////
 Colour& operator *=(Colour& _left, const Colour& _right);
+
+////////////////////////////////////////////////////////////
+//
+//	Overload of << operator for std::ostream
+//
+////////////////////////////////////////////////////////////
+std::ostream& operator <<(std::ostream& os, zeno::Colour const& _col);
 
 } //~ namespace zeno
 

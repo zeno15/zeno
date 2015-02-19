@@ -145,3 +145,10 @@ inline bool operator !=(const Vector3<T>& _left, const Vector3<T>& _right)
 {
 	return (!(_left == _right));
 }
+
+template <typename T>
+std::ostream& operator <<(std::ostream& os, zeno::Vector3<T> const& _vec)
+{
+	os << "x: " << _vec.x << ", y: " << _vec.y << ", z: " << _vec.z;
+	return os;
+}

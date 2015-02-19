@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <ostream>
 
 #include "Vector3.hpp"
 #include "Vector4.hpp"

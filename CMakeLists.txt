@@ -35,8 +35,10 @@ set(SRC_FILES ${SRC_FILES}
 		)
 
 set(TEST_FILES ${TEST_FILES} 
+		test/main.cpp
 		test/test.cpp
 		test/catch.hpp
+		test/toString.hpp
 		)
 
 set(LIBS ${LIBS} X11)

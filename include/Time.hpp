@@ -1,6 +1,8 @@
 #ifndef INCLUDED_TIME_HPP
 #define INCLUDED_TIME_HPP
 
+#include <ostream>
+
 namespace zeno {
 
 ////////////////////////////////////////////////////////////
@@ -265,6 +267,12 @@ Time operator %(const Time& _left, const Time& _right);
 ////////////////////////////////////////////////////////////
 Time& operator %=(Time& _left, const Time& _right);
 
+////////////////////////////////////////////////////////////
+//
+//	Overload of << operator for std::ostream
+//
+////////////////////////////////////////////////////////////
+std::ostream& operator <<(std::ostream& os, zeno::Time const& _time);
 } //~ namespace zeno
 
 #endif //~ INCLUDED_TIME_HPP

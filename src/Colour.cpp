@@ -101,4 +101,11 @@ Colour& operator *=(Colour& _left, const Colour& _right)
 	return _left;
 }
 
+
+std::ostream& operator <<(std::ostream& os, zeno::Colour const& _col)
+{
+	os << "r: " << _col.r << ", g: " << _col.g << ", b: " << _col.b << ", a: " << _col.a;
+	return os;
+}
+
 } //~ namespace zeno
