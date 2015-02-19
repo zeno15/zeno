@@ -1,11 +1,13 @@
 #include <iostream>
 #include <cstdlib>
+#include <unistd.h>
 
 //~ https://github.com/philsquared/Catch
 #define CATCH_CONFIG_MAIN
 #include <catch.hpp>
 
 #include <Colour.hpp>
+#include <Window.hpp>
 
 /*	Macros
 
@@ -41,5 +43,13 @@ TEST_CASE("Colour::Red test", "[Colour]" ) {
 		{
 			REQUIRE(val == 2);
 		}
+	}
+}
+
+TEST_CASE("Window Test", "[Window]") {
+	SECTION("Initial") {
+		zeno::Window window = zeno::Window();
+		window.display();
+		sleep(5);
 	}
 }
