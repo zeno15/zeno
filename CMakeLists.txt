@@ -5,12 +5,15 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/test)
 
+# Cross platform code
 set(HEADER_FILES ${HEADER_FILES} 
 		include/Colour.hpp
 		include/Clock.hpp
 		include/Image.hpp
 		include/ImageLoader.hpp
+		include/Keyboard.hpp
 		include/Mat4x4.hpp
+		include/Mouse.hpp
 		include/Rect.hpp
 		include/Time.hpp
 		include/Vector2.hpp
@@ -30,12 +33,32 @@ set(SRC_FILES ${SRC_FILES}
 		src/Clock.cpp
 		src/Image.cpp
 		src/ImageLoader.cpp
+		src/Keyboard.cpp
 		src/Mat4x4.cpp
+		src/Mouse.cpp
 		src/Time.cpp
 		src/Window.cpp
 		src/WindowDisplay.cpp
 		)
+		
+# Platform specific code
+if(UNIX)
+	set (HEADER_FILES ${HEADER_FILES}
+			include/InputImplementationUnix.hpp
+			)
+	set (SRC_FILES ${SRC_FILES}
+			src/InputImplementationUnix.cpp
+			)
+elseif (WIN32)
+	set (HEADER_FILES ${HEADER_FILES}
+			include/InputImplementationWindows.hpp
+			)
+	set (SRC_FILES ${SRC_FILES}
+			src/InputImplementationWindows.hpp
+			)
+endif(UNIX)
 
+# Test code
 set(TEST_FILES ${TEST_FILES} 
 		test/main.cpp
 		test/test.cpp

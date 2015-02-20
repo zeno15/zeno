@@ -6,12 +6,10 @@ namespace zeno {
 
 Window::Window(void)
 {
-	std::cout << "Window Constructor" << std::endl;
 }
 
 Window::~Window(void)
 {
-	std::cout << "Window Destructor" << std::endl;
 }
 
 
@@ -37,7 +35,6 @@ void Window::create(unsigned int _width, unsigned int _height)
 
 void Window::display(void)
 {
-	std::cout << "Window Display" << std::endl;
 	XMapWindow(m_Display(), m_Window);
 	XFlush(m_Display());
 }

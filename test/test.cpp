@@ -1337,7 +1337,7 @@ TEST_CASE("Window Test", "[Window]")
 		
 		window.display();
 		
-		sleep(5);
+		usleep(250000);
 	}
 }
 
