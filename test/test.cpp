@@ -1335,7 +1335,10 @@ TEST_CASE("Window Test", "[Window]")
 		
 		window.create(640, 480);
 		
-		window.display();
+		while (1)
+		{
+			window.display();
+		}
 		
 		usleep(250000);
 	}
