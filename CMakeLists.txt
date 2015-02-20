@@ -17,6 +17,7 @@ set(HEADER_FILES ${HEADER_FILES}
 		include/Vector3.hpp
 		include/Vector4.hpp
 		include/Window.hpp
+		include/WindowDisplay.hpp
 		)
 set(INLINE_FILES ${INLINE_FILES}
 		include/Rect.inl
@@ -32,6 +33,7 @@ set(SRC_FILES ${SRC_FILES}
 		src/Mat4x4.cpp
 		src/Time.cpp
 		src/Window.cpp
+		src/WindowDisplay.cpp
 		)
 
 set(TEST_FILES ${TEST_FILES} 

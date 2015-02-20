@@ -1326,3 +1326,22 @@ TEST_CASE("Vector4 Test", "[Vector4]")
 		REQUIRE_FALSE(vec1 != vec2);
 	}
 }
+
+TEST_CASE("Window Test", "[Window]")
+{
+	SECTION("Initial")
+	{
+		zeno::Window window = zeno::Window();
+		
+		window.create(640, 480);
+		
+		window.display();
+		
+		sleep(5);
+	}
+}
+
+
+
+
+
