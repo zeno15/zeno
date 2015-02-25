@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cstdlib>
-#include <unistd.h>
 #include <cmath>
 
 //~ https://github.com/philsquared/Catch
@@ -13,7 +12,6 @@
 #include <Vector2.hpp>
 #include <Vector3.hpp>
 #include <Vector4.hpp>
-#include <Window.hpp>
 
 
 /*	Macros
@@ -1326,25 +1324,3 @@ TEST_CASE("Vector4 Test", "[Vector4]")
 		REQUIRE_FALSE(vec1 != vec2);
 	}
 }
-
-TEST_CASE("Window Test", "[Window]")
-{
-	SECTION("Initial")
-	{
-		zeno::Window window = zeno::Window();
-		
-		window.create(640, 480);
-		
-		while (1)
-		{
-			window.display();
-		}
-		
-		usleep(250000);
-	}
-}
-
-
-
-
-

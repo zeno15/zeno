@@ -19,8 +19,6 @@ set(HEADER_FILES ${HEADER_FILES}
 		include/Vector2.hpp
 		include/Vector3.hpp
 		include/Vector4.hpp
-		include/Window.hpp
-		include/WindowDisplay.hpp
 		)
 set(INLINE_FILES ${INLINE_FILES}
 		include/Rect.inl
@@ -37,8 +35,6 @@ set(SRC_FILES ${SRC_FILES}
 		src/Mat4x4.cpp
 		src/Mouse.cpp
 		src/Time.cpp
-		src/Window.cpp
-		src/WindowDisplay.cpp
 		)
 		
 # Platform specific code
@@ -49,6 +45,12 @@ if(UNIX)
 	set (SRC_FILES ${SRC_FILES}
 			src/InputImplementationUnix.cpp
 			)
+			
+	
+	set(LIBS ${LIBS} 
+			X11
+			)
+			
 elseif (WIN32)
 	set (HEADER_FILES ${HEADER_FILES}
 			include/InputImplementationWindows.hpp
@@ -56,6 +58,7 @@ elseif (WIN32)
 	set (SRC_FILES ${SRC_FILES}
 			src/InputImplementationWindows.cpp
 			)
+			
 endif(UNIX)
 
 # Test code
@@ -66,7 +69,6 @@ set(TEST_FILES ${TEST_FILES}
 		test/toString.hpp
 		)
 
-set(LIBS ${LIBS} X11)
 
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -std=c++11)
 
