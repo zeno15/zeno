@@ -227,7 +227,12 @@ Mat4x4 Mat4x4::Orthographic2D(const float& _left, const float& _right, const flo
 {
 	Mat4x4 mat(1.0f);
 	
+	mat[0] = 2.0f / (_right - _left);
+	mat[5] = 2.0f / (_top - _bottom);
+	mat[10] = -1.0f;
 	
+	mat[12] = -(_right + _left) / (_right - _left);
+	mat[13] = -(_top + _bottom) / (_top - _bottom);
 	
 	return mat;
 }
@@ -236,7 +241,13 @@ Mat4x4 Mat4x4::Orthographic3D(const float& _left, const float& _right, const flo
 {
 	Mat4x4 mat(1.0f);
 	
-	
+	mat[0] = 2.0f / (_right - _left);
+	mat[5] = 2.0f / (_top - _bottom);
+	mat[10] = 2.0f / (_far - _near);
+
+	mat[12] = -(_right + _left) / (_right - _left);
+	mat[13] = -(_top + _bottom) / (_top - _bottom);
+	mat[14] = -(_far + _near) / (_far - _near);
 	
 	return mat;
 }
@@ -257,12 +268,11 @@ Mat4x4 Mat4x4::perspective(float _fov, float _aspectRatio, float _near, float _f
 
 std::ostream& operator<<(std::ostream& os, const Mat4x4& _mat)
 {
-	os << "Fairly sure this is transposed to what is displayed :/";
-	os << std::endl <<
-	_mat.values[0] << " " << _mat.values[4] << " " << _mat.values[8] << " " << _mat.values[12] << std::endl <<
-	_mat.values[1] << " " << _mat.values[5] << " " << _mat.values[9] << " " << _mat.values[13] << std::endl <<
-	_mat.values[2] << " " << _mat.values[6] << " " << _mat.values[10] << " " << _mat.values[14] << std::endl <<
-	_mat.values[3] << " " << _mat.values[7] << " " << _mat.values[11] << " " << _mat.values[15] << std::endl;
+	os << 
+	_mat.values[0] << " " << _mat.values[4] << " " << _mat.values[8]	<< " " << _mat.values[12] << std::endl <<
+	_mat.values[1] << " " << _mat.values[5] << " " << _mat.values[9]	<< " " << _mat.values[13] << std::endl <<
+	_mat.values[2] << " " << _mat.values[6] << " " << _mat.values[10]	<< " " << _mat.values[14] << std::endl <<
+	_mat.values[3] << " " << _mat.values[7] << " " << _mat.values[11]	<< " " << _mat.values[15] << std::endl;
 
 	return os;
 }
@@ -305,7 +315,7 @@ Vector4<float> operator*(const Mat4x4& _left, const Vector4<float>& _right)
 
 Vector3<float> operator*(const Mat4x4& _left, const Vector3<float>& _right)
 {
-	Vector4<float> result = _left * Vector4<float>(_right, 0.0f);
+	Vector4<float> result = _left * Vector4<float>(_right, 1.0f);
 	
 	return Vector3<float>(result.x, result.y, result.z);
 }

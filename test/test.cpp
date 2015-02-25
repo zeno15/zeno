@@ -16,6 +16,8 @@
 
 /*	Macros
 
+	INFO(expression)		-	Logging
+
 	REQUIRE(expression)		-	Returns on failure
 	CHECK(expression)		-	Continues on failure
 
@@ -400,21 +402,46 @@ TEST_CASE("Mat4x4 Test", "[Mat4x4]")
 	{
 		zeno::Vector2f size = zeno::Vector2f(1920.0f, 1080.0f);
 		
-		zeno::Vector3f posTL = zeno::Vector3f(-1.0f, 1.0f, 0.0f);
-		zeno::Vector3f posTR = zeno::Vector3f(1.0f, 1.0f, 0.0f);
-		zeno::Vector3f posBL = zeno::Vector3f(-1.0f, -1.0f, 0.0f);
-		zeno::Vector3f posBR = zeno::Vector3f(1.0f, -1.0f, 0.0f);
+		zeno::Vector3f posTL = zeno::Vector3f(0.0f,		size.y,		0.0f);
+		zeno::Vector3f posTR = zeno::Vector3f(size.x,	size.y,		0.0f);
+		zeno::Vector3f posBL = zeno::Vector3f(0.0f,		0.0f,		0.0f);
+		zeno::Vector3f posBR = zeno::Vector3f(size.x,	0.0f,		0.0f);
 		
+
 		zeno::Mat4x4 mat = zeno::Mat4x4::Orthographic2D(0.0f, size.x, size.y, 0.0f);
-		
-		REQUIRE(zeno::Vector3f(-1.0f, 	1.0f, 	0.0f) 	== (mat * posTL));
-		REQUIRE(zeno::Vector3f(1.0f, 	1.0f, 	0.0f) 	== (mat * posTR));
+
+		REQUIRE(zeno::Vector3f(-1.0f, 	+1.0f, 	0.0f) 	== (mat * posTL));
+		REQUIRE(zeno::Vector3f(+1.0f, 	+1.0f, 	0.0f) 	== (mat * posTR));
 		REQUIRE(zeno::Vector3f(-1.0f, 	-1.0f, 	0.0f) 	== (mat * posBL));
-		REQUIRE(zeno::Vector3f(1.0f, 	-1.0f, 	0.0f) 	== (mat * posBR));
+		REQUIRE(zeno::Vector3f(+1.0f, 	-1.0f, 	0.0f) 	== (mat * posBR));
 	}
 	SECTION("Test Orthographic3D method")
 	{
-		REQUIRE(0.0f == 0.0f);
+		zeno::Vector3f size = zeno::Vector3f(1920.0f, 1080.0f, 100.0f);
+
+		zeno::Vector3f posTLF = zeno::Vector3f(0.0f,	size.y,	size.z);
+		zeno::Vector3f posTRF = zeno::Vector3f(size.x,	size.y,	size.z);
+		zeno::Vector3f posBRF = zeno::Vector3f(size.x,	0.0f,	size.z);
+		zeno::Vector3f posBLF = zeno::Vector3f(0.0f,	0.0f,	size.z);
+
+		zeno::Vector3f posTLB = zeno::Vector3f(0.0f,	size.y,	size.z * 2.0f);
+		zeno::Vector3f posTRB = zeno::Vector3f(size.x,	size.y,	size.z * 2.0f);
+		zeno::Vector3f posBRB = zeno::Vector3f(size.x,	0.0f,	size.z * 2.0f);
+		zeno::Vector3f posBLB = zeno::Vector3f(0.0f,	0.0f,	size.z * 2.0f);
+
+
+		zeno::Mat4x4 mat = zeno::Mat4x4::Orthographic3D(0.0f, size.x, size.y, 0.0f, size.z, size.z * 2.0f);
+
+		REQUIRE(zeno::Vector3f(-1.0f, +1.0f, -1.0f) == (mat * posTLF));
+		REQUIRE(zeno::Vector3f(+1.0f, +1.0f, -1.0f) == (mat * posTRF));
+		REQUIRE(zeno::Vector3f(+1.0f, -1.0f, -1.0f) == (mat * posBRF));
+		REQUIRE(zeno::Vector3f(-1.0f, -1.0f, -1.0f) == (mat * posBLF));
+
+
+		REQUIRE(zeno::Vector3f(-1.0f, +1.0f, +1.0f) == (mat * posTLB));
+		REQUIRE(zeno::Vector3f(+1.0f, +1.0f, +1.0f) == (mat * posTRB));
+		REQUIRE(zeno::Vector3f(+1.0f, -1.0f, +1.0f) == (mat * posBRB));
+		REQUIRE(zeno::Vector3f(-1.0f, -1.0f, +1.0f) == (mat * posBLB));
 	}
 	SECTION("Test lookat method")
 	{
@@ -483,6 +510,12 @@ TEST_CASE("Mat4x4 Test", "[Mat4x4]")
 		mat[10]= 2.0f;
 		
 		REQUIRE((vec * 2.0f) == (mat * vec));
+
+		mat = zeno::Mat4x4(1.0f);
+
+		mat[12] = -1.0f;		//~ Translate left by one unit
+
+		REQUIRE((vec - zeno::Vector3f(1.0f, 0.0f, 0.0f)) == (mat * vec));
 	}
 	SECTION("Test Mat4x4 * Mat4x4 operation")
 	{
