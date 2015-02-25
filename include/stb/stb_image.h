@@ -371,6 +371,9 @@ License:
 // and only if iPhone convert-to-rgb processing is on).
 //
 
+#if defined(_MSC_VER) && _MSC_VER >= 0x1400
+#define _CRT_SECURE_NO_WARNINGS // suppress bogus warnings about fopen()
+#endif
 
 #ifndef STBI_NO_STDIO
 #include <stdio.h>
@@ -1772,7 +1775,7 @@ static int stbi__jpeg_decode_block_prog_ac(stbi__jpeg *j, short data[64], stbi__
                } else {
                   if (r == 0) {
                      if (s)
-                        data[stbi__jpeg_dezigzag[k++]] = s;
+                        data[stbi__jpeg_dezigzag[k++]] = (short)s;
                      break;
                   }
                   --r;

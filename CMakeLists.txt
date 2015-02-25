@@ -57,7 +57,7 @@ elseif (WIN32)
 			)
 	set (SRC_FILES ${SRC_FILES}
 			src/InputImplementationWindows.cpp
-			)
+			)	
 			
 endif(UNIX)
 
@@ -70,7 +70,6 @@ set(TEST_FILES ${TEST_FILES}
 		)
 
 
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -std=c++11)
 
 set(LIBRARY_NAME ${LIBRARY_NAME} zeno)
 
@@ -79,3 +78,22 @@ target_link_libraries(${LIBRARY_NAME} ${LIBS})
 
 add_executable(tests ${TEST_FILES})
 target_link_libraries(tests LINK_PUBLIC ${LIBRARY_NAME})
+
+if(UNIX)
+		set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} 
+				-std=c++11
+				-Werror
+				-Wall
+				)
+elseif (WIN32)
+	# Gets rid of warnings from fopen in stb header
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+	
+	# Force to always compile with W4
+	  if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
+		string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+	  else()
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+	  endif()
+endif(UNIX)			
+			

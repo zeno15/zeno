@@ -1180,7 +1180,7 @@ TEST_CASE("Vector4 Test", "[Vector4]")
 		int x = 12;
 		int y = 453;
 		int z = -18;
-		float w = 1;
+		int w = 1;
 		zeno::Vector4<int> vec = zeno::Vector4<int>(x, y, z, w);
 		zeno::Vector4<float> cpy = zeno::Vector4<float>(vec);
 		
