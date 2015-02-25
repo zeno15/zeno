@@ -54,7 +54,7 @@ elseif (WIN32)
 			include/InputImplementationWindows.hpp
 			)
 	set (SRC_FILES ${SRC_FILES}
-			src/InputImplementationWindows.hpp
+			src/InputImplementationWindows.cpp
 			)
 endif(UNIX)
 
