@@ -5,6 +5,7 @@
 //~ https://github.com/philsquared/Catch
 #include <catch.hpp>
 
+#include <Clock.hpp>
 #include <Colour.hpp>
 #include <Mat4x4.hpp>
 #include <Rect.hpp>
@@ -12,6 +13,7 @@
 #include <Vector2.hpp>
 #include <Vector3.hpp>
 #include <Vector4.hpp>
+#include <Keyboard.hpp>
 
 
 /*	Macros
@@ -1355,5 +1357,24 @@ TEST_CASE("Vector4 Test", "[Vector4]")
 		
 		vec2 = vec1;
 		REQUIRE_FALSE(vec1 != vec2);
+	}
+}
+
+TEST_CASE("Keyboard Test", "[Keyboard]")
+{
+	SECTION("Misc")
+	{
+		zeno::Clock clock;
+		std::cout << "5 Seconds of key pressing." << std::endl;
+		while (clock.getElapsedTime().asSeconds() < 5.0f)
+		{
+			for (int i = 0; i < zeno::Keyboard::Key::NumKeys; i += 1)
+			{
+				if (zeno::Keyboard::isKeyDown(static_cast<zeno::Keyboard::Key>(i)))
+				{
+					std::cout << "Key " << i << " is pressed." << std::endl;
+				}
+			}
+		}
 	}
 }
