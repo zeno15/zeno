@@ -48,6 +48,7 @@ if(UNIX)
 			
 	
 	set(LIBS ${LIBS} 
+			xcb
 			X11
 			)
 			
@@ -80,11 +81,10 @@ add_executable(tests ${TEST_FILES})
 target_link_libraries(tests LINK_PUBLIC ${LIBRARY_NAME})
 
 if(UNIX)
-		set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} 
-				-std=c++11
-				-Werror
-				-Wall
-				)
+		add_definitions(-std=c++11
+							-Werror
+							-Wall
+							)
 elseif (WIN32)
 	# Gets rid of warnings from fopen in stb header
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
