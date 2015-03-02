@@ -19,6 +19,9 @@ set(HEADER_FILES ${HEADER_FILES}
 		include/Vector2.hpp
 		include/Vector3.hpp
 		include/Vector4.hpp
+		include/Window.hpp
+		include/WindowImplementation.hpp
+		include/WindowStyle.hpp
 		)
 set(INLINE_FILES ${INLINE_FILES}
 		include/Rect.inl
