@@ -1367,7 +1367,7 @@ TEST_CASE("Keyboard Test", "[Keyboard]")
 	{
 		zeno::Clock clock;
 		std::cout << "5 Seconds of key pressing." << std::endl;
-		while (clock.getElapsedTime().asSeconds() < 5.0f)
+		while (clock.getElapsedTime().asSeconds() < 0.0f)
 		{
 			for (int i = 0; i < zeno::Keyboard::Key::NumKeys; i += 1)
 			{
@@ -1388,11 +1388,6 @@ TEST_CASE("Window Test", "[Window]")
 
 		window.create(zeno::VideoMode(), "Window", zeno::WindowStyle::Default);
 
-		zeno::Clock clock;
-		std::cout << "Displaying window." << std::endl;
-		while(clock.getElapsedTime().asSeconds() < 10.0f)
-		{
-
-		}
+		window.display();
 	}
 }

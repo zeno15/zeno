@@ -1,6 +1,7 @@
 #include <WindowImplementationWin32.hpp>
 
-
+#include <GL/glew.h>
+#include <GL/wglew.h>
 
 namespace zeno {
 
@@ -52,7 +53,7 @@ void WindowImplementationWin32::setSize(const Vector2u& _size)
 
 void WindowImplementationWin32::display(void)
 {
-
+	glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 }
 
 } //~ namespace zeno

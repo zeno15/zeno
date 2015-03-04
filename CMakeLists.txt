@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 2.8)
 include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/test)
-include_directories(${CMAKE_SOURCE_DIR}/externalLibs)
+include_directories(${CMAKE_SOURCE_DIR}/extlibs)
 
 # Cross platform code
 set(HEADER_FILES ${HEADER_FILES} 
@@ -60,6 +60,10 @@ if(UNIX)
 			)
 			
 elseif (WIN32)
+	include_directories(${CMAKE_SOURCE_DIR}/extlibs/glew/include)
+	
+	link_directories(${CMAKE_SOURCE_DIR}/extlibs/glew/lib)
+
 	set (HEADER_FILES ${HEADER_FILES}
 			include/InputImplementationWindows.hpp
 			)
@@ -68,6 +72,7 @@ elseif (WIN32)
 			)	
 	
 	set (LIBS ${LIBS}
+			glew32s
 			)
 			
 endif(UNIX)
