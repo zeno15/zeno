@@ -9,6 +9,9 @@ include_directories(${CMAKE_SOURCE_DIR}/extlibs)
 # Cross platform code
 set(HEADER_FILES ${HEADER_FILES} 
 		include/Colour.hpp
+		include/ContextImplementation.hpp
+		include/ContextUnix.hpp
+		include/ContextWin32.hpp
 		include/Clock.hpp
 		include/Image.hpp
 		include/ImageLoader.hpp
@@ -33,6 +36,8 @@ set(INLINE_FILES ${INLINE_FILES}
 		)
 set(SRC_FILES ${SRC_FILES}
 		src/Colour.cpp
+		src/ContextWin32.cpp
+		src/ContextUnix.cpp
 		src/Clock.cpp
 		src/Image.cpp
 		src/ImageLoader.cpp
@@ -73,6 +78,7 @@ elseif (WIN32)
 	
 	set (LIBS ${LIBS}
 			glew32s
+			opengl32
 			)
 			
 endif(UNIX)

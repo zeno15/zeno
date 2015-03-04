@@ -3,6 +3,8 @@
 
 #include <Vector2.hpp>
 
+#include <Windows.h>
+
 namespace zeno {
 
 ////////////////////////////////////////////////////////////
@@ -40,6 +42,14 @@ public:
 	void display(void);
 
 private:
+	//~ Rendering context
+	HGLRC hrc;
+
+	//~ Device context
+	HDC hdc;
+
+	//~ Window handle
+	HWND hwnd;
 
 };
 
