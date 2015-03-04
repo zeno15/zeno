@@ -3,6 +3,7 @@
 
 #include <cstdint>
 
+#include <ContextImplementation.hpp>
 #include <WindowImplementation.hpp>
 #include <WindowStyle.hpp>
 
@@ -70,6 +71,7 @@ protected:
 	uint32_t				m_WindowStyle;
 
 	WindowImplementation	m_WindowImpl;
+	ContextImplementation	m_ContextImpl;
 };
 
 } //~ namespace zeno

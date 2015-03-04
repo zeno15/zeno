@@ -109,6 +109,7 @@ if(UNIX)
 elseif (WIN32)
 	# Gets rid of warnings from fopen in stb header
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS
+					-DGLEW_STATIC
 					)
 	
 	# Force to always compile with W4

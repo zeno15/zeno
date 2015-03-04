@@ -1,5 +1,7 @@
 #include <WindowImplementationWin32.hpp>
 
+#include <iostream>
+
 namespace zeno {
 
 WindowImplementationWin32::WindowImplementationWin32(void)
@@ -13,19 +15,46 @@ WindowImplementationWin32::~WindowImplementationWin32(void)
 }
 
 
-void WindowImplementationWin32::create()
+void WindowImplementationWin32::create(void)
 {
+	std::string windowName = std::string("Title of the window");
 
+	LPCSTR title = windowName.c_str();
+	//~ std::string(windowName.begin(), windowName.end()).c_str();
+
+	WNDCLASS windowClass;
+	DWORD dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
+
+	HINSTANCE hInstance = GetModuleHandle(NULL);
+
+	windowClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+	windowClass.lpfnWndProc = (WNDPROC)WndProc;
+	windowClass.cbClsExtra = 0;
+	windowClass.cbWndExtra = 0;
+	windowClass.hInstance = hInstance;
+	windowClass.hIcon = LoadIcon(NULL, IDI_WINLOGO);
+	windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	windowClass.hbrBackground = NULL;
+	windowClass.lpszMenuName = NULL;
+	windowClass.lpszClassName = title;
+
+	if (!RegisterClass(&windowClass))
+	{
+		std::cout << "Fail." << std::endl;
+		return;
+	}
+
+	m_Handle = CreateWindowExA(dwExStyle, title, title, WS_OVERLAPPEDWINDOW, 0, 0, 600, 400, NULL, NULL, hInstance, NULL);
 }
 
 void WindowImplementationWin32::close(void)
 {
-
+	running = false;
 }
 
 bool WindowImplementationWin32::isOpen(void) const
 {
-	return false;
+	return running;
 }
 
 Vector2i WindowImplementationWin32::getPosition(void) const
@@ -49,6 +78,54 @@ void WindowImplementationWin32::setSize(const Vector2u& _size)
 }
 
 void WindowImplementationWin32::display(void)
+{
+	MSG msg;
+
+	if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+	{
+		if (msg.message == WM_QUIT)
+		{
+			running = false;
+		}
+		else
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+	}
+	else
+	{
+		SwapBuffers(GetDC(m_Handle));
+	}
+
+}
+
+HWND WindowImplementationWin32::getHandle(void)
+{
+	return m_Handle;
+}
+
+LRESULT CALLBACK WindowImplementationWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	std::string output;
+	char c;
+	switch (message)
+	{
+	case (WM_SIZE) :
+		//~ Resize the window etc, glViewPort(). . . .
+		break;
+	case (WM_KEYDOWN) :
+		//~ Deal with keydown events. . . 
+		break;
+	case (WM_DESTROY) :
+		std::cout << "Close Window." << std::endl;
+		PostQuitMessage(0);
+		break;
+	}
+	return DefWindowProc(hWnd, message, wParam, lParam);
+}
+
+void WindowImplementationWin32::eventHandle(void)
 {
 }
 

@@ -1,9 +1,9 @@
 #ifndef INCLUDED_WINDOW_IMPLEMENTATION_WIN32_HPP
 #define INCLUDED_WINDOW_IMPLEMENTATION_WIN32_HPP
 
-#include <Vector2.hpp>
-
 #include <Windows.h>
+
+#include <Vector2.hpp>
 
 namespace zeno {
 
@@ -25,7 +25,7 @@ public:
 	~WindowImplementationWin32(void);
 
 
-	void create();
+	void create(void);
 
 	void close(void);
 
@@ -41,16 +41,17 @@ public:
 
 	void display(void);
 
+	HWND getHandle(void);
+
 private:
-	//~ Rendering context
-	HGLRC hrc;
+	static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-	//~ Device context
-	HDC hdc;
+	void eventHandle(void);
 
-	//~ Window handle
-	HWND hwnd;
+private:
+	bool running;
 
+	HWND	m_Handle;
 };
 
 } //~ namespace zeno

@@ -1,3 +1,5 @@
 Change from platform conditional includes (InputImpl) to typedefs (WindowImpl)
 
 Remove glew/opengl from zeno lib, instead have swapBuffer() etc for display
+
+Look at http://visualgdb.com/tutorials/linux/ for developing on windows for linux

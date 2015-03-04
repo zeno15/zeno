@@ -26,6 +26,7 @@ Window::~Window(void)
 void Window::create(const VideoMode& _videoMode, const std::string& _title, uint32_t _style /*= WindowStyle::Default*/)
 {
 	m_WindowImpl.create();
+	m_ContextImpl.create(m_WindowImpl.getHandle());
 }
 
 void Window::close(void)

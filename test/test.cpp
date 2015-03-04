@@ -16,6 +16,8 @@
 #include <Keyboard.hpp>
 #include <Window.hpp>
 
+#include <GL/glew.h>
+
 
 /*	Macros
 
@@ -1388,6 +1390,15 @@ TEST_CASE("Window Test", "[Window]")
 
 		window.create(zeno::VideoMode(), "Window", zeno::WindowStyle::Default);
 
-		window.display();
+		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+
+		while (window.isOpen())
+		{
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+
+
+			window.display();
+		}
 	}
 }
