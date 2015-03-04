@@ -1388,15 +1388,25 @@ TEST_CASE("Window Test", "[Window]")
 	{
 		zeno::Window window = zeno::Window();
 
-		window.create(zeno::VideoMode(), "Window", zeno::WindowStyle::Default);
+		zeno::VideoMode m;
 
-		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+		m.bitsPerPixel = 32;
+		m.width = 1280;
+		m.height = 720;
+
+		window.create(m, "zeno::Window::Win32 Test", zeno::WindowStyle::Default);
+
+		int glVersion[2] = { -1, -1 };
+		glGetIntegerv(GL_MAJOR_VERSION, &glVersion[0]);
+		glGetIntegerv(GL_MINOR_VERSION, &glVersion[1]);
+
+		std::cout << "OpenGL " << glVersion[0] << "." << glVersion[1] << std::endl;
+
+		glClearColor(100.0f / 255.0f, 149.0f / 255.0f, 247.0f / 255.0f, 1.0f);
 
 		while (window.isOpen())
 		{
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
-
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			window.display();
 		}

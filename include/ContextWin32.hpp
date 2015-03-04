@@ -14,7 +14,7 @@ public:
 
 	~ContextWin32(void);
 
-	void create(HWND _handle);
+	bool create(HWND _handle);
 
 private:
 	//~ Rendering context

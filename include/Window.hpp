@@ -1,7 +1,6 @@
 #ifndef INCLUDED_WINDOW_HPP
 #define INCLUDED_WINDOW_HPP
 
-#include <cstdint>
 
 #include <ContextImplementation.hpp>
 #include <WindowImplementation.hpp>
@@ -15,17 +14,7 @@ namespace zeno {
 
 
 
-////////////////////////////////////////////////////////////
-//
-//	Struct describing basic video mode
-//
-////////////////////////////////////////////////////////////
-struct VideoMode
-{
-	unsigned int bitsPerPixel;
-	unsigned int width;
-	unsigned int height;
-};
+
 
 
 ////////////////////////////////////////////////////////////

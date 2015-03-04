@@ -21,7 +21,7 @@ ContextWin32::~ContextWin32(void)
 }
 
 
-void ContextWin32::create(HWND _handle)
+bool ContextWin32::create(HWND _handle)
 {
 	std::cout << "Creating Win32 Context" << std::endl;
 
@@ -43,24 +43,22 @@ void ContextWin32::create(HWND _handle)
 
 	if (nPixelFormat == 0)
 	{
-		return;
+		return false;
 	}
 
 	bool bResult = SetPixelFormat(hdc, nPixelFormat, &pfd) != 0;
 
 	if (!bResult)
 	{
-		return;
+		return false;
 	}
 
 	HGLRC tempOpenGLContext = wglCreateContext(hdc);
 	wglMakeCurrent(hdc, tempOpenGLContext);
 
-	GLenum error = glewInit();
-	
-	if (error != GLEW_OK)
+	if (glewInit() != GLEW_OK)
 	{
-		return;
+		return false;
 	}
 	
 
@@ -84,6 +82,8 @@ void ContextWin32::create(HWND _handle)
 
 	ShowWindow(hwnd, SW_SHOW);
 	UpdateWindow(hwnd);
+
+	return true;
 }
 
 }

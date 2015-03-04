@@ -23,6 +23,7 @@ set(HEADER_FILES ${HEADER_FILES}
 		include/Vector2.hpp
 		include/Vector3.hpp
 		include/Vector4.hpp
+		include/VideoMode.hpp
 		include/Window.hpp
 		include/WindowImplementation.hpp
 		include/WindowImplementationWin32.hpp
@@ -45,6 +46,7 @@ set(SRC_FILES ${SRC_FILES}
 		src/Mat4x4.cpp
 		src/Mouse.cpp
 		src/Time.cpp
+		src/VideoMode.cpp
 		src/Window.cpp
 		src/WindowImplementationWin32.cpp
 		)

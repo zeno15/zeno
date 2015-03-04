@@ -15,12 +15,9 @@ WindowImplementationWin32::~WindowImplementationWin32(void)
 }
 
 
-void WindowImplementationWin32::create(void)
+bool WindowImplementationWin32::create(const VideoMode& _videoMode, const std::string& _title, uint32_t _style)
 {
-	std::string windowName = std::string("Title of the window");
-
-	LPCSTR title = windowName.c_str();
-	//~ std::string(windowName.begin(), windowName.end()).c_str();
+	LPCSTR title = _title.c_str();
 
 	WNDCLASS windowClass;
 	DWORD dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
@@ -40,11 +37,12 @@ void WindowImplementationWin32::create(void)
 
 	if (!RegisterClass(&windowClass))
 	{
-		std::cout << "Fail." << std::endl;
-		return;
+		return false;
 	}
 
-	m_Handle = CreateWindowExA(dwExStyle, title, title, WS_OVERLAPPEDWINDOW, 0, 0, 600, 400, NULL, NULL, hInstance, NULL);
+	m_Handle = CreateWindowEx(dwExStyle, title, title, WS_OVERLAPPEDWINDOW, 0, 0, _videoMode.width, _videoMode.height, NULL, NULL, hInstance, NULL);
+
+	return true;
 }
 
 void WindowImplementationWin32::close(void)

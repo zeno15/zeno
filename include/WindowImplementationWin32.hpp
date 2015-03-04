@@ -1,7 +1,9 @@
 #ifndef INCLUDED_WINDOW_IMPLEMENTATION_WIN32_HPP
 #define INCLUDED_WINDOW_IMPLEMENTATION_WIN32_HPP
 
+
 #include <Windows.h>
+#include <VideoMode.hpp>
 
 #include <Vector2.hpp>
 
@@ -25,7 +27,7 @@ public:
 	~WindowImplementationWin32(void);
 
 
-	void create(void);
+	bool create(const VideoMode& _videoMode, const std::string& _title, uint32_t _style);
 
 	void close(void);
 
