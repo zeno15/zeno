@@ -1,0 +1,1 @@
+Change from platform conditional includes (InputImpl) to typedefs (WindowImpl)

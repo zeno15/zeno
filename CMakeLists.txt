@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 2.8)
 include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/test)
+include_directories(${CMAKE_SOURCE_DIR}/externalLibs)
 
 # Cross platform code
 set(HEADER_FILES ${HEADER_FILES} 
@@ -21,6 +22,7 @@ set(HEADER_FILES ${HEADER_FILES}
 		include/Vector4.hpp
 		include/Window.hpp
 		include/WindowImplementation.hpp
+		include/WindowImplementationWin32.hpp
 		include/WindowStyle.hpp
 		)
 set(INLINE_FILES ${INLINE_FILES}
@@ -38,6 +40,8 @@ set(SRC_FILES ${SRC_FILES}
 		src/Mat4x4.cpp
 		src/Mouse.cpp
 		src/Time.cpp
+		src/Window.cpp
+		src/WindowImplementationWin32.cpp
 		)
 		
 # Platform specific code
@@ -62,6 +66,9 @@ elseif (WIN32)
 	set (SRC_FILES ${SRC_FILES}
 			src/InputImplementationWindows.cpp
 			)	
+	
+	set (LIBS ${LIBS}
+			)
 			
 endif(UNIX)
 
@@ -84,13 +91,14 @@ add_executable(tests ${TEST_FILES})
 target_link_libraries(tests LINK_PUBLIC ${LIBRARY_NAME})
 
 if(UNIX)
-		add_definitions(-std=c++11
-							-Werror
-							-Wall
-							)
+	add_definitions(-std=c++11
+					-Werror
+					-Wall
+					)
 elseif (WIN32)
 	# Gets rid of warnings from fopen in stb header
-	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS
+					)
 	
 	# Force to always compile with W4
 	  if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")

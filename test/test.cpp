@@ -14,6 +14,7 @@
 #include <Vector3.hpp>
 #include <Vector4.hpp>
 #include <Keyboard.hpp>
+#include <Window.hpp>
 
 
 /*	Macros
@@ -1375,6 +1376,23 @@ TEST_CASE("Keyboard Test", "[Keyboard]")
 					std::cout << "Key " << i << " is pressed." << std::endl;
 				}
 			}
+		}
+	}
+}
+
+TEST_CASE("Window Test", "[Window]")
+{
+	SECTION("MISC")
+	{
+		zeno::Window window = zeno::Window();
+
+		window.create(zeno::VideoMode(), "Window", zeno::WindowStyle::Default);
+
+		zeno::Clock clock;
+		std::cout << "Displaying window." << std::endl;
+		while(clock.getElapsedTime().asSeconds() < 10.0f)
+		{
+
 		}
 	}
 }

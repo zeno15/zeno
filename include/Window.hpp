@@ -16,7 +16,7 @@ namespace zeno {
 
 ////////////////////////////////////////////////////////////
 //
-//	
+//	Struct describing basic video mode
 //
 ////////////////////////////////////////////////////////////
 struct VideoMode
@@ -45,15 +45,14 @@ public:
 
 	Window(const VideoMode& _videoMode, const std::string& _title, uint32_t _style = WindowStyle::Default);
 
+	~Window(void);
+
+
 	void create(const VideoMode& _videoMode, const std::string& _title, uint32_t _style = WindowStyle::Default);
 
 	void close(void);
 
 	bool isOpen(void) const;
-
-	//~ getContextSettings(void)
-
-	//~ bool pollEvent(Event...)
 
 	Vector2i getPosition(void) const;
 
@@ -66,7 +65,11 @@ public:
 	void display(void);
 
 protected:
+	VideoMode				m_VideoMode;
+	std::string				m_Title;
+	uint32_t				m_WindowStyle;
 
+	WindowImplementation	m_WindowImpl;
 };
 
 } //~ namespace zeno
