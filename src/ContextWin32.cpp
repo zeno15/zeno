@@ -23,8 +23,6 @@ ContextWin32::~ContextWin32(void)
 
 bool ContextWin32::create(HWND _handle)
 {
-	std::cout << "Creating Win32 Context" << std::endl;
-
 	hwnd = _handle;
 	ShowWindow(hwnd, SW_HIDE);
 	hdc = GetDC(hwnd);

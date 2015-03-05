@@ -9,12 +9,9 @@ m_WindowStyle(WindowStyle::Default)
 {
 }
 
-Window::Window(const VideoMode& _videoMode, const std::string& _title, uint32_t _style /*= WindowStyle::Default*/) :
-m_VideoMode(_videoMode),
-m_Title(_title),
-m_WindowStyle(_style)
+Window::Window(const VideoMode& _videoMode, const std::string& _title, uint32_t _style /*= WindowStyle::Default*/)
 {
-	create(m_VideoMode, m_Title, m_WindowStyle);
+	create(_videoMode, _title, _style);
 }
 
 Window::~Window(void)
@@ -25,6 +22,10 @@ Window::~Window(void)
 
 void Window::create(const VideoMode& _videoMode, const std::string& _title, uint32_t _style /*= WindowStyle::Default*/)
 {
+	m_VideoMode = _videoMode;
+	m_Title = _title;
+	m_WindowStyle = _style;
+
 	m_WindowImpl.create(_videoMode, _title, _style);
 	m_ContextImpl.create(m_WindowImpl.getHandle());
 }

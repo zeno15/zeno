@@ -13,18 +13,21 @@ set(HEADER_FILES ${HEADER_FILES}
 		include/ContextUnix.hpp
 		include/ContextWin32.hpp
 		include/Clock.hpp
+		include/Event.hpp
 		include/Image.hpp
 		include/ImageLoader.hpp
 		include/Keyboard.hpp
 		include/Mat4x4.hpp
 		include/Mouse.hpp
 		include/Rect.hpp
+		include/Shader.hpp
 		include/Time.hpp
 		include/Vector2.hpp
 		include/Vector3.hpp
 		include/Vector4.hpp
 		include/VideoMode.hpp
 		include/Window.hpp
+		include/WindowHandle.hpp
 		include/WindowImplementation.hpp
 		include/WindowImplementationWin32.hpp
 		include/WindowStyle.hpp
@@ -45,6 +48,7 @@ set(SRC_FILES ${SRC_FILES}
 		src/Keyboard.cpp
 		src/Mat4x4.cpp
 		src/Mouse.cpp
+		src/Shader.cpp
 		src/Time.cpp
 		src/VideoMode.cpp
 		src/Window.cpp

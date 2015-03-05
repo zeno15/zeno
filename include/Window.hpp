@@ -5,8 +5,8 @@
 #include <ContextImplementation.hpp>
 #include <WindowImplementation.hpp>
 #include <WindowStyle.hpp>
-
 #include <Vector2.hpp>
+#include <VideoMode.hpp>
 
 namespace zeno {
 
@@ -59,8 +59,8 @@ protected:
 	std::string				m_Title;
 	uint32_t				m_WindowStyle;
 
-	WindowImplementation	m_WindowImpl;
-	ContextImplementation	m_ContextImpl;
+	WindowImplementation		m_WindowImpl;
+	ContextImplementation		m_ContextImpl;
 };
 
 } //~ namespace zeno

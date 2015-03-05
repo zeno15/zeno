@@ -3,9 +3,9 @@
 
 
 #include <Windows.h>
-#include <VideoMode.hpp>
 
 #include <Vector2.hpp>
+#include <VideoMode.hpp>
 
 namespace zeno {
 
@@ -17,16 +17,6 @@ namespace zeno {
 class WindowImplementationWin32
 {
 public:
-	////////////////////////////////////////////////////////////
-	//
-	//	
-	//
-	////////////////////////////////////////////////////////////
-	WindowImplementationWin32(void);
-
-	~WindowImplementationWin32(void);
-
-
 	bool create(const VideoMode& _videoMode, const std::string& _title, uint32_t _style);
 
 	void close(void);
@@ -51,7 +41,7 @@ private:
 	void eventHandle(void);
 
 private:
-	bool running;
+	bool	running;
 
 	HWND	m_Handle;
 };

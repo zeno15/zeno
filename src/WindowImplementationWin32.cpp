@@ -4,17 +4,6 @@
 
 namespace zeno {
 
-WindowImplementationWin32::WindowImplementationWin32(void)
-{
-
-}
-
-WindowImplementationWin32::~WindowImplementationWin32(void)
-{
-
-}
-
-
 bool WindowImplementationWin32::create(const VideoMode& _videoMode, const std::string& _title, uint32_t _style)
 {
 	LPCSTR title = _title.c_str();
@@ -105,8 +94,6 @@ HWND WindowImplementationWin32::getHandle(void)
 
 LRESULT CALLBACK WindowImplementationWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	std::string output;
-	char c;
 	switch (message)
 	{
 	case (WM_SIZE) :

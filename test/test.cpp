@@ -15,6 +15,7 @@
 #include <Vector4.hpp>
 #include <Keyboard.hpp>
 #include <Window.hpp>
+#include <Shader.hpp>
 
 #include <GL/glew.h>
 
@@ -1384,7 +1385,7 @@ TEST_CASE("Keyboard Test", "[Keyboard]")
 
 TEST_CASE("Window Test", "[Window]")
 {
-	SECTION("MISC")
+	SECTION("Window Test")
 	{
 		zeno::Window window = zeno::Window();
 
@@ -1394,7 +1395,7 @@ TEST_CASE("Window Test", "[Window]")
 		m.width = 1280;
 		m.height = 720;
 
-		window.create(m, "zeno::Window::Win32 Test", zeno::WindowStyle::Default);
+		window.create(m, "zeno::Window Test", zeno::WindowStyle::Default);
 
 		int glVersion[2] = { -1, -1 };
 		glGetIntegerv(GL_MAJOR_VERSION, &glVersion[0]);
@@ -1404,10 +1405,49 @@ TEST_CASE("Window Test", "[Window]")
 
 		glClearColor(100.0f / 255.0f, 149.0f / 255.0f, 247.0f / 255.0f, 1.0f);
 
+		zeno::Clock clock;
+
+		GLuint VertexArrayId;
+		glGenVertexArrays(1, &VertexArrayId);
+		glBindVertexArray(VertexArrayId);
+
+		static const GLfloat g_vertex_buffer_data[] = {
+			-1.0f, -1.0f, 0.0f,
+			1.0f, -1.0f, 0.0f,
+			0.0f, 1.0f, 0.0f,
+		};
+
+		GLuint vertexbuffer;
+		glGenBuffers(1, &vertexbuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+
+		
+		Shader shader;
+		shader.loadVertexShader("../test/Test Resources/basicVertex.glsl");
+		shader.loadFragmentShader("../test/Test Resources/basicFragment.glsl");
+		if (!shader.compileShader())
+		{
+			std::cout << shader.getCompileError() << std::endl;
+		}
+
 		while (window.isOpen())
 		{
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			while (clock.getElapsedTime().asMilliseconds() < 10)
+			{
+			}
+			clock.restart();
 
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			shader.bind();
+
+			glEnableVertexAttribArray(0);
+			glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+			glDrawArrays(GL_TRIANGLES, 0, 3);
+			glDisableVertexAttribArray(0);
+
+			shader.unbind();
 			window.display();
 		}
 	}
