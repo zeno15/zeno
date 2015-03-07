@@ -65,4 +65,18 @@ void Window::display(void)
 	m_WindowImpl.display();
 }
 
+bool Window::pollEvent(Event& _event)
+{
+	return m_WindowImpl.pollEvent(_event, false);
+}
+void Window::waitEvent(Event& _event)
+{
+	m_WindowImpl.pollEvent(_event, true);
+}
+
+void Window::setRepeatedKeys(bool _repeat)
+{
+	m_WindowImpl.setRepeatedKeys(_repeat);
+}
+
 } //~ namespace zeno

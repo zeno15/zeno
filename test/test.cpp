@@ -15,7 +15,6 @@
 #include <Vector4.hpp>
 #include <Keyboard.hpp>
 #include <Window.hpp>
-#include <Shader.hpp>
 
 #include <GL/glew.h>
 
@@ -1406,49 +1405,43 @@ TEST_CASE("Window Test", "[Window]")
 		glClearColor(100.0f / 255.0f, 149.0f / 255.0f, 247.0f / 255.0f, 1.0f);
 
 		zeno::Clock clock;
+		bool running = true;
 
-		GLuint VertexArrayId;
-		glGenVertexArrays(1, &VertexArrayId);
-		glBindVertexArray(VertexArrayId);
-
-		static const GLfloat g_vertex_buffer_data[] = {
-			-1.0f, -1.0f, 0.0f,
-			1.0f, -1.0f, 0.0f,
-			0.0f, 1.0f, 0.0f,
-		};
-
-		GLuint vertexbuffer;
-		glGenBuffers(1, &vertexbuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-
-		
-		Shader shader;
-		shader.loadVertexShader("../test/Test Resources/basicVertex.glsl");
-		shader.loadFragmentShader("../test/Test Resources/basicFragment.glsl");
-		if (!shader.compileShader())
+		while (running)
 		{
-			std::cout << shader.getCompileError() << std::endl;
-		}
+			Sleep(10);
 
-		while (window.isOpen())
-		{
-			while (clock.getElapsedTime().asMilliseconds() < 10)
+			zeno::Event event;
+			while (window.pollEvent(event))
 			{
+				if (event.type == zeno::Event::EventType::WindowClosed)
+				{
+					running = false;
+				}
+				else if (event.type == zeno::Event::EventType::GainedFocus)
+				{
+					std::cout << "Gained Focus." << std::endl;
+				}
+				else if (event.type == zeno::Event::EventType::LostFocus)
+				{
+					std::cout << "Lost Focus." << std::endl;
+				}
+				else if (event.type == zeno::Event::EventType::WindowSizeChanged)
+				{
+					std::cout << "Window size changed: " << event.size.width << "x" << event.size.height << ", type: " << event.size.type << std::endl;
+				}
 			}
-			clock.restart();
+
+
+
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			shader.bind();
 
-			glEnableVertexAttribArray(0);
-			glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-			glDrawArrays(GL_TRIANGLES, 0, 3);
-			glDisableVertexAttribArray(0);
 
-			shader.unbind();
+
 			window.display();
 		}
+
+		window.close();
 	}
 }

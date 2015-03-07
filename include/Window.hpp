@@ -1,12 +1,14 @@
 #ifndef INCLUDED_WINDOW_HPP
 #define INCLUDED_WINDOW_HPP
 
-
 #include <ContextImplementation.hpp>
 #include <WindowImplementation.hpp>
 #include <WindowStyle.hpp>
 #include <Vector2.hpp>
 #include <VideoMode.hpp>
+#include <Event.hpp>
+
+#include <vector>
 
 namespace zeno {
 
@@ -54,10 +56,15 @@ public:
 
 	void display(void);
 
+	bool pollEvent(Event& _event);
+	void waitEvent(Event& _event);
+
+	void setRepeatedKeys(bool _repeat);
+
 protected:
-	VideoMode				m_VideoMode;
-	std::string				m_Title;
-	uint32_t				m_WindowStyle;
+	VideoMode					m_VideoMode;
+	std::string					m_Title;
+	uint32_t					m_WindowStyle;
 
 	WindowImplementation		m_WindowImpl;
 	ContextImplementation		m_ContextImpl;
