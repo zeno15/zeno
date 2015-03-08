@@ -1,5 +1,7 @@
 #include <WindowImplementationWin32.hpp>
 
+#include <InputImplementationWindows.hpp>
+
 #include <iostream>
 
 #define KEY_REPEAT_BIT 0x40000000 
@@ -64,7 +66,11 @@ bool WindowImplementationWin32::isOpen(void) const
 
 Vector2i WindowImplementationWin32::getPosition(void) const
 {
-	return Vector2i();
+	RECT rect;
+
+	GetWindowRect(m_Handle, &rect);
+
+	return Vector2i(rect.left, rect.top);
 }
 
 void WindowImplementationWin32::setPosition(const Vector2i& _position)
@@ -90,7 +96,7 @@ void WindowImplementationWin32::display(void)
 	}
 }
 
-HWND WindowImplementationWin32::getHandle(void)
+HWND WindowImplementationWin32::getHandle(void) const
 {
 	return m_Handle;
 }
@@ -178,8 +184,8 @@ void WindowImplementationWin32::processEvent(UINT message, WPARAM wParam, LPARAM
 
 		m_Size = Vector2u(HIWORD(lParam), LOWORD(lParam));
 
-		e.size.height = LOWORD(lParam);
-		e.size.width = HIWORD(lParam);
+		e.size.height = HIWORD(lParam);
+		e.size.width = LOWORD(lParam);
 
 		if (wParam == SIZE_MAXIMIZED)
 		{
@@ -211,11 +217,96 @@ void WindowImplementationWin32::processEvent(UINT message, WPARAM wParam, LPARAM
 		{
 			break;
 		}
+		e.type = Event::EventType::KeyDown;
+		e.key.key = InputImplementation::systemToZeno(wParam);
+		pushEvent(e);
 		break;
 
 	case (WM_KEYUP) :
-		std::cout << "Key up: " << wParam << std::endl;
+		e.type = Event::EventType::KeyUp;
+		e.key.key = InputImplementation::systemToZeno(wParam);
+		pushEvent(e);
 		break;
+
+	case (WM_MOUSEWHEEL):
+		e.type = Event::EventType::MouseWheelChanged;
+		e.wheel.delta = GET_WHEEL_DELTA_WPARAM(wParam) / 120;
+		e.wheel.x = LOWORD(lParam);
+		e.wheel.y = HIWORD(lParam);
+		pushEvent(e);
+		break;
+
+	case (WM_LBUTTONDOWN):
+		e.type = Event::EventType::MouseButtonPressed;
+		e.mouseButton.button = Mouse::Button::Left;
+		e.mouseButton.x = LOWORD(lParam);
+		e.mouseButton.y = HIWORD(lParam);
+		pushEvent(e);
+		break;
+
+	case (WM_LBUTTONUP):
+		e.type = Event::EventType::MouseButtonReleased;
+		e.mouseButton.button = Mouse::Button::Left;
+		e.mouseButton.x = LOWORD(lParam);
+		e.mouseButton.y = HIWORD(lParam);
+		pushEvent(e);
+		break;
+
+	case (WM_RBUTTONDOWN) :
+		e.type = Event::EventType::MouseButtonPressed;
+		e.mouseButton.button = Mouse::Button::Right;
+		e.mouseButton.x = LOWORD(lParam);
+		e.mouseButton.y = HIWORD(lParam);
+		pushEvent(e);
+		break;
+
+	case (WM_RBUTTONUP) :
+		e.type = Event::EventType::MouseButtonReleased;
+		e.mouseButton.button = Mouse::Button::Right;
+		e.mouseButton.x = LOWORD(lParam);
+		e.mouseButton.y = HIWORD(lParam);
+		pushEvent(e);
+		break;
+
+	case (WM_MBUTTONDOWN) :
+		e.type = Event::EventType::MouseButtonPressed;
+		e.mouseButton.button = Mouse::Button::Middle;
+		e.mouseButton.x = LOWORD(lParam);
+		e.mouseButton.y = HIWORD(lParam);
+		pushEvent(e);
+		break;
+
+	case (WM_MBUTTONUP) :
+		e.type = Event::EventType::MouseButtonReleased;
+		e.mouseButton.button = Mouse::Button::Middle;
+		e.mouseButton.x = LOWORD(lParam);
+		e.mouseButton.y = HIWORD(lParam);
+		pushEvent(e);
+		break;
+
+	case (WM_XBUTTONDOWN) :
+		e.type = Event::EventType::MouseButtonPressed;
+		e.mouseButton.button = (HIWORD(wParam) == XBUTTON1) ? Mouse::Button::Extra1 : Mouse::Button::Extra2;
+		e.mouseButton.x = LOWORD(lParam);
+		e.mouseButton.y = HIWORD(lParam);
+		pushEvent(e);
+		break;
+
+	case (WM_XBUTTONUP) :
+		e.type = Event::EventType::MouseButtonReleased;
+		e.mouseButton.button = (HIWORD(wParam) == XBUTTON1) ? Mouse::Button::Extra1 : Mouse::Button::Extra2;
+		e.mouseButton.x = LOWORD(lParam);
+		e.mouseButton.y = HIWORD(lParam);
+		pushEvent(e);
+		break;
+
+	case (WM_MOUSEMOVE):
+		e.type = Event::EventType::MouseMoved;
+		e.position.x = LOWORD(lParam);
+		e.position.y = HIWORD(lParam);
+		pushEvent(e);
+		break;
+
 	}
 }
 

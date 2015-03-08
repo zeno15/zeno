@@ -15,6 +15,7 @@
 #include <Vector4.hpp>
 #include <Keyboard.hpp>
 #include <Window.hpp>
+#include <Mouse.hpp>
 
 #include <GL/glew.h>
 
@@ -1430,11 +1431,32 @@ TEST_CASE("Window Test", "[Window]")
 				{
 					std::cout << "Window size changed: " << event.size.width << "x" << event.size.height << ", type: " << event.size.type << std::endl;
 				}
+				else if (event.type == zeno::Event::EventType::KeyDown)
+				{
+					std::cout << "Key down: " << event.key.key << std::endl;
+				}
+				else if (event.type == zeno::Event::EventType::KeyUp)
+				{
+					std::cout << "Key up: " << event.key.key << std::endl;
+				}
+				else if (event.type == zeno::Event::EventType::MouseWheelChanged)
+				{
+					std::cout << "Mouse wheel moved: " << event.wheel.delta << std::endl;
+				}
+				else if (event.type == zeno::Event::EventType::MouseButtonPressed)
+				{
+					std::cout << "Mouse button " << event.mouseButton.button << ", pressed at " << event.mouseButton.x << "x" << event.mouseButton.y << std::endl;
+				}
+				else if (event.type == zeno::Event::EventType::MouseButtonReleased)
+				{
+					std::cout << "Mouse button " << event.mouseButton.button << ", released at " << event.mouseButton.x << "x" << event.mouseButton.y << std::endl;
+				}
+				else if (event.type == zeno::Event::EventType::MouseMoved)
+				{
+					std::cout << "New position x: " << event.position.x << ", y: " << event.position.y << std::endl;
+				}
 			}
-
-
-
-
+		
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 

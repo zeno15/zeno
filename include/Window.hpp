@@ -2,6 +2,7 @@
 #define INCLUDED_WINDOW_HPP
 
 #include <ContextImplementation.hpp>
+#include <WindowHandle.hpp>
 #include <WindowImplementation.hpp>
 #include <WindowStyle.hpp>
 #include <Vector2.hpp>
@@ -13,9 +14,6 @@
 namespace zeno {
 
 //~ Need context settings to set antialiasing/opengl version
-
-
-
 
 
 
@@ -60,6 +58,8 @@ public:
 	void waitEvent(Event& _event);
 
 	void setRepeatedKeys(bool _repeat);
+
+	WindowHandle getHandle(void) const;
 
 protected:
 	VideoMode					m_VideoMode;

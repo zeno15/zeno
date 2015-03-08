@@ -79,4 +79,9 @@ void Window::setRepeatedKeys(bool _repeat)
 	m_WindowImpl.setRepeatedKeys(_repeat);
 }
 
+WindowHandle Window::getHandle(void) const
+{
+	return m_WindowImpl.getHandle();
+}
+
 } //~ namespace zeno

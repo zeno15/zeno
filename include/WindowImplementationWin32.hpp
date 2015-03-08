@@ -2,12 +2,12 @@
 #define INCLUDED_WINDOW_IMPLEMENTATION_WIN32_HPP
 
 #include <Windows.h>
-
-#include <vector>
-
 #include <Vector2.hpp>
 #include <VideoMode.hpp>
 #include <Event.hpp>
+
+#include <vector>
+
 
 namespace zeno {
 
@@ -39,7 +39,7 @@ public:
 
 	void display(void);
 
-	HWND getHandle(void);
+	HWND getHandle(void) const;
 
 	bool pollEvent(Event& _event, bool _blocking = false);
 

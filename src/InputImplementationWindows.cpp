@@ -1,14 +1,54 @@
 #include <InputImplementationWindows.hpp>
 
 #include <windows.h>
+#include <Window.hpp>
 
 namespace zeno {
 
 bool InputImplementation::isKeyDown(Keyboard::Key _key)
 {
-	int vkey = zenoToSystem(_key);
+	return (GetAsyncKeyState(zenoToSystem(_key)) & 0x8000) != 0;
+}
+
+bool InputImplementation::isMouseButtonDown(Mouse::Button _button)
+{
+	int vkey = 0;
+	switch (_button)
+	{
+	case Mouse::Left:		vkey = GetSystemMetrics(SM_SWAPBUTTON) ? VK_RBUTTON : VK_LBUTTON;	break;
+	case Mouse::Right:		vkey = GetSystemMetrics(SM_SWAPBUTTON) ? VK_LBUTTON : VK_RBUTTON;	break;
+	case Mouse::Middle:		vkey = VK_MBUTTON;													break;
+	case Mouse::Extra1:		vkey = VK_XBUTTON1;													break;
+	case Mouse::Extra2:		vkey = VK_XBUTTON2;													break;
+	default:				vkey = 0;															break;
+	}
 
 	return (GetAsyncKeyState(vkey) & 0x8000) != 0;
+}
+
+Vector2<int> InputImplementation::getMousePosition(void)
+{
+	POINT point;
+	GetCursorPos(&point);
+	return Vector2i(point.x, point.y);
+}
+
+Vector2<int> InputImplementation::getMousePosition(const Window& _window)
+{
+	POINT point;
+	GetCursorPos(&point);
+	ScreenToClient(_window.getHandle(), &point);
+	return Vector2i(point.x, point.y);
+}
+
+void InputImplementation::setMousePosition(const Vector2<int>& _position)
+{
+	
+}
+
+void InputImplementation::setMousePosition(const Vector2<int>& _position, const Window& _window)
+{
+
 }
 
 Keyboard::Key InputImplementation::systemToZeno(int _sysKey)

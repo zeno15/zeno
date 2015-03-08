@@ -2,6 +2,7 @@
 #define INCLUDED_EVENT_HPP
 
 #include <Keyboard.hpp>
+#include <Mouse.hpp>
 
 namespace zeno {
 
@@ -12,7 +13,16 @@ public:
 		WindowClosed,
 		GainedFocus,
 		LostFocus,
-		WindowSizeChanged
+		WindowSizeChanged,
+		KeyDown,
+		KeyUp,
+		TextEntered,
+		MouseWheelChanged,
+		MouseButtonPressed,
+		MouseButtonReleased,
+		MouseMoved,
+		MouseEnterWindow,
+		MouseLeaveWindow
 	};
 
 	enum ResizedType {
@@ -35,12 +45,32 @@ public:
 		ResizedType		type;
 	};
 
+	struct MouseWheelEvent {
+		int				delta;
+		int				x;
+		int				y;
+	};
+
+	struct MouseButtonEvent {
+		Mouse::Button	button;
+		int				x;
+		int				y;
+	};
+
+	struct PositionEvent {
+		int				x;
+		int				y;
+	};
+
 public:
 	EventType		type;
 
 	union {
-		KeyEvent	key;
-		SizeEvent	size;
+		KeyEvent			key;
+		SizeEvent			size;
+		MouseWheelEvent		wheel;
+		MouseButtonEvent	mouseButton;
+		PositionEvent		position;
 	};
 };
 
