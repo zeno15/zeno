@@ -31,6 +31,11 @@ set(HEADER_FILES ${HEADER_FILES}
 		include/WindowImplementation.hpp
 		include/WindowImplementationWin32.hpp
 		include/WindowStyle.hpp
+		
+		include/GuiDesktop.hpp
+		include/GuiBase.hpp
+		include/GuiPane.hpp
+		include/GuiButton.hpp
 		)
 set(INLINE_FILES ${INLINE_FILES}
 		include/Rect.inl
@@ -53,6 +58,10 @@ set(SRC_FILES ${SRC_FILES}
 		src/VideoMode.cpp
 		src/Window.cpp
 		src/WindowImplementationWin32.cpp
+		
+		src/GuiDesktop.cpp
+		src/GuiPane.cpp
+		src/GuiButton.cpp
 		)
 		
 # Platform specific code

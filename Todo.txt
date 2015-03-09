@@ -3,3 +3,12 @@ Change from platform conditional includes (InputImpl) to typedefs (WindowImpl)
 Remove glew/opengl from zeno lib, instead have swapBuffer() etc for display
 
 Look at http://visualgdb.com/tutorials/linux/ for developing on windows for linux
+
+AdjustWindowRect to have windows be the actual size. not including the frame
+-	Also check/modify all the window get/set size functions
+
+LShift doesnt work
+
+Document all window related code
+
+Implement window styles

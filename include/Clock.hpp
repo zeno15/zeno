@@ -5,11 +5,6 @@
 
 namespace zeno {
 
-//~ For cross platform junk.
-//~ https://github.com/LaurentGomila/SFML/blob/master/src/SFML/System/Unix/ClockImpl.hpp
-//~ https://github.com/LaurentGomila/SFML/blob/master/src/SFML/System/Unix/ClockImpl.cpp
-//~ https://github.com/LaurentGomila/SFML/blob/master/src/SFML/System/Win32/ClockImpl.cpp
-
 ////////////////////////////////////////////////////////////
 //
 //	Cross platform class for measuring time durations

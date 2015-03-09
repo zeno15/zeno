@@ -75,17 +75,29 @@ Vector2i WindowImplementationWin32::getPosition(void) const
 
 void WindowImplementationWin32::setPosition(const Vector2i& _position)
 {
-
+	if (SetWindowPos(m_Handle, m_Handle, _position.x, _position.y, -1, -1, SWP_NOSIZE | SWP_NOZORDER))
+	{
+		m_Position = _position;
+	}
 }
 
 Vector2u WindowImplementationWin32::getSize(void) const
 {
-	return Vector2u();
+	RECT rect;
+
+	GetClientRect(m_Handle, &rect);
+	unsigned int width = rect.right - rect.left;
+	unsigned int height = rect.bottom - rect.top;
+
+	return Vector2u(width, height);
 }
 
 void WindowImplementationWin32::setSize(const Vector2u& _size)
 {
-
+	if (SetWindowPos(m_Handle, m_Handle, -1, -1, _size.x, _size.y, SWP_NOMOVE | SWP_NOZORDER))
+	{
+		m_Size = _size;
+	}
 }
 
 void WindowImplementationWin32::display(void)
@@ -96,7 +108,7 @@ void WindowImplementationWin32::display(void)
 	}
 }
 
-HWND WindowImplementationWin32::getHandle(void) const
+WindowHandle WindowImplementationWin32::getHandle(void) const
 {
 	return m_Handle;
 }

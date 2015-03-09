@@ -1364,28 +1364,9 @@ TEST_CASE("Vector4 Test", "[Vector4]")
 	}
 }
 
-TEST_CASE("Keyboard Test", "[Keyboard]")
-{
-	SECTION("Misc")
-	{
-		zeno::Clock clock;
-		std::cout << "5 Seconds of key pressing." << std::endl;
-		while (clock.getElapsedTime().asSeconds() < 0.0f)
-		{
-			for (int i = 0; i < zeno::Keyboard::Key::NumKeys; i += 1)
-			{
-				if (zeno::Keyboard::isKeyDown(static_cast<zeno::Keyboard::Key>(i)))
-				{
-					std::cout << "Key " << i << " is pressed." << std::endl;
-				}
-			}
-		}
-	}
-}
-
 TEST_CASE("Window Test", "[Window]")
 {
-	SECTION("Window Test")
+	SECTION("Event Test")
 	{
 		zeno::Window window = zeno::Window();
 
@@ -1438,6 +1419,10 @@ TEST_CASE("Window Test", "[Window]")
 				else if (event.type == zeno::Event::EventType::KeyUp)
 				{
 					std::cout << "Key up: " << event.key.key << std::endl;
+				}
+				else if (event.type == zeno::Event::EventType::TextEntered)
+				{
+					std::cout << "Text Entered." << std::endl;
 				}
 				else if (event.type == zeno::Event::EventType::MouseWheelChanged)
 				{

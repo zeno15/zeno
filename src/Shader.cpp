@@ -5,6 +5,9 @@
 
 #include <GL/glew.h>
 
+
+namespace zeno {
+
 Shader::Shader(void) :
 m_ProgramId(0)
 {
@@ -62,6 +65,11 @@ void Shader::loadShaders(const std::string& _vertexPath, const std::string& _fra
 {
 	loadVertexShader(_vertexPath);
 	loadFragmentShader(_fragmentPath);
+}
+void Shader::loadShadersFromStrings(const std::string& _vertexSource, const std::string& _fragmentSource)
+{
+	m_VertexShaderSource = _vertexSource;
+	m_FragmentShaderSource = _fragmentSource;
 }
 
 bool Shader::compileShader(void)
@@ -176,7 +184,7 @@ bool Shader::getLocationOfUniform(const std::string& _uniform)
 	
 	return true;
 }
-/*
+
 void Shader::passUniform(const std::string& _name, const Vector3<float>& _uniform)
 {
 	for (unsigned int i = 0; i < m_UniformLocations.size(); i += 1)
@@ -199,4 +207,5 @@ void Shader::passUniform(const std::string& _name, const Mat4x4& _uniform)
 		}
 	}
 }
-*/
+
+} //~ namespace zeno

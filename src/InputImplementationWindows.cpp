@@ -43,12 +43,16 @@ Vector2<int> InputImplementation::getMousePosition(const Window& _window)
 
 void InputImplementation::setMousePosition(const Vector2<int>& _position)
 {
-	
+	SetCursorPos(_position.x, _position.y);
 }
 
 void InputImplementation::setMousePosition(const Vector2<int>& _position, const Window& _window)
 {
-
+	POINT pt;
+	pt.x = _position.x;
+	pt.y = _position.y;
+	ClientToScreen(_window.getHandle(), &pt);
+	SetCursorPos(pt.x, pt.y);
 }
 
 Keyboard::Key InputImplementation::systemToZeno(int _sysKey)
