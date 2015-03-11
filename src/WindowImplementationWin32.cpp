@@ -11,7 +11,8 @@ namespace zeno {
 WindowImplementationWin32::WindowImplementationWin32(void) :
 m_Handle(NULL),
 m_RepeatedKeys(false),
-m_ExitSizeChange(true)
+m_ExitSizeChange(true),
+m_Title("UNTITLED")
 {
 
 }
@@ -23,7 +24,8 @@ WindowImplementationWin32::~WindowImplementationWin32(void)
 
 bool WindowImplementationWin32::create(const VideoMode& _videoMode, const std::string& _title, uint32_t _style)
 {
-	LPCSTR title = _title.c_str();
+	m_Title = _title;
+	LPCSTR title = m_Title.c_str();
 
 	WNDCLASS windowClass;
 	DWORD dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
@@ -336,6 +338,19 @@ void WindowImplementationWin32::processWaitingEvents(void)
 void WindowImplementationWin32::setRepeatedKeys(bool _repeat)
 {
 	m_RepeatedKeys = _repeat;
+}
+
+void WindowImplementationWin32::setTitle(const std::string& _title)
+{
+	if (SetWindowText(m_Handle, _title.c_str()))
+	{
+		m_Title = _title;
+	}
+}
+
+std::string WindowImplementationWin32::getTitle(void) const
+{
+	return m_Title;
 }
 
 } //~ namespace zeno

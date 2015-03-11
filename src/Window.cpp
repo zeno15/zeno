@@ -84,4 +84,14 @@ WindowHandle Window::getHandle(void) const
 	return m_WindowImpl.getHandle();
 }
 
+void Window::setTitle(const std::string& _title)
+{
+	m_WindowImpl.setTitle(_title);
+}
+
+std::string Window::getTitle(void) const
+{
+	return m_WindowImpl.getTitle();
+}
+
 } //~ namespace zeno

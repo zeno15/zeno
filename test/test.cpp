@@ -17,6 +17,9 @@
 #include <Window.hpp>
 #include <Mouse.hpp>
 
+#include <GuiDesktop.hpp>
+#include <GuiButton.hpp>
+
 #include <GL/glew.h>
 
 
@@ -1445,6 +1448,70 @@ TEST_CASE("Window Test", "[Window]")
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
+
+			window.display();
+		}
+
+		window.close();
+	}
+}
+
+TEST_CASE("GUI Test", "[GUI]")
+{
+	SECTION("Initial")
+	{
+		zeno::Window window = zeno::Window();
+
+		zeno::VideoMode m;
+
+		m.bitsPerPixel = 32;
+		m.width = 1280;
+		m.height = 720;
+
+		window.create(m, "GUI Test", zeno::WindowStyle::Default);
+
+		int glVersion[2] = { -1, -1 };
+		glGetIntegerv(GL_MAJOR_VERSION, &glVersion[0]);
+		glGetIntegerv(GL_MINOR_VERSION, &glVersion[1]);
+
+		std::cout << "OpenGL " << glVersion[0] << "." << glVersion[1] << std::endl;
+
+		glClearColor(100.0f / 255.0f, 149.0f / 255.0f, 247.0f / 255.0f, 1.0f);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+
+
+		zeno::GuiDesktop desktop;
+		desktop.setResolution(window.getSize());
+
+		desktop.addChild(new zeno::GuiButton());
+
+
+		zeno::Clock clock;
+		bool running = true;
+
+		while (running)
+		{
+			Sleep(10);
+
+
+			window.setTitle(std::string("GUI Test. FPS: " + std::to_string(static_cast<int>(1.0f / clock.restart().asSeconds()))));
+
+
+			zeno::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == zeno::Event::EventType::WindowClosed)
+				{
+					running = false;
+				}
+
+				desktop.processEvent(event);
+			}
+
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+			desktop.render();
 
 			window.display();
 		}

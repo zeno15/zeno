@@ -21,6 +21,7 @@ set(HEADER_FILES ${HEADER_FILES}
 		include/Mouse.hpp
 		include/Rect.hpp
 		include/Shader.hpp
+		include/ShaderManager.hpp
 		include/Time.hpp
 		include/Vector2.hpp
 		include/Vector3.hpp
@@ -54,12 +55,14 @@ set(SRC_FILES ${SRC_FILES}
 		src/Mat4x4.cpp
 		src/Mouse.cpp
 		src/Shader.cpp
+		src/ShaderManager.cpp
 		src/Time.cpp
 		src/VideoMode.cpp
 		src/Window.cpp
 		src/WindowImplementationWin32.cpp
 		
 		src/GuiDesktop.cpp
+		src/GuiBase.cpp
 		src/GuiPane.cpp
 		src/GuiButton.cpp
 		)
