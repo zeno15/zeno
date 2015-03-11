@@ -12,3 +12,5 @@ LShift doesnt work
 Document all window related code
 
 Implement window styles
+
+change all Deconstructor to Destructor

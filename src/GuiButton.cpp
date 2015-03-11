@@ -1,11 +1,14 @@
 #include <GuiButton.hpp>
 
+#include <GUIEvent.hpp>
+
 #include <iostream>
 
 namespace zeno {
 
 
-GuiButton::GuiButton(void)
+GuiButton::GuiButton(void) :
+m_Depressed(false)
 {
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -40,6 +43,8 @@ GuiButton::GuiButton(void)
 		0,                  // stride
 		nullptr            // array buffer offset
 		);
+
+	bounds = FloatRect(Vector2f(), Vector2f(100.0f, 100.0f));
 }
 
 GuiButton::~GuiButton(void)
@@ -47,8 +52,32 @@ GuiButton::~GuiButton(void)
 
 }
 
-bool GuiButton::processEvent(const Event& _event)
+bool GuiButton::processEvent(const GUIEvent& _event)
 {
+	if (_event.type == GUIEvent::EventType::LeftClick)
+	{
+		if (bounds.contains(Vector2f(_event.mouseButton.x, _event.mouseButton.y)))
+		{
+			m_Depressed = true;
+			return true;
+		}
+	}
+	if (_event.type == GUIEvent::EventType::LeftRelease)
+	{
+		if (bounds.contains(Vector2f(_event.mouseButton.x, _event.mouseButton.y)))
+		{
+			if (m_Depressed)
+			{
+				//~ Only call the function if it has been set
+				if (m_ActivateFunction) m_ActivateFunction();
+				m_Depressed = false;
+			}
+			return true;
+		}
+
+		m_Depressed = false;
+	}
+
 	return false;
 }
 
@@ -57,6 +86,11 @@ void GuiButton::render(void) const
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6); // Starting from vertex 0; 3 vertices total -> 1 triangle
 	glBindVertexArray(0);
+}
+
+void GuiButton::registerCallback(std::function<void(void)> _function)
+{
+	m_ActivateFunction = _function;
 }
 
 } //~ namespace zeno

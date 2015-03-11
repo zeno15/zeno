@@ -16,12 +16,16 @@
 #include <Keyboard.hpp>
 #include <Window.hpp>
 #include <Mouse.hpp>
+#include <Image.hpp>
 
 #include <GuiDesktop.hpp>
 #include <GuiButton.hpp>
 
 #include <GL/glew.h>
 
+#include <FontLoader.hpp>
+
+#include <functional>
 
 /*	Macros
 
@@ -1456,6 +1460,9 @@ TEST_CASE("Window Test", "[Window]")
 	}
 }
 
+
+	
+
 TEST_CASE("GUI Test", "[GUI]")
 {
 	SECTION("Initial")
@@ -1484,8 +1491,12 @@ TEST_CASE("GUI Test", "[GUI]")
 		zeno::GuiDesktop desktop;
 		desktop.setResolution(window.getSize());
 
-		desktop.addChild(new zeno::GuiButton());
+		zeno::GuiButton *button = new zeno::GuiButton();
 
+		std::function<void(void)> fxn = []{std::cout << "Success!" << std::endl << "And holy crap, I'm using lambdas!" << std::endl;};
+
+		button->registerCallback(fxn);
+		desktop.addChild(button);
 
 		zeno::Clock clock;
 		bool running = true;
@@ -1494,9 +1505,7 @@ TEST_CASE("GUI Test", "[GUI]")
 		{
 			Sleep(10);
 
-
 			window.setTitle(std::string("GUI Test. FPS: " + std::to_string(static_cast<int>(1.0f / clock.restart().asSeconds()))));
-
 
 			zeno::Event event;
 			while (window.pollEvent(event))
@@ -1517,5 +1526,31 @@ TEST_CASE("GUI Test", "[GUI]")
 		}
 
 		window.close();
+	}
+}
+
+TEST_CASE("Font Test", "[Font]")
+{
+	SECTION("Setup")
+	{		
+		zeno::Image glyphImage;
+
+		if (zeno::FontLoader::getInstance().loadFont("C:/Windows/Fonts/Arial.ttf"))
+		{
+			for (int c = 0; c < 127; c += 1)
+			{
+				if (zeno::FontLoader::getInstance().loadGlyph((char)c, 20))
+				{
+					if (zeno::FontLoader::getInstance().renderGlyph(glyphImage))
+					{
+						std::string filename = "Resources/" + std::to_string(c) + ".png";
+
+						glyphImage.saveToFile(filename);
+					}
+				}
+				
+				std::cout << static_cast<float>(c) / 127.0f * 100.0f << "%" << std::endl;
+			}
+		}
 	}
 }

@@ -1,8 +1,11 @@
 #ifndef INCLUDED_GUI_BUTTON_HPP
 #define INCLUDED_GUI_BUTTON_HPP
 
+#include <Rect.hpp>
 #include <GuiBase.hpp>
 #include <GL/glew.h>
+
+#include <functional>
 
 namespace zeno {
 
@@ -35,15 +38,29 @@ public:
 	//	it, it does so
 	//
 	////////////////////////////////////////////////////////////
-	virtual bool processEvent(const Event& _event);
+	virtual bool processEvent(const GUIEvent& _event);
+
 	////////////////////////////////////////////////////////////
 	//
 	//	Renders the element
 	//
 	////////////////////////////////////////////////////////////
 	virtual void render(void) const;
+
+	////////////////////////////////////////////////////////////
+	//
+	//	Registers the function to be called on activation of button
+	//
+	////////////////////////////////////////////////////////////
+	void registerCallback(std::function<void(void)> _function);
+	
 private:
 	GLuint VAO;
+	FloatRect	bounds;
+
+	bool		m_Depressed;
+
+	std::function<void(void)>		m_ActivateFunction;
 };
 
 } //~ namespace zeno

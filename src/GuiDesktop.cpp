@@ -54,9 +54,13 @@ GuiDesktop::~GuiDesktop(void)
 
 void GuiDesktop::processEvent(const Event& _event) const
 {
+	GUIEvent event;
+
+	if (!translateEvent(_event, event)) return;
+
 	for (GuiBase *element : m_Children)
 	{
-		if (element->processEvent(_event))
+		if (element->processEvent(event))
 		{
 			return;
 		}
@@ -92,6 +96,32 @@ void GuiDesktop::setResolution(unsigned int _x, unsigned int _y)
 void GuiDesktop::setResolution(const Vector2u& _resolution)
 {
 	m_Resolution = _resolution;
+}
+
+bool GuiDesktop::translateEvent(const Event& _event, GUIEvent& _guiEvent) const
+{
+	switch (_event.type)
+	{
+	case (Event::EventType::MouseButtonPressed) :
+		if (_event.mouseButton.button == Mouse::Button::Left)
+		{
+			_guiEvent.type = GUIEvent::EventType::LeftClick;
+			_guiEvent.mouseButton.button = Mouse::Button::Left;
+			_guiEvent.mouseButton.x = _event.mouseButton.x;
+			_guiEvent.mouseButton.y = m_Resolution.y - _event.mouseButton.y;
+			return true;
+		}
+	case (Event::EventType::MouseButtonReleased) :
+		if (_event.mouseButton.button == Mouse::Button::Left)
+		{
+			_guiEvent.type = GUIEvent::EventType::LeftRelease;
+			_guiEvent.mouseButton.button = Mouse::Button::Left;
+			_guiEvent.mouseButton.x = _event.mouseButton.x;
+			_guiEvent.mouseButton.y = m_Resolution.y - _event.mouseButton.y;
+			return true;
+		}
+	}
+	return false;
 }
 
 } //~ namespace zeno

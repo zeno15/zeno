@@ -11,13 +11,12 @@ void Image::create(unsigned int _width, unsigned int _height, const Colour& _col
 		m_Size = Vector2<unsigned int>(_width, _height);
 		
 		m_Pixels.resize(_width * _height * 4);
-		
-		for (unsigned int i = 0; i < m_Pixels.size(); i += 4)
+		for (unsigned int i = 0; i < _height; i += 1)
 		{
-			m_Pixels[i * 4 + 0] = static_cast<uint8_t>(_colour.r);
-			m_Pixels[i * 4 + 1] = static_cast<uint8_t>(_colour.g);
-			m_Pixels[i * 4 + 2] = static_cast<uint8_t>(_colour.b);
-			m_Pixels[i * 4 + 3] = static_cast<uint8_t>(_colour.a);
+			for (unsigned int j = 0; j < _width; j += 1)
+			{
+				setPixel(j, i, _colour);
+			}
 		}
 	}
 	else

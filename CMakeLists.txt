@@ -14,6 +14,7 @@ set(HEADER_FILES ${HEADER_FILES}
 		include/ContextWin32.hpp
 		include/Clock.hpp
 		include/Event.hpp
+		include/FontLoader.hpp
 		include/Image.hpp
 		include/ImageLoader.hpp
 		include/Keyboard.hpp
@@ -33,6 +34,7 @@ set(HEADER_FILES ${HEADER_FILES}
 		include/WindowImplementationWin32.hpp
 		include/WindowStyle.hpp
 		
+		include/GUIEvent.hpp
 		include/GuiDesktop.hpp
 		include/GuiBase.hpp
 		include/GuiPane.hpp
@@ -49,6 +51,7 @@ set(SRC_FILES ${SRC_FILES}
 		src/ContextWin32.cpp
 		src/ContextUnix.cpp
 		src/Clock.cpp
+		src/FontLoader.cpp
 		src/Image.cpp
 		src/ImageLoader.cpp
 		src/Keyboard.cpp
@@ -84,8 +87,10 @@ if(UNIX)
 			
 elseif (WIN32)
 	include_directories(${CMAKE_SOURCE_DIR}/extlibs/glew/include)
+	include_directories(${CMAKE_SOURCE_DIR}/extlibs/freetype/include)
 	
 	link_directories(${CMAKE_SOURCE_DIR}/extlibs/glew/lib)
+	link_directories(${CMAKE_SOURCE_DIR}/extlibs/freetype/lib)
 
 	set (HEADER_FILES ${HEADER_FILES}
 			include/InputImplementationWindows.hpp
@@ -97,6 +102,7 @@ elseif (WIN32)
 	set (LIBS ${LIBS}
 			glew32s
 			opengl32
+			freetype
 			)
 			
 endif(UNIX)
