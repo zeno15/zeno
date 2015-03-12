@@ -58,6 +58,8 @@ bool GuiButton::processEvent(const GUIEvent& _event)
 	{
 		if (bounds.contains(Vector2f(_event.mouseButton.x, _event.mouseButton.y)))
 		{
+			//~ Only call the function if it has been set
+			if (m_PressFunction) m_PressFunction();
 			m_Depressed = true;
 			return true;
 		}
@@ -69,7 +71,7 @@ bool GuiButton::processEvent(const GUIEvent& _event)
 			if (m_Depressed)
 			{
 				//~ Only call the function if it has been set
-				if (m_ActivateFunction) m_ActivateFunction();
+				if (m_ReleaseFunction) m_ReleaseFunction();
 				m_Depressed = false;
 			}
 			return true;
@@ -88,9 +90,14 @@ void GuiButton::render(void) const
 	glBindVertexArray(0);
 }
 
-void GuiButton::registerCallback(std::function<void(void)> _function)
+void GuiButton::registerCallbackPress(std::function<void(void)> _function)
 {
-	m_ActivateFunction = _function;
+	m_PressFunction = _function;
+}
+
+void GuiButton::registerCallbackRelease(std::function<void(void)> _function)
+{
+	m_ReleaseFunction = _function;
 }
 
 } //~ namespace zeno

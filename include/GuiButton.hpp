@@ -11,7 +11,7 @@ namespace zeno {
 
 ////////////////////////////////////////////////////////////
 //
-//	
+//	Simple push button class
 //
 ////////////////////////////////////////////////////////////
 class GuiButton : public GuiBase
@@ -52,7 +52,14 @@ public:
 	//	Registers the function to be called on activation of button
 	//
 	////////////////////////////////////////////////////////////
-	void registerCallback(std::function<void(void)> _function);
+	void registerCallbackPress(std::function<void(void)> _function);
+
+	////////////////////////////////////////////////////////////
+	//
+	//	Registers the function to be called on activation of button
+	//
+	////////////////////////////////////////////////////////////
+	void registerCallbackRelease(std::function<void(void)> _function);
 	
 private:
 	GLuint VAO;
@@ -60,7 +67,8 @@ private:
 
 	bool		m_Depressed;
 
-	std::function<void(void)>		m_ActivateFunction;
+	std::function<void(void)>		m_PressFunction;
+	std::function<void(void)>		m_ReleaseFunction;
 };
 
 } //~ namespace zeno

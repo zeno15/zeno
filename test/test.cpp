@@ -1493,9 +1493,8 @@ TEST_CASE("GUI Test", "[GUI]")
 
 		zeno::GuiButton *button = new zeno::GuiButton();
 
-		std::function<void(void)> fxn = []{std::cout << "Success!" << std::endl << "And holy crap, I'm using lambdas!" << std::endl;};
-
-		button->registerCallback(fxn);
+		button->registerCallbackPress([]{std::cout << "Button has been pressed" << std::endl; });
+		button->registerCallbackRelease([]{std::cout << "Button has been released" << std::endl; });
 		desktop.addChild(button);
 
 		zeno::Clock clock;
