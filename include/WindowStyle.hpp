@@ -12,7 +12,7 @@ namespace WindowStyle {
 ////////////////////////////////////////////////////////////
 enum 
 {
-	None = 0,
+	NoStyle = 0,
 	Titlebar = 1 << 0,
 	Resize = 1 << 1,
 	Close = 1 << 2,

@@ -10,8 +10,6 @@ include_directories(${CMAKE_SOURCE_DIR}/extlibs)
 set(HEADER_FILES ${HEADER_FILES} 
 		include/Colour.hpp
 		include/ContextImplementation.hpp
-		include/ContextUnix.hpp
-		include/ContextWin32.hpp
 		include/Clock.hpp
 		include/Event.hpp
 		include/FontLoader.hpp
@@ -31,7 +29,6 @@ set(HEADER_FILES ${HEADER_FILES}
 		include/Window.hpp
 		include/WindowHandle.hpp
 		include/WindowImplementation.hpp
-		include/WindowImplementationWin32.hpp
 		include/WindowStyle.hpp
 		
 		include/GUIEvent.hpp
@@ -48,8 +45,6 @@ set(INLINE_FILES ${INLINE_FILES}
 		)
 set(SRC_FILES ${SRC_FILES}
 		src/Colour.cpp
-		src/ContextWin32.cpp
-		src/ContextUnix.cpp
 		src/Clock.cpp
 		src/FontLoader.cpp
 		src/Image.cpp
@@ -62,41 +57,52 @@ set(SRC_FILES ${SRC_FILES}
 		src/Time.cpp
 		src/VideoMode.cpp
 		src/Window.cpp
-		src/WindowImplementationWin32.cpp
 		
 		src/GuiDesktop.cpp
 		src/GuiBase.cpp
 		src/GuiPane.cpp
 		src/GuiButton.cpp
 		)
+
+
+include_directories(${CMAKE_SOURCE_DIR}/extlibs/glew/include)
+include_directories(${CMAKE_SOURCE_DIR}/extlibs/freetype/include)
+
+link_directories(${CMAKE_SOURCE_DIR}/extlibs/glew/lib)
+link_directories(${CMAKE_SOURCE_DIR}/extlibs/freetype/lib)
 		
 # Platform specific code
 if(UNIX)
 	set (HEADER_FILES ${HEADER_FILES}
 			include/InputImplementationUnix.hpp
+			include/WindowImplementationUnix.hpp
+			include/ContextUnix.hpp
 			)
 	set (SRC_FILES ${SRC_FILES}
 			src/InputImplementationUnix.cpp
+			src/WindowImplementationUnix.cpp
+			src/ContextUnix.cpp
 			)
 			
 	
 	set(LIBS ${LIBS} 
 			xcb
 			X11
+			GL
+			GLEW
+			freetype
 			)
 			
 elseif (WIN32)
-	include_directories(${CMAKE_SOURCE_DIR}/extlibs/glew/include)
-	include_directories(${CMAKE_SOURCE_DIR}/extlibs/freetype/include)
-	
-	link_directories(${CMAKE_SOURCE_DIR}/extlibs/glew/lib)
-	link_directories(${CMAKE_SOURCE_DIR}/extlibs/freetype/lib)
-
 	set (HEADER_FILES ${HEADER_FILES}
 			include/InputImplementationWindows.hpp
+			include/WindowImplementationWin32.hpp
+			include/ContextWin32.hpp
 			)
 	set (SRC_FILES ${SRC_FILES}
 			src/InputImplementationWindows.cpp
+			src/WindowImplementationWin32.cpp
+			src/ContextWin32.cpp
 			)	
 	
 	set (LIBS ${LIBS}

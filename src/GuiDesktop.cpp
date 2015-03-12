@@ -120,6 +120,8 @@ bool GuiDesktop::translateEvent(const Event& _event, GUIEvent& _guiEvent) const
 			_guiEvent.mouseButton.y = m_Resolution.y - _event.mouseButton.y;
 			return true;
 		}
+	default:
+		return false;
 	}
 	return false;
 }

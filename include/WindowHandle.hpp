@@ -6,7 +6,7 @@
 typedef HWND WindowHandle;
 #endif
 #ifdef __linux__
-typedef long int WindowHandle;
+typedef unsigned long WindowHandle;
 #endif
 
 #endif //~ INCLUDED_WINDOW_HANDLE_HPP

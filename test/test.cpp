@@ -5,6 +5,8 @@
 //~ https://github.com/philsquared/Catch
 #include <catch.hpp>
 
+#include <GL/glew.h>
+
 #include <Clock.hpp>
 #include <Colour.hpp>
 #include <Mat4x4.hpp>
@@ -20,8 +22,6 @@
 
 #include <GuiDesktop.hpp>
 #include <GuiButton.hpp>
-
-#include <GL/glew.h>
 
 #include <FontLoader.hpp>
 
@@ -1371,6 +1371,8 @@ TEST_CASE("Vector4 Test", "[Vector4]")
 	}
 }
 
+/*
+
 TEST_CASE("Window Test", "[Window]")
 {
 	SECTION("Event Test")
@@ -1398,7 +1400,7 @@ TEST_CASE("Window Test", "[Window]")
 
 		while (running)
 		{
-			Sleep(10);
+			//Sleep(10);
 
 			zeno::Event event;
 			while (window.pollEvent(event))
@@ -1502,7 +1504,7 @@ TEST_CASE("GUI Test", "[GUI]")
 
 		while (running)
 		{
-			Sleep(10);
+			//Sleep(10);
 
 			window.setTitle(std::string("GUI Test. FPS: " + std::to_string(static_cast<int>(1.0f / clock.restart().asSeconds()))));
 
@@ -1553,3 +1555,35 @@ TEST_CASE("Font Test", "[Font]")
 		}
 	}
 }
+*/
+
+
+TEST_CASE("Window Dev", "[Window]")
+{
+	SECTION("Dev")
+	{
+		
+		zeno::Window window = zeno::Window();
+
+		zeno::VideoMode m;
+
+		m.bitsPerPixel = 32;
+		m.width = 1280;
+		m.height = 720;
+		
+		window.create(m, "zeno::Window Test", zeno::WindowStyle::Default);
+		
+		glClearColor(100.0f / 255.0f, 149.0f / 255.0f, 247.0f / 255.0f, 1.0f);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+		
+		while (1)
+		{
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			
+			window.display();
+		}
+		
+	}
+}
+

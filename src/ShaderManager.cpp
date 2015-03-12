@@ -81,7 +81,7 @@ Shader& ShaderManager::getShader(const std::string& _name)
 		}
 	}
 	//~ Shader not found
-	return Shader();
+	return m_Default;
 }
 
 } //~ namespace zeno
