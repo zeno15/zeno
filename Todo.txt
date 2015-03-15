@@ -14,3 +14,5 @@ Document all window related code
 Implement window styles
 
 change all Deconstructor to Destructor
+
+use find_required in cmake for glew, opengl, freetype etc

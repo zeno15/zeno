@@ -24,6 +24,8 @@
 #include <GuiButton.hpp>
 
 #include <FontLoader.hpp>
+#include <FontAtlasImage.hpp>
+#include <Glyph.hpp>
 
 #include <functional>
 
@@ -1462,9 +1464,8 @@ TEST_CASE("Window Test", "[Window]")
 	}
 }
 
-
+*/
 	
-
 TEST_CASE("GUI Test", "[GUI]")
 {
 	SECTION("Initial")
@@ -1535,29 +1536,36 @@ TEST_CASE("Font Test", "[Font]")
 	SECTION("Setup")
 	{		
 		zeno::Image glyphImage;
+		zeno::FontAtlasImage atlas;
+		zeno::Glyph glyph;
 
-		if (zeno::FontLoader::getInstance().loadFont("C:/Windows/Fonts/Arial.ttf"))
+		if (zeno::FontLoader::getInstance().loadFont("C:/Windows/Fonts/ALGER.TTF"))
 		{
-			for (int c = 0; c < 127; c += 1)
+			for (int c = 33; c < 127; c += 1)
 			{
 				if (zeno::FontLoader::getInstance().loadGlyph((char)c, 20))
 				{
 					if (zeno::FontLoader::getInstance().renderGlyph(glyphImage))
 					{
-						std::string filename = "Resources/" + std::to_string(c) + ".png";
+						atlas.addGlyph(glyphImage, glyph);
 
-						glyphImage.saveToFile(filename);
+						std::string filename = "Resources/" + std::to_string(c) + "Atlas.png";
+
+						atlas.getAtlas().saveToFile(filename);
 					}
 				}
 				
 				std::cout << static_cast<float>(c) / 127.0f * 100.0f << "%" << std::endl;
 			}
+
 		}
 	}
+
+	getchar();
 }
-*/
 
 
+/*
 TEST_CASE("Window Dev", "[Window]")
 {
 	SECTION("Dev")
@@ -1587,3 +1595,4 @@ TEST_CASE("Window Dev", "[Window]")
 	}
 }
 
+*/

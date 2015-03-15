@@ -12,7 +12,9 @@ set(HEADER_FILES ${HEADER_FILES}
 		include/ContextImplementation.hpp
 		include/Clock.hpp
 		include/Event.hpp
+		include/FontAtlasImage.hpp
 		include/FontLoader.hpp
+		include/Glyph.hpp
 		include/Image.hpp
 		include/ImageLoader.hpp
 		include/Keyboard.hpp
@@ -46,7 +48,9 @@ set(INLINE_FILES ${INLINE_FILES}
 set(SRC_FILES ${SRC_FILES}
 		src/Colour.cpp
 		src/Clock.cpp
+		src/FontAtlasImage.cpp
 		src/FontLoader.cpp
+		src/Glyph.cpp
 		src/Image.cpp
 		src/ImageLoader.cpp
 		src/Keyboard.cpp
