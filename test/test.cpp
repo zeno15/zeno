@@ -1535,15 +1535,16 @@ TEST_CASE("Font Test", "[Font]")
 {
 	SECTION("Setup")
 	{		
+		zeno::Clock clock;
 		zeno::Image glyphImage;
 		zeno::FontAtlasImage atlas;
 		zeno::Glyph glyph;
 
-		if (zeno::FontLoader::getInstance().loadFont("C:/Windows/Fonts/ALGER.TTF"))
+		if (zeno::FontLoader::getInstance().loadFont("C:/Windows/Fonts/Arial.ttf"))
 		{
-			for (int c = 33; c < 127; c += 1)
+			for (int c = 33; c < 512; c += 1)
 			{
-				if (zeno::FontLoader::getInstance().loadGlyph((char)c, 20))
+				if (zeno::FontLoader::getInstance().loadGlyph(c, 20))
 				{
 					if (zeno::FontLoader::getInstance().renderGlyph(glyphImage))
 					{
@@ -1555,12 +1556,12 @@ TEST_CASE("Font Test", "[Font]")
 					}
 				}
 				
-				std::cout << static_cast<float>(c) / 127.0f * 100.0f << "%" << std::endl;
+				std::cout << static_cast<float>(c) / 512.0f * 100.0f << "%" << std::endl;
 			}
 
 		}
+		std::cout << "Total time: " << clock.getElapsedTime().asSeconds() << "s" << std::endl;
 	}
-
 	getchar();
 }
 

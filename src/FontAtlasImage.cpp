@@ -32,9 +32,28 @@ void FontAtlasImage::addGlyph(const Image& _image, Glyph& _glyph)
 
 	if (m_NextHeightFromBase >= m_Image.getSize().y)
 	{
-		std::cout << "Need to resize the atlas." << std::endl;
+		Image tempImage;
+		tempImage.create(m_Image.getSize().x, m_Image.getSize().y, Colour::Magenta);
 
-		//addGlyph(_image, _glyph);
+		for (unsigned int i = 0; i < m_Image.getSize().y; i += 1)
+		{
+			for (unsigned int j = 0; j < m_Image.getSize().x; j += 1)
+			{
+				tempImage.setPixel(j, i, m_Image.getPixel(j, i));
+			}
+		}
+
+		m_Image.create(m_Image.getSize().x, m_Image.getSize().y * 2, Colour::Magenta);
+
+		for (unsigned int i = 0; i < tempImage.getSize().y; i += 1)
+		{
+			for (unsigned int j = 0; j < tempImage.getSize().x; j += 1)
+			{
+				m_Image.setPixel(j, i + tempImage.getSize().y, tempImage.getPixel(j, i));
+			}
+		}
+
+		addGlyph(_image, _glyph);
 		return;
 	}
 

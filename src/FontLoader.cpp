@@ -16,7 +16,7 @@ bool FontLoader::loadFont(const std::string& _filepath)
 	return (FT_New_Face(m_Library, _filepath.c_str(), 0, &m_Face) == 0);
 }
 
-bool FontLoader::loadGlyph(char _c, unsigned int _size)
+bool FontLoader::loadGlyph(int _c, unsigned int _size)
 {
 	FT_Set_Char_Size(m_Face, 0, _size * 64, 300, 0);
 
