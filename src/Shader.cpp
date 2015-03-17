@@ -169,6 +169,7 @@ bool Shader::getLocationOfUniform(const std::string& _uniform)
 		return false;
 	}
 	
+	std::cout << _uniform << " location: " << loc << std::endl;
 	
 	for (unsigned int i = 0; i < m_UniformLocations.size(); i += 1)
 	{

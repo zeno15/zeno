@@ -2,10 +2,48 @@
 
 #include <iostream>
 
+#define DEFAULT_SHADER_NAME "Zenos_Default_Shader"
+
+namespace {
+
+	const std::string vertexSource = std::string(	"#version 430\n" \
+													"\n" \
+													"layout(location = 0) in vec3 in_Position;\n" \
+													"layout(location = 1) in vec4 in_Colour;\n" \
+													"layout(location = 2) in vec2 in_TexUV;\n" \
+													"\n" \
+													"\n" \
+													"varying vec4 fragColour;\n" \
+													"\n" \
+													"uniform mat4 View = mat4(1.0f);\n" \
+													"\n" \
+													"void main(void) \n" \
+													"{\n" \
+													"	gl_Position = View * vec4(in_Position, 1.0f);\n" \
+													"   fragColour  = in_Colour;\n" \
+													"	gl_TexCoord[0].xy = in_TexUV;\n" \
+													"}\n");
+
+
+	const std::string fragmentSource = std::string(	"#version 430\n" \
+													"\n" \
+													"varying vec4 fragColour;\n" \
+													"\n" \
+													"uniform sampler2D tex;\n" \
+													"\n" \
+													"void main(void)\n" \
+													"{\n" \
+													"	gl_FragColor = texture(tex, gl_TexCoord[0].xy) * fragColour;\n" \
+													"}\n");
+
+} //~ namespace anonymous
+
 namespace zeno {
 
 ShaderManager::ShaderManager(void)
 {
+	addShaderFromSource(DEFAULT_SHADER_NAME, vertexSource, fragmentSource);
+	getShader(DEFAULT_SHADER_NAME).getLocationOfUniform("View");
 }
 ShaderManager::~ShaderManager(void)
 {
@@ -81,7 +119,7 @@ Shader& ShaderManager::getShader(const std::string& _name)
 		}
 	}
 	//~ Shader not found
-	return m_Default;
+	return getShader(DEFAULT_SHADER_NAME);
 }
 
 } //~ namespace zeno

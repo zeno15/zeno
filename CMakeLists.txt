@@ -24,10 +24,13 @@ set(HEADER_FILES ${HEADER_FILES}
 		include/Rect.hpp
 		include/Shader.hpp
 		include/ShaderManager.hpp
+		include/Texture.hpp
 		include/Time.hpp
 		include/Vector2.hpp
 		include/Vector3.hpp
 		include/Vector4.hpp
+		include/Vertex.hpp
+		include/VertexArray.hpp
 		include/VideoMode.hpp
 		include/Window.hpp
 		include/WindowHandle.hpp
@@ -60,7 +63,10 @@ set(SRC_FILES ${SRC_FILES}
 		src/Mouse.cpp
 		src/Shader.cpp
 		src/ShaderManager.cpp
+		src/Texture.cpp
 		src/Time.cpp
+		src/Vertex.cpp
+		src/VertexArray.cpp
 		src/VideoMode.cpp
 		src/Window.cpp
 		

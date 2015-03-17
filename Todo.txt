@@ -1,3 +1,6 @@
+--------------------------------------------------------------------------------------------------
+TODO
+
 Change from platform conditional includes (InputImpl) to typedefs (WindowImpl)
 
 Remove glew/opengl from zeno lib, instead have swapBuffer() etc for display
@@ -16,3 +19,30 @@ Implement window styles
 change all Deconstructor to Destructor
 
 use find_required in cmake for glew, opengl, freetype etc
+
+textures 
+vertexes
+vertex arrays
+sprites
+
+look into if a abstract base class "Drawable" etc is a good thing
+
+add sub directories for gui code, window code, graphics, networking, audio, system
+add different libraries for each sub directory
+add CMakeLists.txt for each sub directory
+
+Change all #ifndef INCLUDED_FILENAME_EXTENSION's to something with the project name etc in it
+
+Implement doxygen into header files
+
+implement sleep function
+
+add passing uniforms into vertex arrays	-	similar to sfml renderstates
+
+opengl contexts when using different windows
+
+have shaders work with multiple textures for vertex array?
+
+--------------------------------------------------------------------------------------------------
+COMPLETED - Date
+
