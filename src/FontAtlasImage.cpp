@@ -82,6 +82,14 @@ void FontAtlasImage::addGlyph(const Image& _image, Glyph& _glyph)
 		}
 	}
 
+	//~ Modify the glyph so it knows where on the atlas its' character is
+	_glyph.x = currentX;
+	_glyph.y = currentY - 1;
+	_glyph.width = _image.getSize().x;
+	_glyph.height = _image.getSize().y;
+
+	std::cout << "Glyph w: " << _glyph.width << ", height: " << _glyph.height << std::endl;
+
 	//~ Increment the horizontal index
 	m_CurrentHorizontal += _image.getSize().x;
 }

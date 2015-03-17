@@ -10,7 +10,11 @@ namespace zeno {
 //
 ////////////////////////////////////////////////////////////
 struct Glyph {
-	char		character;
+	int		character;
+	unsigned int	x;
+	unsigned int	y;
+	unsigned int	width;
+	unsigned int	height;
 };
 
 } //~ namespace zeno

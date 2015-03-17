@@ -23,9 +23,7 @@
 #include <GuiDesktop.hpp>
 #include <GuiButton.hpp>
 
-#include <FontLoader.hpp>
-#include <FontAtlasImage.hpp>
-#include <Glyph.hpp>
+#include <Font.hpp>
 
 #include <functional>
 
@@ -1536,17 +1534,15 @@ TEST_CASE("Font Test", "[Font]")
 	SECTION("Setup")
 	{		
 		zeno::Clock clock;
-		zeno::Image glyphImage;
-		zeno::FontAtlasImage atlas;
-		zeno::Glyph glyph;
 
-		if (zeno::FontLoader::getInstance().loadFont("C:/Windows/Fonts/Arial.ttf"))
+
+		/*if (loader.loadFont("C:/Windows/Fonts/Arial.ttf"))
 		{
 			for (int c = 33; c < 512; c += 1)
 			{
-				if (zeno::FontLoader::getInstance().loadGlyph(c, 20))
+				if (loader.loadGlyph(c, 12))
 				{
-					if (zeno::FontLoader::getInstance().renderGlyph(glyphImage))
+					if (loader.renderGlyph(glyphImage))
 					{
 						atlas.addGlyph(glyphImage, glyph);
 
@@ -1559,9 +1555,21 @@ TEST_CASE("Font Test", "[Font]")
 				std::cout << static_cast<float>(c) / 512.0f * 100.0f << "%" << std::endl;
 			}
 
-		}
-		std::cout << "Total time: " << clock.getElapsedTime().asSeconds() << "s" << std::endl;
+		}*/
+
+
+		zeno::Font font;
+		font.loadFont("C:/Windows/Fonts/Arial.ttf");
+
+		zeno::Image image;
+
+		font.renderString("The quick brown fox jumped over the lazy dog.THE QUICK BROWN FOX JUMPED OVER THE LAZY OSTRICH", image);
+
+		image.saveToFile("Resources/Image.png");
+
+		std::cout << "Time: " << clock.restart().asSeconds() << "s" << std::endl;
 	}
+	std::cout << "Press enter to continue" << std::endl;
 	getchar();
 }
 

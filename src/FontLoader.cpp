@@ -4,13 +4,6 @@
 
 namespace zeno {
 
-FontLoader& FontLoader::getInstance(void)
-{
-	static FontLoader fl = FontLoader();
-
-	return fl;
-}
-
 bool FontLoader::loadFont(const std::string& _filepath)
 {
 	return (FT_New_Face(m_Library, _filepath.c_str(), 0, &m_Face) == 0);
