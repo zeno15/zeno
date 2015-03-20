@@ -34,7 +34,7 @@ namespace {
 													"void main(void)\n" \
 													"{\n" \
 													"	gl_FragColor = texture(tex, gl_TexCoord[0].xy) * fragColour;\n" \
-													"}\n");
+													"}\n");									
 
 } //~ namespace anonymous
 

@@ -1,5 +1,6 @@
 #include <VertexArray.hpp>
 
+#include <RenderData.hpp>
 #include <Texture.hpp>
 #include <ShaderManager.hpp>
 
@@ -58,19 +59,18 @@ void VertexArray::create(void)
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(7 * sizeof(float)));
 }
 
-void VertexArray::render(Texture *_texture /*= nullptr*/) const
+void VertexArray::render(const RenderData& _data) const
 {
 	Shader& shader = ShaderManager::getInstance().getShader("Zenos_Default_Shader");
 	shader.bind();
-	if (_texture != nullptr)
+	if (_data.texture != nullptr)
 	{
-		_texture->bind();
+		_data.texture->bind();
 	}
 
-	Mat4x4 ortho = Mat4x4(0.5f);
 
 
-	shader.passUniform("View", ortho);
+	shader.passUniform("View", _data.transform);
 
 	glBindVertexArray(m_VAO);
 	glDrawArrays(GL_TRIANGLES, 0, getCount());

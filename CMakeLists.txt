@@ -22,10 +22,13 @@ set(HEADER_FILES ${HEADER_FILES}
 		include/Mat4x4.hpp
 		include/Mouse.hpp
 		include/Rect.hpp
+		include/RenderData.hpp
 		include/Shader.hpp
 		include/ShaderManager.hpp
+		include/Sprite.hpp
 		include/Texture.hpp
 		include/Time.hpp
+		include/Transformable2D.hpp
 		include/Vector2.hpp
 		include/Vector3.hpp
 		include/Vector4.hpp
@@ -63,8 +66,10 @@ set(SRC_FILES ${SRC_FILES}
 		src/Mouse.cpp
 		src/Shader.cpp
 		src/ShaderManager.cpp
+		src/Sprite.cpp
 		src/Texture.cpp
 		src/Time.cpp
+		src/Transformable2D.cpp
 		src/Vertex.cpp
 		src/VertexArray.cpp
 		src/VideoMode.cpp

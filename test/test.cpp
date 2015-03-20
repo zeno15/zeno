@@ -31,6 +31,8 @@
 #include <Vertex.hpp>
 #include <Texture.hpp>
 #include <ShaderManager.hpp>
+#include <Sprite.hpp>
+#include <RenderData.hpp>
 
 /*	Macros
 
@@ -1600,30 +1602,24 @@ TEST_CASE("VertexArray", "[VertexArray]")
 
 		zeno::VertexArray VA;
 
-		VA.appendVertex(zeno::Vertex(zeno::Vector3f(0.0f, 0.0f, 0.0f), zeno::Colour::Red,	zeno::Vector2f(0.0f, 0.0f)));
-		VA.appendVertex(zeno::Vertex(zeno::Vector3f(1.0f, 0.0f, 0.0f), zeno::Colour::Green,	zeno::Vector2f(1.0f, 0.0f)));
-		VA.appendVertex(zeno::Vertex(zeno::Vector3f(1.0f, 1.0f, 0.0f), zeno::Colour::Blue,	zeno::Vector2f(1.0f, 1.0f)));
+		VA.appendVertex(zeno::Vertex(zeno::Vector3f(0.0f,		0.0f, 0.0f),	zeno::Colour::Red,		zeno::Vector2f(0.0f, 0.0f)));
+		VA.appendVertex(zeno::Vertex(zeno::Vector3f(1280.0f,	0.0f, 0.0f),	zeno::Colour::Green,	zeno::Vector2f(1.0f, 0.0f)));
+		VA.appendVertex(zeno::Vertex(zeno::Vector3f(1280.0f,	720.0f, 0.0f),	zeno::Colour::Blue,		zeno::Vector2f(1.0f, 1.0f)));
 
-		VA.appendVertex(zeno::Vertex(zeno::Vector3f(0.0f, 0.0f, 0.0f), zeno::Colour::Red,	zeno::Vector2f(0.0f, 0.0f)));
-		VA.appendVertex(zeno::Vertex(zeno::Vector3f(1.0f, 1.0f, 0.0f), zeno::Colour::Blue,	zeno::Vector2f(1.0f, 1.0f)));
-		VA.appendVertex(zeno::Vertex(zeno::Vector3f(0.0f, 1.0f, 0.0f), zeno::Colour::Cyan,	zeno::Vector2f(0.0f, 1.0f)));
+		VA.appendVertex(zeno::Vertex(zeno::Vector3f(0.0f,		0.0f, 0.0f),	zeno::Colour::Red,		zeno::Vector2f(0.0f, 0.0f)));
+		VA.appendVertex(zeno::Vertex(zeno::Vector3f(1280.0f,	720.0f, 0.0f),	zeno::Colour::Blue,		zeno::Vector2f(1.0f, 1.0f)));
+		VA.appendVertex(zeno::Vertex(zeno::Vector3f(0.0f,		720.0f, 0.0f),	zeno::Colour::Cyan,		zeno::Vector2f(0.0f, 1.0f)));
 		VA.create();
 
 		zeno::Texture t;
-		if (!t.loadFromFile("C:/Users/Mark/Documents/Github/zeno/build/Resources/texture.png"))
-		{
-			std::cout << "Failed to load." << std::endl;
-			getchar();
-		}
+		t.loadFromFile("C:/Users/Mark/Documents/Github/zeno/build/Resources/texture.png");
+		zeno::ShaderManager::getInstance().getShader("Zenos_Default_Shader").getLocationOfUniform("tex");
+		
 
-		if (zeno::ShaderManager::getInstance().getShader("Zenos_Default_Shader").getLocationOfUniform("tex"))
-		{
-			std::cout << "Found tex location" << std::endl;
-		}
-		else
-		{
-			std::cout << "Didnt find tex location" << std::endl;
-		}
+		zeno::RenderData data;
+
+		data.texture = &t;
+		data.transform = zeno::Mat4x4::Orthographic2D(0.0f, 1280.0f, 720.0f, 0.0f);
 
 		while (running)
 		{
@@ -1642,7 +1638,67 @@ TEST_CASE("VertexArray", "[VertexArray]")
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			VA.render(&t);
+			VA.render(data);
+
+			window.display();
+		}
+
+		window.close();
+	}
+}
+
+TEST_CASE("Sprite", "[Sprite]")
+{
+	SECTION("Dev")
+	{
+		zeno::Window window = zeno::Window();
+
+		zeno::VideoMode m;
+
+		m.bitsPerPixel = 32;
+		m.width = 1280;
+		m.height = 720;
+
+		window.create(m, "zeno::Window Test", zeno::WindowStyle::Default);
+
+		glClearColor(100.0f / 255.0f, 149.0f / 255.0f, 247.0f / 255.0f, 1.0f);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		zeno::Clock clock;
+		bool running = true;
+
+		zeno::Texture t;
+		t.loadFromFile("C:/Users/Mark/Documents/Github/zeno/build/Resources/texture.png");
+		zeno::ShaderManager::getInstance().getShader("Zenos_Default_Shader").getLocationOfUniform("tex");
+		
+		zeno::Sprite sprite = zeno::Sprite(&t);
+
+		
+		zeno::RenderData data;
+
+		data.texture = &t;
+		data.transform = zeno::Mat4x4::Orthographic2D(0.0f, 1280.0f, 720.0f, 0.0f);
+
+		while (running)
+		{
+			//Sleep(10);
+
+			window.setTitle(std::string("Vertex Array Test. FPS: " + std::to_string(static_cast<int>(1.0f / clock.restart().asSeconds()))));
+
+			zeno::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == zeno::Event::EventType::WindowClosed)
+				{
+					running = false;
+				}
+			}
+
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+			sprite.render(data);
 
 			window.display();
 		}
