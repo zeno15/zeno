@@ -8,97 +8,110 @@ include_directories(${CMAKE_SOURCE_DIR}/extlibs)
 
 # Cross platform code
 set(HEADER_FILES ${HEADER_FILES} 
-		include/Colour.hpp
-		include/ContextImplementation.hpp
-		include/Clock.hpp
-		include/Event.hpp
-		include/Font.hpp
-		include/FontAtlasImage.hpp
-		include/FontLoader.hpp
-		include/Glyph.hpp
-		include/Image.hpp
-		include/ImageLoader.hpp
-		include/Keyboard.hpp
-		include/Mat4x4.hpp
-		include/Mouse.hpp
-		include/Rect.hpp
-		include/RenderData.hpp
-		include/Shader.hpp
-		include/ShaderManager.hpp
-		include/Sprite.hpp
-		include/Texture.hpp
-		include/Time.hpp
-		include/Transformable2D.hpp
-		include/Vector2.hpp
-		include/Vector3.hpp
-		include/Vector4.hpp
-		include/Vertex.hpp
-		include/VertexArray.hpp
-		include/VideoMode.hpp
-		include/Window.hpp
-		include/WindowHandle.hpp
-		include/WindowImplementation.hpp
-		include/WindowStyle.hpp
+		# Graphics
+		include/zeno/Graphics/Colour.hpp
+		include/zeno/Graphics/Image.hpp
+		include/zeno/Graphics/ImageLoader.hpp
+		include/zeno/Graphics/Renderable.hpp
+		include/zeno/Graphics/RenderData.hpp
+		include/zeno/Graphics/Shader.hpp
+		include/zeno/Graphics/ShaderManager.hpp
+		include/zeno/Graphics/Sprite.hpp
+		include/zeno/Graphics/Texture.hpp
+		include/zeno/Graphics/Vertex.hpp
+		include/zeno/Graphics/VertexArray.hpp
+				
+		# GUI
+		include/zeno/GUI/GUIEvent.hpp
+		include/zeno/GUI/GuiDesktop.hpp
+		include/zeno/GUI/GuiBase.hpp
+		include/zeno/GUI/GuiPane.hpp
+		include/zeno/GUI/GuiButton.hpp
 		
-		include/GUIEvent.hpp
-		include/GuiDesktop.hpp
-		include/GuiBase.hpp
-		include/GuiPane.hpp
-		include/GuiButton.hpp
+		# Network
+		
+		# System
+		include/zeno/System/Clock.hpp
+		include/zeno/System/Event.hpp
+		include/zeno/System/Font.hpp
+		include/zeno/System/FontAtlasImage.hpp
+		include/zeno/System/FontLoader.hpp
+		include/zeno/System/Glyph.hpp
+		include/zeno/System/Keyboard.hpp
+		include/zeno/System/Mat4x4.hpp
+		include/zeno/System/Mouse.hpp
+		include/zeno/System/Rect.hpp
+		include/zeno/System/Time.hpp
+		include/zeno/System/Transformable2D.hpp
+		include/zeno/System/Vector2.hpp
+		include/zeno/System/Vector3.hpp
+		include/zeno/System/Vector4.hpp
+		
+		include/zeno/System/Rect.inl
+		include/zeno/System/Vector2.inl
+		include/zeno/System/Vector3.inl
+		include/zeno/System/Vector4.inl
+		
+		# Window
+		include/zeno/Window/ContextImplementation.hpp
+		include/zeno/Window/VideoMode.hpp
+		include/zeno/Window/Window.hpp
+		include/zeno/Window/WindowHandle.hpp
+		include/zeno/Window/WindowImplementation.hpp
+		include/zeno/Window/WindowStyle.hpp
 		)
-set(INLINE_FILES ${INLINE_FILES}
-		include/Rect.inl
-		include/Vector2.inl
-		include/Vector3.inl
-		include/Vector4.inl
-		)
+
 set(SRC_FILES ${SRC_FILES}
-		src/Colour.cpp
-		src/Clock.cpp
-		src/Font.cpp
-		src/FontAtlasImage.cpp
-		src/FontLoader.cpp
-		src/Glyph.cpp
-		src/Image.cpp
-		src/ImageLoader.cpp
-		src/Keyboard.cpp
-		src/Mat4x4.cpp
-		src/Mouse.cpp
-		src/Shader.cpp
-		src/ShaderManager.cpp
-		src/Sprite.cpp
-		src/Texture.cpp
-		src/Time.cpp
-		src/Transformable2D.cpp
-		src/Vertex.cpp
-		src/VertexArray.cpp
-		src/VideoMode.cpp
-		src/Window.cpp
+		# Graphics
+		src/zeno/Graphics/Colour.cpp
+		src/zeno/Graphics/Image.cpp
+		src/zeno/Graphics/ImageLoader.cpp
+		src/zeno/Graphics/Shader.cpp
+		src/zeno/Graphics/ShaderManager.cpp
+		src/zeno/Graphics/Sprite.cpp
+		src/zeno/Graphics/Texture.cpp
+		src/zeno/Graphics/Vertex.cpp
+		src/zeno/Graphics/VertexArray.cpp
+	
+		# GUI
+		src/zeno/GUI/GuiDesktop.cpp
+		src/zeno/GUI/GuiBase.cpp
+		src/zeno/GUI/GuiPane.cpp
+		src/zeno/GUI/GuiButton.cpp
+	
+		# Network
+	
+		# System
+		src/zeno/System/Clock.cpp
+		src/zeno/System/Font.cpp
+		src/zeno/System/FontAtlasImage.cpp
+		src/zeno/System/FontLoader.cpp
+		src/zeno/System/Glyph.cpp
+		src/zeno/System/Keyboard.cpp
+		src/zeno/System/Mat4x4.cpp
+		src/zeno/System/Mouse.cpp
+		src/zeno/System/Time.cpp
+		src/zeno/System/Transformable2D.cpp
 		
-		src/GuiDesktop.cpp
-		src/GuiBase.cpp
-		src/GuiPane.cpp
-		src/GuiButton.cpp
+		
+		# Window
+		src/zeno/Window/Window.cpp
+		
 		)
-
-
-include_directories(${CMAKE_SOURCE_DIR}/extlibs/glew/include)
-include_directories(${CMAKE_SOURCE_DIR}/extlibs/freetype/include)
-
-link_directories(${CMAKE_SOURCE_DIR}/extlibs/glew/lib)
-link_directories(${CMAKE_SOURCE_DIR}/extlibs/freetype/lib)
-		
+	
 # Platform specific code
 if(UNIX)
 	set (HEADER_FILES ${HEADER_FILES}
-			include/InputImplementationUnix.hpp
-			include/WindowImplementationUnix.hpp
-			include/ContextUnix.hpp
+			include/zeno/System/InputImplementationUnix.hpp
+			
+			include/zeno/Window/WindowImplementationUnix.hpp
+			include/zeno/Window/ContextUnix.hpp
 			)
 	set (SRC_FILES ${SRC_FILES}
-			src/InputImplementationUnix.cpp
-			src/WindowImplementationUnix.cpp
-			src/ContextUnix.cpp
+			src/zeno/System/InputImplementationUnix.cpp
+			
+			src/zeno/Window/WindowImplementationUnix.cpp
+			src/zeno/Window/ContextUnix.cpp
 			)
 			
 	
@@ -112,14 +125,16 @@ if(UNIX)
 			
 elseif (WIN32)
 	set (HEADER_FILES ${HEADER_FILES}
-			include/InputImplementationWindows.hpp
-			include/WindowImplementationWin32.hpp
-			include/ContextWin32.hpp
+			include/zeno/System/InputImplementationWindows.hpp
+			
+			include/zeno/Window/WindowImplementationWin32.hpp
+			include/zeno/Window/ContextWin32.hpp
 			)
 	set (SRC_FILES ${SRC_FILES}
-			src/InputImplementationWindows.cpp
-			src/WindowImplementationWin32.cpp
-			src/ContextWin32.cpp
+			src/zeno/System/InputImplementationWindows.cpp
+			
+			src/zeno/Window/WindowImplementationWin32.cpp
+			src/zeno/Window/ContextWin32.cpp
 			)	
 	
 	set (LIBS ${LIBS}
@@ -129,6 +144,12 @@ elseif (WIN32)
 			)
 			
 endif(UNIX)
+
+include_directories(${CMAKE_SOURCE_DIR}/extlibs/glew/include)
+include_directories(${CMAKE_SOURCE_DIR}/extlibs/freetype/include)
+
+link_directories(${CMAKE_SOURCE_DIR}/extlibs/glew/lib)
+link_directories(${CMAKE_SOURCE_DIR}/extlibs/freetype/lib)
 
 # Test code
 set(TEST_FILES ${TEST_FILES} 
@@ -142,7 +163,7 @@ set(TEST_FILES ${TEST_FILES}
 
 set(LIBRARY_NAME ${LIBRARY_NAME} zeno)
 
-add_library(${LIBRARY_NAME} STATIC ${SRC_FILES} ${HEADER_FILES} ${INLINE_FILES})
+add_library(${LIBRARY_NAME} STATIC ${SRC_FILES} ${HEADER_FILES})
 target_link_libraries(${LIBRARY_NAME} ${LIBS})
 
 add_executable(tests ${TEST_FILES})

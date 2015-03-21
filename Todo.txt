@@ -20,10 +20,7 @@ change all Deconstructor to Destructor
 
 use find_required in cmake for glew, opengl, freetype etc
 
-textures 
-vertexes
-vertex arrays
-sprites
+
 
 look into if a abstract base class "Drawable" etc is a good thing
 
@@ -46,3 +43,13 @@ have shaders work with multiple textures for vertex array?
 2d/3d transformable
 
 have RenderData take in a shader name, and then a drawable sub class with overloaded window render method of (const zeno::Drawable& _drawable, const zeno::RenderData& _renderData)
+
+2d orthographic text
+
+---------------------------------------------------------------------------------------------------
+COMPLETE
+
+textures 
+vertexes
+vertex arrays
+sprites

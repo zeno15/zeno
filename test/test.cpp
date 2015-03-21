@@ -7,32 +7,36 @@
 
 #include <GL/glew.h>
 
-#include <Clock.hpp>
-#include <Colour.hpp>
-#include <Mat4x4.hpp>
-#include <Rect.hpp>
-#include <Time.hpp>
-#include <Vector2.hpp>
-#include <Vector3.hpp>
-#include <Vector4.hpp>
-#include <Keyboard.hpp>
-#include <Window.hpp>
-#include <Mouse.hpp>
-#include <Image.hpp>
+#include <zeno/System/Clock.hpp>
+#include <zeno/System/Mat4x4.hpp>
+#include <zeno/System/Rect.hpp>
+#include <zeno/System/Time.hpp>
+#include <zeno/System/Vector2.hpp>
+#include <zeno/System/Vector3.hpp>
+#include <zeno/System/Vector4.hpp>
+#include <zeno/System/Keyboard.hpp>
+#include <zeno/System/Mouse.hpp>
+#include <zeno/Window/Window.hpp>
+#include <zeno/Graphics/Colour.hpp>
+#include <zeno/Graphics/Image.hpp>
 
-#include <GuiDesktop.hpp>
-#include <GuiButton.hpp>
+#include <zeno/GUI/GuiDesktop.hpp>
+#include <zeno/GUI/GuiButton.hpp>
 
-#include <Font.hpp>
+#include <zeno/System/Font.hpp>
 
 #include <functional>
 
-#include <VertexArray.hpp>
-#include <Vertex.hpp>
-#include <Texture.hpp>
-#include <ShaderManager.hpp>
-#include <Sprite.hpp>
-#include <RenderData.hpp>
+#include <zeno/Graphics/VertexArray.hpp>
+#include <zeno/Graphics/Vertex.hpp>
+#include <zeno/Graphics/Texture.hpp>
+#include <zeno/Graphics/ShaderManager.hpp>
+#include <zeno/Graphics/Sprite.hpp>
+#include <zeno/Graphics/RenderData.hpp>
+
+#include <Windows.h>
+#include <winsock.h>
+#include <thread>
 
 /*	Macros
 
@@ -1378,8 +1382,6 @@ TEST_CASE("Vector4 Test", "[Vector4]")
 	}
 }
 
-/*
-
 TEST_CASE("Window Test", "[Window]")
 {
 	SECTION("Event Test")
@@ -1468,8 +1470,6 @@ TEST_CASE("Window Test", "[Window]")
 		window.close();
 	}
 }
-
-*/
 	
 TEST_CASE("GUI Test", "[GUI]")
 {
@@ -1706,36 +1706,3 @@ TEST_CASE("Sprite", "[Sprite]")
 		window.close();
 	}
 }
-
-
-/*
-TEST_CASE("Window Dev", "[Window]")
-{
-	SECTION("Dev")
-	{
-		
-		zeno::Window window = zeno::Window();
-
-		zeno::VideoMode m;
-
-		m.bitsPerPixel = 32;
-		m.width = 1280;
-		m.height = 720;
-		
-		window.create(m, "zeno::Window Test", zeno::WindowStyle::Default);
-		
-		glClearColor(100.0f / 255.0f, 149.0f / 255.0f, 247.0f / 255.0f, 1.0f);
-		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_LESS);
-		
-		while (1)
-		{
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			
-			window.display();
-		}
-		
-	}
-}
-
-*/
