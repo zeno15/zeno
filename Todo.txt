@@ -24,9 +24,6 @@ use find_required in cmake for glew, opengl, freetype etc
 
 look into if a abstract base class "Drawable" etc is a good thing
 
-add sub directories for gui code, window code, graphics, networking, audio, system
-add different libraries for each sub directory
-add CMakeLists.txt for each sub directory
 
 Change all #ifndef INCLUDED_FILENAME_EXTENSION's to something with the project name etc in it
 
@@ -53,3 +50,6 @@ textures
 vertexes
 vertex arrays
 sprites
+
+add sub directories for gui code, window code, graphics, networking, audio, system
+add different libraries for each sub directory
