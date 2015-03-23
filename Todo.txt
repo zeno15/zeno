@@ -20,7 +20,9 @@ change all Deconstructor to Destructor
 
 use find_required in cmake for glew, opengl, freetype etc
 
+have shared libraries be created as well
 
+Test that all 4 library versions work on both platforms
 
 look into if a abstract base class "Drawable" etc is a good thing
 

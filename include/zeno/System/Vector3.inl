@@ -55,6 +55,12 @@ float Vector3<T>::magnitude(void) const
 	return sqrtf(x * x + y * y + z * z);
 }
 
+template <typename T>
+float Vector3<T>::dot(const Vector3<T>& _vec) const
+{
+	return x * _vec.x + y * _vec.y + z * _vec.z;
+}
+
 
 template <typename T>
 inline Vector3<T> operator -(const Vector3<T>& _right)

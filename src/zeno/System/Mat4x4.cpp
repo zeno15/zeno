@@ -3,6 +3,9 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <cmath>
+
+#define TO_RADIANS(x) (x * 3.14159265f / 180.0f)
 
 namespace zeno {
 
@@ -31,6 +34,7 @@ Mat4x4(_x.x, _y.x, _z.x, 0.0f,
 {
 }
 //~ To change column/row major change this constructor
+
 Mat4x4::Mat4x4(float _1, float _5, float _9, float _13,
 	       float _2, float _6, float _10, float _14,
 	       float _3, float _7, float _11, float _15,
@@ -254,15 +258,108 @@ Mat4x4 Mat4x4::Orthographic3D(const float& _left, const float& _right, const flo
 
 Mat4x4 Mat4x4::lookat(const Vector3<float>& _eye, const Vector3<float>& _pos, const Vector3<float>& _up)
 {
-	Mat4x4 mat = Mat4x4(1.0f);
-	
+	Vector3f forward = (_pos - _eye).normalise();
+
+	Vector3f side = forward.cross(_up).normalise();
+
+	Vector3f up = side.cross(forward).normalise();
+
+	Mat4x4 mat;
+	mat[0]	=	side.x;
+	mat[4]	=	side.y;
+	mat[8]	=	side.z;
+	mat[12]	=	-side.dot(_eye);
+
+	mat[1]	=	up.x;
+	mat[5]	=	up.y;
+	mat[9]	=	up.z;
+	mat[13]	=	-up.dot(_eye);
+
+	mat[2]	=	-forward.x;
+	mat[6]	=	-forward.y;
+	mat[10]	=	-forward.z;
+	mat[14]	=	-forward.dot(_eye);
+
+	mat[3]	=	0.0f;
+	mat[7]	=	0.0f;
+	mat[11]	=	0.0f;
+	mat[15]	=	1.0f;
+
 	return mat;
 }
 
 Mat4x4 Mat4x4::perspective(float _fov, float _aspectRatio, float _near, float _far)
 {
 	Mat4x4 mat = Mat4x4(1.0f);
+
+	const float ar = _aspectRatio;
+	const float zNear = _near;
+	const float zFar = _far;
+	const float zRange = zNear - zFar;
+	const float tanHalfFOV = tanf(TO_RADIANS(_fov / 2.0f));
+
+	mat[0] = 1.0f / (tanHalfFOV * ar);
+	mat[4] = 0.0f;
+	mat[8] = 0.0f;
+	mat[12] = 0.0f;
+
+	mat[1] = 0.0f;
+	mat[5] = 1.0f / tanHalfFOV;
+	mat[9] = 0.0f;
+	mat[13] = 0.0f;
+
+	mat[2] = 0.0f;
+	mat[6] = 0.0f;
+	mat[10] = (-zNear - zFar) / zRange;
+	mat[14] = 2.0f * zFar * zNear / zRange;
+
+	mat[3] = 0.0f;
+	mat[7] = 0.0f;
+	mat[11] = 1.0f;
+	mat[15] = 0.0f;
 	
+	return mat;
+}
+
+
+Mat4x4& Mat4x4::translate(const Vector3f& _vec)
+{
+	values[12] += _vec.x;
+	values[13] += _vec.y;
+	values[14] += _vec.z;
+
+	return *this;
+}
+Mat4x4  Mat4x4::createTranslation(const Vector3f& _vec)
+{
+	return Mat4x4(1.0f).translate(_vec);
+}
+
+Mat4x4 Mat4x4::createRotationX(float _angle)
+{
+	Mat4x4 mat(1.0f);
+
+	mat[5]	=	+ cosf(_angle);		mat[6]	=	- sinf(_angle);
+	mat[9]	=	+ sinf(_angle);		mat[10]	=	+ cosf(_angle);
+
+	return mat;
+}
+Mat4x4 Mat4x4::createRotationY(float _angle)
+{
+	Mat4x4 mat(1.0f);
+
+	mat[0]	=	+ cosf(_angle);		mat[2]	=	+ sinf(_angle);
+	mat[8]	=	- sinf(_angle);		mat[10]	=	+ cosf(_angle);
+
+	return mat;
+}
+Mat4x4 Mat4x4::createRotationZ(float _angle)
+{
+	Mat4x4 mat(1.0f);
+
+	mat[0]	=	+ cosf(_angle);		mat[1]	=	- sinf(_angle);
+	mat[4]	=	+ sinf(_angle);		mat[5]	=	+ cosf(_angle);
+
 	return mat;
 }
 
