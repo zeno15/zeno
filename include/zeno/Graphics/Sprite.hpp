@@ -1,5 +1,5 @@
-#ifndef INCLUDED_SPRITE_HPP
-#define INCLUDED_SPRITE_HPP
+#ifndef INCLUDED_ZENO_GRAPHICS_SPRITE_HPP
+#define INCLUDED_ZENO_GRAPHICS_SPRITE_HPP
 
 #include <zeno/System/Rect.hpp>
 #include <zeno/System/Transformable2D.hpp>
@@ -108,4 +108,4 @@ private:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_SPRITE_HPP
+#endif //~ INCLUDED_ZENO_GRAPHICS_SPRITE_HPP

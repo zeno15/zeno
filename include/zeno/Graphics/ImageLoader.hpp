@@ -1,5 +1,5 @@
-#ifndef INCLUDED_IMAGE_LOADER_HPP
-#define INCLUDED_IMAGE_LOADER_HPP
+#ifndef INCLUDED_ZENO_GRAPHICS_IMAGE_LOADER_HPP
+#define INCLUDED_ZENO_GRAPHICS_IMAGE_LOADER_HPP
 
 #include <string>
 #include <vector>
@@ -55,4 +55,4 @@ private:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_IMAGE_LOADER_HPP
+#endif //~ INCLUDED_ZENO_GRAPHICS_IMAGE_LOADER_HPP

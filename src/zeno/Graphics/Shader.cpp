@@ -184,6 +184,17 @@ bool Shader::getLocationOfUniform(const std::string& _uniform)
 	return true;
 }
 
+void Shader::passUniform(const std::string& _name, const Vector2<float>& _uniform)
+{
+	for (unsigned int i = 0; i < m_UniformLocations.size(); i += 1)
+	{
+		if (m_UniformLocations.at(i).first == _name)
+		{
+			glUniform2f(m_UniformLocations.at(i).second, _uniform.x, _uniform.y);
+			return;
+		}
+	}
+}
 void Shader::passUniform(const std::string& _name, const Vector3<float>& _uniform)
 {
 	for (unsigned int i = 0; i < m_UniformLocations.size(); i += 1)

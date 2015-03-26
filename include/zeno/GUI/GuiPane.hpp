@@ -1,5 +1,5 @@
-#ifndef INCLUDED_GUI_PANE_HPP
-#define INCLUDED_GUI_PANE_HPP
+#ifndef INCLUDED_ZENO_GUI_GUI_PANE_HPP
+#define INCLUDED_ZENO_GUI_GUI_PANE_HPP
 
 #include <zeno/GUI/GuiBase.hpp>
 
@@ -21,4 +21,4 @@ protected:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_GUI_PANE_HPP
+#endif //~ INCLUDED_ZENO_GUI_GUI_PANE_HPP

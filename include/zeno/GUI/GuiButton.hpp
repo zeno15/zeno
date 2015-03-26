@@ -1,5 +1,5 @@
-#ifndef INCLUDED_GUI_BUTTON_HPP
-#define INCLUDED_GUI_BUTTON_HPP
+#ifndef INCLUDED_ZENO_GUI_GUI_BUTTON_HPP
+#define INCLUDED_ZENO_GUI_GUI_BUTTON_HPP
 
 #include <zeno/GUI/GuiBase.hpp>
 #include <zeno/System/Rect.hpp>
@@ -74,4 +74,4 @@ private:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_GUI_BUTTON_HPP
+#endif //~ INCLUDED_ZENO_GUI_GUI_BUTTON_HPP

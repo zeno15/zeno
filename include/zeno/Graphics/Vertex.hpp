@@ -1,5 +1,5 @@
-#ifndef INCLUDED_VERTEX_HPP
-#define INCLUDED_VERTEX_HPP
+#ifndef INCLUDED_ZENO_GRAPHICS_VERTEX_HPP
+#define INCLUDED_ZENO_GRAPHICS_VERTEX_HPP
 
 #include <zeno/Graphics/Colour.hpp>
 #include <zeno/System/Vector2.hpp>
@@ -81,4 +81,4 @@ public:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_VERTEX_HPP
+#endif //~ INCLUDED_ZENO_GRAPHICS_VERTEX_HPP

@@ -1,6 +1,8 @@
-#include <zeno/System/FontLoader.hpp>
+#include <zeno/Graphics/FontLoader.hpp>
 
 #include <zeno/Graphics/Image.hpp>
+
+#include <iostream>
 
 namespace zeno {
 
@@ -18,7 +20,7 @@ bool FontLoader::loadGlyph(int _c, unsigned int _size)
 	return (FT_Load_Glyph(m_Face, glyph_index, FT_LOAD_DEFAULT) == 0);
 }
 
-bool FontLoader::renderGlyph(Image& _image)
+bool FontLoader::renderGlyph(Image& _image, Glyph& _glyph)
 {
 	if (FT_Render_Glyph(m_Face->glyph, FT_RENDER_MODE_NORMAL) != 0)
 	{
@@ -33,9 +35,15 @@ bool FontLoader::renderGlyph(Image& _image)
 		{
 			uint8_t val = m_Face->glyph->bitmap.buffer[i * m_Face->glyph->bitmap.width + j];
 
-			_image.setPixel(j, i, zeno::Colour(static_cast<float>(val) / 255.0f, static_cast<float>(val) / 255.0f, static_cast<float>(val) / 255.0f));
+			_image.setPixel(j, i, zeno::Colour(static_cast<float>(val) / 255.0f, 0.0f, 0.0f, 1.0f));
 		}
 	}
+	
+	//~ Fill in glyph info here
+	_glyph.advance = m_Face->glyph->metrics.horiAdvance >> 6;
+
+	_glyph.bearing_x = m_Face->glyph->metrics.horiBearingX >> 6;
+	_glyph.bearing_y = m_Face->glyph->metrics.horiBearingY >> 6;
 
 	return true;
 }

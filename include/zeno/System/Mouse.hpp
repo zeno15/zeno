@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MOUSE_HPP
-#define INCLUDED_MOUSE_HPP
+#ifndef INCLUDED_ZENO_SYSTEM_MOUSE_HPP
+#define INCLUDED_ZENO_SYSTEM_MOUSE_HPP
 
 #include <zeno/System/Vector2.hpp>
 
@@ -67,4 +67,4 @@ public:
 	
 } //~ namespace zeno
 
-#endif //~ INCLUDED_MOUSE_HPP
+#endif //~ INCLUDED_ZENO_SYSTEM_MOUSE_HPP

@@ -1,5 +1,5 @@
-#ifndef INCLUDED_TRANSFORMABLE_2D_HPP
-#define INCLUDED_TRANSFORMABLE_2D_HPP
+#ifndef INCLUDED_ZENO_SYSTEM_TRANSFORMABLE_2D_HPP
+#define INCLUDED_ZENO_SYSTEM_TRANSFORMABLE_2D_HPP
 
 #include <zeno/System/Mat4x4.hpp>
 #include <zeno/System/Vector2.hpp>
@@ -20,6 +20,12 @@ public:
 	//
 	////////////////////////////////////////////////////////////
 	void setPosition(const Vector2f& _position);
+	////////////////////////////////////////////////////////////
+	//
+	//	Moves the object, equivelant of setPosition(getPosition() + offset)
+	//
+	////////////////////////////////////////////////////////////
+	void move(const Vector2f& _offset);
 
 	////////////////////////////////////////////////////////////
 	//
@@ -47,4 +53,4 @@ protected:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_TRANSFORMABLE_2D_HPP
+#endif //~ INCLUDED_ZENO_SYSTEM_TRANSFORMABLE_2D_HPP

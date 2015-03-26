@@ -1,5 +1,5 @@
-#ifndef INCLUDED_SOCKET_HPP
-#define INCLUDED_SOCKET_HPP
+#ifndef INCLUDED_ZENO_NETWORK_SOCKET_HPP
+#define INCLUDED_ZENO_NETWORK_SOCKET_HPP
 
 namespace zeno {
 
@@ -21,4 +21,4 @@ public:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_SOCKET_HPP
+#endif //~ INCLUDED_ZENO_NETWORK_SOCKET_HPP

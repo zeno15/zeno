@@ -1,5 +1,5 @@
-#ifndef INCLUDED_WINDOW_HANDLE_HPP
-#define INCLUDED_WINDOW_HANDLE_HPP
+#ifndef INCLUDED_ZENO_WINDOW_WINDOW_HANDLE_HPP
+#define INCLUDED_ZENO_WINDOW_WINDOW_HANDLE_HPP
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -9,4 +9,4 @@ typedef HWND WindowHandle;
 typedef unsigned long WindowHandle;
 #endif
 
-#endif //~ INCLUDED_WINDOW_HANDLE_HPP
+#endif //~ INCLUDED_ZENO_WINDOW_WINDOW_HANDLE_HPP

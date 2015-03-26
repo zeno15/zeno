@@ -23,7 +23,7 @@
 #include <zeno/GUI/GuiDesktop.hpp>
 #include <zeno/GUI/GuiButton.hpp>
 
-#include <zeno/System/Font.hpp>
+#include <zeno/Graphics/Font.hpp>
 
 #include <functional>
 
@@ -33,6 +33,7 @@
 #include <zeno/Graphics/ShaderManager.hpp>
 #include <zeno/Graphics/Sprite.hpp>
 #include <zeno/Graphics/RenderData.hpp>
+#include <zeno/Graphics/Text.hpp>
 
 #include <Windows.h>
 #include <winsock.h>
@@ -1540,41 +1541,61 @@ TEST_CASE("Font Test", "[Font]")
 {
 	SECTION("Setup")
 	{		
-		zeno::Clock clock;
-
-
-		/*if (loader.loadFont("C:/Windows/Fonts/Arial.ttf"))
-		{
-			for (int c = 33; c < 512; c += 1)
-			{
-				if (loader.loadGlyph(c, 12))
-				{
-					if (loader.renderGlyph(glyphImage))
-					{
-						atlas.addGlyph(glyphImage, glyph);
-
-						std::string filename = "Resources/" + std::to_string(c) + "Atlas.png";
-
-						atlas.getAtlas().saveToFile(filename);
-					}
-				}
-				
-				std::cout << static_cast<float>(c) / 512.0f * 100.0f << "%" << std::endl;
-			}
-
-		}
-
-
+		std::cout << "Font test." << std::endl;
 		zeno::Font font;
 		font.loadFont("C:/Windows/Fonts/Arial.ttf");
+		zeno::Font font2;
+		font2.loadFont("C:/Windows/Fonts/OLDENGL.TTF");
+		//font2.loadFont("C:/Windows/Fonts/Arial.ttf");
 
-		zeno::Image image;
+		zeno::Window window = zeno::Window();
 
-		font.renderString("The quick brown fox jumped over the lazy dog.THE QUICK BROWN FOX JUMPED OVER THE LAZY OSTRICH", image);
+		zeno::VideoMode m;
 
-		image.saveToFile("Resources/Image.png");
+		m.bitsPerPixel = 32;
+		m.width = 1280;
+		m.height = 720;
 
-		std::cout << "Time: " << clock.restart().asSeconds() << "s" << std::endl;*/
+		window.create(m, "zeno::Window Test", zeno::WindowStyle::Default);
+
+		glClearColor(100.0f / 255.0f, 149.0f / 255.0f, 247.0f / 255.0f, 1.0f);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		zeno::Clock clock;
+		bool running = true;
+
+		zeno::RenderData data;
+		data.transform = zeno::Mat4x4::Orthographic2D(0.0f, 1280.0f, 720.0f, 0.0f);
+
+		zeno::Text text = zeno::Text("Meow How goes thje world?\nMeh.!", &font);
+		text.move(zeno::Vector2f(10.0f, 150.0f));
+
+		while (running)
+		{
+			Sleep(10);
+
+			window.setTitle(std::string("Text Test. FPS: " + std::to_string(static_cast<int>(1.0f / clock.restart().asSeconds()))));
+
+			zeno::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == zeno::Event::EventType::WindowClosed)
+				{
+					running = false;
+				}
+			}
+
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			
+			text.render(data);
+
+			window.display();
+		}
+
+		window.close();
 	}
 }
 

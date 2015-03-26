@@ -1,5 +1,5 @@
-#ifndef INCLUDED_RENDERABLE_HPP
-#define INCLUDED_RENDERABLE_HPP
+#ifndef INCLUDED_ZENO_GRAPHICS_RENDERABLE_HPP
+#define INCLUDED_ZENO_GRAPHICS_RENDERABLE_HPP
 
 #include <zeno/Graphics/RenderData.hpp>
 
@@ -32,4 +32,4 @@ private:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_RENDERABLE_HPP
+#endif //~ INCLUDED_ZENO_GRAPHICS_RENDERABLE_HPP

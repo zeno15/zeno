@@ -1,5 +1,5 @@
-#ifndef INCLUDED_GUI_BASE_HPP
-#define INCLUDED_GUI_BASE_HPP
+#ifndef INCLUDED_ZENO_GUI_GUI_BASE_HPP
+#define INCLUDED_ZENO_GUI_GUI_BASE_HPP
 
 #include <vector>
 
@@ -96,4 +96,4 @@ protected:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_GUI_BASE_HPP
+#endif //~ INCLUDED_ZENO_GUI_GUI_BASE_HPP

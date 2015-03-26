@@ -1,5 +1,5 @@
-#ifndef INCLUDED_COLOUR_HPP
-#define INCLUDED_COLOUR_HPP
+#ifndef INCLUDED_ZENO_GRAPHICS_COLOUR_HPP
+#define INCLUDED_ZENO_GRAPHICS_COLOUR_HPP
 
 #include <ostream>
 
@@ -182,4 +182,4 @@ std::ostream& operator <<(std::ostream& os, zeno::Colour const& _col);
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_COLOUR_HPP
+#endif //~ INCLUDED_ZENO_GRAPHICS_COLOUR_HPP

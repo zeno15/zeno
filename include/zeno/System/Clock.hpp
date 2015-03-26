@@ -1,5 +1,5 @@
-#ifndef INCLUDED_CLOCK_HPP
-#define INCLUDED_CLOCK_HPP
+#ifndef INCLUDED_ZENO_SYSTEM_CLOCK_HPP
+#define INCLUDED_ZENO_SYSTEM_CLOCK_HPP
 
 #include <zeno/System/Time.hpp>
 
@@ -58,4 +58,4 @@ private:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_CLOCK_HPP
+#endif //~ INCLUDED_ZENO_SYSTEM_CLOCK_HPP

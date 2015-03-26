@@ -1,5 +1,5 @@
-#ifndef INCLUDED_RENDER_DATA_HPP
-#define INCLUDED_RENDER_DATA_HPP
+#ifndef INCLUDED_ZENO_GRAPHICS_RENDER_DATA_HPP
+#define INCLUDED_ZENO_GRAPHICS_RENDER_DATA_HPP
 
 #include <zeno/System/Mat4x4.hpp>
 #include <zeno/Graphics/Texture.hpp>
@@ -31,4 +31,4 @@ struct RenderData
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_RENDER_DATA_HPP
+#endif //~ INCLUDED_ZENO_GRAPHICS_RENDER_DATA_HPP

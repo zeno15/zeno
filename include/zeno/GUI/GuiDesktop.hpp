@@ -1,5 +1,5 @@
-#ifndef INCLUDED_GUI_DESKTOP_HPP
-#define INCLUDED_GUI_DESKTOP_HPP
+#ifndef INCLUDED_ZENO_GUI_GUI_DESKTOP_HPP
+#define INCLUDED_ZENO_GUI_GUI_DESKTOP_HPP
 
 #include <zeno/GUI/GUIEvent.hpp>
 #include <zeno/System/Vector2.hpp>
@@ -94,4 +94,4 @@ private:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_GUI_DESKTOP_HPP
+#endif //~ INCLUDED_ZENO_GUI_GUI_DESKTOP_HPP

@@ -434,6 +434,12 @@ Mat4x4 operator*(const Mat4x4& _left, const Mat4x4& _right)
 	
 	return result;
 }
+Mat4x4 operator*=(Mat4x4& _left, const Mat4x4& _right)
+{
+	_left = _left * _right;
+
+	return _left;
+}
 
 float& Mat4x4::operator[](int _right)
 {

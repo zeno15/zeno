@@ -1,5 +1,5 @@
-#ifndef INCLUDED_IMAGE_HPP
-#define INCLUDED_IMAGE_HPP
+#ifndef INCLUDED_ZENO_GRAPHICS_IMAGE_HPP
+#define INCLUDED_ZENO_GRAPHICS_IMAGE_HPP
 
 #include <string>
 #include <cstdint>
@@ -82,4 +82,4 @@ private:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_IMAGE_HPP
+#endif //~ INCLUDED_ZENO_GRAPHICS_IMAGE_HPP

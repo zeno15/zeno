@@ -1,5 +1,5 @@
-#ifndef INCLUDED_GUIEVENT_HPP
-#define INCLUDED_GUIEVENT_HPP
+#ifndef INCLUDED_ZENO_GUI_GUI_EVENT_HPP
+#define INCLUDED_ZENO_GUI_GUI_EVENT_HPP
 
 #include <zeno/System/Mouse.hpp>
 #include <zeno/System/Keyboard.hpp>
@@ -55,4 +55,4 @@ public:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_GUIEVENT_HPP
+#endif //~ INCLUDED_ZENO_GUI_GUI_EVENT_HPP

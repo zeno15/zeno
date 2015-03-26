@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MAT_4_X_4_HPP
-#define INCLUDED_MAT_4_X_4_HPP
+#ifndef INCLUDED_ZENO_SYSTEM_MAT_4_X_4_HPP
+#define INCLUDED_ZENO_SYSTEM_MAT_4_X_4_HPP
 
 #include <string>
 #include <vector>
@@ -205,6 +205,13 @@ public:
 	//
 	////////////////////////////////////////////////////////////
 	friend Mat4x4 operator*(const Mat4x4& _left, const Mat4x4& _right);
+	////////////////////////////////////////////////////////////
+	//
+	//	Modifies _left by performing matrix multiplication by
+	//	_right
+	//
+	////////////////////////////////////////////////////////////
+	friend Mat4x4 operator*=(Mat4x4& _left, const Mat4x4& _right);
 
 private:
 	////////////////////////////////////////////////////////////
@@ -233,4 +240,4 @@ bool operator !=(const Mat4x4& _left, const Mat4x4& _right);
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_MAT_4_X_4_HPP
+#endif //~ INCLUDED_ZENO_SYSTEM_MAT_4_X_4_HPP

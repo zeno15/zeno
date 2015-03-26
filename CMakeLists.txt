@@ -5,7 +5,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/test)
 include_directories(${CMAKE_SOURCE_DIR}/extlibs)
 
-set(LIB_TYPE SHARED)
+#set(LIB_TYPE SHARED)
 
 if(BUILD_SHARED_LIBS MATCHES OFF)
     set(BUILD_TYPE_EXTENSION ${BUILD_TYPE_EXTENSION}-s)
@@ -20,6 +20,10 @@ endif(CMAKE_BUILD_TYPE MATCHES Debug)
 # Cross platform code
 set(GRAPHICS_HEADER_FILES ${GRAPHICS_HEADER_FILES}
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Colour.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Font.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/FontAtlasImage.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/FontLoader.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Glyph.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Image.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/ImageLoader.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Renderable.hpp
@@ -27,6 +31,7 @@ set(GRAPHICS_HEADER_FILES ${GRAPHICS_HEADER_FILES}
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Shader.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/ShaderManager.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Sprite.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Text.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Texture.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Vertex.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/VertexArray.hpp
@@ -47,10 +52,6 @@ set(NETWORK_HEADER_FILES ${NETWORK_HEADER_FILES}
 set(SYSTEM_HEADER_FILES ${SYSTEM_HEADER_FILES}
 		${CMAKE_SOURCE_DIR}/include/zeno/System/Clock.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/System/Event.hpp
-		${CMAKE_SOURCE_DIR}/include/zeno/System/Font.hpp
-		${CMAKE_SOURCE_DIR}/include/zeno/System/FontAtlasImage.hpp
-		${CMAKE_SOURCE_DIR}/include/zeno/System/FontLoader.hpp
-		${CMAKE_SOURCE_DIR}/include/zeno/System/Glyph.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/System/Keyboard.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/System/Mat4x4.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/System/Mouse.hpp
@@ -78,11 +79,16 @@ set(WINDOW_HEADER_FILES ${WINDOW_HEADER_FILES}
 
 set(GRAPHICS_SOURCE_FILES ${GRAPHICS_SOURCE_FILES}
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Colour.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Font.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/FontAtlasImage.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/FontLoader.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Glyph.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Image.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/ImageLoader.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Shader.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/ShaderManager.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Sprite.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Text.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Texture.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Vertex.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/VertexArray.cpp
@@ -101,10 +107,6 @@ set(NETWORK_SOURCE_FILES ${NETWORK_SOURCE_FILES}
 	
 set(SYSTEM_SOURCE_FILES ${SYSTEM_SOURCE_FILES}
 		${CMAKE_SOURCE_DIR}/src/zeno/System/Clock.cpp
-		${CMAKE_SOURCE_DIR}/src/zeno/System/Font.cpp
-		${CMAKE_SOURCE_DIR}/src/zeno/System/FontAtlasImage.cpp
-		${CMAKE_SOURCE_DIR}/src/zeno/System/FontLoader.cpp
-		${CMAKE_SOURCE_DIR}/src/zeno/System/Glyph.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/System/Keyboard.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/System/Mat4x4.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/System/Mouse.cpp

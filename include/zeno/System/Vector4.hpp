@@ -1,5 +1,5 @@
-#ifndef INCLUDED_VECTOR_4_HPP
-#define INCLUDED_VECTOR_4_HPP
+#ifndef INCLUDED_ZENO_SYSTEM_VECTOR_4_HPP
+#define INCLUDED_ZENO_SYSTEM_VECTOR_4_HPP
 
 #include <ostream>
 
@@ -205,4 +205,4 @@ typedef Vector4<double>				Vector4d;
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_VECTOR_4_HPP
+#endif //~ INCLUDED_ZENO_SYSTEM_VECTOR_4_HPP

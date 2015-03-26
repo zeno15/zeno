@@ -1,5 +1,5 @@
-#ifndef INCLUDED_VECTOR_3_HPP
-#define INCLUDED_VECTOR_3_HPP
+#ifndef INCLUDED_ZENO_SYSTEM_VECTOR_3_HPP
+#define INCLUDED_ZENO_SYSTEM_VECTOR_3_HPP
 
 #include <ostream>
 
@@ -219,4 +219,4 @@ typedef Vector3<double>				Vector3d;
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_VECTOR_3_HPP
+#endif //~ INCLUDED_ZENO_SYSTEM_VECTOR_3_HPP

@@ -1,5 +1,5 @@
-#ifndef INCLUDED_WINDOW_IMPLEMENTATION_HPP
-#define INCLUDED_WINDOW_IMPLEMENTATION_HPP
+#ifndef INCLUDED_ZENO_WINDOW_WINDOW_IMPLEMENTATION_HPP
+#define INCLUDED_ZENO_WINDOW_WINDOW_IMPLEMENTATION_HPP
 
 #ifdef _WIN32
 #include <zeno/Window/WindowImplementationWin32.hpp>
@@ -10,4 +10,4 @@ typedef zeno::WindowImplementationWin32 WindowImplementation;
 typedef zeno::WindowImplementationUnix WindowImplementation;
 #endif
 
-#endif //~ INCLUDED_WINDOW_IMPLEMENTATION_HPP
+#endif //~ INCLUDED_ZENO_WINDOW_WINDOW_IMPLEMENTATION_HPP

@@ -1,5 +1,5 @@
-#ifndef INCLUDED_VERTEX_ARRAY_HPP
-#define INCLUDED_VERTEX_ARRAY_HPP
+#ifndef INCLUDED_ZENO_GRAPHICS_VERTEX_ARRAY_HPP
+#define INCLUDED_ZENO_GRAPHICS_VERTEX_ARRAY_HPP
 
 #include <zeno/Graphics/Vertex.hpp>
 
@@ -91,4 +91,4 @@ private:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_VERTEX_ARRAY_HPP
+#endif //~ INCLUDED_ZENO_GRAPHICS_VERTEX_ARRAY_HPP

@@ -1,5 +1,5 @@
-#ifndef INCLUDED_TEXTURE_HPP
-#define INCLUDED_TEXTURE_HPP
+#ifndef INCLUDED_ZENO_GRAPHICS_TEXTURE_HPP
+#define INCLUDED_ZENO_GRAPHICS_TEXTURE_HPP
 
 #include <zeno/System/Vector2.hpp>
 
@@ -39,4 +39,4 @@ private:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_TEXTURE_HPP
+#endif //~ INCLUDED_ZENO_GRAPHICS_TEXTURE_HPP

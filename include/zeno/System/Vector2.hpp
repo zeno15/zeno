@@ -1,5 +1,5 @@
-#ifndef INCLUDED_VECTOR_2_HPP
-#define INCLUDED_VECTOR_2_HPP
+#ifndef INCLUDED_ZENO_SYSTEM_VECTOR_2_HPP
+#define INCLUDED_ZENO_SYSTEM_VECTOR_2_HPP
 
 #include <ostream>
 
@@ -181,4 +181,4 @@ typedef Vector2<double>				Vector2d;
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_VECTOR_2_HPP
+#endif //~ INCLUDED_ZENO_SYSTEM_VECTOR_2_HPP

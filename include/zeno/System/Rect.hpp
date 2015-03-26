@@ -1,5 +1,5 @@
-#ifndef INCLUDED_RECT_HPP
-#define INCLUDED_RECT_HPP
+#ifndef INCLUDED_ZENO_SYSTEM_RECT_HPP
+#define INCLUDED_ZENO_SYSTEM_RECT_HPP
 
 #include <zeno/System/Vector2.hpp>
 
@@ -116,4 +116,4 @@ typedef Rect<float> FloatRect;
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_RECT_HPP
+#endif //~ INCLUDED_ZENO_SYSTEM_RECT_HPP

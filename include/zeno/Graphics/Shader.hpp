@@ -1,9 +1,10 @@
-#ifndef INCLUDED_SHADER_HPP
-#define INCLUDED_SHADER_HPP
+#ifndef INCLUDED_ZENO_GRAPHICS_SHADER_HPP
+#define INCLUDED_ZENO_GRAPHICS_SHADER_HPP
 
 #include <string>
 #include <vector>
 
+#include <zeno/System/Vector2.hpp>
 #include <zeno/System/Vector3.hpp>
 #include <zeno/System/Mat4x4.hpp>
 
@@ -104,6 +105,13 @@ public:
 	bool getLocationOfUniform(const std::string& _uniform);
 	////////////////////////////////////////////////////////////
 	//
+	//	Passes the uniform with the given name of type Vector2
+	//	to the shader
+	//
+	////////////////////////////////////////////////////////////
+	void passUniform(const std::string& _name, const Vector2<float>& _uniform);
+	////////////////////////////////////////////////////////////
+	//
 	//	Passes the uniform with the given name of type Vector3
 	//	to the shader
 	//
@@ -155,4 +163,4 @@ private:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_SHADER_HPP
+#endif //~ INCLUDED_ZENO_GRAPHICS_SHADER_HPP

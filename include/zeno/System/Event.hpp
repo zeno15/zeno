@@ -1,5 +1,5 @@
-#ifndef INCLUDED_EVENT_HPP
-#define INCLUDED_EVENT_HPP
+#ifndef INCLUDED_ZENO_SYSTEM_EVENT_HPP
+#define INCLUDED_ZENO_SYSTEM_EVENT_HPP
 
 #include <zeno/System/Keyboard.hpp>
 #include <zeno/System/Mouse.hpp>
@@ -124,4 +124,4 @@ public:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_EVENT_HPP
+#endif //~ INCLUDED_ZENO_SYSTEM_EVENT_HPP

@@ -10,9 +10,9 @@ Look at http://visualgdb.com/tutorials/linux/ for developing on windows for linu
 AdjustWindowRect to have windows be the actual size. not including the frame
 -	Also check/modify all the window get/set size functions
 
-LShift doesnt work
+Set v-sync etc or desired fps
 
-Document all window related code
+LShift doesnt work
 
 Implement window styles
 
@@ -21,13 +21,12 @@ change all Deconstructor to Destructor
 use find_required in cmake for glew, opengl, freetype etc
 
 have shared libraries be created as well
-
-Test that all 4 library versions work on both platforms
+	-	Test that all 4 library versions work on both platforms
 
 look into if a abstract base class "Drawable" etc is a good thing
+	-	For vertex array, sprite implement drawable
 
-
-Change all #ifndef INCLUDED_FILENAME_EXTENSION's to something with the project name etc in it
+move font stuff to graphics
 
 Implement doxygen into header files
 
@@ -38,12 +37,20 @@ add passing uniforms into vertex arrays	-	similar to sfml renderstates
 opengl contexts when using different windows
 
 have shaders work with multiple textures for vertex array?
+have shader for when a texture is/isnt used with vertex array
 
-2d/3d transformable
+2d transformable
+3d transformable
 
-have RenderData take in a shader name, and then a drawable sub class with overloaded window render method of (const zeno::Drawable& _drawable, const zeno::RenderData& _renderData)
+have RenderData take in a shader name, and then a drawable sub class with overloaded window render method of (const zeno::Drawable& _drawable, zeno::RenderData _renderData)
 
 2d orthographic text
+have unique shader for text, needs to take as a uniform the texture size, or figure out a way to use pixel coords instead of 0.0f->1.0
+handle different font sizes within the same font object
+need to make sure there is a single non available glyph that is used for all characters that need it
+Font::createCharVertexes uses the texture size when it may be modified
+
+find better way to update textures than completely recreating them (i.e. as in font) Pixel Buffer Objects
 
 ---------------------------------------------------------------------------------------------------
 COMPLETE
@@ -55,3 +62,4 @@ sprites
 
 add sub directories for gui code, window code, graphics, networking, audio, system
 add different libraries for each sub directory
+Change all #ifndef INCLUDED_FILENAME_EXTENSION's to something with the project name etc in it

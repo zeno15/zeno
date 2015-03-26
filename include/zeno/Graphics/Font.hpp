@@ -1,9 +1,11 @@
-#ifndef INCLUDED_FONT_HPP
-#define INCLUDED_FONT_HPP
+#ifndef INCLUDED_ZENO_GRAPHICS_FONT_HPP
+#define INCLUDED_ZENO_GRAPHICS_FONT_HPP
 
-#include <zeno/System/FontLoader.hpp>
-#include <zeno/System/FontAtlasImage.hpp>
-#include <zeno/System/Glyph.hpp>
+#include <zeno/Graphics/FontLoader.hpp>
+#include <zeno/Graphics/FontAtlasImage.hpp>
+#include <zeno/Graphics/Glyph.hpp>
+#include <zeno/Graphics/Texture.hpp>
+#include <zeno/Graphics/Vertex.hpp>
 
 #include <string>
 #include <vector>
@@ -55,7 +57,22 @@ public:
 	///////////////////////////////////////////////////////////
 	void renderString(const std::string& _string, Image& _image);
 
-private:
+	///////////////////////////////////////////////////////////
+	//
+	//
+	//
+	///////////////////////////////////////////////////////////
+	std::vector<Vertex> createVerticies(const std::string& _string);
+	
+
+	///////////////////////////////////////////////////////////
+	//
+	//	Get the font texture
+	//
+	///////////////////////////////////////////////////////////
+	Texture *getTexture(void);
+
+public:
 	////////////////////////////////////////////////////////////
 	//
 	//	Adds the character represented by the given character
@@ -72,6 +89,15 @@ private:
 	//
 	////////////////////////////////////////////////////////////
 	int getGlyphIndex(int _charCode);
+	
+	///////////////////////////////////////////////////////////
+	//
+	//
+	//
+	///////////////////////////////////////////////////////////
+	void createCharVertexes(std::vector<Vertex>& _verticies, int _character, Vector2f& _drawPosition);
+
+	void saveTexture(const std::string& _filename);
 
 private:
 	////////////////////////////////////////////////////////////
@@ -94,8 +120,15 @@ private:
 	//
 	////////////////////////////////////////////////////////////
 	std::vector<Glyph>			m_Glyphs;
+
+	////////////////////////////////////////////////////////////
+	//
+	//	Vector of glyphs that are present
+	//
+	////////////////////////////////////////////////////////////
+	Texture						m_Texture;
 };
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_FONT_HPP
+#endif //~ INCLUDED_ZENO_GRAPHICS_FONT_HPP

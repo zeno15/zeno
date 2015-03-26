@@ -1,6 +1,6 @@
-#include <zeno/System/FontAtlasImage.hpp>
+#include <zeno/Graphics/FontAtlasImage.hpp>
 
-#include <zeno/System/Glyph.hpp>
+#include <zeno/Graphics/Glyph.hpp>
 
 #include <iostream>
 #include <algorithm>
@@ -12,7 +12,7 @@ m_CurrentHeightFromBase(0),
 m_CurrentHorizontal(0),
 m_NextHeightFromBase(0)
 {
-	m_Image.create(512, 512, Colour::Magenta);
+	m_Image.create(512, 512, Colour::Transparent);
 }
 
 
@@ -23,8 +23,6 @@ Image& FontAtlasImage::getAtlas(void)
 
 void FontAtlasImage::addGlyph(const Image& _image, Glyph& _glyph)
 {
-	std::cout << "Need to complete glyph and modify still" << std::endl;
-
 	unsigned int currentY = m_Image.getSize().y - m_CurrentHeightFromBase;
 	unsigned int currentX = m_CurrentHorizontal;
 
@@ -33,7 +31,7 @@ void FontAtlasImage::addGlyph(const Image& _image, Glyph& _glyph)
 	if (m_NextHeightFromBase >= m_Image.getSize().y)
 	{
 		Image tempImage;
-		tempImage.create(m_Image.getSize().x, m_Image.getSize().y, Colour::Magenta);
+		tempImage.create(m_Image.getSize().x, m_Image.getSize().y, Colour::Transparent);
 
 		for (unsigned int i = 0; i < m_Image.getSize().y; i += 1)
 		{
@@ -43,7 +41,7 @@ void FontAtlasImage::addGlyph(const Image& _image, Glyph& _glyph)
 			}
 		}
 
-		m_Image.create(m_Image.getSize().x, m_Image.getSize().y * 2, Colour::Magenta);
+		m_Image.create(m_Image.getSize().x, m_Image.getSize().y * 2, Colour::Transparent);
 
 		for (unsigned int i = 0; i < tempImage.getSize().y; i += 1)
 		{
@@ -87,8 +85,6 @@ void FontAtlasImage::addGlyph(const Image& _image, Glyph& _glyph)
 	_glyph.y = currentY - 1;
 	_glyph.width = _image.getSize().x;
 	_glyph.height = _image.getSize().y;
-
-	std::cout << "Glyph w: " << _glyph.width << ", height: " << _glyph.height << std::endl;
 
 	//~ Increment the horizontal index
 	m_CurrentHorizontal += _image.getSize().x;

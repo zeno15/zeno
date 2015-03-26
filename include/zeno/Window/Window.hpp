@@ -1,5 +1,5 @@
-#ifndef INCLUDED_WINDOW_HPP
-#define INCLUDED_WINDOW_HPP
+#ifndef INCLUDED_ZENO_WINDOW_WINDOW_HPP
+#define INCLUDED_ZENO_WINDOW_WINDOW_HPP
 
 #include <zeno/System/Event.hpp>
 #include <zeno/System/Vector2.hpp>
@@ -186,4 +186,4 @@ protected:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_WINDOW_HPP
+#endif //~ INCLUDED_ZENO_WINDOW_WINDOW_HPP

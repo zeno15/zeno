@@ -1,5 +1,7 @@
-#ifndef INCLUDED_FONT_LOADER_HPP
-#define INCLUDED_FONT_LOADER_HPP
+#ifndef INCLUDED_ZENO_GRAPHICS_FONT_LOADER_HPP
+#define INCLUDED_ZENO_GRAPHICS_FONT_LOADER_HPP
+
+#include <zeno/Graphics/Glyph.hpp>
 
 #include <string>
 
@@ -12,7 +14,7 @@ class Image;
 
 ////////////////////////////////////////////////////////////
 //
-//	Xlass to load fonts to image glyphs
+//	Class to load fonts to image glyphs
 //
 ////////////////////////////////////////////////////////////
 class FontLoader
@@ -51,7 +53,7 @@ public:
 	//
 	//
 	////////////////////////////////////////////////////////////
-	bool renderGlyph(Image& _image);
+	bool renderGlyph(Image& _image, Glyph& _glyph);
 
 private:
 	////////////////////////////////////////////////////////////
@@ -71,4 +73,4 @@ private:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_FONT_LOADER_HPP
+#endif //~ INCLUDED_ZENO_GRAPHICS_FONT_LOADER_HPP

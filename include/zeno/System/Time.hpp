@@ -1,5 +1,5 @@
-#ifndef INCLUDED_TIME_HPP
-#define INCLUDED_TIME_HPP
+#ifndef INCLUDED_ZENO_SYSTEM_TIME_HPP
+#define INCLUDED_ZENO_SYSTEM_TIME_HPP
 
 #include <ostream>
 
@@ -275,4 +275,4 @@ Time& operator %=(Time& _left, const Time& _right);
 std::ostream& operator <<(std::ostream& os, zeno::Time const& _time);
 } //~ namespace zeno
 
-#endif //~ INCLUDED_TIME_HPP
+#endif //~ INCLUDED_ZENO_SYSTEM_TIME_HPP

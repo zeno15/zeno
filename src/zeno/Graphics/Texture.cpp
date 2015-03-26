@@ -9,7 +9,7 @@
 namespace zeno {
 
 Texture::Texture(void) :
-	m_TextureHandle(0)
+m_TextureHandle(0)
 {
 }
 
@@ -30,6 +30,9 @@ bool Texture::loadFromFile(const std::string& _filename)
 }
 bool Texture::loadFromImage(const Image& _image)
 {
+	//~ Deletes the texture if it exists
+	glDeleteTextures(1, &m_TextureHandle);
+	
 	m_PixelData.resize(_image.getSize().x * _image.getSize().y * 4);
 
 	//~ Flips around x-axis as opengl origin is bottom left

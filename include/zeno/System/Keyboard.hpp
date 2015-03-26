@@ -1,5 +1,5 @@
-#ifndef INCLUDED_KEYBOARD_HPP
-#define INCLUDED_KEYBOARD_HPP
+#ifndef INCLUDED_ZENO_SYSTEM_KEYBOARD_HPP
+#define INCLUDED_ZENO_SYSTEM_KEYBOARD_HPP
 
 namespace zeno {
 
@@ -134,4 +134,4 @@ public:
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_KEYBOARD_HPP
+#endif //~ INCLUDED_ZENO_SYSTEM_KEYBOARD_HPP

@@ -1,5 +1,5 @@
-#ifndef INCLUDED_VIDEO_MODE_HPP
-#define INCLUDED_VIDEO_MODE_HPP
+#ifndef INCLUDED_ZENO_WINDOW_VIDEO_MODE_HPP
+#define INCLUDED_ZENO_WINDOW_VIDEO_MODE_HPP
 
 #include <cstdint>
 
@@ -34,4 +34,4 @@ struct VideoMode
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_VIDEO_MODE_HPP
+#endif //~ INCLUDED_ZENO_WINDOW_VIDEO_MODE_HPP
