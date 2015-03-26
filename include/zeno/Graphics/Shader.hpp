@@ -119,6 +119,13 @@ public:
 	void passUniform(const std::string& _name, const Vector3<float>& _uniform);
 	////////////////////////////////////////////////////////////
 	//
+	//	Passes the uniform with the given name of type Vector4
+	//	to the shader
+	//
+	////////////////////////////////////////////////////////////
+	void passUniform(const std::string& _name, const Vector4<float>& _uniform);
+	////////////////////////////////////////////////////////////
+	//
 	//	Passes the uniform with the given name of type Mat4x4
 	//	to the shader
 	//

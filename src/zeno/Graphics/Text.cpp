@@ -1,6 +1,7 @@
 #include <zeno/Graphics/Text.hpp>
 
 #include <zeno/Graphics/ShaderManager.hpp>
+#include <zeno/System/Vector4.hpp>
 
 #include <GL/glew.h>
 
@@ -43,6 +44,7 @@ void Text::render(RenderData _data)
 	
 	shader.passUniform("View", _data.transform);
 	shader.passUniform("texSize", vec);
+	shader.passUniform("textColour", Vector4f(m_Colour.r, m_Colour.g, m_Colour.b, m_Colour.a));
 
 	glBindVertexArray(m_VAO);
 	glDrawArrays(GL_TRIANGLES, 0, m_Verticies.size());
@@ -84,4 +86,10 @@ void Text::setText(const std::string& _text)
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(7 * sizeof(float)));
 }
 
- } //~ namespace zeno
+
+void Text::setColour(const Colour& _colour)
+{
+	m_Colour = _colour;
+}
+
+} //~ namespace zeno

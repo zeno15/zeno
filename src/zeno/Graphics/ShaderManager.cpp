@@ -49,10 +49,12 @@ namespace {
 														"\n" \
 														"uniform vec2 texSize;\n" \
 														"\n" \
+														"uniform vec4 textColour;\n" \
+														"\n" \
 														"void main(void) \n" \
 														"{\n" \
 														"	gl_Position = View * vec4(in_Position, 1.0f);\n" \
-														"   fragColour  = in_Colour;\n" \
+														"   fragColour  = textColour;\n" \
 														"	gl_TexCoord[0].xy = vec2(in_TexUV.x / texSize.x, in_TexUV.y / texSize.y);\n" \
 														"}\n");
 
@@ -82,6 +84,7 @@ ShaderManager::ShaderManager(void)
 	addShaderFromSource(TEXT_SHADER_NAME, vertexTextSource, fragmentTextSource);
 	getShader(TEXT_SHADER_NAME).getLocationOfUniform("View");
 	getShader(TEXT_SHADER_NAME).getLocationOfUniform("texSize");
+	getShader(TEXT_SHADER_NAME).getLocationOfUniform("textColour");
 }
 ShaderManager::~ShaderManager(void)
 {

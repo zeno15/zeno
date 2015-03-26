@@ -1561,6 +1561,7 @@ TEST_CASE("Font Test", "[Font]")
 		glClearColor(100.0f / 255.0f, 149.0f / 255.0f, 247.0f / 255.0f, 1.0f);
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
+
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -1570,8 +1571,9 @@ TEST_CASE("Font Test", "[Font]")
 		zeno::RenderData data;
 		data.transform = zeno::Mat4x4::Orthographic2D(0.0f, 1280.0f, 720.0f, 0.0f);
 
-		zeno::Text text = zeno::Text("Meow How goes thje world?\nMeh.!", &font);
-		text.move(zeno::Vector2f(10.0f, 150.0f));
+		zeno::Text text = zeno::Text("Meow How goes thje world?\nMeh.!\nI'd rather be happy.\nI don't have motivation.", &font2);
+		text.move(zeno::Vector2f(10.0f, window.getSize().y - 60));
+		text.setColour(zeno::Colour::Magenta);
 
 		while (running)
 		{

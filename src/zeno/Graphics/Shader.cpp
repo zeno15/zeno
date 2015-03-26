@@ -217,5 +217,16 @@ void Shader::passUniform(const std::string& _name, const Mat4x4& _uniform)
 		}
 	}
 }
+void Shader::passUniform(const std::string& _name, const Vector4<float>& _uniform)
+{
+	for (unsigned int i = 0; i < m_UniformLocations.size(); i += 1)
+	{
+		if (m_UniformLocations.at(i).first == _name)
+		{
+			glUniform4f(m_UniformLocations.at(i).second, _uniform.x, _uniform.y, _uniform.z, _uniform.w);
+			return;
+		}
+	}
+}
 
 } //~ namespace zeno

@@ -26,7 +26,6 @@ have shared libraries be created as well
 look into if a abstract base class "Drawable" etc is a good thing
 	-	For vertex array, sprite implement drawable
 
-move font stuff to graphics
 
 Implement doxygen into header files
 
@@ -44,11 +43,11 @@ have shader for when a texture is/isnt used with vertex array
 
 have RenderData take in a shader name, and then a drawable sub class with overloaded window render method of (const zeno::Drawable& _drawable, zeno::RenderData _renderData)
 
-2d orthographic text
-have unique shader for text, needs to take as a uniform the texture size, or figure out a way to use pixel coords instead of 0.0f->1.0
-handle different font sizes within the same font object
-need to make sure there is a single non available glyph that is used for all characters that need it
-Font::createCharVertexes uses the texture size when it may be modified
+Fonts
+	-	handle different font sizes within the same font object
+	-	need to make sure there is a single non available glyph that is used for all characters that need it
+	-	Font::createCharVertexes uses the texture size when it may be modified
+	-	currently passing colour data into the gpu, then passing colour uniform, wasteful.
 
 find better way to update textures than completely recreating them (i.e. as in font) Pixel Buffer Objects
 
@@ -63,3 +62,8 @@ sprites
 add sub directories for gui code, window code, graphics, networking, audio, system
 add different libraries for each sub directory
 Change all #ifndef INCLUDED_FILENAME_EXTENSION's to something with the project name etc in it
+
+Fonts
+	-	move font stuff to graphics
+	-	2d orthographic text
+	-	have unique shader for text, needs to take as a uniform the texture size, or figure out a way to use pixel coords instead of 0.0f->1.0

@@ -123,7 +123,6 @@ bool GuiDesktop::translateEvent(const Event& _event, GUIEvent& _guiEvent) const
 	default:
 		return false;
 	}
-	return false;
 }
 
 } //~ namespace zeno
