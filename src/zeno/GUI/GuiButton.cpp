@@ -2,6 +2,8 @@
 
 #include <zeno/GUI/GUIEvent.hpp>
 
+#include <GL/glew.h>
+
 #include <iostream>
 
 namespace zeno {

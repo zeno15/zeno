@@ -22,6 +22,7 @@
 
 #include <zeno/GUI/GuiDesktop.hpp>
 #include <zeno/GUI/GuiButton.hpp>
+#include <zeno/GUI/ProgressBar.hpp>
 
 #include <zeno/Graphics/Font.hpp>
 
@@ -1506,14 +1507,40 @@ TEST_CASE("GUI Test", "[GUI]")
 		button->registerCallbackRelease([]{std::cout << "Button has been released" << std::endl; });
 		desktop.addChild(button);
 
+		zeno::ProgressBar *progress = new zeno::ProgressBar();
+		desktop.addChild(progress);
+
 		zeno::Clock clock;
 		bool running = true;
+
+		float progressVal = 0.0f;
+		int progressCount = 0;
 
 		while (running)
 		{
 			//Sleep(10);
 
-			window.setTitle(std::string("GUI Test. FPS: " + std::to_string(static_cast<int>(1.0f / clock.restart().asSeconds()))));
+			window.setTitle(std::string("GUI Test. FPS: " + std::to_string(static_cast<int>(1.0f / clock.getElapsedTime().asSeconds()))));
+
+			progressVal += clock.restart().asSeconds();
+
+			if (progressVal > 0.1f)
+			{
+				progressVal -= 0.1f;
+
+				progressCount += 1;
+
+				if (progressCount > 100)
+				{
+					progressCount -= 100;
+				}
+				
+				zeno::GUIEvent progressEvent;
+				progressEvent.progress.progress = static_cast<float>(progressCount) / 100.0f;
+				progressEvent.type = zeno::GUIEvent::ProgressUpdate;
+				desktop.throwEvent(progressEvent);
+			}
+
 
 			zeno::Event event;
 			while (window.pollEvent(event))

@@ -21,7 +21,8 @@ public:
 	////////////////////////////////////////////////////////////
 	enum EventType {
 		LeftClick,
-		LeftRelease
+		LeftRelease,
+		ProgressUpdate
 	};
 	
 	////////////////////////////////////////////////////////////
@@ -33,6 +34,15 @@ public:
 		Mouse::Button	button;
 		int				x;
 		int				y;
+	};
+
+	////////////////////////////////////////////////////////////
+	//
+	//	Struct representing data of a progress bar update event
+	//
+	////////////////////////////////////////////////////////////
+	struct ProgressUpdateEvent {
+		float progress;
 	};
 
 public:
@@ -49,7 +59,8 @@ public:
 	//
 	////////////////////////////////////////////////////////////
 	union {
-		MouseButtonEvent	mouseButton;
+		MouseButtonEvent		mouseButton;
+		ProgressUpdateEvent		progress;
 	};
 };
 

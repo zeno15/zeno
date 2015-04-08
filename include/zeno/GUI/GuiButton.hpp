@@ -4,8 +4,6 @@
 #include <zeno/GUI/GuiBase.hpp>
 #include <zeno/System/Rect.hpp>
 
-#include <GL/glew.h>
-
 #include <functional>
 
 namespace zeno {
@@ -63,7 +61,7 @@ public:
 	void registerCallbackRelease(std::function<void(void)> _function);
 	
 private:
-	GLuint VAO;
+	unsigned int VAO;
 	FloatRect	bounds;
 
 	bool		m_Depressed;

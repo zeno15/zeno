@@ -98,6 +98,17 @@ void GuiDesktop::setResolution(const Vector2u& _resolution)
 	m_Resolution = _resolution;
 }
 
+void GuiDesktop::throwEvent(const GUIEvent& _guiEvent)
+{
+	for (GuiBase *element : m_Children)
+	{
+		if (element->processEvent(_guiEvent))
+		{
+			return;
+		}
+	}
+}
+
 bool GuiDesktop::translateEvent(const Event& _event, GUIEvent& _guiEvent) const
 {
 	switch (_event.type)

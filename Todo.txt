@@ -1,6 +1,10 @@
 --------------------------------------------------------------------------------------------------
 TODO
 
+GUI
+	-	http://highschool.cs.vt.edu/Svc2012/S2012/gui-events-slides.pdf
+	-	https://courses.cs.washington.edu/courses/cse331/13sp/lectures/lect23-graphics.pdf
+
 Change from platform conditional includes (InputImpl) to typedefs (WindowImpl)
 
 Remove glew/opengl from zeno lib, instead have swapBuffer() etc for display
@@ -50,6 +54,15 @@ Fonts
 	-	currently passing colour data into the gpu, then passing colour uniform, wasteful.
 
 find better way to update textures than completely recreating them (i.e. as in font) Pixel Buffer Objects
+
+add in generic headers for each different sub module
+
+inherit Transformable2D for gui objects
+GuiDesktop better event management (not using created events instantly)
+implement names/id's for all guibase objects so events can go to specific objects
+
+ProgressBar
+	-	Have option for indeterminate length, ie |             []				| with [] moving 
 
 ---------------------------------------------------------------------------------------------------
 COMPLETE
