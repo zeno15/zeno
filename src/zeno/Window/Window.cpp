@@ -100,4 +100,14 @@ std::string Window::getTitle(void) const
 	return m_WindowImpl.getTitle();
 }
 
+void Window::setVerticalSync(bool _vsync /*= true*/)
+{
+	m_ContextImpl.setVerticalSync(_vsync);
+}
+
+bool Window::getVerticalSyncState(void)
+{
+	return m_ContextImpl.getVerticalSyncState();
+}
+
 } //~ namespace zeno

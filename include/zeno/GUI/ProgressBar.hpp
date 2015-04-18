@@ -44,12 +44,18 @@ public:
 private:
 	void resendData(float _percent);
 
+	void changeOutlineColour(const Colour& _colour);
+	void changeIncompleteColour(const Colour& _colour);
+	void changeCompleteColour(const Colour& _colour);
+
 private:
 	unsigned int VAO;
 
 	unsigned int progressBarVBO;
 
-
+	Colour	m_OutlineColour;
+	Colour	m_IncompleteColour;
+	Colour	m_CompleteColour;
 
 };
 

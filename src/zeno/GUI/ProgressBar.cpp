@@ -7,7 +7,10 @@
 
 namespace zeno {
 
-ProgressBar::ProgressBar(void)
+ProgressBar::ProgressBar(void) :
+m_OutlineColour(Colour::Blue),
+m_IncompleteColour(Colour::Green),
+m_CompleteColour(Colour::Cyan)
 {
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -103,6 +106,16 @@ void ProgressBar::resendData(float _percent)
 		0,                  // stride
 		nullptr            // array buffer offset
 		);*/
+}
+
+void ProgressBar::changeOutlineColour(const Colour& _colour)
+{
+}
+void ProgressBar::changeIncompleteColour(const Colour& _colour)
+{
+}
+void ProgressBar::changeCompleteColour(const Colour& _colour)
+{
 }
 
 } //~ namespace zeno

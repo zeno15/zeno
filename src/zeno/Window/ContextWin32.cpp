@@ -81,7 +81,28 @@ bool ContextWin32::create(HWND _handle)
 	ShowWindow(hwnd, SW_SHOW);
 	UpdateWindow(hwnd);
 
+	initContext();
+
 	return true;
+}
+
+void ContextWin32::setVerticalSync(bool _vsync /*= true*/)
+{
+	wglSwapIntervalEXT(_vsync ? 1 : 0);
+}
+
+bool ContextWin32::getVerticalSyncState(void)
+{
+	return wglGetSwapIntervalEXT() == 0;
+}
+
+void ContextWin32::initContext(void)
+{
+	// Extension is supported, init pointers.
+    wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC) wglGetProcAddress("wglSwapIntervalEXT");
+
+    // this is another function from WGL_EXT_swap_control extension
+    wglGetSwapIntervalEXT = (PFNWGLGETSWAPINTERVALEXTPROC) wglGetProcAddress("wglGetSwapIntervalEXT");
 }
 
 }

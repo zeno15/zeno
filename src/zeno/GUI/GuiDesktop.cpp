@@ -80,6 +80,7 @@ void GuiDesktop::render(void)
 	{
 		element->render();
 	}
+
 	Shader::unbind();
 }
 

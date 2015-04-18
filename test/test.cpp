@@ -1486,6 +1486,7 @@ TEST_CASE("GUI Test", "[GUI]")
 		m.height = 720;
 
 		window.create(m, "GUI Test", zeno::WindowStyle::Default);
+		window.setVerticalSync();
 
 		int glVersion[2] = { -1, -1 };
 		glGetIntegerv(GL_MAJOR_VERSION, &glVersion[0]);
@@ -1518,8 +1519,6 @@ TEST_CASE("GUI Test", "[GUI]")
 
 		while (running)
 		{
-			//Sleep(10);
-
 			window.setTitle(std::string("GUI Test. FPS: " + std::to_string(static_cast<int>(1.0f / clock.getElapsedTime().asSeconds()))));
 
 			progressVal += clock.restart().asSeconds();
