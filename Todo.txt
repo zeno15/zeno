@@ -5,7 +5,7 @@ GUI
 	-	http://highschool.cs.vt.edu/Svc2012/S2012/gui-events-slides.pdf
 	-	https://courses.cs.washington.edu/courses/cse331/13sp/lectures/lect23-graphics.pdf
 
-Change from platform conditional includes (InputImpl) to typedefs (WindowImpl)
+Change from platform conditional includes (InputImpl) to typedefs (WindowImpl)?
 
 Remove glew/opengl from zeno lib, instead have swapBuffer() etc for display
 
@@ -62,9 +62,11 @@ GuiDesktop better event management (not using created events instantly)
 implement names/id's for all guibase objects so events can go to specific objects
 
 ProgressBar
-	-	Have option for indeterminate length, ie |             []				| with [] moving 
-	-	Have text numbers denoting percentage
-
+	-	Have option for indeterminate length, ie |             []				| with [] moving
+	-	Change position to use uniform passed to shader
+	-	Change size to use uniform passed to shader
+	-	Generalise position, size getters/setters
+	
 ---------------------------------------------------------------------------------------------------
 COMPLETE
 
@@ -81,3 +83,7 @@ Fonts
 	-	move font stuff to graphics
 	-	2d orthographic text
 	-	have unique shader for text, needs to take as a uniform the texture size, or figure out a way to use pixel coords instead of 0.0f->1.0
+	
+Progress Bar
+	-	Have text numbers denoting percentage? - Simply draw it above it, not needed.
+	-	Can change colour of outline, incomplete and complete sections

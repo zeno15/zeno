@@ -13,20 +13,26 @@ namespace {
 	const std::string GUIVertexSource = std::string(	"#version 430\n" \
 														"\n" \
 														"layout(location = 0) in vec3 in_Position;\n" \
+														"layout(location = 1) in vec4 in_Colour;\n" \
 														"\n" \
 														"uniform mat4 View = mat4(1.0f);\n" \
+														"\n" \
+														"varying vec4 col;\n" \
 														"\n" \
 														"void main(void) \n" \
 														"{\n" \
 														"	gl_Position = View * vec4(in_Position, 1.0f);\n" \
+														"   col = in_Colour;\n" \
 														"}\n");
 
 
 	const std::string GUIFragmentSource = std::string(	"#version 430\n" \
 														"\n" \
+														"varying vec4 col;\n" \
+														"\n" \
 														"void main(void)\n" \
 														"{\n" \
-														"	gl_FragColor = vec4(1.0f, 0.0f, 0.5f, 1.0f);\n" \
+														"	gl_FragColor = col;\n" \
 														"}\n");
 
 

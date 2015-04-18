@@ -41,17 +41,28 @@ public:
 	////////////////////////////////////////////////////////////
 	virtual void render(void) const;
 
-private:
-	void resendData(float _percent);
-
 	void changeOutlineColour(const Colour& _colour);
 	void changeIncompleteColour(const Colour& _colour);
 	void changeCompleteColour(const Colour& _colour);
 
-private:
-	unsigned int VAO;
+	void setPosition(const Vector2f& _position);
+	void setSize(const Vector2f& _size);
 
-	unsigned int progressBarVBO;
+private:
+	void resendData(float _percent);
+
+	void recreate(void);
+
+private:
+	Vector2f				m_Size;
+	Vector2f				m_Position;
+
+	float					m_CurrentPercentage;
+
+	unsigned int VAO;
+	
+	unsigned int positionVBO;
+	unsigned int colourVBO;
 
 	Colour	m_OutlineColour;
 	Colour	m_IncompleteColour;
