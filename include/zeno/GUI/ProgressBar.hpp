@@ -3,6 +3,10 @@
 
 #include <zeno/GUI/GuiBase.hpp>
 
+#include <zeno/Graphics/Vertex.hpp>
+
+#include <vector>
+
 namespace zeno {
 
 class ProgressBar : public GuiBase
@@ -44,6 +48,8 @@ private:
 	unsigned int VAO;
 
 	unsigned int progressBarVBO;
+
+
 
 };
 

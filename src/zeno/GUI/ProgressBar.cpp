@@ -30,7 +30,7 @@ ProgressBar::ProgressBar(void)
 	glBindBuffer(GL_ARRAY_BUFFER, progressBarVBO);
 
 	// Give our vertices to OpenGL.
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data) * 2, g_vertex_buffer_data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data) * 2, g_vertex_buffer_data, GL_STREAM_DRAW);
 
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, progressBarVBO);
@@ -40,7 +40,7 @@ ProgressBar::ProgressBar(void)
 		GL_FLOAT,           // type
 		GL_FALSE,           // normalized?
 		0,                  // stride
-		nullptr            // array buffer offset
+		nullptr             // array buffer offset
 		);
 
 	resendData(0.0f);

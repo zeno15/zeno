@@ -63,6 +63,7 @@ implement names/id's for all guibase objects so events can go to specific object
 
 ProgressBar
 	-	Have option for indeterminate length, ie |             []				| with [] moving 
+	-	Have text numbers denoting percentage
 
 ---------------------------------------------------------------------------------------------------
 COMPLETE
