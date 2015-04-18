@@ -5,8 +5,11 @@
 #include <GL/glew.h>
 #include <iostream>
 
-#define THICK 5.0f
 #define NUM_QUAD_VERTICIES 6
+
+#define DEFAULT_OUTLINE		Colour::Blue
+#define DEFAULT_INCOMPLETE	Colour::Green
+#define DEFAULT_COMPLETE	Colour::Cyan
 
 namespace zeno {
 
@@ -14,9 +17,7 @@ ProgressBar::ProgressBar(void) :
 m_Size(200.0f, 100.0f),
 m_Position(50.0f, 50.0f),
 m_CurrentPercentage(0.0f),
-m_OutlineColour(Colour::Blue),
-m_IncompleteColour(Colour::Green),
-m_CompleteColour(Colour::Cyan)
+m_OutlineThickness(1.0f)
 {
 
 	static const GLfloat dataV[] = {
@@ -29,20 +30,20 @@ m_CompleteColour(Colour::Cyan)
 		m_Position.x,				m_Position.y + m_Size.y,	0.0f,
 
 		//~ Complete position
-		m_Position.x + THICK,	m_Position.y + THICK,				0.2f,
-		m_Position.x + THICK,	m_Position.y + THICK,				0.2f,
-		m_Position.x + THICK,	m_Position.y + m_Size.y - THICK,	0.2f,
-		m_Position.x + THICK,	m_Position.y + THICK,				0.2f,
-		m_Position.x + THICK,	m_Position.y + m_Size.y - THICK,	0.2f,
-		m_Position.x + THICK,	m_Position.y + m_Size.y - THICK,	0.2f,
+		m_Position.x + m_OutlineThickness,	m_Position.y + m_OutlineThickness,				0.2f,
+		m_Position.x + m_OutlineThickness,	m_Position.y + m_OutlineThickness,				0.2f,
+		m_Position.x + m_OutlineThickness,	m_Position.y + m_Size.y - m_OutlineThickness,	0.2f,
+		m_Position.x + m_OutlineThickness,	m_Position.y + m_OutlineThickness,				0.2f,
+		m_Position.x + m_OutlineThickness,	m_Position.y + m_Size.y - m_OutlineThickness,	0.2f,
+		m_Position.x + m_OutlineThickness,	m_Position.y + m_Size.y - m_OutlineThickness,	0.2f,
 
 		//~ Incomplete position
-		m_Position.x + THICK,				m_Position.y + THICK,				0.1f,
-		m_Position.x + m_Size.x - THICK,	m_Position.y + THICK,				0.1f,
-		m_Position.x + m_Size.x - THICK,	m_Position.y + m_Size.y - THICK,	0.1f,
-		m_Position.x + THICK,				m_Position.y + THICK,				0.1f,
-		m_Position.x + m_Size.x - THICK,	m_Position.y + m_Size.y - THICK,	0.1f,
-		m_Position.x + THICK,				m_Position.y + m_Size.y - THICK,	0.1f
+		m_Position.x + m_OutlineThickness,				m_Position.y + m_OutlineThickness,				0.1f,
+		m_Position.x + m_Size.x - m_OutlineThickness,	m_Position.y + m_OutlineThickness,				0.1f,
+		m_Position.x + m_Size.x - m_OutlineThickness,	m_Position.y + m_Size.y - m_OutlineThickness,	0.1f,
+		m_Position.x + m_OutlineThickness,				m_Position.y + m_OutlineThickness,				0.1f,
+		m_Position.x + m_Size.x - m_OutlineThickness,	m_Position.y + m_Size.y - m_OutlineThickness,	0.1f,
+		m_Position.x + m_OutlineThickness,				m_Position.y + m_Size.y - m_OutlineThickness,	0.1f
 	};
 
 	static const GLfloat dataC[] = {
@@ -70,38 +71,44 @@ m_CompleteColour(Colour::Cyan)
 		1.0f, 1.0f, 0.0f, 1.0f
 	};
 	
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
+	glGenVertexArrays(1, &m_VAO);
+	glBindVertexArray(m_VAO);
 
 	//~ position
-	glGenBuffers(1, &positionVBO);
+	glGenBuffers(1, &m_PositionVBO);
 
-	glBindBuffer(GL_ARRAY_BUFFER, positionVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_PositionVBO);
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(dataV), dataV, GL_STREAM_DRAW);
 
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, positionVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_PositionVBO);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 
 	//~ colour
-	glGenBuffers(1, &colourVBO);
+	glGenBuffers(1, &m_ColourVBO);
 
-	glBindBuffer(GL_ARRAY_BUFFER, colourVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_ColourVBO);
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof(dataC), dataC, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * 6 * 3, nullptr, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, colourVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_ColourVBO);
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
 
+	changeOutlineColour(DEFAULT_OUTLINE);
+	changeIncompleteColour(DEFAULT_INCOMPLETE);
+	changeCompleteColour(DEFAULT_COMPLETE);
 
 	resendData(m_CurrentPercentage);
 }
 
 ProgressBar::~ProgressBar(void)
 {
+	glDeleteBuffers(1, &m_PositionVBO);
+	glDeleteBuffers(1, &m_ColourVBO);
+	glDeleteVertexArrays(1, &m_VAO);
 }
 
 
@@ -118,86 +125,115 @@ bool ProgressBar::processEvent(const GUIEvent& _event)
 
 void ProgressBar::render(void) const
 {
-	glBindVertexArray(VAO);
+	glBindVertexArray(m_VAO);
 	glDrawArrays(GL_TRIANGLES, 0, NUM_QUAD_VERTICIES * 3);
 	glBindVertexArray(0);
 }
 
 void ProgressBar::changeOutlineColour(const Colour& _colour)
 {
-	std::vector<float> data;
-
-	for (unsigned int i = 0; i < NUM_QUAD_VERTICIES; i += 1)
+	if (m_OutlineColour != _colour)
 	{
-		data.push_back(_colour.r);
-		data.push_back(_colour.g);
-		data.push_back(_colour.b);
-		data.push_back(_colour.a);
-	}
+		m_OutlineColour = _colour;
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, colourVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, data.size() * sizeof(float), data.data());
+		std::vector<float> data;
+
+		for (unsigned int i = 0; i < NUM_QUAD_VERTICIES; i += 1)
+		{
+			data.push_back(m_OutlineColour.r);
+			data.push_back(m_OutlineColour.g);
+			data.push_back(m_OutlineColour.b);
+			data.push_back(m_OutlineColour.a);
+		}
+
+		glBindVertexArray(m_VAO);
+		glBindBuffer(GL_ARRAY_BUFFER, m_ColourVBO);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, data.size() * sizeof(float), data.data());
+	}
 }
 void ProgressBar::changeIncompleteColour(const Colour& _colour)
 {
-	std::vector<float> data;
-
-	for (unsigned int i = 0; i < NUM_QUAD_VERTICIES; i += 1)
+	if (m_IncompleteColour != _colour)
 	{
-		data.push_back(_colour.r);
-		data.push_back(_colour.g);
-		data.push_back(_colour.b);
-		data.push_back(_colour.a);
-	}
+		m_IncompleteColour = _colour;
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, colourVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, data.size() * sizeof(float) * 2, data.size() * sizeof(float), data.data());
+		std::vector<float> data;
+
+		for (unsigned int i = 0; i < NUM_QUAD_VERTICIES; i += 1)
+		{
+			data.push_back(m_IncompleteColour.r);
+			data.push_back(m_IncompleteColour.g);
+			data.push_back(m_IncompleteColour.b);
+			data.push_back(m_IncompleteColour.a);
+		}
+
+		glBindVertexArray(m_VAO);
+		glBindBuffer(GL_ARRAY_BUFFER, m_ColourVBO);
+		glBufferSubData(GL_ARRAY_BUFFER, data.size() * sizeof(float) * 2, data.size() * sizeof(float), data.data());
+	}
 }
 void ProgressBar::changeCompleteColour(const Colour& _colour)
 {
-	std::vector<float> data;
-
-	for (unsigned int i = 0; i < NUM_QUAD_VERTICIES; i += 1)
+	if (m_CompleteColour != _colour)
 	{
-		data.push_back(_colour.r);
-		data.push_back(_colour.g);
-		data.push_back(_colour.b);
-		data.push_back(_colour.a);
-	}
+		m_CompleteColour = _colour;
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, colourVBO);
-	glBufferSubData(GL_ARRAY_BUFFER, data.size() * sizeof(float), data.size() * sizeof(float), data.data());
+		std::vector<float> data;
+
+		for (unsigned int i = 0; i < NUM_QUAD_VERTICIES; i += 1)
+		{
+			data.push_back(m_CompleteColour.r);
+			data.push_back(m_CompleteColour.g);
+			data.push_back(m_CompleteColour.b);
+			data.push_back(m_CompleteColour.a);
+		}
+
+		glBindVertexArray(m_VAO);
+		glBindBuffer(GL_ARRAY_BUFFER, m_ColourVBO);
+		glBufferSubData(GL_ARRAY_BUFFER, data.size() * sizeof(float), data.size() * sizeof(float), data.data());
+	}
 }
 
 void ProgressBar::setPosition(const Vector2f& _position)
 {
-	m_Position = _position;
-	recreate();
+	if (m_Position != _position)
+	{
+		m_Position = _position;
+		recreate();
+	}
 }
 void ProgressBar::setSize(const Vector2f& _size)
 {
-	m_Size = _size;
-	recreate();
+	if (m_Size != _size)
+	{
+		m_Size = _size;
+		recreate();
+	}
+}
+void ProgressBar::setOutlineThickness(float _thickness)
+{
+	if (m_OutlineThickness != _thickness)
+	{
+		m_OutlineThickness = _thickness;
+		recreate();
+	}
 }
 
 void ProgressBar::resendData(float _percent)
 {
-	float length = (m_Size.x - 2.0f * THICK) * _percent;
+	float length = (m_Size.x - 2.0f * m_OutlineThickness) * _percent;
 
 	GLfloat g_vertex_buffer_data[] = {
-		m_Position.x + THICK,				m_Position.y + THICK,				0.2f,
-		m_Position.x + THICK + length,		m_Position.y + THICK,				0.2f,
-		m_Position.x + THICK + length,		m_Position.y + m_Size.y - THICK,	0.2f,
-		m_Position.x + THICK,				m_Position.y + THICK,				0.2f,
-		m_Position.x + THICK + length,		m_Position.y + m_Size.y - THICK,	0.2f,
-		m_Position.x + THICK,				m_Position.y + m_Size.y - THICK,	0.2f,
+		m_Position.x + m_OutlineThickness,				m_Position.y + m_OutlineThickness,				0.2f,
+		m_Position.x + m_OutlineThickness + length,		m_Position.y + m_OutlineThickness,				0.2f,
+		m_Position.x + m_OutlineThickness + length,		m_Position.y + m_Size.y - m_OutlineThickness,	0.2f,
+		m_Position.x + m_OutlineThickness,				m_Position.y + m_OutlineThickness,				0.2f,
+		m_Position.x + m_OutlineThickness + length,		m_Position.y + m_Size.y - m_OutlineThickness,	0.2f,
+		m_Position.x + m_OutlineThickness,				m_Position.y + m_Size.y - m_OutlineThickness,	0.2f,
 	};
 	
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, positionVBO);
+	glBindVertexArray(m_VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_PositionVBO);
 	glBufferSubData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), sizeof(g_vertex_buffer_data), g_vertex_buffer_data);
 	
 }
@@ -214,25 +250,25 @@ void ProgressBar::recreate(void)
 		m_Position.x,						m_Position.y + m_Size.y,			0.0f,
 
 		//~ Complete position
-		m_Position.x + THICK,				m_Position.y + THICK,				0.2f,
-		m_Position.x + THICK,				m_Position.y + THICK,				0.2f,
-		m_Position.x + THICK,				m_Position.y + m_Size.y - THICK,	0.2f,
-		m_Position.x + THICK,				m_Position.y + THICK,				0.2f,
-		m_Position.x + THICK,				m_Position.y + m_Size.y - THICK,	0.2f,
-		m_Position.x + THICK,				m_Position.y + m_Size.y - THICK,	0.2f,
+		m_Position.x + m_OutlineThickness,				m_Position.y + m_OutlineThickness,				0.2f,
+		m_Position.x + m_OutlineThickness,				m_Position.y + m_OutlineThickness,				0.2f,
+		m_Position.x + m_OutlineThickness,				m_Position.y + m_Size.y - m_OutlineThickness,	0.2f,
+		m_Position.x + m_OutlineThickness,				m_Position.y + m_OutlineThickness,				0.2f,
+		m_Position.x + m_OutlineThickness,				m_Position.y + m_Size.y - m_OutlineThickness,	0.2f,
+		m_Position.x + m_OutlineThickness,				m_Position.y + m_Size.y - m_OutlineThickness,	0.2f,
 
 		//~ Incomplete position
-		m_Position.x + THICK,				m_Position.y + THICK,				0.1f,
-		m_Position.x + m_Size.x - THICK,	m_Position.y + THICK,				0.1f,
-		m_Position.x + m_Size.x - THICK,	m_Position.y + m_Size.y - THICK,	0.1f,
-		m_Position.x + THICK,				m_Position.y + THICK,				0.1f,
-		m_Position.x + m_Size.x - THICK,	m_Position.y + m_Size.y - THICK,	0.1f,
-		m_Position.x + THICK,				m_Position.y + m_Size.y - THICK,	0.1f
+		m_Position.x + m_OutlineThickness,				m_Position.y + m_OutlineThickness,				0.1f,
+		m_Position.x + m_Size.x - m_OutlineThickness,	m_Position.y + m_OutlineThickness,				0.1f,
+		m_Position.x + m_Size.x - m_OutlineThickness,	m_Position.y + m_Size.y - m_OutlineThickness,	0.1f,
+		m_Position.x + m_OutlineThickness,				m_Position.y + m_OutlineThickness,				0.1f,
+		m_Position.x + m_Size.x - m_OutlineThickness,	m_Position.y + m_Size.y - m_OutlineThickness,	0.1f,
+		m_Position.x + m_OutlineThickness,				m_Position.y + m_Size.y - m_OutlineThickness,	0.1f
 	};
 	
 	//~ position
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, positionVBO);
+	glBindVertexArray(m_VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_PositionVBO);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(dataV), dataV);
 
 	resendData(m_CurrentPercentage);

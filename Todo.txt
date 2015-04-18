@@ -61,6 +61,9 @@ inherit Transformable2D for gui objects
 GuiDesktop better event management (not using created events instantly)
 implement names/id's for all guibase objects so events can go to specific objects
 
+GUIDesktop
+	-	Have it as a member of the window? user has to set it so its not wasteful etc
+
 ProgressBar
 	-	Have option for indeterminate length, ie |             []				| with [] moving
 	-	Change position to use uniform passed to shader

@@ -1506,6 +1506,7 @@ TEST_CASE("GUI Test", "[GUI]")
 		zeno::ProgressBar *progress = new zeno::ProgressBar();
 		progress->setPosition(zeno::Vector2f(0.0f, 0.0f));
 		progress->setSize(zeno::Vector2f(1264.0f, 50.0f));
+		progress->setOutlineThickness(4.0f);
 		desktop.addChild(progress);
 
 		zeno::Clock clock;
@@ -1549,24 +1550,6 @@ TEST_CASE("GUI Test", "[GUI]")
 				{
 					if (event.key.key == zeno::Keyboard::Key::Space)
 					{
-						std::cout << "Changing progress bar colour." << std::endl;
-						float r = static_cast<float>(rand() % 255) / 255.0f;
-						float g = static_cast<float>(rand() % 255) / 255.0f;
-						float b = static_cast<float>(rand() % 255) / 255.0f;
-
-						progress->changeOutlineColour(zeno::Colour(r, g, b));
-
-						r = static_cast<float>(rand() % 255) / 255.0f;
-						g = static_cast<float>(rand() % 255) / 255.0f;
-						b = static_cast<float>(rand() % 255) / 255.0f;
-
-						progress->changeCompleteColour(zeno::Colour(r, g, b));
-
-						r = static_cast<float>(rand() % 255) / 255.0f;
-						g = static_cast<float>(rand() % 255) / 255.0f;
-						b = static_cast<float>(rand() % 255) / 255.0f;
-
-						progress->changeIncompleteColour(zeno::Colour(r, g, b));
 					}
 				}
 
