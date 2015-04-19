@@ -2,6 +2,7 @@
 #define INCLUDED_ZENO_GUI_GUI_DESKTOP_HPP
 
 #include <zeno/GUI/GUIEvent.hpp>
+#include <zeno/GUI/GuiPane.hpp>
 #include <zeno/System/Vector2.hpp>
 
 #include <vector>
@@ -14,7 +15,7 @@ class Event;
 
 ////////////////////////////////////////////////////////////
 //
-//	
+//	Class which manages all gui components for a window
 //
 ////////////////////////////////////////////////////////////
 class GuiDesktop
@@ -74,11 +75,17 @@ public:
 	////////////////////////////////////////////////////////////
 	void throwEvent(const GUIEvent& _guiEvent);
 
+
+	void addPane(const std::string& _name);
+
+	GuiPane& getPane(const std::string& _id);
+
+
 private:
 	////////////////////////////////////////////////////////////
 	//
 	//	Translates a window event to a guiEvent, returns whether
-	//	
+	//	or not it was able to be translated
 	//
 	////////////////////////////////////////////////////////////
 	bool translateEvent(const Event& _event, GUIEvent& _guiEvent) const;
@@ -97,6 +104,10 @@ private:
 	//
 	////////////////////////////////////////////////////////////
 	Vector2u					m_Resolution;
+
+
+
+	std::vector<GuiPane>		m_Panes;
 };
 
 } //~ namespace zeno

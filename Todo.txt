@@ -70,6 +70,10 @@ GUIDesktop
 	-	Each pane should gather up all verticies for all components it contains, so drawing a pane is 1 draw call for verticies and 1 for text?
 	-	Dont create a new component then add, rather use GUIDesktop like a factory, get the component back by id
 	-	Maybe have quad tree for doing GUIPane bounding checks?
+	-	Add to window.pollEvent() 
+
+GuiPane
+	-	Have fast opt out of event handling, have objects register with panes what events they want
 
 GUIBase
 	-	have visible/enabled etc 
@@ -118,3 +122,6 @@ Progress Bar
 	
 Slider
 	-	Basic slider implemented, can be discrete or continuous
+	
+GUIDesktop
+	-	get the component back by id

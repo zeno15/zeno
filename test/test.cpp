@@ -1495,24 +1495,29 @@ TEST_CASE("GUI Test", "[GUI]")
 		glDepthFunc(GL_LESS);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		srand(time(nullptr));
+		srand((unsigned int)time(nullptr));
 
 		zeno::GuiDesktop desktop;
 		desktop.setResolution(window.getSize());
 
-		zeno::ProgressBar *progress = new zeno::ProgressBar();
-		progress->setPosition(zeno::Vector2f(0.0f, 500.0f));
-		progress->setSize(zeno::Vector2f(1264.0f, 50.0f));
-		progress->setOutlineThickness(4.0f);
-		desktop.addChild(progress);
+		desktop.addPane("Pane");
 
-		zeno::Button *button = new zeno::Button();
-		button->registerCallback([](void){std::cout << "Button pressed!" << std::endl;});
-		desktop.addChild(button);
+		zeno::GuiPane& pane = desktop.getPane("Pane");
 
-		zeno::Slider *slider = new zeno::Slider();
-		slider->registerCallback([](float _arg){std::cout << "Slider updated to: " << _arg * 100.0f << std::endl;});
-		desktop.addChild(slider);
+
+		pane.addChild(new zeno::ProgressBar("ProgressBar"));
+		dynamic_cast<zeno::ProgressBar *>(pane.getChild("ProgressBar"))->setPosition(zeno::Vector2f(0.0f, 500.0f));
+		dynamic_cast<zeno::ProgressBar *>(pane.getChild("ProgressBar"))->setSize(zeno::Vector2f(1264.0f, 50.0f));
+		dynamic_cast<zeno::ProgressBar *>(pane.getChild("ProgressBar"))->setOutlineThickness(4.0f);
+
+
+		pane.addChild(new zeno::Button("Button"));
+		dynamic_cast<zeno::Button *>(pane.getChild("Button"))->registerCallback([](void){std::cout << "Button pressed!" << std::endl;});
+
+
+		pane.addChild(new zeno::Slider("Slider"));
+		dynamic_cast<zeno::Slider *>(pane.getChild("Slider"))->registerCallback([](float _arg){std::cout << "Slider updated to: " << _arg * 100.0f << std::endl;});
+
 
 		float progressVal = 0.0f;
 		int progressCount = 0;
@@ -1607,7 +1612,7 @@ TEST_CASE("Font Test", "[Font]")
 		data.transform = zeno::Mat4x4::Orthographic2D(0.0f, 1280.0f, 720.0f, 0.0f);
 
 		zeno::Text text = zeno::Text("Meow How goes thje world?\nMeh.!\nI'd rather be happy.\nI don't have motivation.", &font2);
-		text.move(zeno::Vector2f(10.0f, window.getSize().y - 60));
+		text.move(zeno::Vector2f(10.0f, (float)(window.getSize().y - 60)));
 		text.setColour(zeno::Colour::Magenta);
 
 		while (running)

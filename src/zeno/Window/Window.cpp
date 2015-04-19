@@ -34,6 +34,7 @@ void Window::create(const VideoMode& _videoMode, const std::string& _title, uint
 	#ifdef __linux__
 	m_ContextImpl.create(m_WindowImpl.getDisplayHandle(), m_WindowImpl.getHandle());
 	#endif 
+	setVerticalSync(true);
 }
 
 void Window::close(void)

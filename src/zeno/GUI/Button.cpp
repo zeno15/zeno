@@ -10,7 +10,8 @@
 
 namespace zeno {
 
-Button::Button(void) :
+Button::Button(const std::string& _id) :
+GuiBase(_id), 
 m_BackgroundDefaultColour(Colour::Cyan),
 m_BackgroundDepressedColour(Colour::Yellow),
 m_ForegroundDefaultColour(Colour::Magenta),

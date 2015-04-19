@@ -64,9 +64,9 @@ void GuiDesktop::processEvent(const Event& _event) const
 
 	if (!translateEvent(_event, event)) return;
 
-	for (GuiBase *element : m_Children)
+	for (GuiPane pane : m_Panes)
 	{
-		if (element->processEvent(event))
+		if (pane.processEvent(event))
 		{
 			return;
 		}
@@ -82,9 +82,9 @@ void GuiDesktop::render(void)
 	guiShader.bind();
 	guiShader.passUniform("View", ortho);
 
-	for (GuiBase *element : m_Children)
+	for (GuiPane pane : m_Panes)
 	{
-		element->render();
+		pane.render();
 	}
 
 	Shader::unbind();
@@ -107,9 +107,9 @@ void GuiDesktop::setResolution(const Vector2u& _resolution)
 
 void GuiDesktop::throwEvent(const GUIEvent& _guiEvent)
 {
-	for (GuiBase *element : m_Children)
+	for (GuiPane pane : m_Panes)
 	{
-		if (element->processEvent(_guiEvent))
+		if (pane.processEvent(_guiEvent))
 		{
 			return;
 		}
@@ -148,6 +148,32 @@ bool GuiDesktop::translateEvent(const Event& _event, GUIEvent& _guiEvent) const
 	default:
 		return false;
 	}
+}
+
+void GuiDesktop::addPane(const std::string& _name)
+{
+	for (unsigned int i = 0; i < m_Panes.size(); i += 1)
+	{
+		if (m_Panes.at(i).getId() == _name)
+		{
+			return;
+		}
+	}
+
+	m_Panes.push_back(GuiPane(_name));
+}
+
+GuiPane& GuiDesktop::getPane(const std::string& _id)
+{
+	for (unsigned int i = 0; i < m_Panes.size(); i += 1)
+	{
+		if (m_Panes.at(i).getId() == _id)
+		{
+			return m_Panes.at(i);
+		}
+	}
+
+	throw std::exception(std::string("Pane \"" + _id + "\" not present in desktop.").c_str());
 }
 
 } //~ namespace zeno

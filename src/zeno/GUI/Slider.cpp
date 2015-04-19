@@ -17,7 +17,8 @@
 
 namespace zeno {
 
-Slider::Slider(void) :
+Slider::Slider(const std::string& _id) :
+GuiBase(_id), 
 m_NumDiscreteValues(6),
 m_BarColour(0.5f, 0.5f, 0.5f),
 m_DefaultSlideColour(0.6f, 0.6f, 0.6f),
@@ -25,7 +26,7 @@ m_HoverSlideColour(Colour::Yellow),
 m_HeldSlideColour(Colour::Green),
 m_Position(300.0f, 100.0f),
 m_Length(300.0f),
-m_SlideOffsetPercent(0.5f),
+m_SlideOffsetPercent(0.0f),
 m_HasSlide(false),
 m_MouseContained(false),
 m_Continuous(false),
@@ -188,8 +189,6 @@ void Slider::recreate(void)
 
 	for (unsigned int i = 0; i < count; i += 1)
 	{
-		std::cout << "I: " << static_cast<float>(i) * segOffset << std::endl;
-
 		pdata.push_back(m_Position.x + (i + 1) * segOffset - SLIDE_WIDTH / 8.0f);	pdata.push_back(m_Position.y - SLIDE_HEIGHT - SLIDE_HEIGHT / 4.0f);	pdata.push_back(0.5f);
 		pdata.push_back(m_Position.x + (i + 1) * segOffset + SLIDE_WIDTH / 8.0f);	pdata.push_back(m_Position.y - SLIDE_HEIGHT - SLIDE_HEIGHT / 4.0f);	pdata.push_back(0.5f);
 		pdata.push_back(m_Position.x + (i + 1) * segOffset + SLIDE_WIDTH / 8.0f);	pdata.push_back(m_Position.y - SLIDE_HEIGHT + SLIDE_HEIGHT / 4.0f);	pdata.push_back(0.5f);
@@ -198,20 +197,11 @@ void Slider::recreate(void)
 		pdata.push_back(m_Position.x + (i + 1) * segOffset + SLIDE_WIDTH / 8.0f);	pdata.push_back(m_Position.y - SLIDE_HEIGHT + SLIDE_HEIGHT / 4.0f);	pdata.push_back(0.5f);
 		pdata.push_back(m_Position.x + (i + 1) * segOffset - SLIDE_WIDTH / 8.0f);	pdata.push_back(m_Position.y - SLIDE_HEIGHT + SLIDE_HEIGHT / 4.0f);	pdata.push_back(0.5f);
 	}
-
-	for (unsigned int i = 0; i < pdata.size(); i += 3)
-	{
-		std::cout << i / 3 << ", \tx: " << pdata.at(i + 0) << ", y: " << pdata.at(i + 1) << ", z: " << pdata.at(i + 2) << std::endl;
-	}
 	
 
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * posData.size(), posData.data());
-	std::cout << "sizeof(GLfloat): " << sizeof(GLfloat) << ", sizeof(float): " << sizeof(float) << std::endl;
-	std::cout << "Pos data size: " <<  posData.size() * sizeof(GLfloat) << std::endl;
-	std::cout << "Total size: " << sizeof(GLfloat) * TotalVertexCount * 3 << std::endl;
 
 	glBufferSubData(GL_ARRAY_BUFFER, sizeof(float) * posData.size(), sizeof(GLfloat) * pdata.size(), pdata.data());
-	std::cout << "Middle data, start: " << sizeof(float) * posData.size() << ", size: " << sizeof(GLfloat) * pdata.size() << std::endl;
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_ColourVBO);
 
@@ -259,11 +249,7 @@ void Slider::resendPositions(void)
 		m_Position.x - SLIDE_WIDTH / 2.0f + m_SlideOffsetPercent * m_Length,		m_Position.y + SLIDE_HEIGHT / 2.0f,		0.1f
 	};
 
-	std::cout << "Starting from: " << sizeof(GLfloat) * (BAR_VERTICIES + (m_Continuous ? 0 : (m_NumDiscreteValues - 2) * 6)) * 3 << std::endl;
-
 	glBufferSubData(GL_ARRAY_BUFFER, sizeof(GLfloat) * (BAR_VERTICIES + (m_Continuous ? 0 : (m_NumDiscreteValues - 2) * 6)) * 3, sizeof(GLfloat) * data.size(), data.data());
-
-	std::cout << "size of slider: " << sizeof(GLfloat) * data.size() << std::endl;
 }
 void Slider::resendColours(State _state)
 {

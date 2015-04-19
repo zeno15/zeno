@@ -2,8 +2,9 @@
 
 namespace zeno {
 
-GuiBase::GuiBase(void) :
-m_Active(true)
+GuiBase::GuiBase(const std::string& _id) :
+m_Active(true),
+m_Id(_id)
 {
 
 }
@@ -37,6 +38,10 @@ bool GuiBase::hasChildren(void) const
 std::vector<GuiBase *> GuiBase::getChildren(void)
 {
 	return m_Children;
+}
+std::string GuiBase::getId(void)
+{
+	return m_Id;
 }
 
 } //~ namespace zeno
