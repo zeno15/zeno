@@ -42,8 +42,9 @@ set(GUI_HEADER_FILES ${GUI_HEADER_FILES}
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/GuiDesktop.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/GuiBase.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/GuiPane.hpp
-		${CMAKE_SOURCE_DIR}/include/zeno/GUI/GuiButton.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/GUI/Button.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/ProgressBar.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/GUI/Slider.hpp
 	)
 	
 set(NETWORK_HEADER_FILES ${NETWORK_HEADER_FILES}
@@ -99,8 +100,9 @@ set(GUI_SOURCE_FILES ${GUI_SOURCE_FILES}
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/GuiDesktop.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/GuiBase.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/GuiPane.cpp
-		${CMAKE_SOURCE_DIR}/src/zeno/GUI/GuiButton.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/GUI/Button.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/ProgressBar.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/GUI/Slider.cpp
 	)
 	
 set(NETWORK_SOURCE_FILES ${NETWORK_SOURCE_FILES}

@@ -1,4 +1,4 @@
-#include <zeno/GUI/GuiButton.hpp>
+#include <zeno/GUI/Button.hpp>
 
 #include <zeno/GUI/GUIEvent.hpp>
 
@@ -10,7 +10,7 @@
 
 namespace zeno {
 
-GuiButton::GuiButton(void) :
+Button::Button(void) :
 m_BackgroundDefaultColour(Colour::Cyan),
 m_BackgroundDepressedColour(Colour::Yellow),
 m_ForegroundDefaultColour(Colour::Magenta),
@@ -51,12 +51,12 @@ m_OutlineThickness(4.0f)
 	resendColours();
 }
 
-GuiButton::~GuiButton(void)
+Button::~Button(void)
 {
 
 }
 
-bool GuiButton::processEvent(const GUIEvent& _event)
+bool Button::processEvent(const GUIEvent& _event)
 {
 	//~ TODO	-	Optimise away bounds checking in the click/release, keep track of if it is within in MouseMove if block
 	if (m_MouseContained && _event.type == GUIEvent::EventType::LeftClick)
@@ -74,21 +74,26 @@ bool GuiButton::processEvent(const GUIEvent& _event)
 			m_Depressed = false;
 			changeState(State::HOVER);
 		}
+		m_Depressed = false;
+
 		return true;
 
-		m_Depressed = false;
 	}
 	else if (_event.type == GUIEvent::EventType::MouseMove)
 	{
 		if (m_Bounds.contains(Vector2f(static_cast<float>(_event.mouseMove.x), static_cast<float>(_event.mouseMove.y))))
 		{
-			changeState(State::HOVER);
-			m_MouseContained = true;
-			return true;
+			if (!m_Depressed)
+			{
+				changeState(State::HOVER);
+				m_MouseContained = true;
+				return true;
+			}
 		}
-		else
+		else if (m_MouseContained)
 		{
 			m_MouseContained = false;
+			m_Depressed = false;
 			changeState(State::DEFAULT);
 		}
 	}
@@ -96,19 +101,19 @@ bool GuiButton::processEvent(const GUIEvent& _event)
 	return false;
 }
 
-void GuiButton::render(void) const
+void Button::render(void) const
 {
 	glBindVertexArray(m_VAO);
 	glDrawArrays(GL_TRIANGLES, 0, NUM_VERTEXES);
 	glBindVertexArray(0);
 }
 
-void GuiButton::registerCallback(std::function<void(void)> _function)
+void Button::registerCallback(std::function<void(void)> _function)
 {
 	m_ActivationFunction = _function;
 }
 
-void GuiButton::resendColours(void)
+void Button::resendColours(void)
 {
 	glBindVertexArray(m_VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, m_ColourVBO);
@@ -152,7 +157,7 @@ void GuiButton::resendColours(void)
 
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * data.size(), data.data());
 }
-void GuiButton::resendPositions(void)
+void Button::resendPositions(void)
 {
 	glBindVertexArray(m_VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, m_PositionVBO);
@@ -179,7 +184,7 @@ void GuiButton::resendPositions(void)
 
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * data.size(), data.data());
 }
-void GuiButton::changeState(State _newState)
+void Button::changeState(State _newState)
 {
 	if (m_State != _newState)
 	{

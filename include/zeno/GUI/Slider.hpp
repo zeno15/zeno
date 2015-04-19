@@ -1,36 +1,38 @@
-#ifndef INCLUDED_ZENO_GUI_GUI_BUTTON_HPP
-#define INCLUDED_ZENO_GUI_GUI_BUTTON_HPP
+#ifndef INCLUDED_ZENO_GUI_SLIDER_HPP
+#define INCLUDED_ZENO_GUI_SLIDER_HPP
 
 #include <zeno/GUI/GuiBase.hpp>
 
 #include <zeno/Graphics/Colour.hpp>
-#include <zeno/System/Rect.hpp>
+
+#include <zeno/System/Vector2.hpp>
 
 #include <functional>
 
 namespace zeno {
-
+	
 ////////////////////////////////////////////////////////////
 //
-//	Simple push button class
+//	Slider which allows selection of values between a 
+//	given range of values (discrete or continuous)
 //
 ////////////////////////////////////////////////////////////
-class GuiButton : public GuiBase
+class Slider : public GuiBase
 {
 public:
 	////////////////////////////////////////////////////////////
 	//
-	//	Default constructor
+	//	Constructor
 	//
 	////////////////////////////////////////////////////////////
-	GuiButton(void);
+	Slider(void);
+	
 	////////////////////////////////////////////////////////////
 	//
-	//	Deconstructor
+	//	Destructor
 	//
 	////////////////////////////////////////////////////////////
-	~GuiButton(void);
-
+	~Slider(void);
 
 	////////////////////////////////////////////////////////////
 	//
@@ -40,7 +42,6 @@ public:
 	//
 	////////////////////////////////////////////////////////////
 	virtual bool processEvent(const GUIEvent& _event);
-
 	////////////////////////////////////////////////////////////
 	//
 	//	Renders the element
@@ -50,48 +51,53 @@ public:
 
 	////////////////////////////////////////////////////////////
 	//
-	//	Registers the function to be called on activation of button
+	//	Registers the callback to be used when the slider
+	//	changes its value
 	//
 	////////////////////////////////////////////////////////////
-	void registerCallback(std::function<void(void)> _function);
+	void registerCallback(std::function<void(float)> _function);
 
 private:
 	enum State {
 		DEFAULT,
 		HOVER,
-		DEPRESSED
+		HELD
 	};
 
-	void resendColours(void);
+	void recreate(void);
+
 	void resendPositions(void);
+	void resendColours(State _state);
 
-	void changeState(State _newState);
+	float calculateDiscretePosition(float _continuousPosition);
 
-	
-	
 private:
-	unsigned int					m_VAO;
+	unsigned int						m_VAO;
 
-	unsigned int					m_PositionVBO;
-	unsigned int					m_ColourVBO;
-	
-	Colour							m_BackgroundDefaultColour;
-	Colour							m_BackgroundDepressedColour;
-	Colour							m_ForegroundDefaultColour;
-	Colour							m_ForegroundHoverColour;
+	unsigned int						m_PositionVBO;
+	unsigned int						m_ColourVBO;
 
-	State							m_State;
+	unsigned int						m_NumDiscreteValues;
 
-	FloatRect	m_Bounds;
+	Colour								m_BarColour;
+	Colour								m_DefaultSlideColour;
+	Colour								m_HoverSlideColour;
+	Colour								m_HeldSlideColour;
 
-	bool		m_Depressed;
-	bool		m_MouseContained;
+	Vector2f							m_Position;
 
-	float		m_OutlineThickness;
+	float								m_Length;
+	float								m_SlideOffsetPercent;
 
-	std::function<void(void)>		m_ActivationFunction;
+	bool								m_HasSlide;
+	bool								m_MouseContained;
+	bool								m_Continuous;
+
+	State								m_State;
+
+	std::function<void(float)>			m_ChangeFunction;
 };
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_ZENO_GUI_GUI_BUTTON_HPP
+#endif //~ INCLUDED_ZENO_GUI_SLIDER_HPP

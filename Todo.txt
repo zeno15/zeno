@@ -61,19 +61,34 @@ inherit Transformable2D for gui objects
 GuiDesktop better event management (not using created events instantly)
 implement names/id's for all guibase objects so events can go to specific objects
 
+consistancy when using sizeof(float), change all to sizeof(GLfloat)
+
 GUIDesktop
+	-	implement names/id's for all guibase objects so events can go to specific objects
 	-	Have it as a member of the window? user has to set it so its not wasteful etc
 	-	Set a single font for entire gui desktop or per pane?
 	-	Each pane should gather up all verticies for all components it contains, so drawing a pane is 1 draw call for verticies and 1 for text?
+	-	Dont create a new component then add, rather use GUIDesktop like a factory, get the component back by id
+	-	Maybe have quad tree for doing GUIPane bounding checks?
+
+GUIBase
+	-	have visible/enabled etc 
+	-	may need to have disabled colours for elements, or just tone the colours down?
+	-	need to have function to return start and end heights of created verticies
 
 ProgressBar
 	-	Have option for indeterminate length, ie |             []				| with [] moving
 	-	Change position to use uniform passed to shader
 	-	Change size to use uniform passed to shader
 	-	Generalise position, size getters/setters
+	-	Rewrite constructor so no data is buffered in it, have seperate functions use glBufferSubData
 
 Button
 	-	Need to add label to the button etc
+	-	Add methods to get/set colours, size, position, outline thickness
+	
+Slider
+	-	Need to clean up vertex creation
 	
 Random Number
 	-	Put wrapper around c++11 functions for simple use cases
@@ -100,3 +115,6 @@ Fonts
 Progress Bar
 	-	Have text numbers denoting percentage? - Simply draw it above it, not needed.
 	-	Can change colour of outline, incomplete and complete sections
+	
+Slider
+	-	Basic slider implemented, can be discrete or continuous

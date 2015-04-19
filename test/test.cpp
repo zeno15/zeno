@@ -21,8 +21,9 @@
 #include <zeno/Graphics/Image.hpp>
 
 #include <zeno/GUI/GuiDesktop.hpp>
-#include <zeno/GUI/GuiButton.hpp>
+#include <zeno/GUI/Button.hpp>
 #include <zeno/GUI/ProgressBar.hpp>
+#include <zeno/GUI/Slider.hpp>
 
 #include <zeno/Graphics/Font.hpp>
 
@@ -1490,7 +1491,9 @@ TEST_CASE("GUI Test", "[GUI]")
 
 		glClearColor(100.0f / 255.0f, 149.0f / 255.0f, 247.0f / 255.0f, 1.0f);
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
 		glDepthFunc(GL_LESS);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		srand(time(nullptr));
 
@@ -1503,12 +1506,16 @@ TEST_CASE("GUI Test", "[GUI]")
 		progress->setOutlineThickness(4.0f);
 		desktop.addChild(progress);
 
-		float progressVal = 0.0f;
-		int progressCount = 0;
-
-		zeno::GuiButton *button = new zeno::GuiButton();
+		zeno::Button *button = new zeno::Button();
 		button->registerCallback([](void){std::cout << "Button pressed!" << std::endl;});
 		desktop.addChild(button);
+
+		zeno::Slider *slider = new zeno::Slider();
+		slider->registerCallback([](float _arg){std::cout << "Slider updated to: " << _arg * 100.0f << std::endl;});
+		desktop.addChild(slider);
+
+		float progressVal = 0.0f;
+		int progressCount = 0;
 
 		zeno::Clock clock;
 		bool running = true;
