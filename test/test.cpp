@@ -1488,12 +1488,6 @@ TEST_CASE("GUI Test", "[GUI]")
 		window.create(m, "GUI Test", zeno::WindowStyle::Default);
 		window.setVerticalSync();
 
-		int glVersion[2] = { -1, -1 };
-		glGetIntegerv(GL_MAJOR_VERSION, &glVersion[0]);
-		glGetIntegerv(GL_MINOR_VERSION, &glVersion[1]);
-
-		std::cout << "OpenGL " << glVersion[0] << "." << glVersion[1] << std::endl;
-
 		glClearColor(100.0f / 255.0f, 149.0f / 255.0f, 247.0f / 255.0f, 1.0f);
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LESS);
@@ -1504,16 +1498,20 @@ TEST_CASE("GUI Test", "[GUI]")
 		desktop.setResolution(window.getSize());
 
 		zeno::ProgressBar *progress = new zeno::ProgressBar();
-		progress->setPosition(zeno::Vector2f(0.0f, 0.0f));
+		progress->setPosition(zeno::Vector2f(0.0f, 500.0f));
 		progress->setSize(zeno::Vector2f(1264.0f, 50.0f));
 		progress->setOutlineThickness(4.0f);
 		desktop.addChild(progress);
 
-		zeno::Clock clock;
-		bool running = true;
-
 		float progressVal = 0.0f;
 		int progressCount = 0;
+
+		zeno::GuiButton *button = new zeno::GuiButton();
+		button->registerCallback([](void){std::cout << "Button pressed!" << std::endl;});
+		desktop.addChild(button);
+
+		zeno::Clock clock;
+		bool running = true;
 
 		while (running)
 		{

@@ -6,47 +6,49 @@
 
 #include <iostream>
 
+#define NUM_VERTEXES 12
+
 namespace zeno {
 
-
 GuiButton::GuiButton(void) :
-m_Depressed(false)
+m_BackgroundDefaultColour(Colour::Cyan),
+m_BackgroundDepressedColour(Colour::Yellow),
+m_ForegroundDefaultColour(Colour::Magenta),
+m_ForegroundHoverColour(Colour::Red),
+m_State(State::DEFAULT),
+m_Depressed(false),
+m_MouseContained(false),
+m_OutlineThickness(4.0f)
 {
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
+	glGenVertexArrays(1, &m_VAO);
+	glBindVertexArray(m_VAO);
 
-	static const GLfloat g_vertex_buffer_data[] = {
-		0.0f, 0.0f, 0.0f,
-		100.0f, 0.0f, 0.0f,
-		100.0f, 100.0f, 0.0f,
-		0.0f, 0.0f, 0.0f,
-		100.0f, 100.0f, 0.0f,
-		0.0f, 100.0f, 0.0f,
-	};
+	
+	//~ Positions
+	glGenBuffers(1, &m_PositionVBO);
 
-	GLuint vertexbuffer;
+	glBindBuffer(GL_ARRAY_BUFFER, m_PositionVBO);
 
-	// Generate 1 buffer, put the resulting identifier in vertexbuffer
-	glGenBuffers(1, &vertexbuffer);
-
-	// The following commands will talk about our 'vertexbuffer' buffer
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-
-	// Give our vertices to OpenGL.
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * NUM_VERTEXES * 3, nullptr, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glVertexAttribPointer(
-		0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-		3,                  // size
-		GL_FLOAT,           // type
-		GL_FALSE,           // normalized?
-		0,                  // stride
-		nullptr            // array buffer offset
-		);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
-	bounds = FloatRect(Vector2f(), Vector2f(100.0f, 100.0f));
+	//~ Colours
+	glGenBuffers(1, &m_ColourVBO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_ColourVBO);
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * NUM_VERTEXES * 4, nullptr, GL_STATIC_DRAW);
+
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+
+
+	m_Bounds = FloatRect(Vector2f(50.0f, 50.0f), Vector2f(100.0f, 100.0f));
+
+	resendPositions();
+	resendColours();
 }
 
 GuiButton::~GuiButton(void)
@@ -56,30 +58,39 @@ GuiButton::~GuiButton(void)
 
 bool GuiButton::processEvent(const GUIEvent& _event)
 {
-	if (_event.type == GUIEvent::EventType::LeftClick)
+	//~ TODO	-	Optimise away bounds checking in the click/release, keep track of if it is within in MouseMove if block
+	if (m_MouseContained && _event.type == GUIEvent::EventType::LeftClick)
 	{
-		if (bounds.contains(Vector2f(static_cast<float>(_event.mouseButton.x), static_cast<float>(_event.mouseButton.y))))
+		m_Depressed = true;
+		changeState(State::DEPRESSED);
+		return true;
+	}
+	else if (m_MouseContained && _event.type == GUIEvent::EventType::LeftRelease)
+	{
+		if (m_Depressed)
 		{
 			//~ Only call the function if it has been set
-			if (m_PressFunction) m_PressFunction();
-			m_Depressed = true;
-			return true;
+			if (m_ActivationFunction) m_ActivationFunction();
+			m_Depressed = false;
+			changeState(State::HOVER);
 		}
-	}
-	if (_event.type == GUIEvent::EventType::LeftRelease)
-	{
-		if (bounds.contains(Vector2f(static_cast<float>(_event.mouseButton.x), static_cast<float>(_event.mouseButton.y))))
-		{
-			if (m_Depressed)
-			{
-				//~ Only call the function if it has been set
-				if (m_ReleaseFunction) m_ReleaseFunction();
-				m_Depressed = false;
-			}
-			return true;
-		}
+		return true;
 
 		m_Depressed = false;
+	}
+	else if (_event.type == GUIEvent::EventType::MouseMove)
+	{
+		if (m_Bounds.contains(Vector2f(static_cast<float>(_event.mouseMove.x), static_cast<float>(_event.mouseMove.y))))
+		{
+			changeState(State::HOVER);
+			m_MouseContained = true;
+			return true;
+		}
+		else
+		{
+			m_MouseContained = false;
+			changeState(State::DEFAULT);
+		}
 	}
 
 	return false;
@@ -87,19 +98,95 @@ bool GuiButton::processEvent(const GUIEvent& _event)
 
 void GuiButton::render(void) const
 {
-	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLES, 0, 6); // Starting from vertex 0; 3 vertices total -> 1 triangle
+	glBindVertexArray(m_VAO);
+	glDrawArrays(GL_TRIANGLES, 0, NUM_VERTEXES);
 	glBindVertexArray(0);
 }
 
-void GuiButton::registerCallbackPress(std::function<void(void)> _function)
+void GuiButton::registerCallback(std::function<void(void)> _function)
 {
-	m_PressFunction = _function;
+	m_ActivationFunction = _function;
 }
 
-void GuiButton::registerCallbackRelease(std::function<void(void)> _function)
+void GuiButton::resendColours(void)
 {
-	m_ReleaseFunction = _function;
+	glBindVertexArray(m_VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_ColourVBO);
+
+	Colour backgroundColour = m_BackgroundDefaultColour;
+	Colour foregroundColour = m_ForegroundDefaultColour;
+
+	switch (m_State)
+	{
+	case (State::HOVER):
+		backgroundColour = m_BackgroundDefaultColour;
+		foregroundColour = m_ForegroundHoverColour;
+		break;
+	case (State::DEPRESSED):
+		backgroundColour = m_BackgroundDepressedColour;
+		foregroundColour = m_ForegroundHoverColour;
+		break;
+	default:
+		break;
+	}
+
+	std::vector<float> data = {
+		//~ Background colours
+		backgroundColour.r, backgroundColour.g, backgroundColour.b, backgroundColour.a,
+		backgroundColour.r, backgroundColour.g, backgroundColour.b, backgroundColour.a,
+		backgroundColour.r, backgroundColour.g, backgroundColour.b, backgroundColour.a,
+		
+		backgroundColour.r, backgroundColour.g, backgroundColour.b, backgroundColour.a,
+		backgroundColour.r, backgroundColour.g, backgroundColour.b, backgroundColour.a,
+		backgroundColour.r, backgroundColour.g, backgroundColour.b, backgroundColour.a,
+
+		//~ Foreground colours
+		foregroundColour.r, foregroundColour.g, foregroundColour.b, foregroundColour.a,
+		foregroundColour.r, foregroundColour.g, foregroundColour.b, foregroundColour.a,
+		foregroundColour.r, foregroundColour.g, foregroundColour.b, foregroundColour.a,
+		
+		foregroundColour.r, foregroundColour.g, foregroundColour.b, foregroundColour.a,
+		foregroundColour.r, foregroundColour.g, foregroundColour.b, foregroundColour.a,
+		foregroundColour.r, foregroundColour.g, foregroundColour.b, foregroundColour.a
+	};
+
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * data.size(), data.data());
+}
+void GuiButton::resendPositions(void)
+{
+	glBindVertexArray(m_VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_PositionVBO);
+
+	std::vector<float> data = {
+		//~ Background positions
+		m_Bounds.left,						m_Bounds.bot,						0.0f,
+		m_Bounds.left + m_Bounds.width,		m_Bounds.bot,						0.0f,
+		m_Bounds.left + m_Bounds.width,		m_Bounds.bot + m_Bounds.height,		0.0f,
+
+		m_Bounds.left,						m_Bounds.bot,						0.0f,
+		m_Bounds.left + m_Bounds.width,		m_Bounds.bot + m_Bounds.height,		0.0f,
+		m_Bounds.left,						m_Bounds.bot + m_Bounds.height,		0.0f,
+
+		//~ Foreground positions
+		m_Bounds.left + m_OutlineThickness,						m_Bounds.bot + m_OutlineThickness,						0.1f,
+		m_Bounds.left + m_Bounds.width - m_OutlineThickness,	m_Bounds.bot + m_OutlineThickness,						0.1f,
+		m_Bounds.left + m_Bounds.width - m_OutlineThickness,	m_Bounds.bot + m_Bounds.height - m_OutlineThickness,	0.1f,
+
+		m_Bounds.left + m_OutlineThickness,						m_Bounds.bot + m_OutlineThickness,						0.1f,
+		m_Bounds.left + m_Bounds.width - m_OutlineThickness,	m_Bounds.bot + m_Bounds.height - m_OutlineThickness,	0.1f,
+		m_Bounds.left + m_OutlineThickness,						m_Bounds.bot + m_Bounds.height - m_OutlineThickness,	0.1f
+	};
+
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * data.size(), data.data());
+}
+void GuiButton::changeState(State _newState)
+{
+	if (m_State != _newState)
+	{
+		m_State = _newState;
+
+		resendColours();
+	}
 }
 
 } //~ namespace zeno

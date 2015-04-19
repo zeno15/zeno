@@ -63,13 +63,23 @@ implement names/id's for all guibase objects so events can go to specific object
 
 GUIDesktop
 	-	Have it as a member of the window? user has to set it so its not wasteful etc
+	-	Set a single font for entire gui desktop or per pane?
+	-	Each pane should gather up all verticies for all components it contains, so drawing a pane is 1 draw call for verticies and 1 for text?
 
 ProgressBar
 	-	Have option for indeterminate length, ie |             []				| with [] moving
 	-	Change position to use uniform passed to shader
 	-	Change size to use uniform passed to shader
 	-	Generalise position, size getters/setters
+
+Button
+	-	Need to add label to the button etc
 	
+Random Number
+	-	Put wrapper around c++11 functions for simple use cases
+	
+Profiler
+	-	Visual debug info etc
 ---------------------------------------------------------------------------------------------------
 COMPLETE
 

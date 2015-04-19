@@ -129,6 +129,7 @@ bool GuiDesktop::translateEvent(const Event& _event, GUIEvent& _guiEvent) const
 			_guiEvent.mouseButton.y = m_Resolution.y - _event.mouseButton.y;
 			return true;
 		}
+		return false;
 	case (Event::EventType::MouseButtonReleased) :
 		if (_event.mouseButton.button == Mouse::Button::Left)
 		{
@@ -138,6 +139,12 @@ bool GuiDesktop::translateEvent(const Event& _event, GUIEvent& _guiEvent) const
 			_guiEvent.mouseButton.y = m_Resolution.y - _event.mouseButton.y;
 			return true;
 		}
+		return false;
+	case (Event::EventType::MouseMoved):
+		_guiEvent.type = GUIEvent::EventType::MouseMove;
+		_guiEvent.mouseMove.x = _event.position.x;
+		_guiEvent.mouseMove.y = m_Resolution.y - _event.position.y;
+		return true;
 	default:
 		return false;
 	}

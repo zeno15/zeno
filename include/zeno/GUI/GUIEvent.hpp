@@ -22,6 +22,7 @@ public:
 	enum EventType {
 		LeftClick,
 		LeftRelease,
+		MouseMove,
 		ProgressUpdate
 	};
 	
@@ -45,6 +46,16 @@ public:
 		float progress;
 	};
 
+	////////////////////////////////////////////////////////////
+	//
+	//	Struct representing new mouse position
+	//
+	////////////////////////////////////////////////////////////
+	struct MouseMoveEvent {
+		unsigned int x;
+		unsigned int y;
+	};
+
 public:
 	////////////////////////////////////////////////////////////
 	//
@@ -60,6 +71,7 @@ public:
 	////////////////////////////////////////////////////////////
 	union {
 		MouseButtonEvent		mouseButton;
+		MouseMoveEvent			mouseMove;
 		ProgressUpdateEvent		progress;
 	};
 };

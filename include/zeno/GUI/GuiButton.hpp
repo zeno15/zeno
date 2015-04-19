@@ -2,6 +2,8 @@
 #define INCLUDED_ZENO_GUI_GUI_BUTTON_HPP
 
 #include <zeno/GUI/GuiBase.hpp>
+
+#include <zeno/Graphics/Colour.hpp>
 #include <zeno/System/Rect.hpp>
 
 #include <functional>
@@ -51,23 +53,43 @@ public:
 	//	Registers the function to be called on activation of button
 	//
 	////////////////////////////////////////////////////////////
-	void registerCallbackPress(std::function<void(void)> _function);
+	void registerCallback(std::function<void(void)> _function);
 
-	////////////////////////////////////////////////////////////
-	//
-	//	Registers the function to be called on activation of button
-	//
-	////////////////////////////////////////////////////////////
-	void registerCallbackRelease(std::function<void(void)> _function);
+private:
+	enum State {
+		DEFAULT,
+		HOVER,
+		DEPRESSED
+	};
+
+	void resendColours(void);
+	void resendPositions(void);
+
+	void changeState(State _newState);
+
+	
 	
 private:
-	unsigned int VAO;
-	FloatRect	bounds;
+	unsigned int					m_VAO;
+
+	unsigned int					m_PositionVBO;
+	unsigned int					m_ColourVBO;
+	
+	Colour							m_BackgroundDefaultColour;
+	Colour							m_BackgroundDepressedColour;
+	Colour							m_ForegroundDefaultColour;
+	Colour							m_ForegroundHoverColour;
+
+	State							m_State;
+
+	FloatRect	m_Bounds;
 
 	bool		m_Depressed;
+	bool		m_MouseContained;
 
-	std::function<void(void)>		m_PressFunction;
-	std::function<void(void)>		m_ReleaseFunction;
+	float		m_OutlineThickness;
+
+	std::function<void(void)>		m_ActivationFunction;
 };
 
 } //~ namespace zeno
