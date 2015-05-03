@@ -34,10 +34,16 @@ Sprite::~Sprite(void)
 void Sprite::setTexture(Texture *_texture)
 {
 	m_Texture = _texture;
+	setTextureBounds(FloatRect());
 }
 
 void Sprite::setTextureBounds(const FloatRect& _bounds)
 {
+	if (m_Texture == nullptr)
+	{
+		return;
+	}
+
 	FloatRect bounds = _bounds;
 	if (bounds == FloatRect())
 	{

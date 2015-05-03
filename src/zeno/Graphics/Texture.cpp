@@ -79,4 +79,14 @@ Vector2<unsigned int> Texture::getSize(void) const
 	return m_Size;
 }
 
+void Texture::setWrapMode(TextureWrap _xAxis, TextureWrap _yAxis)
+{
+	bind();
+
+	static const int wrapModes[3] = {GL_CLAMP_TO_EDGE, GL_REPEAT, GL_MIRRORED_REPEAT};
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapModes[_xAxis]);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapModes[_yAxis]);
+}
+
 } //~ namespace zeno

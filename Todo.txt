@@ -4,6 +4,9 @@ TODO
 GUI
 	-	http://highschool.cs.vt.edu/Svc2012/S2012/gui-events-slides.pdf
 	-	https://courses.cs.washington.edu/courses/cse331/13sp/lectures/lect23-graphics.pdf
+	
+COMMENT ON ALL THINGS
+	-	Texture
 
 Change from platform conditional includes (InputImpl) to typedefs (WindowImpl)?
 
@@ -52,6 +55,11 @@ Fonts
 	-	need to make sure there is a single non available glyph that is used for all characters that need it
 	-	Font::createCharVertexes uses the texture size when it may be modified
 	-	currently passing colour data into the gpu, then passing colour uniform, wasteful.
+	
+	- Redo to use signed distance field technqiue, maybe not worth it. Look back into freetype  - autohinting for small font sizes
+		-	http://contourtextures.wikidot.com/
+		-	Valve paper, use 2 channel to preserve sharp corners
+		-	http://webstaff.itn.liu.se/~stegu/aadist/edtaa_preprint.pdf
 
 find better way to update textures than completely recreating them (i.e. as in font) Pixel Buffer Objects
 
@@ -63,14 +71,21 @@ implement names/id's for all guibase objects so events can go to specific object
 
 consistancy when using sizeof(float), change all to sizeof(GLfloat)
 
+
+Greater Goals
+	-	Make application to create gui layouts, then export to a file
+	
+Sprite
+	-	Creating with default constructor crashes (in seperate project, maybe build process is weird)
+
 GUIDesktop
 	-	implement names/id's for all guibase objects so events can go to specific objects
 	-	Have it as a member of the window? user has to set it so its not wasteful etc
 	-	Set a single font for entire gui desktop or per pane?
 	-	Each pane should gather up all verticies for all components it contains, so drawing a pane is 1 draw call for verticies and 1 for text?
-	-	Dont create a new component then add, rather use GUIDesktop like a factory, get the component back by id
+	-	Dont create a new component then add, rather use GUIDesktop like a factory
 	-	Maybe have quad tree for doing GUIPane bounding checks?
-	-	Add to window.pollEvent() 
+	-	Add to window.pollEvent() to pass to the desktop if it is present
 
 GuiPane
 	-	Have fast opt out of event handling, have objects register with panes what events they want
@@ -86,6 +101,7 @@ ProgressBar
 	-	Change size to use uniform passed to shader
 	-	Generalise position, size getters/setters
 	-	Rewrite constructor so no data is buffered in it, have seperate functions use glBufferSubData
+	-	When complete pulse the bar to indicate completeness
 
 Button
 	-	Need to add label to the button etc
@@ -99,6 +115,22 @@ Random Number
 	
 Profiler
 	-	Visual debug info etc
+	
+Shader
+	-	 Put a comment in the destructor of zeno::Shader, seems to be called excessively
+	
+Particle System
+	-	Using Geometry shader and point sprites (GL_POINT_SPRITE, )
+	
+Image
+	-	Implement expand or copy method
+	
+Texture
+	-	Comment
+	-	Implement setting min/mag filter options
+	-	Look into modifying texture, expanding etc
+	-	Have persistant options for texture, stay when reloaded
+	
 ---------------------------------------------------------------------------------------------------
 COMPLETE
 

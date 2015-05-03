@@ -31,6 +31,12 @@ public:
 	bool addShader(const std::string& _name, const std::string& _vertexPath, const std::string& _fragmentPath);
 	////////////////////////////////////////////////////////////
 	//
+	//	Adds a shader to the manager by their file paths, with geometry
+	//
+	////////////////////////////////////////////////////////////
+	bool addVGFShader(const std::string& _name, const std::string& _vertexPath, const std::string& _geometryPath, const std::string& _fragmentPath);
+	////////////////////////////////////////////////////////////
+	//
 	//	Adds a shader to the manager by their sources
 	//
 	////////////////////////////////////////////////////////////

@@ -9,6 +9,7 @@
 namespace zeno {
 
 Shader::Shader(void) :
+m_UsingGeometry(false),
 m_ProgramId(0)
 {
 }
@@ -43,6 +44,24 @@ void Shader::loadVertexShader(const std::string& _vertexPath)
 
 	return;
 }
+void Shader::loadGeometryShader(const std::string& _geometryPath)
+{
+	m_UsingGeometry = true;
+
+	std::ifstream input;
+	input.open(_geometryPath);
+	
+	if (!input.good())
+	{
+ 		return;
+	}
+
+	input.seekg(0, std::ios::end);   
+	m_GeometryShaderSource.reserve(static_cast<unsigned int>(input.tellg()));
+	input.seekg(0, std::ios::beg);
+
+	m_GeometryShaderSource.assign((std::istreambuf_iterator<char>(input)), std::istreambuf_iterator<char>());
+}
 void Shader::loadFragmentShader(const std::string& _fragmentPath)
 {
 	std::ifstream input;
@@ -58,8 +77,6 @@ void Shader::loadFragmentShader(const std::string& _fragmentPath)
 	input.seekg(0, std::ios::beg);
 
 	m_FragmentShaderSource.assign((std::istreambuf_iterator<char>(input)), std::istreambuf_iterator<char>());
-
-	return;
 }
 void Shader::loadShaders(const std::string& _vertexPath, const std::string& _fragmentPath)
 {
@@ -72,17 +89,35 @@ void Shader::loadShadersFromStrings(const std::string& _vertexSource, const std:
 	m_FragmentShaderSource = _fragmentSource;
 }
 
+void Shader::loadVGFShaders(const std::string& _vertexPath, const std::string& _geometryPath, const std::string& _fragmentPath)
+{
+	loadVertexShader(_vertexPath);
+	loadGeometryShader(_geometryPath);
+	loadFragmentShader(_fragmentPath);
+}
+
 bool Shader::compileShader(void)
 {
 	GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
+	GLuint geomShader = 0;
+	if (m_UsingGeometry)
+	{
+		geomShader = glCreateShader(GL_GEOMETRY_SHADER);
+	}
     GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
 	
-	const char *vertSrc = m_VertexShaderSource.c_str();
-	const char *fragSrc = m_FragmentShaderSource.c_str();
+	char *vertSrc = &m_VertexShaderSource[0];
+	char *geomSrc = nullptr;
+	if (m_UsingGeometry)
+	{
+		geomSrc = &m_GeometryShaderSource[0];
+	}
+	char *fragSrc = &m_FragmentShaderSource[0];
 	
 	GLint result = GL_FALSE;
     int logLength;
 	
+	//~ -----------------------VERTEX
 	// Compile vertex shader
     glShaderSource(vertShader, 1, &vertSrc, NULL);
     glCompileShader(vertShader);
@@ -98,7 +133,28 @@ bool Shader::compileShader(void)
 		m_Error = std::string(&vertShaderError[0]);
 		return false;
 	}
-	
+
+	//~ -----------------------GEOMETRY
+	if (m_UsingGeometry)
+	{
+		// Compile geometry shader
+		glShaderSource(geomShader, 1, &geomSrc, NULL);
+		glCompileShader(geomShader);
+
+		// Checking geometry shader
+		glGetShaderiv(geomShader, GL_COMPILE_STATUS, &result);
+		glGetShaderiv(geomShader, GL_INFO_LOG_LENGTH, &logLength);
+		std::vector<char> geomShaderError((logLength > 1) ? logLength : 1);
+		glGetShaderInfoLog(geomShader, logLength, NULL, &geomShaderError[0]);
+
+		if (result != 1)
+		{
+			m_Error = std::string(&geomShaderError[0]);
+			return false;
+		}
+	}	
+
+	//~ -----------------------FRAGMENT
 	// Compile fragment shader
     glShaderSource(fragShader, 1, &fragSrc, NULL);
     glCompileShader(fragShader);
@@ -114,9 +170,17 @@ bool Shader::compileShader(void)
 		m_Error = std::string(&fragShaderError[0]);
 		return false;
 	}
+
+
+
+	//~ Creating shader program
 	
     GLuint program = glCreateProgram();
     glAttachShader(program, vertShader);
+	if (m_UsingGeometry)
+	{
+		glAttachShader(program, geomShader);
+	}
     glAttachShader(program, fragShader);
     glLinkProgram(program);
 
@@ -132,6 +196,10 @@ bool Shader::compileShader(void)
 	}
 
     glDeleteShader(vertShader);
+	if (m_UsingGeometry)
+	{
+		glDeleteShader(geomShader);
+	}
     glDeleteShader(fragShader);
 	
 	m_ProgramId = program;

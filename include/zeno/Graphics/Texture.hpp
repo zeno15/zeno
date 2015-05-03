@@ -19,6 +19,12 @@ class Image;
 class Texture
 {
 public:
+	enum TextureWrap {
+		CLAMP,
+		REPEAT,
+		MIRRORED_REPEAT
+	};
+
 	Texture(void);
 	~Texture(void);
 
@@ -29,6 +35,10 @@ public:
 	static void unbind(void);
 
 	Vector2<unsigned int> getSize(void) const;
+
+	void setWrapMode(TextureWrap _xAxis, TextureWrap _yAxis);
+
+
 private:
 	unsigned int 				m_TextureHandle;
 

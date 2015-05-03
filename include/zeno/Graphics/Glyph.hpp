@@ -11,13 +11,10 @@ namespace zeno {
 ////////////////////////////////////////////////////////////
 struct Glyph {
 	int				character;
-	unsigned int	x;
-	unsigned int	y;
-	unsigned int	width;
-	unsigned int	height;
-	unsigned int	advance;
-	unsigned int	bearing_x;
-	unsigned int	bearing_y;
+	unsigned int	texX;
+	unsigned int	texY;
+	unsigned int	sizeX;
+	unsigned int	sizeY;
 };
 
 } //~ namespace zeno

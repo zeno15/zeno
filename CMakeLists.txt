@@ -21,8 +21,6 @@ endif(CMAKE_BUILD_TYPE MATCHES Debug)
 set(GRAPHICS_HEADER_FILES ${GRAPHICS_HEADER_FILES}
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Colour.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Font.hpp
-		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/FontAtlasImage.hpp
-		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/FontLoader.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Glyph.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Image.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/ImageLoader.hpp
@@ -43,6 +41,7 @@ set(GUI_HEADER_FILES ${GUI_HEADER_FILES}
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/GuiBase.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/GuiPane.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/Button.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/GUI/Label.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/ProgressBar.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/Slider.hpp
 	)
@@ -82,8 +81,6 @@ set(WINDOW_HEADER_FILES ${WINDOW_HEADER_FILES}
 set(GRAPHICS_SOURCE_FILES ${GRAPHICS_SOURCE_FILES}
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Colour.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Font.cpp
-		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/FontAtlasImage.cpp
-		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/FontLoader.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Glyph.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Image.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/ImageLoader.cpp
@@ -101,6 +98,7 @@ set(GUI_SOURCE_FILES ${GUI_SOURCE_FILES}
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/GuiBase.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/GuiPane.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/Button.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/GUI/Label.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/ProgressBar.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/Slider.cpp
 	)

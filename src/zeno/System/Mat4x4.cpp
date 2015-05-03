@@ -362,6 +362,13 @@ Mat4x4 Mat4x4::createRotationZ(float _angle)
 
 	return mat;
 }
+Mat4x4 Mat4x4::createScale(const Vector3f & _scale)
+{
+	return Mat4x4(	_scale.x,	0.0f,		0.0f,		0.0f,
+					0.0f,		_scale.y,	0.0f,		0.0f,
+					0.0f,		0.0f,		_scale.z,	0.0f,
+					0.0f,		0.0f,		0.0f,		1.0f);
+}
 
 std::ostream& operator<<(std::ostream& os, const Mat4x4& _mat)
 {

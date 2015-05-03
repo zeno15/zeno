@@ -58,7 +58,7 @@
 	CHECK_NOTHROW(expression)
 */
 
-TEST_CASE("Colour Test", "[Colour]" )
+TEST_CASE("Colour Test", "[Colour]")
 {
 	SECTION("Test default constructor")
 	{
@@ -555,6 +555,17 @@ TEST_CASE("Mat4x4 Test", "[Mat4x4]")
 		mat2[9] = 2.1f;
 		
 		REQUIRE(mat2 == (mat1 * mat2));
+	}
+	SECTION("Test scale method")
+	{
+
+		zeno::Vector3f scale = zeno::Vector3f(0.5f, 0.5f, 1.0f);
+
+		zeno::Mat4x4 mat = zeno::Mat4x4::createScale(scale);
+
+		zeno::Vector3f vec = zeno::Vector3f(8.0f, 8.0f, 0.0f);
+
+		REQUIRE((vec / 2.0f) == (mat * vec));
 	}
 }
 
@@ -1565,6 +1576,7 @@ TEST_CASE("GUI Test", "[GUI]")
 
 				desktop.processEvent(event);
 			}
+			desktop.processThrown();
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -1581,12 +1593,11 @@ TEST_CASE("Font Test", "[Font]")
 {
 	SECTION("Setup")
 	{		
-		std::cout << "Font test." << std::endl;
 		zeno::Font font;
-		font.loadFont("C:/Windows/Fonts/Arial.ttf");
-		zeno::Font font2;
-		font2.loadFont("C:/Windows/Fonts/OLDENGL.TTF");
-		//font2.loadFont("C:/Windows/Fonts/Arial.ttf");
+		if (!font.loadFromFile("C:/Windows/Fonts/BASKVILL.TTF", 128))
+		{
+			std::cout << "Failed to load font." << std::endl;
+		}
 
 		zeno::Window window = zeno::Window();
 
@@ -1609,15 +1620,38 @@ TEST_CASE("Font Test", "[Font]")
 		bool running = true;
 
 		zeno::RenderData data;
-		data.transform = zeno::Mat4x4::Orthographic2D(0.0f, 1280.0f, 720.0f, 0.0f);
+		data.transform = zeno::Mat4x4::Orthographic2D(0.0f, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y), 0.0f);
+		
+		
 
-		zeno::Text text = zeno::Text("Meow How goes thje world?\nMeh.!\nI'd rather be happy.\nI don't have motivation.", &font2);
-		text.move(zeno::Vector2f(10.0f, (float)(window.getSize().y - 60)));
-		text.setColour(zeno::Colour::Magenta);
+		std::string textToRender("zeno::Texture tex, kayak;:yjqp WAVAWabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01233456789");
+
+		zeno::Image atlas;
+		atlas.create(512, 512, zeno::Colour::Magenta);
+
+		for (unsigned int i = 0; i < textToRender.size(); i += 1)
+		{
+			font.addGlyphToAtlas(static_cast<int>(textToRender.at(i)), atlas);
+		}
+
+		atlas.saveToFile("C:/Users/Mark/Documents/Github/zeno/test/Test Resources/atlas.png");
+
+		zeno::Texture tex;
+		tex.loadFromImage(atlas);
+		tex.setWrapMode(zeno::Texture::TextureWrap::CLAMP, zeno::Texture::TextureWrap::CLAMP);
+
+		zeno::RenderData textData;
+		textData.shader = "TextShader";
+		textData.texture = &tex;
+		textData.transform = zeno::Mat4x4::Orthographic2D(0.0f, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y), 0.0f);
+		textData.transform *= zeno::Mat4x4::createTranslation(zeno::Vector3f(100.0f, 100.0f, 0.0f));
+
+		zeno::Text text;
+		text.generateText(textToRender, &font);
+		
 
 		while (running)
 		{
-			Sleep(10);
 
 			window.setTitle(std::string("Text Test. FPS: " + std::to_string(static_cast<int>(1.0f / clock.restart().asSeconds()))));
 
@@ -1631,8 +1665,84 @@ TEST_CASE("Font Test", "[Font]")
 			}
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			
-			text.render(data);
+
+			text.render(textData);
+
+			window.display();
+		}
+
+		window.close();
+	}
+}
+
+TEST_CASE("Geometry Shader Test", "[GeometryShader]")
+{
+	SECTION("Setup")
+	{		
+		zeno::Window window = zeno::Window();
+
+		zeno::VideoMode m;
+
+		m.bitsPerPixel = 32;
+		m.width = 1280;
+		m.height = 720;
+
+		window.create(m, "zeno::Window Test", zeno::WindowStyle::Default);
+
+		glClearColor(100.0f / 255.0f, 149.0f / 255.0f, 247.0f / 255.0f, 1.0f);
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		zeno::Clock clock;
+		bool running = true;
+
+		std::vector<float> data = {
+			0.0f, 0.0f, 0.0f,
+			0.8f, 0.0f, 0.0f,
+			0.8f, 0.8f, 0.0f};
+
+		//~ OpenGL data setup	-	begin
+		GLuint VAO;
+		GLuint VBO;
+		glGenVertexArrays(1, &VAO);
+		glBindVertexArray(VAO);
+
+		glGenBuffers(1, &VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * data.size(), data.data(), GL_STATIC_DRAW);
+
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
+		//~ OpenGL data setup	-	end
+		//if (zeno::ShaderManager::getInstance().addShader("VGF", "C:/Users/Mark/Documents/Github/textVert.glsl", "C:/Users/Mark/Documents/Github/textFrag.glsl"))
+		if (zeno::ShaderManager::getInstance().addVGFShader("VGF", "C:/Users/Mark/Documents/Github/textVert.glsl", "C:/Users/Mark/Documents/Github/textGeom.glsl", "C:/Users/Mark/Documents/Github/textFrag.glsl"))
+		{
+			std::cout << "Shader loaded succesfully." << std::endl;
+			zeno::ShaderManager::getInstance().getShader("VGF").bind();
+		}
+
+		while (running)
+		{
+
+			window.setTitle(std::string("Text Test. FPS: " + std::to_string(static_cast<int>(1.0f / clock.restart().asSeconds()))));
+
+			zeno::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == zeno::Event::EventType::WindowClosed)
+				{
+					running = false;
+				}
+			}
+
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+			glDrawArrays(GL_TRIANGLES, 0, 3);
 
 			window.display();
 		}

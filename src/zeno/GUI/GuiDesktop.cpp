@@ -107,13 +107,7 @@ void GuiDesktop::setResolution(const Vector2u& _resolution)
 
 void GuiDesktop::throwEvent(const GUIEvent& _guiEvent)
 {
-	for (GuiPane pane : m_Panes)
-	{
-		if (pane.processEvent(_guiEvent))
-		{
-			return;
-		}
-	}
+	m_ThrownEvents.push_back(_guiEvent);
 }
 
 bool GuiDesktop::translateEvent(const Event& _event, GUIEvent& _guiEvent) const
@@ -174,6 +168,22 @@ GuiPane& GuiDesktop::getPane(const std::string& _id)
 	}
 
 	throw std::exception(std::string("Pane \"" + _id + "\" not present in desktop.").c_str());
+}
+
+void GuiDesktop::processThrown(void)
+{
+	for (GUIEvent event : m_ThrownEvents)
+	{
+		for (GuiPane pane : m_Panes)
+		{
+			if (pane.processEvent(event))
+			{
+				continue;
+			}
+		}
+	}
+
+	m_ThrownEvents.clear();
 }
 
 } //~ namespace zeno

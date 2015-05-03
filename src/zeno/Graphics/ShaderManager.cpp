@@ -117,7 +117,7 @@ bool ShaderManager::addShader(const std::string& _name, const std::string& _vert
 	{
 		std::cout << m_Shaders.back().second.getCompileError() << std::endl;
 		
-		m_Shaders.erase(m_Shaders.end());
+		m_Shaders.erase(m_Shaders.begin() + m_Shaders.size() - 1);
 		
 		return false;
 	}
@@ -147,6 +147,33 @@ bool ShaderManager::addShaderFromSource(const std::string& _name, const std::str
 		return false;
 	}
 
+	return true;
+}
+bool ShaderManager::addVGFShader(const std::string& _name, const std::string& _vertexPath, const std::string& _geometryPath, const std::string& _fragmentPath)
+{
+	for(unsigned int i = 0; i < m_Shaders.size(); i += 1)
+	{
+		if (m_Shaders.at(i).first == _name)
+		{
+			return true;
+		}
+	}
+	
+	m_Shaders.push_back(std::pair<std::string, Shader>(_name, Shader()));
+	
+	
+	m_Shaders.back().second.loadVGFShaders(_vertexPath, _geometryPath, _fragmentPath);
+
+	if (!m_Shaders.back().second.compileShader())
+	{
+		std::cout << "Shader failed to load: " << std::endl;
+		std::cout << m_Shaders.back().second.getCompileError() << std::endl;
+
+		m_Shaders.erase(m_Shaders.begin() + m_Shaders.size() - 1);
+
+		return false;
+	}
+	
 	return true;
 }
 
