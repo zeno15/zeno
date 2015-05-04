@@ -8,8 +8,12 @@
 
 namespace zeno {
 
+static const int wrapModes[3] = {GL_CLAMP_TO_EDGE, GL_REPEAT, GL_MIRRORED_REPEAT};
+
 Texture::Texture(void) :
-m_TextureHandle(0)
+m_TextureHandle(0),
+m_XAxisWrap(TextureWrap::REPEAT),
+m_YAxisWrap(TextureWrap::REPEAT)
 {
 }
 
@@ -55,8 +59,8 @@ bool Texture::loadFromImage(const Image& _image)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_TextureHandle);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_Size.x, m_Size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_PixelData.data());
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapModes[m_XAxisWrap]);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapModes[m_YAxisWrap]);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
@@ -81,12 +85,13 @@ Vector2<unsigned int> Texture::getSize(void) const
 
 void Texture::setWrapMode(TextureWrap _xAxis, TextureWrap _yAxis)
 {
+	m_XAxisWrap = _xAxis;
+	m_YAxisWrap = _yAxis;
+
 	bind();
-
-	static const int wrapModes[3] = {GL_CLAMP_TO_EDGE, GL_REPEAT, GL_MIRRORED_REPEAT};
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapModes[_xAxis]);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapModes[_yAxis]);
+	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapModes[m_XAxisWrap]);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapModes[m_YAxisWrap]);
 }
 
 } //~ namespace zeno

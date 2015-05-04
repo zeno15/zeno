@@ -76,10 +76,16 @@ void Font::addGlyphToAtlas(int _character, Image& _atlas)
 		currentY = nextY;
 		currentX = 0;
 	}
+
 	if (currentY + glyph->bitmap.rows >= _atlas.getSize().y)
 	{
-		std::cout << "Need to increase atlas size." << std::endl;
-		return;
+		if (_atlas.getSize().y >= 2048)
+		{
+			std::cout << "Texture atlas too big, cannot expand." << std::endl;
+			return;
+		}
+		
+		_atlas.expandVertically(_atlas.getSize().y, Colour::Magenta);
 	}
 
 	m_Glyphs.push_back(Glyph());
@@ -174,6 +180,15 @@ std::vector<float> Font::getVertexData(int _character, const Vector2f& _penPosit
 	verticies.push_back(static_cast<float>(g.texX));						verticies.push_back(static_cast<float>(g.texY));
 
 	return verticies;
+}
+
+FT_Vector Font::getKerning(int _previous, int _current)
+{
+	FT_Vector kerning;
+
+	FT_Get_Kerning(m_Face, getGlyphIndex(_previous), getGlyphIndex(_current), FT_KERNING_DEFAULT, &kerning);
+
+	return kerning;
 }
 
 } //~ namespace zeno

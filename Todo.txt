@@ -46,20 +46,24 @@ have shaders work with multiple textures for vertex array?
 have shader for when a texture is/isnt used with vertex array
 
 2d transformable
+	-	Apply to text
+	-	Apply to sprite
+	
+	
 3d transformable
 
 have RenderData take in a shader name, and then a drawable sub class with overloaded window render method of (const zeno::Drawable& _drawable, zeno::RenderData _renderData)
 
-Fonts
-	-	handle different font sizes within the same font object
-	-	need to make sure there is a single non available glyph that is used for all characters that need it
-	-	Font::createCharVertexes uses the texture size when it may be modified
-	-	currently passing colour data into the gpu, then passing colour uniform, wasteful.
-	
-	- Redo to use signed distance field technqiue, maybe not worth it. Look back into freetype  - autohinting for small font sizes
+Fonts/Text
+	-	Look into options for texture atlas size, start width > 512 etc, max size
+	-	Have generateText add glyphs to the atlas
+	-	Change way they are rendered so it defaults to the default shader, but if other is set will use that
+	-	Fix overlapping font quads not 
+	-	Redo to use signed distance field technqiue, maybe not worth it. Look back into freetype  - autohinting for small font sizes
 		-	http://contourtextures.wikidot.com/
 		-	Valve paper, use 2 channel to preserve sharp corners
 		-	http://webstaff.itn.liu.se/~stegu/aadist/edtaa_preprint.pdf
+		-	Look at signed distance field for specific usage cases, default is freetype textured quads
 
 find better way to update textures than completely recreating them (i.e. as in font) Pixel Buffer Objects
 
@@ -76,7 +80,7 @@ Greater Goals
 	-	Make application to create gui layouts, then export to a file
 	
 Sprite
-	-	Creating with default constructor crashes (in seperate project, maybe build process is weird)
+	-	Creating with default constructor crashes (in seperate project, maybe build process is weird, setting texture rectangle issue)
 
 GUIDesktop
 	-	implement names/id's for all guibase objects so events can go to specific objects
@@ -123,7 +127,7 @@ Particle System
 	-	Using Geometry shader and point sprites (GL_POINT_SPRITE, )
 	
 Image
-	-	Implement expand or copy method
+	-	Implement expand vertically method
 	
 Texture
 	-	Comment
@@ -146,7 +150,8 @@ Change all #ifndef INCLUDED_FILENAME_EXTENSION's to something with the project n
 Fonts
 	-	move font stuff to graphics
 	-	2d orthographic text
-	-	have unique shader for text, needs to take as a uniform the texture size, or figure out a way to use pixel coords instead of 0.0f->1.0
+	-	basic implementation complete
+	-	Add kerning
 	
 Progress Bar
 	-	Have text numbers denoting percentage? - Simply draw it above it, not needed.
@@ -157,3 +162,6 @@ Slider
 	
 GUIDesktop
 	-	get the component back by id
+	
+Image
+	-	Implement copy method

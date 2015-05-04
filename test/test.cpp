@@ -1589,12 +1589,67 @@ TEST_CASE("GUI Test", "[GUI]")
 	}
 }
 
+TEST_CASE("Image Copy Test", "[Image]")
+{
+	SECTION("Copy")
+	{	
+		zeno::Image image;
+		image.create(128, 128);
+
+		zeno::Image copy;
+		copy.create(128, 128);
+
+		for (unsigned int i = 0; i < image.getSize().x; i += 1)
+		{
+			for (unsigned int j = 0;j < image.getSize().y; j += 1)
+			{
+				image.setPixel(j, i, zeno::Colour(static_cast<float>(rand() % 255) / 255.0f, static_cast<float>(rand() % 255) / 255.0f, static_cast<float>(rand() % 255) / 255.0f, static_cast<float>(rand() % 255) / 255.0f));
+			}
+		}
+
+		copy.copy(image);
+
+		for (unsigned int i = 0; i < image.getSize().x; i += 1)
+		{
+			for (unsigned int j = 0;j < image.getSize().y; j += 1)
+			{
+				REQUIRE(image.getPixel(j, i).r == copy.getPixel(j, i).r);
+				REQUIRE(image.getPixel(j, i).g == copy.getPixel(j, i).g);
+				REQUIRE(image.getPixel(j, i).b == copy.getPixel(j, i).b);
+				REQUIRE(image.getPixel(j, i).a == copy.getPixel(j, i).a);
+			}
+		}
+	}
+	SECTION("Expand Vertically")
+	{
+		zeno::Image image;
+		image.create(128, 128, zeno::Colour::Red);
+
+		image.expandVertically(128, zeno::Colour::Green);
+	
+		for (unsigned int i = 0; i < 128; i += 1)
+		{
+			for (unsigned int j = 0; j < 128; j += 1)
+			{
+				REQUIRE(zeno::Colour::Red == image.getPixel(j, i));
+			}
+		}
+		for (unsigned int i = 128; i < 256; i += 1)
+		{
+			for (unsigned int j = 0; j < 128; j += 1)
+			{
+				REQUIRE(zeno::Colour::Green == image.getPixel(j, i));
+			}
+		}
+	}
+}
+
 TEST_CASE("Font Test", "[Font]")
 {
 	SECTION("Setup")
 	{		
 		zeno::Font font;
-		if (!font.loadFromFile("C:/Windows/Fonts/BASKVILL.TTF", 128))
+		if (!font.loadFromFile("C:/Windows/Fonts/ARIAL.TTF", 64))
 		{
 			std::cout << "Failed to load font." << std::endl;
 		}
@@ -1624,30 +1679,45 @@ TEST_CASE("Font Test", "[Font]")
 		
 		
 
-		std::string textToRender("zeno::Texture tex, kayak;:yjqp WAVAWabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01233456789");
+		std::string textToRender("Hello world! I'm Mark, 4327, VAWAVAY");
 
 		zeno::Image atlas;
 		atlas.create(512, 512, zeno::Colour::Magenta);
+
+
 
 		for (unsigned int i = 0; i < textToRender.size(); i += 1)
 		{
 			font.addGlyphToAtlas(static_cast<int>(textToRender.at(i)), atlas);
 		}
+		
 
-		atlas.saveToFile("C:/Users/Mark/Documents/Github/zeno/test/Test Resources/atlas.png");
 
 		zeno::Texture tex;
 		tex.loadFromImage(atlas);
 		tex.setWrapMode(zeno::Texture::TextureWrap::CLAMP, zeno::Texture::TextureWrap::CLAMP);
 
+		//~ No kerning
 		zeno::RenderData textData;
 		textData.shader = "TextShader";
 		textData.texture = &tex;
 		textData.transform = zeno::Mat4x4::Orthographic2D(0.0f, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y), 0.0f);
-		textData.transform *= zeno::Mat4x4::createTranslation(zeno::Vector3f(100.0f, 100.0f, 0.0f));
+		textData.transform *= zeno::Mat4x4::createTranslation(zeno::Vector3f(0.0f, 100.0f, 0.0f));
 
 		zeno::Text text;
+		text.setKerning(false);
 		text.generateText(textToRender, &font);
+
+		//~ Kerning
+		zeno::RenderData textData2;
+		textData2.shader = "TextShader";
+		textData2.texture = &tex;
+		textData2.transform = zeno::Mat4x4::Orthographic2D(0.0f, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y), 0.0f);
+		textData2.transform *= zeno::Mat4x4::createTranslation(zeno::Vector3f(0.0f, 50.0f, 0.0f));
+
+		zeno::Text text2;
+		text2.setKerning(true);
+		text2.generateText(textToRender, &font);
 		
 
 		while (running)
@@ -1664,9 +1734,16 @@ TEST_CASE("Font Test", "[Font]")
 				}
 			}
 
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			if (zeno::Keyboard::isKeyDown(zeno::Keyboard::Key::Space))
+			{
+				text .setColour(zeno::Colour((static_cast<float>(rand() % 255) / 255.0f), (static_cast<float>(rand() % 255) / 255.0f), (static_cast<float>(rand() % 255) / 255.0f)));
+				text2.setColour(zeno::Colour((static_cast<float>(rand() % 255) / 255.0f), (static_cast<float>(rand() % 255) / 255.0f), (static_cast<float>(rand() % 255) / 255.0f)));
+			}
 
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			
 			text.render(textData);
+			text2.render(textData2);
 
 			window.display();
 		}

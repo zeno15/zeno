@@ -45,6 +45,9 @@ private:
 	std::vector<uint8_t> 		m_PixelData;
 
 	Vector2<unsigned int>		m_Size;
+
+	TextureWrap					m_XAxisWrap;
+	TextureWrap					m_YAxisWrap;
 };
 
 } //~ namespace zeno

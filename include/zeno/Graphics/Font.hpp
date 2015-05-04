@@ -61,6 +61,8 @@ public:
 
 	std::vector<float> getVertexData(int _character, const Vector2f& _penPosition);
 
+	FT_Vector getKerning(int _previous, int _current);
+
 private:
 	////////////////////////////////////////////////////////////
 	//

@@ -64,4 +64,36 @@ const uint8_t *Image::getPixelPointer(void) const
 	return &m_Pixels[0];
 }
 
+void Image::copy(const Image& _image, const Vector2u& _offset /*= Vector2u()*/)
+{
+	if (_image.getSize().x > getSize().x + _offset.x ||
+		_image.getSize().y > getSize().y + _offset.y)
+	{
+		throw std::exception("Image being copied does not fit");
+	}
+
+	for (unsigned int y = 0; y < _image.getSize().y; y += 1)
+	{
+		for (unsigned int x = 0; x < _image.getSize().x; x += 1)
+		{
+			setPixel(x + _offset.x, y + _offset.y, _image.getPixel(x, y));
+		}
+	}
+}
+
+void Image::expandVertically(unsigned int _increaseSize, const Colour& _colour /*= Colour::Black*/)
+{
+	m_Pixels.resize(m_Size.x * (m_Size.y + _increaseSize) * 4);
+
+	for (unsigned int y = getSize().y; y < getSize().y + _increaseSize; y += 1)
+	{
+		for (unsigned int x = 0; x < getSize().x; x += 1)
+		{
+			setPixel(x, y, _colour);
+		}
+	}
+
+	m_Size.y += _increaseSize;
+}
+
 } //~ namespace zeno
