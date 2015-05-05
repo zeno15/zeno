@@ -56,12 +56,16 @@ have shader for when a texture is/isnt used with vertex array
 	
 3d transformable
 
-have RenderData take in a shader name, and then a drawable sub class with overloaded window render method of (const zeno::Drawable& _drawable, zeno::RenderData _renderData)
+RenderData
+	-	Make different constructors for different use cases
 
 Fonts/Text
 	-	Look into options for texture atlas size, start width > 512 etc, max size
 	-	Have generateText add glyphs to the atlas
+	-	Look into issue with rotated text artifacts
+	-	Fix text layering, alpha blending not workingas expected.
 	-	Change way they are rendered so it defaults to the default shader, but if other is set will use that
+		-	Have the uniform passing only be used if it is the default shader
 	-	Fix overlapping font quads not 
 	-	Redo to use signed distance field technqiue, maybe not worth it. Look back into freetype  - autohinting for small font sizes
 		-	http://contourtextures.wikidot.com/
@@ -102,6 +106,7 @@ GUIBase
 	-	have visible/enabled etc 
 	-	may need to have disabled colours for elements, or just tone the colours down?
 	-	need to have function to return start and end heights of created verticies
+	-	Desired/requested sizes, and the actual size a pane can give an element
 
 ProgressBar
 	-	Have option for indeterminate length, ie |             []				| with [] moving
@@ -113,6 +118,7 @@ ProgressBar
 
 Button
 	-	Need to add label to the button etc
+		-	Have a method for adding a label which sets the buttons desired size to the bounding area of the text
 	-	Add methods to get/set colours, size, position, outline thickness
 	
 Slider
@@ -138,6 +144,7 @@ Texture
 	-	Implement setting min/mag filter options
 	-	Look into modifying texture, expanding etc
 	-	Have persistant options for texture, stay when reloaded
+	-	Implement single channel texture, for font
 	
 ---------------------------------------------------------------------------------------------------
 COMPLETE

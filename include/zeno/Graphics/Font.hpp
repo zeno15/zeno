@@ -9,6 +9,7 @@
 
 #include <zeno/Graphics/Glyph.hpp>
 #include <zeno/Graphics/Image.hpp>
+#include <zeno/Graphics/Texture.hpp>
 
 namespace zeno {
 
@@ -55,13 +56,19 @@ public:
 	////////////////////////////////////////////////////////////
 	FT_GlyphSlot getGlyph(FT_UInt _glyphIndex);
 
-	void addGlyphToAtlas(int _character, Image& _atlas);
+	bool addGlyphToAtlas(int _character, Image& _atlas);
 
 	Glyph getGlyph(int _character);
 
 	std::vector<float> getVertexData(int _character, const Vector2f& _penPosition);
 
 	FT_Vector getKerning(int _previous, int _current);
+
+	Image& getAtlas(void);
+
+	Texture& getTextureAtlas(void);
+
+	void updateTextureIfNeeded(void);
 
 private:
 	////////////////////////////////////////////////////////////
@@ -91,6 +98,27 @@ private:
 	//
 	////////////////////////////////////////////////////////////
 	std::vector<Glyph>			m_Glyphs;
+
+	////////////////////////////////////////////////////////////
+	//
+	//	Atlas for the font, contains all glyphs that the font
+	//	can draw
+	//
+	////////////////////////////////////////////////////////////
+	Image						m_Atlas;
+
+	////////////////////////////////////////////////////////////
+	//
+	//	Texture of the font atlas
+	//
+	////////////////////////////////////////////////////////////
+	Texture						m_AtlasTexture;
+
+	bool						m_AtlasTextureNeedsUpdating;
+
+	unsigned int				m_CurrentX;
+	unsigned int				m_CurrentY;
+	unsigned int				m_NextY;
 };
 
 } //~ namespace zeno

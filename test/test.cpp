@@ -1674,56 +1674,30 @@ TEST_CASE("Font Test", "[Font]")
 		zeno::Clock clock;
 		bool running = true;
 
-		zeno::RenderData data;
-		data.transform = zeno::Mat4x4::Orthographic2D(0.0f, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y), 0.0f);
-		
-		
-
-		std::string textToRender("Hello world! I'm Mark, 4327, VAWAVAY");
-
-		zeno::Image atlas;
-		atlas.create(512, 512, zeno::Colour::Magenta);
-
-
-
-		for (unsigned int i = 0; i < textToRender.size(); i += 1)
-		{
-			font.addGlyphToAtlas(static_cast<int>(textToRender.at(i)), atlas);
-		}
-		
-
-
-		zeno::Texture tex;
-		tex.loadFromImage(atlas);
-		tex.setWrapMode(zeno::Texture::TextureWrap::CLAMP, zeno::Texture::TextureWrap::CLAMP);
+		float angle = 0.0f;
 
 		//~ No kerning
 		zeno::RenderData textData;
-		textData.shader = "TextShader";
-		textData.texture = &tex;
-		textData.transform = zeno::Mat4x4::Orthographic2D(0.0f, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y), 0.0f);
-		textData.transform *= zeno::Mat4x4::createTranslation(zeno::Vector3f(0.0f, 100.0f, 0.0f));
-
+		
+		
 		zeno::Text text;
 		text.setKerning(false);
-		text.generateText(textToRender, &font);
+		text.generateText("0123456789 Mark Davison :D", &font);
 
+		
 		//~ Kerning
 		zeno::RenderData textData2;
-		textData2.shader = "TextShader";
-		textData2.texture = &tex;
 		textData2.transform = zeno::Mat4x4::Orthographic2D(0.0f, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y), 0.0f);
-		textData2.transform *= zeno::Mat4x4::createTranslation(zeno::Vector3f(0.0f, 50.0f, 0.0f));
-
+		textData2.transform *= zeno::Mat4x4::createTranslation(zeno::Vector3f(50.0f, 50.0f, 0.0f));
+		
 		zeno::Text text2;
 		text2.setKerning(true);
-		text2.generateText(textToRender, &font);
-		
+		text2.generateText("0123456789 Mark Davison :D", &font);
+
 
 		while (running)
 		{
-
-			window.setTitle(std::string("Text Test. FPS: " + std::to_string(static_cast<int>(1.0f / clock.restart().asSeconds()))));
+			window.setTitle(std::string("Text Test. FPS: " + std::to_string(static_cast<int>(1.0f / clock.getElapsedTime().asSeconds()))));
 
 			zeno::Event event;
 			while (window.pollEvent(event))
@@ -1738,7 +1712,21 @@ TEST_CASE("Font Test", "[Font]")
 			{
 				text .setColour(zeno::Colour((static_cast<float>(rand() % 255) / 255.0f), (static_cast<float>(rand() % 255) / 255.0f), (static_cast<float>(rand() % 255) / 255.0f)));
 				text2.setColour(zeno::Colour((static_cast<float>(rand() % 255) / 255.0f), (static_cast<float>(rand() % 255) / 255.0f), (static_cast<float>(rand() % 255) / 255.0f)));
+
+				angle += 90.0f * clock.getElapsedTime().asSeconds();
+
+				if (angle > 360.0f)
+				{
+					angle -= 360.0f;
+				}
 			}
+
+			clock.restart();
+
+			textData.transform = zeno::Mat4x4::Orthographic2D(0.0f, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y), 0.0f);
+			textData.transform *= zeno::Mat4x4::createTranslation(zeno::Vector3f(50.0f, 100.0f, 0.0f));
+			textData.transform *= zeno::Mat4x4::createRotationZ((angle) * 3.14159f / 180.0f);
+
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
@@ -1747,6 +1735,8 @@ TEST_CASE("Font Test", "[Font]")
 
 			window.display();
 		}
+
+		font.getAtlas().saveToFile("C:/Users/Mark/Documents/Github/zeno/test/atlas.png");
 
 		window.close();
 	}

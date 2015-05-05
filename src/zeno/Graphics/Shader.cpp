@@ -274,17 +274,6 @@ void Shader::passUniform(const std::string& _name, const Vector3<float>& _unifor
 		}
 	}
 }
-void Shader::passUniform(const std::string& _name, const Mat4x4& _uniform)
-{
-	for (unsigned int i = 0; i < m_UniformLocations.size(); i += 1)
-	{
-		if (m_UniformLocations.at(i).first == _name)
-		{
-			glUniformMatrix4fv(m_UniformLocations.at(i).second, 1, false, _uniform.pointer());
-			return;
-		}
-	}
-}
 void Shader::passUniform(const std::string& _name, const Vector4<float>& _uniform)
 {
 	for (unsigned int i = 0; i < m_UniformLocations.size(); i += 1)
@@ -292,6 +281,28 @@ void Shader::passUniform(const std::string& _name, const Vector4<float>& _unifor
 		if (m_UniformLocations.at(i).first == _name)
 		{
 			glUniform4f(m_UniformLocations.at(i).second, _uniform.x, _uniform.y, _uniform.z, _uniform.w);
+			return;
+		}
+	}
+}
+void Shader::passUniform(const std::string& _name, const Colour& _uniform)
+{
+	for (unsigned int i = 0; i < m_UniformLocations.size(); i += 1)
+	{
+		if (m_UniformLocations.at(i).first == _name)
+		{
+			glUniform4f(m_UniformLocations.at(i).second, _uniform.r, _uniform.g, _uniform.b, _uniform.a);
+			return;
+		}
+	}
+}
+void Shader::passUniform(const std::string& _name, const Mat4x4& _uniform)
+{
+	for (unsigned int i = 0; i < m_UniformLocations.size(); i += 1)
+	{
+		if (m_UniformLocations.at(i).first == _name)
+		{
+			glUniformMatrix4fv(m_UniformLocations.at(i).second, 1, false, _uniform.pointer());
 			return;
 		}
 	}

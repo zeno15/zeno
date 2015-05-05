@@ -70,7 +70,7 @@ void Text::generateText(const std::string& _text, Font *_font)
 		FT_GlyphSlot glyph = m_Font->getGlyph(index);
 
 		std::vector<float> verts = m_Font->getVertexData(static_cast<int>(_text.at(i)), penPos + Vector2f(static_cast<float>(glyph->bitmap_left + kerning.x), static_cast<float>(glyph->bitmap_top) - static_cast<float>(glyph->bitmap.rows)));
-
+		
 		for (unsigned int j = 0; j < verts.size(); j += 1)
 		{
 			data.push_back(verts.at(j));
@@ -78,6 +78,7 @@ void Text::generateText(const std::string& _text, Font *_font)
 
 		penPos.x += glyph->advance.x >> 6;
 	}
+
 
 	m_Verticies = (data.size() / 4);
 	
@@ -94,17 +95,25 @@ void Text::generateText(const std::string& _text, Font *_font)
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, NULL);
+	
+
+	m_Font->updateTextureIfNeeded();
 }
 
 void Text::render(RenderData _data)
 {
+	if (_data.shader == "Zenos_Default_Shader")
+	{
+		_data.shader = "TextShader";
+	}
+
 	zeno::ShaderManager::getInstance().getShader(_data.shader).bind();
 	
-	zeno::ShaderManager::getInstance().getShader(_data.shader).passUniform("colour", zeno::Vector4f(m_TextColour.r, m_TextColour.g, m_TextColour.b, m_TextColour.a));
-	zeno::ShaderManager::getInstance().getShader(_data.shader).passUniform("texSize", _data.texture->getSize());
+	zeno::ShaderManager::getInstance().getShader(_data.shader).passUniform("colour", m_TextColour);
+	zeno::ShaderManager::getInstance().getShader(_data.shader).passUniform("texSize", m_Font->getTextureAtlas().getSize());
 	zeno::ShaderManager::getInstance().getShader(_data.shader).passUniform("view", _data.transform);
 
-	_data.texture->bind();
+	m_Font->getTextureAtlas().bind();
 
 	glBindVertexArray(m_VAO);
 	glDrawArrays(GL_TRIANGLES, 0, m_Verticies);

@@ -8,6 +8,8 @@
 #include <zeno/System/Vector3.hpp>
 #include <zeno/System/Mat4x4.hpp>
 
+#include <zeno/Graphics/Colour.hpp>
+
 namespace zeno {
 
 ////////////////////////////////////////////////////////////
@@ -138,6 +140,13 @@ public:
 	//
 	////////////////////////////////////////////////////////////
 	void passUniform(const std::string& _name, const Vector4<float>& _uniform);
+	////////////////////////////////////////////////////////////
+	//
+	//	Passes the uniform with the given name of type Colour
+	//	to the shader
+	//
+	////////////////////////////////////////////////////////////
+	void passUniform(const std::string& _name, const Colour& _uniform);
 	////////////////////////////////////////////////////////////
 	//
 	//	Passes the uniform with the given name of type Mat4x4
