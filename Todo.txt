@@ -1,6 +1,10 @@
 --------------------------------------------------------------------------------------------------
 TODO
 
+External libs
+	-	Make sure that in the cmake process you need to define the locations of the directories, rather than using the extlibs folder
+
+
 GUI
 	-	http://highschool.cs.vt.edu/Svc2012/S2012/gui-events-slides.pdf
 	-	https://courses.cs.washington.edu/courses/cse331/13sp/lectures/lect23-graphics.pdf
