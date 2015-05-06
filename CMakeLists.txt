@@ -59,6 +59,7 @@ set(SYSTEM_HEADER_FILES ${SYSTEM_HEADER_FILES}
 		${CMAKE_SOURCE_DIR}/include/zeno/System/Rect.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/System/Time.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/System/Transformable2D.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/System/Transformable3D.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/System/Vector2.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/System/Vector3.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/System/Vector4.hpp
@@ -114,6 +115,7 @@ set(SYSTEM_SOURCE_FILES ${SYSTEM_SOURCE_FILES}
 		${CMAKE_SOURCE_DIR}/src/zeno/System/Mouse.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/System/Time.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/System/Transformable2D.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/System/Transformable3D.cpp
 	)
 		
 set(WINDOW_SOURCE_FILES ${WINDOW_SOURCE_FILES}

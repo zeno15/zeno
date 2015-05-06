@@ -100,7 +100,7 @@ void Text::generateText(const std::string& _text, Font *_font)
 	m_Font->updateTextureIfNeeded();
 }
 
-void Text::render(RenderData _data)
+void Text::render(RenderData _data) const
 {
 	if (_data.shader == "Zenos_Default_Shader")
 	{

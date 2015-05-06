@@ -24,6 +24,7 @@
 #include <zeno/GUI/Button.hpp>
 #include <zeno/GUI/ProgressBar.hpp>
 #include <zeno/GUI/Slider.hpp>
+#include <zeno/GUI/Label.hpp>
 
 #include <zeno/Graphics/Font.hpp>
 
@@ -1511,6 +1512,8 @@ TEST_CASE("GUI Test", "[GUI]")
 		zeno::GuiDesktop desktop;
 		desktop.setResolution(window.getSize());
 
+		desktop.loadGUIFont("C:/Windows/Fonts/segoeui.ttf", 64);
+
 		desktop.addPane("Pane");
 
 		zeno::GuiPane& pane = desktop.getPane("Pane");
@@ -1529,7 +1532,9 @@ TEST_CASE("GUI Test", "[GUI]")
 		pane.addChild(new zeno::Slider("Slider"));
 		dynamic_cast<zeno::Slider *>(pane.getChild("Slider"))->registerCallback([](float _arg){std::cout << "Slider updated to: " << _arg * 100.0f << std::endl;});
 
-
+		pane.addChild(new zeno::Label("Label", desktop.getGUIFont()));
+		dynamic_cast<zeno::Label *>(pane.getChild("Label"))->setLabel("Label");
+		dynamic_cast<zeno::Label *>(pane.getChild("Label"))->move(zeno::Vector3f(50.0f, 250.0f, 0.5f));
 		float progressVal = 0.0f;
 		int progressCount = 0;
 
@@ -1571,6 +1576,7 @@ TEST_CASE("GUI Test", "[GUI]")
 				{
 					if (event.key.key == zeno::Keyboard::Key::Space)
 					{
+						dynamic_cast<zeno::Label *>(pane.getChild("Label"))->setLabelColour(zeno::Colour((static_cast<float>(rand() % 255) / 255.0f), (static_cast<float>(rand() % 255) / 255.0f), (static_cast<float>(rand() % 255) / 255.0f)));
 					}
 				}
 
@@ -1649,7 +1655,7 @@ TEST_CASE("Font Test", "[Font]")
 	SECTION("Setup")
 	{		
 		zeno::Font font;
-		if (!font.loadFromFile("C:/Windows/Fonts/ARIAL.TTF", 64))
+		if (!font.loadFromFile("C:/Windows/Fonts/segoeui.ttf", 64))
 		{
 			std::cout << "Failed to load font." << std::endl;
 		}
@@ -1684,15 +1690,25 @@ TEST_CASE("Font Test", "[Font]")
 		text.setKerning(false);
 		text.generateText("0123456789 Mark Davison :D", &font);
 
+		zeno::Texture dolphinTex;
+		dolphinTex.loadFromFile("C:/Users/Mark/Desktop/Dolphin.png");
+		zeno::Sprite dolphinSprite(&dolphinTex);
+		
+		zeno::RenderData dolphinData;
+		dolphinData.transform = zeno::Mat4x4::Orthographic2D(0.0f, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y), 0.0f);
+		dolphinData.transform *= zeno::Mat4x4::createTranslation(zeno::Vector3f(0.0f, 0.0f, -0.5f));
+		dolphinData.texture = &dolphinTex;
+		
+		
 		
 		//~ Kerning
 		zeno::RenderData textData2;
 		textData2.transform = zeno::Mat4x4::Orthographic2D(0.0f, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y), 0.0f);
-		textData2.transform *= zeno::Mat4x4::createTranslation(zeno::Vector3f(50.0f, 50.0f, 0.0f));
+		textData2.transform *= zeno::Mat4x4::createTranslation(zeno::Vector3f(50.0f, 50.0f, 0.5f));
 		
 		zeno::Text text2;
 		text2.setKerning(true);
-		text2.generateText("0123456789 Mark Davison :D", &font);
+		text2.generateText("Label", &font);
 
 
 		while (running)
@@ -1730,6 +1746,7 @@ TEST_CASE("Font Test", "[Font]")
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
+			dolphinSprite.render(dolphinData);
 			text.render(textData);
 			text2.render(textData2);
 

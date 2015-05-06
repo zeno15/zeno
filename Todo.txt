@@ -1,5 +1,11 @@
 --------------------------------------------------------------------------------------------------
-TODO
+TODO	-	
+
+Look into whether functions should look like:
+static const void
+methodName(T _name);
+
+Remove superfluous #includes
 
 External libs
 	-	Make sure that in the cmake process you need to define the locations of the directories, rather than using the extlibs folder
@@ -35,7 +41,7 @@ have shared libraries be created as well
 	-	Test that all 4 library versions work on both platforms
 
 look into if a abstract base class "Drawable" etc is a good thing
-	-	For vertex array, sprite implement drawable
+	-	For vertex array, sprite, text implement drawable
 
 
 Implement doxygen into header files
@@ -55,15 +61,16 @@ have shader for when a texture is/isnt used with vertex array
 	
 	
 3d transformable
+	-	Apply to GuiBase
 
 RenderData
 	-	Make different constructors for different use cases
 
 Fonts/Text
+	-	Embed text shader into shader manager
 	-	Look into options for texture atlas size, start width > 512 etc, max size
 	-	Have generateText add glyphs to the atlas
 	-	Look into issue with rotated text artifacts
-	-	Fix text layering, alpha blending not workingas expected.
 	-	Change way they are rendered so it defaults to the default shader, but if other is set will use that
 		-	Have the uniform passing only be used if it is the default shader
 	-	Fix overlapping font quads not 
@@ -77,7 +84,7 @@ find better way to update textures than completely recreating them (i.e. as in f
 
 add in generic headers for each different sub module
 
-inherit Transformable2D for gui objects
+inherit Transformable3D for gui objects, since depth may be important
 GuiDesktop better event management (not using created events instantly)
 implement names/id's for all guibase objects so events can go to specific objects
 
@@ -103,10 +110,18 @@ GuiPane
 	-	Have fast opt out of event handling, have objects register with panes what events they want
 
 GUIBase
+	-	Need virtual method to return what depth the parts of the element cover
 	-	have visible/enabled etc 
 	-	may need to have disabled colours for elements, or just tone the colours down?
 	-	need to have function to return start and end heights of created verticies
 	-	Desired/requested sizes, and the actual size a pane can give an element
+	-	Pass render data down the children hierachy
+	
+	-	Implement Transformable3D for
+		-	Progress bar
+		-	Slider
+		-	Button
+		-	Label
 
 ProgressBar
 	-	Have option for indeterminate length, ie |             []				| with [] moving
@@ -124,6 +139,9 @@ Button
 Slider
 	-	Need to clean up vertex creation
 	
+Label
+	-	Crashes if you try to draw before setting the label string
+	
 Random Number
 	-	Put wrapper around c++11 functions for simple use cases
 	
@@ -137,11 +155,9 @@ Particle System
 	-	Using Geometry shader and point sprites (GL_POINT_SPRITE, )
 	
 Image
-	-	Implement expand vertically method
 	
 Texture
 	-	Comment
-	-	Implement setting min/mag filter options
 	-	Look into modifying texture, expanding etc
 	-	Have persistant options for texture, stay when reloaded
 	-	Implement single channel texture, for font
@@ -163,6 +179,7 @@ Fonts
 	-	2d orthographic text
 	-	basic implementation complete
 	-	Add kerning
+	-	Fix text layering, alpha blending not workingas expected.
 	
 Progress Bar
 	-	Have text numbers denoting percentage? - Simply draw it above it, not needed.
@@ -176,3 +193,10 @@ GUIDesktop
 	
 Image
 	-	Implement copy method
+	-	Implement expand vertically method
+
+Texture
+	-	Implement setting min/mag filter options
+	
+Transformable3D
+	-	

@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include <zeno/System/Transformable3D.hpp>
+
 namespace zeno {
 
 class GUIEvent;
@@ -13,7 +15,7 @@ class GUIEvent;
 //	Base for all GUI elements
 //
 ////////////////////////////////////////////////////////////
-class GuiBase
+class GuiBase : public Transformable3D
 {
 public:
 	////////////////////////////////////////////////////////////

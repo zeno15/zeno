@@ -1,8 +1,11 @@
 #ifndef INCLUDED_ZENO_GUI_GUI_DESKTOP_HPP
 #define INCLUDED_ZENO_GUI_GUI_DESKTOP_HPP
 
+#include <zeno/Graphics/Font.hpp>
+
 #include <zeno/GUI/GUIEvent.hpp>
 #include <zeno/GUI/GuiPane.hpp>
+
 #include <zeno/System/Vector2.hpp>
 
 #include <vector>
@@ -82,6 +85,10 @@ public:
 
 	void processThrown(void);
 
+	bool loadGUIFont(const std::string& _filename, unsigned int _fontSize = 32);
+
+	Font *getGUIFont(void);
+
 private:
 	////////////////////////////////////////////////////////////
 	//
@@ -116,6 +123,13 @@ private:
 	//
 	////////////////////////////////////////////////////////////
 	std::vector<GUIEvent>		m_ThrownEvents;
+	
+	////////////////////////////////////////////////////////////
+	//
+	//
+	//
+	////////////////////////////////////////////////////////////
+	Font 						m_GUIFont;
 };
 
 } //~ namespace zeno

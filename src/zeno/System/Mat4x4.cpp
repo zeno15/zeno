@@ -321,7 +321,6 @@ Mat4x4 Mat4x4::perspective(float _fov, float _aspectRatio, float _near, float _f
 	return mat;
 }
 
-
 Mat4x4& Mat4x4::translate(const Vector3f& _vec)
 {
 	values[12] += _vec.x;

@@ -186,4 +186,14 @@ void GuiDesktop::processThrown(void)
 	m_ThrownEvents.clear();
 }
 
+bool GuiDesktop::loadGUIFont(const std::string& _filename, unsigned int _fontSize /*= 32*/)
+{
+	return m_GUIFont.loadFromFile(_filename, _fontSize);
+}
+
+Font *GuiDesktop::getGUIFont(void)
+{
+	return &m_GUIFont;
+}
+
 } //~ namespace zeno
