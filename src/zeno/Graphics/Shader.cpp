@@ -262,6 +262,8 @@ void Shader::passUniform(const std::string& _name, const Vector2<float>& _unifor
 			return;
 		}
 	}
+
+	std::cout << "Get uniform: " << _name << " failed." << std::endl;
 }
 void Shader::passUniform(const std::string& _name, const Vector3<float>& _uniform)
 {
@@ -273,6 +275,8 @@ void Shader::passUniform(const std::string& _name, const Vector3<float>& _unifor
 			return;
 		}
 	}
+
+	std::cout << "Get uniform: " << _name << " failed." << std::endl;
 }
 void Shader::passUniform(const std::string& _name, const Vector4<float>& _uniform)
 {
@@ -284,6 +288,8 @@ void Shader::passUniform(const std::string& _name, const Vector4<float>& _unifor
 			return;
 		}
 	}
+
+	std::cout << "Get uniform: " << _name << " failed." << std::endl;
 }
 void Shader::passUniform(const std::string& _name, const Colour& _uniform)
 {
@@ -295,6 +301,8 @@ void Shader::passUniform(const std::string& _name, const Colour& _uniform)
 			return;
 		}
 	}
+
+	std::cout << "Get uniform: " << _name << " failed." << std::endl;
 }
 void Shader::passUniform(const std::string& _name, const Mat4x4& _uniform)
 {
@@ -306,6 +314,8 @@ void Shader::passUniform(const std::string& _name, const Mat4x4& _uniform)
 			return;
 		}
 	}
+
+	std::cout << "Get uniform: " << _name << " failed." << std::endl;
 }
 
 } //~ namespace zeno

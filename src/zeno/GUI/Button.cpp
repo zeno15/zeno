@@ -1,6 +1,10 @@
 #include <zeno/GUI/Button.hpp>
 
 #include <zeno/GUI/GUIEvent.hpp>
+#include <zeno/GUI/Label.hpp>
+
+#include <zeno/Graphics/Font.hpp>
+#include <zeno/Graphics/ShaderManager.hpp>
 
 #include <GL/glew.h>
 
@@ -19,7 +23,8 @@ m_ForegroundHoverColour(Colour::Red),
 m_State(State::DEFAULT),
 m_Depressed(false),
 m_MouseContained(false),
-m_OutlineThickness(4.0f)
+m_OutlineThickness(4.0f),
+m_Label(nullptr)
 {
 	glGenVertexArrays(1, &m_VAO);
 	glBindVertexArray(m_VAO);
@@ -46,7 +51,9 @@ m_OutlineThickness(4.0f)
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 
-	m_Bounds = FloatRect(Vector2f(50.0f, 50.0f), Vector2f(100.0f, 100.0f));
+	m_Bounds = FloatRect(Vector2f(100.0f, 100.0f), Vector2f(100.0f, 100.0f));
+
+	move(zeno::Vector3f(m_Bounds.left, m_Bounds.bot, 0.0f));
 
 	resendPositions();
 	resendColours();
@@ -54,7 +61,10 @@ m_OutlineThickness(4.0f)
 
 Button::~Button(void)
 {
-
+	if (m_Label != nullptr)
+	{
+		delete m_Label;
+	}
 }
 
 bool Button::processEvent(const GUIEvent& _event)
@@ -102,11 +112,25 @@ bool Button::processEvent(const GUIEvent& _event)
 	return false;
 }
 
-void Button::render(void) const
+void Button::render(Mat4x4 _transform) const
 {
+	Shader& shader = ShaderManager::getInstance().getShader("GUI");
+
+	Mat4x4 trans = _transform * getTransform();
+
+	shader.bind();
+	shader.passUniform("View", trans);
+
 	glBindVertexArray(m_VAO);
 	glDrawArrays(GL_TRIANGLES, 0, NUM_VERTEXES);
 	glBindVertexArray(0);
+
+	if (m_Label != nullptr)
+	{
+		m_Label->render(trans);
+	}
+
+	shader.unbind();
 }
 
 void Button::registerCallback(std::function<void(void)> _function)
@@ -165,22 +189,22 @@ void Button::resendPositions(void)
 
 	std::vector<float> data = {
 		//~ Background positions
-		m_Bounds.left,						m_Bounds.bot,						0.0f,
-		m_Bounds.left + m_Bounds.width,		m_Bounds.bot,						0.0f,
-		m_Bounds.left + m_Bounds.width,		m_Bounds.bot + m_Bounds.height,		0.0f,
+		0.0f,											0.0f,											0.0f,
+		0.0f + m_Bounds.width,							0.0f,											0.0f,
+		0.0f + m_Bounds.width,							0.0f + m_Bounds.height,							0.0f,
 
-		m_Bounds.left,						m_Bounds.bot,						0.0f,
-		m_Bounds.left + m_Bounds.width,		m_Bounds.bot + m_Bounds.height,		0.0f,
-		m_Bounds.left,						m_Bounds.bot + m_Bounds.height,		0.0f,
+		0.0f,											0.0f,											0.0f,
+		0.0f + m_Bounds.width,							0.0f + m_Bounds.height,							0.0f,
+		0.0f,											0.0f + m_Bounds.height,							0.0f,
 
 		//~ Foreground positions
-		m_Bounds.left + m_OutlineThickness,						m_Bounds.bot + m_OutlineThickness,						0.1f,
-		m_Bounds.left + m_Bounds.width - m_OutlineThickness,	m_Bounds.bot + m_OutlineThickness,						0.1f,
-		m_Bounds.left + m_Bounds.width - m_OutlineThickness,	m_Bounds.bot + m_Bounds.height - m_OutlineThickness,	0.1f,
+		0.0f + m_OutlineThickness,						0.0f + m_OutlineThickness,						0.1f,
+		0.0f + m_Bounds.width - m_OutlineThickness,		0.0f + m_OutlineThickness,						0.1f,
+		0.0f + m_Bounds.width - m_OutlineThickness,		0.0f + m_Bounds.height - m_OutlineThickness,	0.1f,
 
-		m_Bounds.left + m_OutlineThickness,						m_Bounds.bot + m_OutlineThickness,						0.1f,
-		m_Bounds.left + m_Bounds.width - m_OutlineThickness,	m_Bounds.bot + m_Bounds.height - m_OutlineThickness,	0.1f,
-		m_Bounds.left + m_OutlineThickness,						m_Bounds.bot + m_Bounds.height - m_OutlineThickness,	0.1f
+		0.0f + m_OutlineThickness,						0.0f + m_OutlineThickness,						0.1f,
+		0.0f + m_Bounds.width - m_OutlineThickness,		0.0f + m_Bounds.height - m_OutlineThickness,	0.1f,
+		0.0f + m_OutlineThickness,						0.0f + m_Bounds.height - m_OutlineThickness,	0.1f
 	};
 
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * data.size(), data.data());
@@ -193,6 +217,19 @@ void Button::changeState(State _newState)
 
 		resendColours();
 	}
+}
+
+void Button::addLabel(const std::string& _labelString, Font *_font)
+{
+	if (m_Label != nullptr)
+	{
+		delete m_Label;
+	}
+
+	m_Label = new Label(m_Id + _labelString, _font);
+	m_Label->move(Vector3f(0.0f, 0.0f, 0.2f));
+
+	m_Label->setLabel(_labelString);
 }
 
 } //~ namespace zeno

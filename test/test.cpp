@@ -1527,6 +1527,7 @@ TEST_CASE("GUI Test", "[GUI]")
 
 		pane.addChild(new zeno::Button("Button"));
 		dynamic_cast<zeno::Button *>(pane.getChild("Button"))->registerCallback([](void){std::cout << "Button pressed!" << std::endl;});
+		dynamic_cast<zeno::Button *>(pane.getChild("Button"))->addLabel("Hello", desktop.getGUIFont());
 
 
 		pane.addChild(new zeno::Slider("Slider"));
@@ -1534,7 +1535,8 @@ TEST_CASE("GUI Test", "[GUI]")
 
 		pane.addChild(new zeno::Label("Label", desktop.getGUIFont()));
 		dynamic_cast<zeno::Label *>(pane.getChild("Label"))->setLabel("Label");
-		dynamic_cast<zeno::Label *>(pane.getChild("Label"))->move(zeno::Vector3f(50.0f, 250.0f, 0.5f));
+		dynamic_cast<zeno::Label *>(pane.getChild("Label"))->move(zeno::Vector3f(0.0f, 0.0f, 0.5f));
+		
 		float progressVal = 0.0f;
 		int progressCount = 0;
 

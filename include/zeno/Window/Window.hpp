@@ -14,9 +14,7 @@
 
 namespace zeno {
 
-//~ Need context settings to set antialiasing/opengl version
-
-
+//~ TODO Need context settings to set antialiasing/opengl version
 
 ////////////////////////////////////////////////////////////
 //

@@ -55,6 +55,9 @@ void Text::generateText(const std::string& _text, Font *_font)
 
 	Vector2f penPos;
 
+	float top = 0.0f;
+	float bottom = 0.0f;
+
 	for (unsigned int i = 0; i < _text.size(); i += 1)
 	{
 		FT_UInt index = m_Font->getGlyphIndex(static_cast<int>(_text.at(i)));
@@ -71,9 +74,15 @@ void Text::generateText(const std::string& _text, Font *_font)
 
 		std::vector<float> verts = m_Font->getVertexData(static_cast<int>(_text.at(i)), penPos + Vector2f(static_cast<float>(glyph->bitmap_left + kerning.x), static_cast<float>(glyph->bitmap_top) - static_cast<float>(glyph->bitmap.rows)));
 		
-		for (unsigned int j = 0; j < verts.size(); j += 1)
+		for (unsigned int j = 0; j < verts.size(); j += 4)
 		{
-			data.push_back(verts.at(j));
+			data.push_back(verts.at(j + 0));	//~ x pos
+			data.push_back(verts.at(j + 1));	//~ y pos
+			data.push_back(verts.at(j + 2));	//~ x tex
+			data.push_back(verts.at(j + 3));	//~ y tex
+
+			top = std::max(top, verts.at(j + 1));
+			bottom = std::min(bottom, verts.at(j + 1));
 		}
 
 		penPos.x += glyph->advance.x >> 6;
@@ -81,6 +90,12 @@ void Text::generateText(const std::string& _text, Font *_font)
 
 
 	m_Verticies = (data.size() / 4);
+
+	float left = 0.0f;
+	float right = data.at(data.size() - 1 - 3);
+
+	m_Bounds = FloatRect(left, bottom, right - left, top - bottom);
+	
 	
 	glGenVertexArrays(1, &m_VAO);
 
@@ -95,7 +110,6 @@ void Text::generateText(const std::string& _text, Font *_font)
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, NULL);
-	
 
 	m_Font->updateTextureIfNeeded();
 }
@@ -127,6 +141,18 @@ void Text::setColour(const Colour& _colour)
 void Text::setKerning(bool _kerning /*= true*/)
 {
 	m_UseKerning = _kerning;
+}
+
+FloatRect Text::getBounds(void)
+{
+	return m_Bounds;
+}
+
+FloatRect Text::getTransformedBounds(void)
+{
+	//~ TODO need to inherit from Transformable2D and then add the translated offset
+
+	return m_Bounds;
 }
 
 } //~ namespace zeno

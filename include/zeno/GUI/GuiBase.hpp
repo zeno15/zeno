@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include <zeno/System/Mat4x4.hpp>
 #include <zeno/System/Transformable3D.hpp>
 
 namespace zeno {
@@ -44,7 +45,7 @@ public:
 	//	Renders the element
 	//
 	////////////////////////////////////////////////////////////
-	virtual void render(void) const = 0;
+	virtual void render(Mat4x4 _transform) const = 0;
 
 	////////////////////////////////////////////////////////////
 	//

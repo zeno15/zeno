@@ -19,11 +19,10 @@ bool Label::processEvent(const GUIEvent& _event)
 	return false;
 }
 
-void Label::render(void) const
+void Label::render(Mat4x4 _transform) const
 {
 	zeno::RenderData data;
-	data.transform = zeno::Mat4x4::Orthographic2D(0.0f, 1280.0f, 720.0f, 0.0f);
-	data.transform *= getTransform();
+	data.transform = _transform * getTransform();
 
 	m_LabelText.render(data);
 }

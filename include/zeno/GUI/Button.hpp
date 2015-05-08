@@ -10,6 +10,9 @@
 
 namespace zeno {
 
+class Font;
+class Label;
+
 ////////////////////////////////////////////////////////////
 //
 //	Simple push button class
@@ -46,7 +49,7 @@ public:
 	//	Renders the element
 	//
 	////////////////////////////////////////////////////////////
-	virtual void render(void) const;
+	virtual void render(Mat4x4 _transform) const;
 
 	////////////////////////////////////////////////////////////
 	//
@@ -54,6 +57,8 @@ public:
 	//
 	////////////////////////////////////////////////////////////
 	void registerCallback(std::function<void(void)> _function);
+
+	void addLabel(const std::string& _labelString, Font *_font);
 
 private:
 	enum State {
@@ -90,6 +95,8 @@ private:
 	float		m_OutlineThickness;
 
 	std::function<void(void)>		m_ActivationFunction;
+
+	Label *							m_Label;
 };
 
 } //~ namespace zeno

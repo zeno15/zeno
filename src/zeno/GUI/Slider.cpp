@@ -1,6 +1,9 @@
 #include <zeno/GUI/Slider.hpp>
 
 #include <zeno/GUI/GUIEvent.hpp>
+
+#include <zeno/Graphics/ShaderManager.hpp>
+
 #include <zeno/System/Rect.hpp>
 
 #include <GL/glew.h>
@@ -123,12 +126,18 @@ bool Slider::processEvent(const GUIEvent& _event)
 	return false;
 }
 
-void Slider::render(void) const
+void Slider::render(Mat4x4 _transform) const
 {
+	Shader& shader = ShaderManager::getInstance().getShader("GUI");
+
+	shader.bind();
+	shader.passUniform("View", _transform);
+
 	glBindVertexArray(m_VAO);
 	glDrawArrays(GL_TRIANGLES, 0, NUM_VERTEXES + (m_Continuous ? 0 : (m_NumDiscreteValues - 2) * 6));
-
 	glBindVertexArray(0);
+
+	shader.unbind();
 }
 
 

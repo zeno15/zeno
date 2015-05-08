@@ -27,11 +27,11 @@ bool GuiPane::processEvent(const GUIEvent& _event)
 	return false;
 }
 
-void GuiPane::render(void) const
+void GuiPane::render(Mat4x4 _transform) const
 {
 	for (GuiBase *element : m_Children)
 	{
-		element->render();
+		element->render(_transform);
 	}
 }
 

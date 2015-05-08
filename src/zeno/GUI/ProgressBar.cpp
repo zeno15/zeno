@@ -1,6 +1,8 @@
-#include  <zeno/GUI/ProgressBar.hpp>
+#include <zeno/GUI/ProgressBar.hpp>
 
 #include <zeno/GUI/GUIEvent.hpp>
+
+#include <zeno/Graphics/ShaderManager.hpp>
 
 #include <GL/glew.h>
 #include <iostream>
@@ -124,11 +126,18 @@ bool ProgressBar::processEvent(const GUIEvent& _event)
 	return false;
 }
 
-void ProgressBar::render(void) const
+void ProgressBar::render(Mat4x4 _transform) const
 {
+	Shader& shader = ShaderManager::getInstance().getShader("GUI");
+
+	shader.bind();
+	shader.passUniform("View", _transform);
+
 	glBindVertexArray(m_VAO);
 	glDrawArrays(GL_TRIANGLES, 0, NUM_QUAD_VERTICIES * 3);
 	glBindVertexArray(0);
+
+	shader.unbind();
 }
 
 void ProgressBar::changeOutlineColour(const Colour& _colour)

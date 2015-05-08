@@ -74,17 +74,13 @@ void GuiDesktop::processEvent(const Event& _event) const
 }
 void GuiDesktop::render(void)
 {
-	Shader& guiShader = ShaderManager::getInstance().getShader("GUI");
+	//Shader& guiShader = ShaderManager::getInstance().getShader("GUI");
 
 	Mat4x4 ortho = Mat4x4::Orthographic2D(0.0f, static_cast<float>(m_Resolution.x), static_cast<float>(m_Resolution.y), 0.0f);
 	
-
-	guiShader.bind();
-	guiShader.passUniform("View", ortho);
-
 	for (GuiPane pane : m_Panes)
 	{
-		pane.render();
+		pane.render(ortho);
 	}
 
 	Shader::unbind();
