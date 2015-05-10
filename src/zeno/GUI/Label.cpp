@@ -27,6 +27,16 @@ void Label::render(Mat4x4 _transform) const
 	m_LabelText.render(data);
 }
 
+FloatRect Label::getBounds(void)
+{
+	m_LabelText.getBounds();
+
+	Vector2f pos (m_LabelText.getBounds().left + getPosition().x, m_LabelText.getBounds().bot + getPosition().y);
+	Vector2f size(m_LabelText.getBounds().width, m_LabelText.getBounds().height);
+
+	return FloatRect(pos, size);
+}
+
 void Label::setLabel(const std::string& _label)
 {
 	m_LabelText.generateText(_label, m_LabelFont);

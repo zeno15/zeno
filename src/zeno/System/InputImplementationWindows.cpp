@@ -2,6 +2,7 @@
 
 #include <zeno/Window/Window.hpp>
 
+#define NOMINMAX
 #include <windows.h>
 
 namespace zeno {

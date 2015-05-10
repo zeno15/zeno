@@ -140,6 +140,13 @@ void ProgressBar::render(Mat4x4 _transform) const
 	shader.unbind();
 }
 
+FloatRect ProgressBar::getBounds(void)
+{
+	std::cout << "TODO" << std::endl;
+
+	return FloatRect();
+}
+
 void ProgressBar::changeOutlineColour(const Colour& _colour)
 {
 	if (m_OutlineColour != _colour)

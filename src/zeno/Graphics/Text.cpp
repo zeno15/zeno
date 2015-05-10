@@ -56,7 +56,9 @@ void Text::generateText(const std::string& _text, Font *_font)
 	Vector2f penPos;
 
 	float top = 0.0f;
-	float bottom = 0.0f;
+	float bottom = std::numeric_limits<float>().max();
+	float left = std::numeric_limits<float>().max();
+	float right = 0.0f;
 
 	for (unsigned int i = 0; i < _text.size(); i += 1)
 	{
@@ -83,6 +85,9 @@ void Text::generateText(const std::string& _text, Font *_font)
 
 			top = std::max(top, verts.at(j + 1));
 			bottom = std::min(bottom, verts.at(j + 1));
+
+			left = std::min(left, verts.at(j));
+			right = std::max(right, verts.at(j));
 		}
 
 		penPos.x += glyph->advance.x >> 6;
@@ -90,9 +95,6 @@ void Text::generateText(const std::string& _text, Font *_font)
 
 
 	m_Verticies = (data.size() / 4);
-
-	float left = 0.0f;
-	float right = data.at(data.size() - 1 - 3);
 
 	m_Bounds = FloatRect(left, bottom, right - left, top - bottom);
 	

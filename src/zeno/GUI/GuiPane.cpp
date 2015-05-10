@@ -35,6 +35,13 @@ void GuiPane::render(Mat4x4 _transform) const
 	}
 }
 
+FloatRect GuiPane::getBounds(void)
+{
+	std::cout << "TODO" << std::endl;
+
+	return FloatRect();
+}
+
 void GuiPane::addChild(GuiBase *_child)
 {
 	m_Children.push_back(_child);

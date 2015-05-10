@@ -5,6 +5,7 @@
 #include <vector>
 
 #include <zeno/System/Mat4x4.hpp>
+#include <zeno/System/Rect.hpp>
 #include <zeno/System/Transformable3D.hpp>
 
 namespace zeno {
@@ -46,6 +47,14 @@ public:
 	//
 	////////////////////////////////////////////////////////////
 	virtual void render(Mat4x4 _transform) const = 0;
+
+	////////////////////////////////////////////////////////////
+	//
+	//	Returns the Rect object that contains all the points of
+	//	the GUI element.
+	//
+	////////////////////////////////////////////////////////////
+	virtual FloatRect getBounds(void) = 0;
 
 	////////////////////////////////////////////////////////////
 	//

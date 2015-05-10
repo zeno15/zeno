@@ -1,6 +1,8 @@
 --------------------------------------------------------------------------------------------------
 TODO	-	
 
+build glew and freetype from source? to avoid LNK4099 errors?
+
 Look into whether functions should look like:
 static const void
 methodName(T _name);
@@ -48,8 +50,6 @@ Implement doxygen into header files
 
 implement sleep function
 
-add passing uniforms into vertex arrays	-	similar to sfml renderstates
-
 opengl contexts when using different windows
 
 have shaders work with multiple textures for vertex array?
@@ -86,7 +86,6 @@ add in generic headers for each different sub module
 
 inherit Transformable3D for gui objects, since depth may be important
 GuiDesktop better event management (not using created events instantly)
-implement names/id's for all guibase objects so events can go to specific objects
 
 consistancy when using sizeof(float), change all to sizeof(GLfloat)
 
@@ -135,6 +134,7 @@ Button
 	-	Need to add label to the button etc
 		-	Have a method for adding a label which sets the buttons desired size to the bounding area of the text
 	-	Add methods to get/set colours, size, position, outline thickness
+	-	Do we want the label colour to change for the text when button state changes?
 	
 Slider
 	-	Need to clean up vertex creation

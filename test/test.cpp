@@ -25,6 +25,7 @@
 #include <zeno/GUI/ProgressBar.hpp>
 #include <zeno/GUI/Slider.hpp>
 #include <zeno/GUI/Label.hpp>
+#include <zeno/GUI/TextBox.hpp>
 
 #include <zeno/Graphics/Font.hpp>
 
@@ -38,6 +39,7 @@
 #include <zeno/Graphics/RenderData.hpp>
 #include <zeno/Graphics/Text.hpp>
 
+#define NOMINMAX
 #include <Windows.h>
 #include <winsock.h>
 #include <thread>
@@ -1512,12 +1514,11 @@ TEST_CASE("GUI Test", "[GUI]")
 		zeno::GuiDesktop desktop;
 		desktop.setResolution(window.getSize());
 
-		desktop.loadGUIFont("C:/Windows/Fonts/segoeui.ttf", 64);
+		desktop.loadGUIFont("C:/Windows/Fonts/segoeui.ttf", 16);
 
 		desktop.addPane("Pane");
 
 		zeno::GuiPane& pane = desktop.getPane("Pane");
-
 
 		pane.addChild(new zeno::ProgressBar("ProgressBar"));
 		dynamic_cast<zeno::ProgressBar *>(pane.getChild("ProgressBar"))->setPosition(zeno::Vector2f(0.0f, 500.0f));
@@ -1527,7 +1528,7 @@ TEST_CASE("GUI Test", "[GUI]")
 
 		pane.addChild(new zeno::Button("Button"));
 		dynamic_cast<zeno::Button *>(pane.getChild("Button"))->registerCallback([](void){std::cout << "Button pressed!" << std::endl;});
-		dynamic_cast<zeno::Button *>(pane.getChild("Button"))->addLabel("Hello", desktop.getGUIFont());
+		dynamic_cast<zeno::Button *>(pane.getChild("Button"))->addLabel("Woo hoooooo!", desktop.getGUIFont());
 
 
 		pane.addChild(new zeno::Slider("Slider"));
@@ -1535,7 +1536,10 @@ TEST_CASE("GUI Test", "[GUI]")
 
 		pane.addChild(new zeno::Label("Label", desktop.getGUIFont()));
 		dynamic_cast<zeno::Label *>(pane.getChild("Label"))->setLabel("Label");
-		dynamic_cast<zeno::Label *>(pane.getChild("Label"))->move(zeno::Vector3f(0.0f, 0.0f, 0.5f));
+		dynamic_cast<zeno::Label *>(pane.getChild("Label"))->move(zeno::Vector3f(200.0f, 400.0f, 0.5f));
+
+		pane.addChild(new zeno::TextBox("TextBox"));
+		dynamic_cast<zeno::TextBox *>(pane.getChild("TextBox"));
 		
 		float progressVal = 0.0f;
 		int progressCount = 0;
@@ -1562,6 +1566,7 @@ TEST_CASE("GUI Test", "[GUI]")
 				
 				zeno::GUIEvent progressEvent;
 				progressEvent.progress.progress = static_cast<float>(progressCount) / 1000.0f;
+				dynamic_cast<zeno::Label *>(pane.getChild("Label"))->setLabel("I'm a label: " + std::to_string(static_cast<int>(static_cast<float>(progressCount) / 10.0f)) + "%");
 				progressEvent.type = zeno::GUIEvent::ProgressUpdate;
 				desktop.throwEvent(progressEvent);
 			}

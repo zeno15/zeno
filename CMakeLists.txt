@@ -44,6 +44,7 @@ set(GUI_HEADER_FILES ${GUI_HEADER_FILES}
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/Label.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/ProgressBar.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/Slider.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/GUI/TextBox.hpp
 	)
 	
 set(NETWORK_HEADER_FILES ${NETWORK_HEADER_FILES}
@@ -102,6 +103,7 @@ set(GUI_SOURCE_FILES ${GUI_SOURCE_FILES}
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/Label.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/ProgressBar.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/Slider.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/GUI/TextBox.cpp
 	)
 	
 set(NETWORK_SOURCE_FILES ${NETWORK_SOURCE_FILES}

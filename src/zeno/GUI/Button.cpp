@@ -51,7 +51,7 @@ m_Label(nullptr)
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
 
 
-	m_Bounds = FloatRect(Vector2f(100.0f, 100.0f), Vector2f(100.0f, 100.0f));
+	m_Bounds = FloatRect(Vector2f(), Vector2f(100.0f, 100.0f));
 
 	move(zeno::Vector3f(m_Bounds.left, m_Bounds.bot, 0.0f));
 
@@ -127,10 +127,18 @@ void Button::render(Mat4x4 _transform) const
 
 	if (m_Label != nullptr)
 	{
-		m_Label->render(trans);
+		m_Label->render(trans * Mat4x4::createTranslation(Vector3f(m_OutlineThickness * 2.0f - m_Label->getBounds().left, m_OutlineThickness * 2.0f - m_Label->getBounds().bot, 0.0f)));
 	}
 
 	shader.unbind();
+}
+
+FloatRect Button::getBounds(void)
+{
+	Vector2f  pos(m_Bounds.left + getPosition().x, m_Bounds.bot + getPosition().y);
+	Vector2f size(m_Bounds.width, m_Bounds.height);
+
+	return FloatRect(pos, size);
 }
 
 void Button::registerCallback(std::function<void(void)> _function)
@@ -230,6 +238,14 @@ void Button::addLabel(const std::string& _labelString, Font *_font)
 	m_Label->move(Vector3f(0.0f, 0.0f, 0.2f));
 
 	m_Label->setLabel(_labelString);
+
+	std::cout << "Label Left: " << m_Label->getBounds().left << ", Bottom: " << m_Label->getBounds().bot << ", width: " << m_Label->getBounds().width << ", height: " << m_Label->getBounds().height << std::endl;
+	std::cout << "Button Left: " << getBounds().left << ", Bottom: " << getBounds().bot << ", width: " << getBounds().width << ", height: " << getBounds().height << std::endl;
+
+	m_Bounds.width = m_Label->getBounds().width + m_OutlineThickness * 4.0f + m_Label->getBounds().left;
+	m_Bounds.height = m_Label->getBounds().height + m_OutlineThickness * 4.0f + m_Label->getBounds().bot;
+
+	resendPositions();
 }
 
 } //~ namespace zeno

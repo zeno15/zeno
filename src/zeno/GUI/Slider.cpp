@@ -140,6 +140,13 @@ void Slider::render(Mat4x4 _transform) const
 	shader.unbind();
 }
 
+FloatRect Slider::getBounds(void)
+{
+	std::cout << "TODO" << std::endl;
+
+	return FloatRect();
+}
+
 
 void Slider::registerCallback(std::function<void(float)> _function)
 {

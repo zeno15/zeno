@@ -2,6 +2,7 @@
 #define INCLUDED_ZENO_WINDOW_WINDOW_HANDLE_HPP
 
 #ifdef _WIN32
+#define NOMINMAX
 #include <Windows.h>
 typedef HWND WindowHandle;
 #endif

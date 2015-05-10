@@ -5940,6 +5940,7 @@ namespace Catch { namespace Detail {
 #ifdef __AFXDLL
 #include <AfxWin.h>
 #else
+#define NOMINMAX
 #include <windows.h>
 #endif
 
@@ -6584,6 +6585,7 @@ namespace Catch
 #endif
 
 #ifdef CATCH_PLATFORM_WINDOWS
+#define NOMINMAX
 #include <windows.h>
 #else
 #include <sys/time.h>
