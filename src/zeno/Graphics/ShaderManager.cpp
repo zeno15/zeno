@@ -187,6 +187,7 @@ Shader& ShaderManager::getShader(const std::string& _name)
 		}
 	}
 	//~ Shader not found
+
 	return getShader(DEFAULT_SHADER_NAME);
 }
 

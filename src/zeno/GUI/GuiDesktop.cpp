@@ -135,6 +135,10 @@ bool GuiDesktop::translateEvent(const Event& _event, GUIEvent& _guiEvent) const
 		_guiEvent.mouseMove.x = _event.position.x;
 		_guiEvent.mouseMove.y = m_Resolution.y - _event.position.y;
 		return true;
+	case (Event::EventType::TextEntered):
+		_guiEvent.type = GUIEvent::EventType::TextEntered;
+		_guiEvent.text.character = _event.text.character;
+		return true;
 	default:
 		return false;
 	}

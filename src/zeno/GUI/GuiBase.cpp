@@ -4,6 +4,7 @@ namespace zeno {
 
 GuiBase::GuiBase(const std::string& _id) :
 m_Active(true),
+m_HasFocus(false),
 m_Id(_id)
 {
 

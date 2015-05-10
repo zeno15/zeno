@@ -4,6 +4,8 @@
 #include <zeno/System/Keyboard.hpp>
 #include <zeno/System/Mouse.hpp>
 
+#include <cstdint>
+
 namespace zeno {
 
 ////////////////////////////////////////////////////////////
@@ -100,6 +102,15 @@ public:
 		int				y;
 	};
 
+	////////////////////////////////////////////////////////////
+	//
+	//	Struct representing data of text entered event
+	//
+	////////////////////////////////////////////////////////////
+	struct TextEnteredEvent {
+		uint32_t		character;
+	};
+
 public:
 	////////////////////////////////////////////////////////////
 	//
@@ -119,6 +130,7 @@ public:
 		MouseWheelEvent		wheel;
 		MouseButtonEvent	mouseButton;
 		PositionEvent		position;
+		TextEnteredEvent	text;
 	};
 };
 

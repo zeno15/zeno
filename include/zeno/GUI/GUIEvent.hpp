@@ -4,6 +4,8 @@
 #include <zeno/System/Mouse.hpp>
 #include <zeno/System/Keyboard.hpp>
 
+#include <cstdint>
+
 namespace zeno {
 
 ////////////////////////////////////////////////////////////
@@ -23,7 +25,8 @@ public:
 		LeftClick,
 		LeftRelease,
 		MouseMove,
-		ProgressUpdate
+		ProgressUpdate,
+		TextEntered
 	};
 	
 	////////////////////////////////////////////////////////////
@@ -56,6 +59,15 @@ public:
 		unsigned int y;
 	};
 
+	////////////////////////////////////////////////////////////
+	//
+	//	Struct representing text entered
+	//
+	////////////////////////////////////////////////////////////
+	struct TextEnteredEvent {
+		uint32_t	character;
+	};
+
 public:
 	////////////////////////////////////////////////////////////
 	//
@@ -73,6 +85,7 @@ public:
 		MouseButtonEvent		mouseButton;
 		MouseMoveEvent			mouseMove;
 		ProgressUpdateEvent		progress;
+		TextEnteredEvent		text;
 	};
 };
 

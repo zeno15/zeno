@@ -55,6 +55,9 @@ opengl contexts when using different windows
 have shaders work with multiple textures for vertex array?
 have shader for when a texture is/isnt used with vertex array
 
+Events
+	-	Look into WM_CHAR, text entered
+
 2d transformable
 	-	Apply to text
 	-	Apply to sprite
@@ -107,6 +110,8 @@ GUIDesktop
 
 GuiPane
 	-	Have fast opt out of event handling, have objects register with panes what events they want
+	-	Have tab and shift-tab change which element has focus
+	-	Need a way for one element to notify others that it has focus so others can relinquish it
 
 GUIBase
 	-	Need virtual method to return what depth the parts of the element cover
@@ -115,6 +120,7 @@ GUIBase
 	-	need to have function to return start and end heights of created verticies
 	-	Desired/requested sizes, and the actual size a pane can give an element
 	-	Pass render data down the children hierachy
+	-	Implement has focus etc
 	
 	-	Implement Transformable3D for
 		-	Progress bar
@@ -131,8 +137,6 @@ ProgressBar
 	-	When complete pulse the bar to indicate completeness
 
 Button
-	-	Need to add label to the button etc
-		-	Have a method for adding a label which sets the buttons desired size to the bounding area of the text
 	-	Add methods to get/set colours, size, position, outline thickness
 	-	Do we want the label colour to change for the text when button state changes?
 	
@@ -141,6 +145,9 @@ Slider
 	
 Label
 	-	Crashes if you try to draw before setting the label string
+	
+Text Box
+	-	Add to GUIEvent normal keypress events, ie left right etc
 	
 Random Number
 	-	Put wrapper around c++11 functions for simple use cases
@@ -180,6 +187,10 @@ Fonts
 	-	basic implementation complete
 	-	Add kerning
 	-	Fix text layering, alpha blending not workingas expected.
+	
+Button
+	-	Need to add label to the button etc
+		-	Have a method for adding a label which sets the buttons desired size to the bounding area of the text
 	
 Progress Bar
 	-	Have text numbers denoting percentage? - Simply draw it above it, not needed.

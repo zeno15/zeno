@@ -242,6 +242,16 @@ void WindowImplementationWin32::processEvent(UINT message, WPARAM wParam, LPARAM
 		pushEvent(e);
 		break;
 
+	case (WM_CHAR):
+	{
+		uint32_t c = static_cast<uint32_t>(wParam);
+
+		e.type = Event::EventType::TextEntered;
+		e.text.character = c;
+		pushEvent(e);
+	}
+		break;
+
 	case (WM_MOUSEWHEEL):
 		e.type = Event::EventType::MouseWheelChanged;
 		e.wheel.delta = GET_WHEEL_DELTA_WPARAM(wParam) / 120;
@@ -321,6 +331,8 @@ void WindowImplementationWin32::processEvent(UINT message, WPARAM wParam, LPARAM
 		pushEvent(e);
 		break;
 
+	default:
+		break;
 	}
 }
 

@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include <zeno/Graphics/ShaderManager.hpp>
+
 #include <zeno/System/Mat4x4.hpp>
 #include <zeno/System/Rect.hpp>
 #include <zeno/System/Transformable3D.hpp>
@@ -106,6 +108,13 @@ protected:
 	////////////////////////////////////////////////////////////
 	bool						m_Active;
 
+	////////////////////////////////////////////////////////////
+	//
+	//	The elements state of focus
+	//
+	////////////////////////////////////////////////////////////
+	bool						m_HasFocus;
+		
 	////////////////////////////////////////////////////////////
 	//
 	//	List of children elements attached to this element

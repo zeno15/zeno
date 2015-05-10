@@ -1455,10 +1455,6 @@ TEST_CASE("Window Test", "[Window]")
 				{
 					std::cout << "Key up: " << event.key.key << std::endl;
 				}
-				else if (event.type == zeno::Event::EventType::TextEntered)
-				{
-					std::cout << "Text Entered." << std::endl;
-				}
 				else if (event.type == zeno::Event::EventType::MouseWheelChanged)
 				{
 					std::cout << "Mouse wheel moved: " << event.wheel.delta << std::endl;
@@ -1474,6 +1470,10 @@ TEST_CASE("Window Test", "[Window]")
 				else if (event.type == zeno::Event::EventType::MouseMoved)
 				{
 					std::cout << "New position x: " << event.position.x << ", y: " << event.position.y << std::endl;
+				}
+				else if (event.type == zeno::Event::EventType::TextEntered)
+				{
+					std::cout << "Text entered event: " << static_cast<char>(event.text.character) << std::endl;
 				}
 			}
 		
@@ -1503,6 +1503,9 @@ TEST_CASE("GUI Test", "[GUI]")
 		window.create(m, "GUI Test", zeno::WindowStyle::Default);
 		window.setVerticalSync();
 
+		zeno::Clock clock;
+		bool running = true;
+
 		glClearColor(100.0f / 255.0f, 149.0f / 255.0f, 247.0f / 255.0f, 1.0f);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
@@ -1527,8 +1530,8 @@ TEST_CASE("GUI Test", "[GUI]")
 
 
 		pane.addChild(new zeno::Button("Button"));
-		dynamic_cast<zeno::Button *>(pane.getChild("Button"))->registerCallback([](void){std::cout << "Button pressed!" << std::endl;});
-		dynamic_cast<zeno::Button *>(pane.getChild("Button"))->addLabel("Woo hoooooo!", desktop.getGUIFont());
+		dynamic_cast<zeno::Button *>(pane.getChild("Button"))->registerCallback([&running](void){running = false;std::cout << "Button pressed!" << std::endl;});
+		dynamic_cast<zeno::Button *>(pane.getChild("Button"))->addLabel("Close GUI Test", desktop.getGUIFont());
 
 
 		pane.addChild(new zeno::Slider("Slider"));
@@ -1539,13 +1542,10 @@ TEST_CASE("GUI Test", "[GUI]")
 		dynamic_cast<zeno::Label *>(pane.getChild("Label"))->move(zeno::Vector3f(200.0f, 400.0f, 0.5f));
 
 		pane.addChild(new zeno::TextBox("TextBox"));
-		dynamic_cast<zeno::TextBox *>(pane.getChild("TextBox"));
+		dynamic_cast<zeno::TextBox *>(pane.getChild("TextBox"))->move(zeno::Vector3f(500.0f, 200.0f, 0.0f));
 		
 		float progressVal = 0.0f;
 		int progressCount = 0;
-
-		zeno::Clock clock;
-		bool running = true;
 
 		while (running)
 		{
@@ -1570,7 +1570,6 @@ TEST_CASE("GUI Test", "[GUI]")
 				progressEvent.type = zeno::GUIEvent::ProgressUpdate;
 				desktop.throwEvent(progressEvent);
 			}
-
 
 			zeno::Event event;
 			while (window.pollEvent(event))

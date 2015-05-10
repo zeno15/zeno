@@ -50,6 +50,10 @@ public:
 	virtual FloatRect getBounds(void);
 
 private:
+	void recreate(void);
+
+private:
+	unsigned int m_VAO;
 
 };
 

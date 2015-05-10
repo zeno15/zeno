@@ -239,9 +239,6 @@ void Button::addLabel(const std::string& _labelString, Font *_font)
 
 	m_Label->setLabel(_labelString);
 
-	std::cout << "Label Left: " << m_Label->getBounds().left << ", Bottom: " << m_Label->getBounds().bot << ", width: " << m_Label->getBounds().width << ", height: " << m_Label->getBounds().height << std::endl;
-	std::cout << "Button Left: " << getBounds().left << ", Bottom: " << getBounds().bot << ", width: " << getBounds().width << ", height: " << getBounds().height << std::endl;
-
 	m_Bounds.width = m_Label->getBounds().width + m_OutlineThickness * 4.0f + m_Label->getBounds().left;
 	m_Bounds.height = m_Label->getBounds().height + m_OutlineThickness * 4.0f + m_Label->getBounds().bot;
 
