@@ -57,7 +57,7 @@ GuiBase *GuiPane::getChild(const std::string& _id)
 		}
 	}
 	
-	return nullptr;
+	throw std::exception(std::string("Child \"" + _id + "\" not present in pane.").c_str());
 }
 
 } //~ namespace zeno

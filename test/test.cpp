@@ -1499,8 +1499,8 @@ TEST_CASE("GUI Test", "[GUI]")
 		zeno::VideoMode m;
 
 		m.bitsPerPixel = 32;
-		m.width = 1280;
-		m.height = 720;
+		m.width = 1440;
+		m.height = 900;
 
 		window.create(m, "GUI Test", zeno::WindowStyle::Default);
 		window.setVerticalSync();
@@ -1523,28 +1523,29 @@ TEST_CASE("GUI Test", "[GUI]")
 
 		desktop.addPane("Pane");
 
-		zeno::GuiPane& pane = desktop.getPane("Pane");
 
-		pane.addChild(new zeno::ProgressBar("ProgressBar"));
-		dynamic_cast<zeno::ProgressBar *>(pane.getChild("ProgressBar"))->setPosition(zeno::Vector2f(0.0f, 500.0f));
-		dynamic_cast<zeno::ProgressBar *>(pane.getChild("ProgressBar"))->setSize(zeno::Vector2f(1264.0f, 50.0f));
-		dynamic_cast<zeno::ProgressBar *>(pane.getChild("ProgressBar"))->setOutlineThickness(4.0f);
-
-
-		pane.addChild(new zeno::Button("Button"));
-		dynamic_cast<zeno::Button *>(pane.getChild("Button"))->registerCallback([&running](void){running = false;std::cout << "Button pressed!" << std::endl;});
-		dynamic_cast<zeno::Button *>(pane.getChild("Button"))->addLabel("Close GUI Test", desktop.getGUIFont());
+		desktop.addToPane("Pane", new zeno::ProgressBar("ProgressBar"));
+		desktop.getElementFromPane<zeno::ProgressBar>("Pane", "ProgressBar")->setPosition(zeno::Vector2f(0.0f, 500.0f));
+		desktop.getElementFromPane<zeno::ProgressBar>("Pane", "ProgressBar")->setSize(zeno::Vector2f(1280.0f, 50.0f));
+		desktop.getElementFromPane<zeno::ProgressBar>("Pane", "ProgressBar")->setOutlineThickness(4.0f);
 
 
-		pane.addChild(new zeno::Slider("Slider"));
-		dynamic_cast<zeno::Slider *>(pane.getChild("Slider"))->registerCallback([](float _arg){std::cout << "Slider updated to: " << _arg * 100.0f << std::endl;});
+		desktop.addToPane("Pane", new zeno::Button("Button"));
+		desktop.getElementFromPane<zeno::Button>("Pane", "Button")->registerCallback([&running](void){running = false;std::cout << "Button pressed!" << std::endl;});
+		desktop.getElementFromPane<zeno::Button>("Pane", "Button")->addLabel("Close GUI Test", desktop.getGUIFont());
 
-		pane.addChild(new zeno::Label("Label", desktop.getGUIFont()));
-		dynamic_cast<zeno::Label *>(pane.getChild("Label"))->setLabel("Label");
-		dynamic_cast<zeno::Label *>(pane.getChild("Label"))->move(zeno::Vector3f(200.0f, 400.0f, 0.5f));
 
-		pane.addChild(new zeno::TextBox("TextBox", desktop.getGUIFont()));
-		dynamic_cast<zeno::TextBox *>(pane.getChild("TextBox"))->move(zeno::Vector3f(500.0f, 200.0f, 0.0f));
+		desktop.addToPane("Pane", new zeno::Slider("Slider"));
+		desktop.getElementFromPane<zeno::Slider>("Pane", "Slider")->registerCallback([](float _arg){std::cout << "Slider updated to: " << _arg * 100.0f << std::endl;});
+
+		
+		desktop.addToPane("Pane", new zeno::Label("Label", desktop.getGUIFont()));
+		desktop.getElementFromPane<zeno::Label>("Pane", "Label")->setLabel("Label");
+		desktop.getElementFromPane<zeno::Label>("Pane", "Label")->move(zeno::Vector3f(200.0f, 400.0f, 0.5f));
+
+		desktop.addToPane("Pane", new zeno::TextBox("TextBox", desktop.getGUIFont()));
+		desktop.getElementFromPane<zeno::TextBox>("Pane", "TextBox")->move(zeno::Vector3f(500.0f, 200.0f, 0.0f));
+		desktop.getElementFromPane<zeno::TextBox>("Pane", "TextBox")->setText("Fancy shmancy works!");
 		
 		float progressVal = 0.0f;
 		int progressCount = 0;
@@ -1568,7 +1569,7 @@ TEST_CASE("GUI Test", "[GUI]")
 				
 				zeno::GUIEvent progressEvent;
 				progressEvent.progress.progress = static_cast<float>(progressCount) / 1000.0f;
-				dynamic_cast<zeno::Label *>(pane.getChild("Label"))->setLabel("I'm a label: " + std::to_string(static_cast<int>(static_cast<float>(progressCount) / 10.0f)) + "%");
+				desktop.getElementFromPane<zeno::Label>("Pane", "Label")->setLabel("I'm a label: " + std::to_string(static_cast<int>(static_cast<float>(progressCount) / 10.0f)) + "%");
 				progressEvent.type = zeno::GUIEvent::ProgressUpdate;
 				desktop.throwEvent(progressEvent);
 			}
@@ -1584,7 +1585,7 @@ TEST_CASE("GUI Test", "[GUI]")
 				{
 					if (event.key.key == zeno::Keyboard::Key::Space)
 					{
-						dynamic_cast<zeno::Label *>(pane.getChild("Label"))->setLabelColour(zeno::Colour((static_cast<float>(rand() % 255) / 255.0f), (static_cast<float>(rand() % 255) / 255.0f), (static_cast<float>(rand() % 255) / 255.0f)));
+						desktop.getElementFromPane<zeno::Label>("Pane", "Label")->setLabelColour(zeno::Colour((static_cast<float>(rand() % 255) / 255.0f), (static_cast<float>(rand() % 255) / 255.0f), (static_cast<float>(rand() % 255) / 255.0f)));
 					}
 				}
 

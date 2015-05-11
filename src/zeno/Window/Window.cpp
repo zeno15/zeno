@@ -111,4 +111,9 @@ bool Window::getVerticalSyncState(void)
 	return m_ContextImpl.getVerticalSyncState();
 }
 
+void Window::switchToFullscreen(const VideoMode& _videoMode)
+{
+	m_WindowImpl.switchToFullscreen(_videoMode);
+}
+
 } //~ namespace zeno

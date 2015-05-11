@@ -89,6 +89,11 @@ public:
 
 	Font *getGUIFont(void);
 
+	template <typename T>
+	T *getElementFromPane(const std::string& _pane, const std::string& _element);
+
+	void addToPane(const std::string& _pane, GuiBase *_child);
+
 private:
 	////////////////////////////////////////////////////////////
 	//
@@ -131,6 +136,12 @@ private:
 	////////////////////////////////////////////////////////////
 	Font 						m_GUIFont;
 };
+
+template <typename T>
+T *GuiDesktop::getElementFromPane(const std::string& _pane, const std::string& _element)
+{
+	return dynamic_cast<T *>(getPane(_pane).getChild(_element));
+}
 
 } //~ namespace zeno
 

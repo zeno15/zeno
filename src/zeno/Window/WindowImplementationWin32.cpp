@@ -1,5 +1,7 @@
 #include <zeno/Window/WindowImplementationWin32.hpp>
 
+#include <zeno/Window/WindowStyle.hpp>
+
 #include <zeno/System/InputImplementationWindows.hpp>
 
 #include <iostream>
@@ -28,6 +30,33 @@ bool WindowImplementationWin32::create(const VideoMode& _videoMode, const std::s
 	LPCSTR title = m_Title.c_str();
 
 	WNDCLASS windowClass;
+
+	DWORD style = WS_VISIBLE;
+
+    if (_style == WindowStyle::NoStyle)
+    {
+        style |= WS_POPUP;
+    }
+    else
+    {
+        if (_style & WindowStyle::Titlebar) style |= WS_CAPTION | WS_MINIMIZEBOX;
+        if (_style & WindowStyle::Resize)   style |= WS_THICKFRAME | WS_MAXIMIZEBOX;
+        if (_style & WindowStyle::Close)    style |= WS_SYSMENU;
+
+
+    }
+
+	unsigned int width = _videoMode.width;
+	unsigned int height = _videoMode.height;
+
+	if (!(_style & WindowStyle::Fullscreen))
+    {
+        RECT rectangle = {0, 0, width, height};
+        AdjustWindowRect(&rectangle, style, false);
+        width  = rectangle.right - rectangle.left;
+        height = rectangle.bottom - rectangle.top;
+    }
+
 	DWORD dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
 
 	HINSTANCE hInstance = GetModuleHandle(NULL);
@@ -48,9 +77,16 @@ bool WindowImplementationWin32::create(const VideoMode& _videoMode, const std::s
 		return false;
 	}
 
-	m_Handle = CreateWindowEx(dwExStyle, title, title, WS_OVERLAPPEDWINDOW, 0, 0, _videoMode.width, _videoMode.height, NULL, NULL, hInstance, NULL);
+	
+
+	m_Handle = CreateWindowEx(dwExStyle, title, title, style, 0, 0, width, height, NULL, NULL, hInstance, NULL);
 
 	SetWindowLongPtr(m_Handle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+
+	if (_style & WindowStyle::Fullscreen)
+	{
+		switchToFullscreen(_videoMode);
+	}
 
 	return true;
 }
@@ -371,6 +407,28 @@ void WindowImplementationWin32::setTitle(const std::string& _title)
 std::string WindowImplementationWin32::getTitle(void) const
 {
 	return m_Title;
+}
+
+void WindowImplementationWin32::switchToFullscreen(const VideoMode& _videoMode)
+{
+	DEVMODE devMode;
+    devMode.dmSize       = sizeof(devMode);
+    devMode.dmPelsWidth  = _videoMode.width;
+    devMode.dmPelsHeight = _videoMode.height;
+    devMode.dmBitsPerPel = _videoMode.bitsPerPixel;
+    devMode.dmFields     = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL;
+
+	if (ChangeDisplaySettings(&devMode, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL)
+    {
+        std::cout << "Failed to change display mode for fullscreen" << std::endl;
+        return;
+    }
+
+	SetWindowLongW(m_Handle, GWL_STYLE, WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS);
+    SetWindowLongW(m_Handle, GWL_EXSTYLE, WS_EX_APPWINDOW);
+
+    SetWindowPos(m_Handle, HWND_TOP, 0, 0, _videoMode.width, _videoMode.height, SWP_FRAMECHANGED);
+    ShowWindow(m_Handle, SW_SHOW);
 }
 
 } //~ namespace zeno

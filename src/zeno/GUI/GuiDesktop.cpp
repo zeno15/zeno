@@ -212,4 +212,9 @@ Font *GuiDesktop::getGUIFont(void)
 	return &m_GUIFont;
 }
 
+void GuiDesktop::addToPane(const std::string& _pane, GuiBase *_child)
+{
+	getPane(_pane).addChild(_child);
+}
+
 } //~ namespace zeno

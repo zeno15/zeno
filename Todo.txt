@@ -26,7 +26,7 @@ Remove glew/opengl from zeno lib, instead have swapBuffer() etc for display
 
 Look at http://visualgdb.com/tutorials/linux/ for developing on windows for linux
 
-AdjustWindowRect to have windows be the actual size. not including the frame
+
 -	Also check/modify all the window get/set size functions
 
 Set v-sync etc or desired fps
@@ -181,6 +181,8 @@ add sub directories for gui code, window code, graphics, networking, audio, syst
 add different libraries for each sub directory
 Change all #ifndef INCLUDED_FILENAME_EXTENSION's to something with the project name etc in it
 
+AdjustWindowRect to have windows be the actual size. not including the frame
+
 Fonts
 	-	move font stuff to graphics
 	-	2d orthographic text
@@ -201,6 +203,7 @@ Slider
 	
 GUIDesktop
 	-	get the component back by id
+	-	Implement template method to get children from panes without dynamic_cast-ing all the time
 	
 Image
 	-	Implement copy method

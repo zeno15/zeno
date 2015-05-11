@@ -8,6 +8,8 @@ namespace WindowStyle {
 ////////////////////////////////////////////////////////////
 //
 //	Enumerated description of window style
+//	Note if using fullscreen with a resolution not matching
+//	the monitor, the window behaves unexpectedly
 //
 ////////////////////////////////////////////////////////////
 enum 
