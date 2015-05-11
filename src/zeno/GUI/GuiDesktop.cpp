@@ -139,6 +139,22 @@ bool GuiDesktop::translateEvent(const Event& _event, GUIEvent& _guiEvent) const
 		_guiEvent.type = GUIEvent::EventType::TextEntered;
 		_guiEvent.text.character = _event.text.character;
 		return true;
+	case (Event::EventType::KeyDown):
+		_guiEvent.type = GUIEvent::EventType::KeyDown;
+		_guiEvent.key.key		= _event.key.key;
+		_guiEvent.key.shift		= _event.key.shift;
+		_guiEvent.key.alt		= _event.key.alt;
+		_guiEvent.key.control	= _event.key.control;
+		_guiEvent.key.system	= _event.key.system;
+		return true;
+	case (Event::EventType::KeyUp):
+		_guiEvent.type = GUIEvent::EventType::KeyUp;
+		_guiEvent.key.key		= _event.key.key;
+		_guiEvent.key.shift		= _event.key.shift;
+		_guiEvent.key.alt		= _event.key.alt;
+		_guiEvent.key.control	= _event.key.control;
+		_guiEvent.key.system	= _event.key.system;
+		return true;
 	default:
 		return false;
 	}

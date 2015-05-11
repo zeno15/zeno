@@ -1450,10 +1450,12 @@ TEST_CASE("Window Test", "[Window]")
 				else if (event.type == zeno::Event::EventType::KeyDown)
 				{
 					std::cout << "Key down: " << event.key.key << std::endl;
+					std::cout << "Shift: " << event.key.shift << ", Alt: " << event.key.alt << ", Ctrl: " << event.key.alt << ", System: " << event.key.system << std::endl;
 				}
 				else if (event.type == zeno::Event::EventType::KeyUp)
 				{
 					std::cout << "Key up: " << event.key.key << std::endl;
+					std::cout << "Shift: " << event.key.shift << ", Alt: " << event.key.alt << ", Ctrl: " << event.key.alt << ", System: " << event.key.system << std::endl;
 				}
 				else if (event.type == zeno::Event::EventType::MouseWheelChanged)
 				{
@@ -1541,7 +1543,7 @@ TEST_CASE("GUI Test", "[GUI]")
 		dynamic_cast<zeno::Label *>(pane.getChild("Label"))->setLabel("Label");
 		dynamic_cast<zeno::Label *>(pane.getChild("Label"))->move(zeno::Vector3f(200.0f, 400.0f, 0.5f));
 
-		pane.addChild(new zeno::TextBox("TextBox"));
+		pane.addChild(new zeno::TextBox("TextBox", desktop.getGUIFont()));
 		dynamic_cast<zeno::TextBox *>(pane.getChild("TextBox"))->move(zeno::Vector3f(500.0f, 200.0f, 0.0f));
 		
 		float progressVal = 0.0f;

@@ -3,7 +3,11 @@
 
 #include <zeno/GUI/GuiBase.hpp>
 
+#include <zeno/Graphics/Text.hpp>
+
 namespace zeno {
+
+class Font;
 
 ////////////////////////////////////////////////////////////
 //
@@ -18,7 +22,7 @@ public:
 	//	Default constructor
 	//
 	////////////////////////////////////////////////////////////
-	TextBox(const std::string& _id);
+	TextBox(const std::string& _id, Font *_font);
 	////////////////////////////////////////////////////////////
 	//
 	//	Destructor
@@ -49,12 +53,26 @@ public:
 	////////////////////////////////////////////////////////////
 	virtual FloatRect getBounds(void);
 
+	std::string getText(void);
+
+	void setText(const std::string& _text);
+	void addText(const std::string& _text);
+
 private:
 	void recreate(void);
 
 private:
+	Font *		m_Font;
+
 	unsigned int m_VAO;
 
+	Text		m_BoxText;
+
+	std::string		m_String;
+
+	Vector2f		m_Size;
+
+	float			m_BorderSize;
 };
 
 } //~ namespace zeno

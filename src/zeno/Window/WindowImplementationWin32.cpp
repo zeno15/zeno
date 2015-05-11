@@ -233,12 +233,20 @@ void WindowImplementationWin32::processEvent(UINT message, WPARAM wParam, LPARAM
 		}
 		e.type = Event::EventType::KeyDown;
 		e.key.key = InputImplementation::systemToZeno(wParam);
+		e.key.shift =	(InputImplementation::isKeyDown(Keyboard::LShift)	|| InputImplementation::isKeyDown(Keyboard::RShift));
+		e.key.alt =		(InputImplementation::isKeyDown(Keyboard::LAlt)		|| InputImplementation::isKeyDown(Keyboard::RAlt));
+		e.key.control = (InputImplementation::isKeyDown(Keyboard::LControl) || InputImplementation::isKeyDown(Keyboard::RControl));
+		e.key.system =	(InputImplementation::isKeyDown(Keyboard::LSystem)	|| InputImplementation::isKeyDown(Keyboard::RSystem));
 		pushEvent(e);
 		break;
 
 	case (WM_KEYUP) :
 		e.type = Event::EventType::KeyUp;
-		e.key.key = InputImplementation::systemToZeno(wParam);
+		e.key.key =		 InputImplementation::systemToZeno(wParam);
+		e.key.shift =	(InputImplementation::isKeyDown(Keyboard::LShift)	|| InputImplementation::isKeyDown(Keyboard::RShift));
+		e.key.alt =		(InputImplementation::isKeyDown(Keyboard::LAlt)		|| InputImplementation::isKeyDown(Keyboard::RAlt));
+		e.key.control = (InputImplementation::isKeyDown(Keyboard::LControl) || InputImplementation::isKeyDown(Keyboard::RControl));
+		e.key.system =	(InputImplementation::isKeyDown(Keyboard::LSystem)	|| InputImplementation::isKeyDown(Keyboard::RSystem));
 		pushEvent(e);
 		break;
 

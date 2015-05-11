@@ -26,7 +26,9 @@ public:
 		LeftRelease,
 		MouseMove,
 		ProgressUpdate,
-		TextEntered
+		TextEntered,
+		KeyDown,
+		KeyUp
 	};
 	
 	////////////////////////////////////////////////////////////
@@ -68,6 +70,19 @@ public:
 		uint32_t	character;
 	};
 
+	////////////////////////////////////////////////////////////
+	//
+	//	Struct representing data of a key event
+	//
+	////////////////////////////////////////////////////////////
+	struct KeyEvent {
+		Keyboard::Key	key;
+		bool			alt;
+		bool			control;
+		bool			shift;
+		bool			system;
+	};
+
 public:
 	////////////////////////////////////////////////////////////
 	//
@@ -86,6 +101,7 @@ public:
 		MouseMoveEvent			mouseMove;
 		ProgressUpdateEvent		progress;
 		TextEnteredEvent		text;
+		KeyEvent				key;
 	};
 };
 

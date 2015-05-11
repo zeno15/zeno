@@ -1,5 +1,7 @@
 #include <zeno/GUI/TextBox.hpp>
 
+#include <zeno/Graphics/Font.hpp>
+
 #include <zeno/GUI/GUIEvent.hpp>
 
 #include <GL/glew.h>
@@ -8,17 +10,17 @@
 
 #define NUM_VERTICES 12
 
-#define BORDER_SIZE 4.0f
-
-#define WIDTH		100.0f
-#define HEIGHT		50.0f
-
 namespace zeno {
 
-TextBox::TextBox(const std::string& _id) :
-GuiBase(_id)
+TextBox::TextBox(const std::string& _id, Font *_font) :
+m_Font(_font),
+GuiBase(_id),
+m_Size(100.0f, 50.0f),
+m_BorderSize(4.0f)
 {
 	recreate();
+	m_BoxText.setColour(Colour::Black);
+	m_BoxText.generateText("", m_Font);
 }
 TextBox::~TextBox(void)
 {
@@ -40,24 +42,41 @@ bool TextBox::processEvent(const GUIEvent& _event)
 		}
 		else if (_event.type == GUIEvent::EventType::TextEntered)
 		{
+			bool textChanged = false;
+
 			if (_event.text.character == 8)
 			{
-				std::cout << "Backspace!" << std::endl;
+				if (m_String.size() > 0)
+				{
+					textChanged = true;
+					m_String.pop_back();
+				}
 			}
 			else if (_event.text.character == 9)
 			{
-				std::cout << "Tab!" << std::endl;
+				std::cout << "Tab, not dealt with" << std::endl;
 			}
 			else if (_event.text.character == 13)
 			{
-				std::cout << "Enter!" << std::endl;
+				std::cout << "Enter, not dealt with" << std::endl;
 			}
 			else if (_event.text.character == 27)
 			{
-				std::cout << "Escape!" << std::endl;
+				std::cout << "Escape, not dealt with" << std::endl;
 			}
-			else {
-				std::cout << "Text box received char: \"" << static_cast<char>(_event.text.character) << "\"" << std::endl;
+			else 
+			{
+				textChanged = true;
+
+				m_String += static_cast<char>(_event.text.character);
+			}
+
+			if (textChanged)
+			{
+				std::cout << "String: " << m_String << std::endl;
+				m_BoxText.generateText(m_String, m_Font);
+
+				std::cout << "Text left: " << m_BoxText.getBounds().left << ", bottom: " << m_BoxText.getBounds().bot << ", width: " << m_BoxText.getBounds().width << ", height: " << m_BoxText.getBounds().height << std::endl;
 			}
 		}
 	}
@@ -87,12 +106,20 @@ void TextBox::render(Mat4x4 _transform) const
 	glBindVertexArray(0);
 
 	shader.unbind();
+
+	if (m_String.size() > 0)
+	{
+		zeno::RenderData data;
+		data.transform = _transform * getTransform() * Mat4x4::createTranslation(Vector3f(m_BorderSize * 2.0f, m_BorderSize * 2.0f, 0.2f));
+
+		m_BoxText.render(data);
+	}
 }
 
 FloatRect TextBox::getBounds(void)
 {
 	Vector2f  pos(getPosition().x, getPosition().y);
-	Vector2f size(WIDTH, HEIGHT);
+	Vector2f size(m_Size.x, m_Size.y);
 
 	return FloatRect(pos, size);
 }
@@ -107,22 +134,22 @@ void TextBox::recreate(void)
 
 	std::vector<float> data_p = {
 		//~ Outline
-		0.0f,							0.0f,								0.5f,
-		0.0f + WIDTH,					0.0f,								0.5f,
-		0.0f + WIDTH,					0.0f + HEIGHT,						0.5f,
+		0.0f,								0.0f,								0.0f,
+		0.0f + m_Size.x,					0.0f,								0.0f,
+		0.0f + m_Size.x,					0.0f + m_Size.y,					0.0f,
 
-		0.0f,							0.0f,								0.5f,
-		0.0f + WIDTH,					0.0f + HEIGHT,						0.5f,
-		0.0f,							0.0f + HEIGHT,						0.5f,
+		0.0f,								0.0f,								0.0f,
+		0.0f + m_Size.x,					0.0f + m_Size.y,					0.0f,
+		0.0f,								0.0f + m_Size.y,					0.0f,
 
 		//~ Inner
-		0.0f + BORDER_SIZE,				0.0f + BORDER_SIZE,					0.6f,
-		0.0f + WIDTH - BORDER_SIZE,		0.0f + BORDER_SIZE,					0.6f,
-		0.0f + WIDTH - BORDER_SIZE,		0.0f + HEIGHT - BORDER_SIZE,		0.6f,
+		0.0f + m_BorderSize,				0.0f + m_BorderSize,				0.1f,
+		0.0f + m_Size.x - m_BorderSize,		0.0f + m_BorderSize,				0.1f,
+		0.0f + m_Size.x - m_BorderSize,		0.0f + m_Size.y - m_BorderSize,		0.1f,
 
-		0.0f + BORDER_SIZE,				0.0f + BORDER_SIZE,					0.6f,
-		0.0f + WIDTH - BORDER_SIZE,		0.0f + HEIGHT - BORDER_SIZE,		0.6f,
-		0.0f + BORDER_SIZE,				0.0f + HEIGHT - BORDER_SIZE,		0.6f
+		0.0f + m_BorderSize,				0.0f + m_BorderSize,				0.1f,
+		0.0f + m_Size.x - m_BorderSize,		0.0f + m_Size.y - m_BorderSize,		0.1f,
+		0.0f + m_BorderSize,				0.0f + m_Size.y - m_BorderSize,		0.1f
 
 	};
 
@@ -142,22 +169,22 @@ void TextBox::recreate(void)
 
 	std::vector<float> data_c = {
 		//~ Outline
-		0.4f,							0.4f,								0.4f,			1.0f,
-		0.4f,							0.4f,								0.4f,			1.0f,
-		0.4f,							0.4f,								0.4f,			1.0f,
+		0.4f,					0.4f,					0.4f,				1.0f,
+		0.4f,					0.4f,					0.4f,				1.0f,
+		0.4f,					0.4f,					0.4f,				1.0f,
 
-		0.4f,							0.4f,								0.4f,			1.0f,
-		0.4f,							0.4f,								0.4f,			1.0f,
-		0.4f,							0.4f,								0.4f,			1.0f,
+		0.4f,					0.4f,					0.4f,				1.0f,
+		0.4f,					0.4f,					0.4f,				1.0f,
+		0.4f,					0.4f,					0.4f,				1.0f,
 
 		//~ Inner
-		0.8f,							0.8f,								0.8f,			1.0f,
-		0.8f,							0.8f,								0.8f,			1.0f,
-		0.8f,							0.8f,								0.8f,			1.0f,
-
-		0.8f,							0.8f,								0.8f,			1.0f,
-		0.8f,							0.8f,								0.8f,			1.0f,
-		0.8f,							0.8f,								0.8f,			1.0f
+		0.8f,					0.8f,					0.8f,				1.0f,
+		0.8f,					0.8f,					0.8f,				1.0f,
+		0.8f,					0.8f,					0.8f,				1.0f,
+		
+		0.8f,					0.8f,					0.8f,				1.0f,
+		0.8f,					0.8f,					0.8f,				1.0f,
+		0.8f,					0.8f,					0.8f,				1.0f
 	};
 
 	unsigned int vbo_colour = 0;
@@ -171,6 +198,22 @@ void TextBox::recreate(void)
 	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_colour);
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+}
+
+std::string TextBox::getText(void)
+{
+	return m_String;
+}
+
+void TextBox::setText(const std::string& _text)
+{
+	m_String = _text;
+
+	m_BoxText.generateText(m_String, m_Font);
+}
+void TextBox::addText(const std::string& _text)
+{
+	setText(getText() + _text);
 }
 
 } //~ namespace zeno
