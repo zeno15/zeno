@@ -24,43 +24,6 @@ z(static_cast<T>(_vec.z))
 }
 
 
-template <typename T>
-inline Vector3<T> Vector3<T>::cross(const Vector3<T>& _vec) const
-{
-	return Vector3<T>(	y * _vec.z - z * _vec.y,
-						z * _vec.x - x * _vec.z,
-						x * _vec.y - y * _vec.x);
-}
-
-template <typename T>
-Vector3<T>& Vector3<T>::normalise(void)
-{
-	float mag = magnitude();
-	
-	if (mag == 0.0f)
-	{
-		return *this;
-	}
-	
-	x /= mag;
-	y /= mag;
-	z /= mag;
-	
-	return *this;
-}
-
-template <typename T>
-float Vector3<T>::magnitude(void) const
-{
-	return sqrtf(x * x + y * y + z * z);
-}
-
-template <typename T>
-float Vector3<T>::dot(const Vector3<T>& _vec) const
-{
-	return x * _vec.x + y * _vec.y + z * _vec.z;
-}
-
 
 template <typename T>
 inline Vector3<T> operator -(const Vector3<T>& _right)

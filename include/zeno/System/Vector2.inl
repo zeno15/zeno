@@ -73,7 +73,7 @@ inline Vector2<T> operator /(const Vector2<T>& _left, T _right)
 }
 
 template <typename T>
-inline Vector2<T> operator *=(Vector2<T>& _left, T _right)
+inline Vector2<T>& operator *=(Vector2<T>& _left, T _right)
 {
 	_left.x *= _right;
 	_left.y *= _right;
@@ -106,7 +106,7 @@ inline bool operator !=(const Vector2<T>& _left, const Vector2<T>& _right)
 }
 
 template <typename T>
-std::ostream& operator <<(std::ostream& os, zeno::Vector2<T> const& _vec)
+std::ostream& operator <<(std::ostream& os, const Vector2<T>& _vec)
 {
 	os << "x: " << _vec.x << ", y: " << _vec.y;
 	return os;

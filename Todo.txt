@@ -92,6 +92,15 @@ GuiDesktop better event management (not using created events instantly)
 
 consistancy when using sizeof(float), change all to sizeof(GLfloat)
 
+look into whether to remove operator<< overload from Vector2<T> class etc
+
+look into whether or not to remove cross,  normalise etc from Vector3<T>
+	-	 Make Vector2/3/4<T> VectorMath hpp/cpp
+	
+Look into configuration files
+	-	Version numbers
+	-	Source file lists etc
+
 
 Greater Goals
 	-	Make application to create gui layouts, then export to a file

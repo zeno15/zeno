@@ -1,12 +1,13 @@
 PROJECT_NAME = 'zeno'
 
-INPUT += ./include/zeno/Graphics
-INPUT += ./include/zeno/GUI
-INPUT += ./include/zeno/Network
-INPUT += ./include/zeno/System
-INPUT += ./include/zeno/Window
 
-OUTPUT_DIRECTORY = Documentation
+# System Module
+INPUT += ./include/zeno/System/Vector2.hpp
+INPUT += ./include/zeno/System/Vector3.hpp
+
+
+
+OUTPUT_DIRECTORY = doc
 GENERATE_HTML = YES
 HTML_OUTPUT = html/
 HTML_FILE_EXTENSION = .html
