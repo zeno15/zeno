@@ -1,0 +1,12 @@
+PROJECT_NAME = 'zeno'
+
+INPUT += ./include/zeno/Graphics
+INPUT += ./include/zeno/GUI
+INPUT += ./include/zeno/Network
+INPUT += ./include/zeno/System
+INPUT += ./include/zeno/Window
+
+OUTPUT_DIRECTORY = Documentation
+GENERATE_HTML = YES
+HTML_OUTPUT = html/
+HTML_FILE_EXTENSION = .html
