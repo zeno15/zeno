@@ -3,76 +3,110 @@
 
 #include <ostream>
 
+
+////////////////////////////////////////////////////////////
+///
+///	\namespace	zeno
+///
+////////////////////////////////////////////////////////////
 namespace zeno {
 
 ////////////////////////////////////////////////////////////
-//
-//	Class for mainpulating basic time operations
-//
+///
+///	\brief	Class for mainpulating basic time operations
+///
 ////////////////////////////////////////////////////////////
 class Time
 {
 public:
 	////////////////////////////////////////////////////////////
-	//
-	//	Default constructor, sets time to zero
-	//
+	///
+	///	\brief	Default constructor
+	///
+	///	Initialises the time object at 0 seconds
+	///
 	////////////////////////////////////////////////////////////
 	Time(void);
 	
 	////////////////////////////////////////////////////////////
-	//
-	//	returns the value of the time in seconds
-	//
+	///
+	///	\brief	Returns the value of this Time object in seconds
+	///
+	///	\return	float representing Time object in seconds
+	///
 	////////////////////////////////////////////////////////////
 	float asSeconds(void) const;
 	////////////////////////////////////////////////////////////
-	//
-	//	returns the value of the time in milliseconds
-	//
+	///
+	///	\brief	Returns the value of this Time object in milli 
+	///			seconds
+	///
+	///	\return	long representing Time object in milli seconds
+	///
 	////////////////////////////////////////////////////////////
 	long asMilliseconds(void) const;
 	////////////////////////////////////////////////////////////
-	//
-	//	returns the value of the time in microseconds
-	//
+	///
+	///	\brief	Returns the value of this Time object in micro 
+	///			seconds
+	///
+	///	\return	long long representing Time object in micro 
+	///			seconds
+	///
 	////////////////////////////////////////////////////////////
 	long long asMicroseconds(void) const;
 	
 	////////////////////////////////////////////////////////////
-	//
-	//	creates a time value from seconds
-	//
+	///
+	///	\brief	Creates a Time object from an amount of seconds
+	///
+	///	\param	_seconds	amount of seconds
+	///
+	///	\return	Time object created from the amount of seconds
+	///
 	////////////////////////////////////////////////////////////
 	static Time seconds(const float& _seconds);
 	////////////////////////////////////////////////////////////
-	//
-	//	creates a time value from milliseconds
-	//
+	///
+	///	\brief	Creates a Time object from an amount of milli 
+	///			seconds
+	///
+	///	\param	_milliseconds	amount of milli seconds
+	///
+	///	\return	Time object created from the amount of milli 
+	///			seconds
+	///
 	////////////////////////////////////////////////////////////
 	static Time milliseconds(const long& _milliseconds);
 	////////////////////////////////////////////////////////////
-	//
-	//	create a time value from microseconds
-	//
+	///
+	///	\brief	Creates a Time object from an amount of micro 
+	///			seconds
+	///
+	///	\param	_microseconds	amount of micro seconds
+	///
+	///	\return	Time object created from the amount of micro 
+	///			seconds
+	///
 	////////////////////////////////////////////////////////////
 	static Time microseconds(const long long& _microseconds);
 
 private:
 	////////////////////////////////////////////////////////////
-	//
-	//	Explicit constructor to create Time using microseconds
-	//
+	///
+	///	\brief	Internal constructor
+	///
+	///	Used to create Time object, to actually construct
+	///	with user defined values, use the static methods
+	///
+	///	\param	_microseconds	value to initialise Time object
+	///							with in micro seconds
+	///
 	////////////////////////////////////////////////////////////
 	explicit Time(long long _microseconds);
 	
 private:
-	////////////////////////////////////////////////////////////
-	//
-	//	representation of time in microseconds
-	//
-	////////////////////////////////////////////////////////////
-	long long 	m_Microseconds;
+	long long 	m_Microseconds;		///<	Value of Time object in micro seconds
 };
 
 ////////////////////////////////////////////////////////////
@@ -276,3 +310,16 @@ std::ostream& operator <<(std::ostream& os, zeno::Time const& _time);
 } //~ namespace zeno
 
 #endif //~ INCLUDED_ZENO_SYSTEM_TIME_HPP
+
+////////////////////////////////////////////////////////////
+///
+///	\class zeno::Time
+///	\ingroup System
+///
+///	Explanation of how this all works
+///
+///	\code 
+///	zeno::Time time = zeno::Time::seconds(0.0f);
+///	\endcode
+///
+////////////////////////////////////////////////////////////

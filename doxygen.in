@@ -2,7 +2,9 @@ PROJECT_NAME = zeno
 
 
 # System Module
-INPUT += ./include/zeno/System/Rect.hpp
+INPUT += ./include/zeno/System/Clock.hpp
+INPUT += ./include/zeno/System/Rect.hppp
+INPUT += ./include/zeno/System/Time.hpp
 INPUT += ./include/zeno/System/Vector2.hpp
 INPUT += ./include/zeno/System/Vector3.hpp
 INPUT += ./include/zeno/System/Vector4.hpp

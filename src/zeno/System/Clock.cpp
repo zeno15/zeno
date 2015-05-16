@@ -25,9 +25,6 @@ Clock::Clock(void) :
 m_StartTime(getCurrentTime())
 {
 }
-Clock::~Clock(void)
-{
-}
 
 Time Clock::getElapsedTime(void)
 {
