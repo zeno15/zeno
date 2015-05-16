@@ -5,195 +5,302 @@
 
 #include <zeno/System/Vector3.hpp>
 
+////////////////////////////////////////////////////////////
+///
+///	\namespace	zeno
+///
+////////////////////////////////////////////////////////////
 namespace zeno {
 
 ////////////////////////////////////////////////////////////
-//
-//	Template class for 4D Vector4s
-//
+///
+///	\brief	Template class for 4D Vectors
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 class Vector4
 {
 public:
 	////////////////////////////////////////////////////////////
-	//
-	//	Default constructor, initialises x and y and z and w 
-	//	to zero
-	//
+	///
+	///	\brief	Default constructor
+	///
+	///	Creates a Vector4 with x, y, z and w equal to 0
+	///
 	////////////////////////////////////////////////////////////
 	Vector4();
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Initialises x and y and z and w to the given values
-	//
+	///
+	///	\brief	Initialises x and y and z and w to the given 
+	///			values
+	///	\param	_x		value that x is set to
+	///
+	///	\param	_y		value that y is set to
+	///
+	///	\param	_z		value that z is set to
+	///
+	///	\param	_w		value that q is set to
+	///
 	////////////////////////////////////////////////////////////
 	Vector4(T _x, T _y, T _z, T _w);
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Copy constructor, initialises x and y and z and w 
-	//	to the same values the _vec has
-	//
+	///
+	///	\brief	Copy constructor
+	///
+	///	Initialises the vector to have the same values as that
+	///	of the parameter
+	///
+	///	\param	_vec	Vector4 that is used to initialise this
+	///					Vector4
+	///
 	////////////////////////////////////////////////////////////
 	template <typename U>
 	Vector4(const Vector4<U>& _vec);
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Copy constructor, initialises x and y and z
-	//	to the same values the _vec has, and sets w to _w
-	//
+	///
+	///	\brief	Constructor from Vector3 and Value
+	///
+	///	Creates a Vector4 from the x, y and z values of the
+	///	Vector3 and w from the value
+	///
+	///	\param	_vec	Vector3 that is used to initialise x, y
+	///					and z of this Vector4
+	///
+	///	\param	_w		Value that is used to initialise w
+	///
 	////////////////////////////////////////////////////////////
 	Vector4(const Vector3<T>& _vec, T _w);
 
 public:
-	////////////////////////////////////////////////////////////
-	//
-	//	Member variable, x coordinate
-	//
-	////////////////////////////////////////////////////////////
-	T x;
-	////////////////////////////////////////////////////////////
-	//
-	//	Member variable, y coordinate
-	//	
-	////////////////////////////////////////////////////////////
-	T y;
-	////////////////////////////////////////////////////////////
-	//
-	//	Member variable, z coordinate
-	//	
-	////////////////////////////////////////////////////////////
-	T z;
-	////////////////////////////////////////////////////////////
-	//
-	//	Member variable, w coordinate
-	//	
-	////////////////////////////////////////////////////////////
-	T w;
+
+	T x;	///<	x component
+
+	T y;	///<	y component
+
+	T z;	///<	z component
+
+	T w;	///<	w component
 };
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of - operator
-//	returns negated vector
-//
+///
+///	\relates	zeno::Vector4
+///
+///	\brief		Overload of negate operator
+///
+///	\param		_right		Vector4 to negate
+///
+///	\return		Component-wise negated version of the Vector4
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector4<T> operator -(const Vector4<T>& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of -= operator
-//	Modifies _left by subtracting _right from it
-//
+///
+///	\relates	zeno::Vector4
+///
+///	\brief		Overload of minus-equals operator
+///
+///	\param		_left		Vector4 to be modified
+///
+///	\param		_right		Vector4 to subtract
+///
+///	\return		Reference to \a _left Vector4
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector4<T>& operator -=(Vector4<T>& _left, const Vector4<T>& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of - operator
-//	returns subtraction of _right from _left
-//
+///
+///	\relates	zeno::Vector4
+///
+///	\brief		Overload of minus operator
+///
+///	\param		_left		Vector4 to be subtracted from
+///
+///	\param		_right		Vector4 to subtract
+///
+///	\return		Vector4 which is component-wise subtraction 
+///				of \a _right from \a _left
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector4<T> operator -(const Vector4<T>& _left, const Vector4<T>& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overlaod of += operator
-//	Modifies _left by adding _right to it
-//
+///
+///	\relates	zeno::Vector4
+///
+///	\brief		Overload of plus-equals operator
+///
+///	\param		_left		Vector4 to be added to
+///
+///	\param		_right		Vector4 to add
+///
+///	\return		Reference to \a _left Vector4
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector4<T> operator +=(Vector4<T>& _left, const Vector4<T>& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of + operator
-//	returns addition of _left and _right
-//
+///
+///	\relates	zeno::Vector4
+///
+///	\brief		Overload of plus operator
+///
+///	\param		_left		Left Vector4 to add
+///
+///	\param		_right		Right Vector4 to add
+///
+///	\return		Vector4 which is component-wise addition of
+///				\a _left and \a _right
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector4<T> operator +(const Vector4<T>& _left, const Vector4<T>& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of /= operator
-//	Modifies _left by dividing by _right per value
-//
+///
+///	\relates	zeno::Vector4
+///
+///	\brief		Overload of divide-equals operator
+///
+///	\param		_left		Vector4 to be divided
+///
+///	\param		_right		Value to divide the Vector4 by
+///
+///	\return		Reference to \a _left Vector4
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector4<T>& operator /=(Vector4<T>& _left, T _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of / operator
-//	returns component wise division of _left by _right
-//
+///
+///	\relates	zeno::Vector4
+///
+///	\brief		Overload of divide operator
+///
+///	\param		_left		Vector4 to be divided
+///
+///	\param		_right		Value to divide Vector2 by
+///
+///	\return		Vector4 which is the component-wise division
+///				of \a _left by \a _right
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector4<T> operator /(const Vector4<T>& _left, T _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of *= operator
-//	modifies _left by multiplying by _right per value
-//
+///
+///	\relates	zeno::Vector4
+///
+///	\brief		Overload of multiply-equal operator
+///
+///	\param		_left		Vector4 to be multiplied
+///
+///	\param		_right		Value to multiply Vector4 by
+///
+///	\return		Reference to \a _left which is a componen-
+///				wise multiplication of \a _left by \a _right\
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector4<T> operator *=(Vector4<T>& _left, T _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of * operator
-//	returns component wise multiplication of _left by _right
-//
+///
+///	\relates	zeno::Vector4
+///
+///	\brief		Overload of multiply operator
+///
+///	\param		_left		Vector4 to be multiplied
+///
+///	\param		_right		Value to multiply Vector4 by
+///
+///	\return		Vector4 which is a component-wise 
+///				multiplication of \a _left by \a _right
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector4<T> operator *(const Vector4<T>& _left, T _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of * operator
-//	returns component wise multiplication of _right by _left
-//
+///
+///	\relates	zeno::Vector4
+///
+/// \brief		Overload of multiply operator
+///
+///	\param		_left		Value to multiply Vector2 by
+///
+///	\param		_right		Vector4 to be multiplied
+///
+///	\return		Vector4 which is a component-wise
+///				multiplication of \a _right by \a _left
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector4<T> operator *(T _left, const Vector4<T>& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of == operator
-//	returns boolean on whether the components of both
-//	vectors are the same (no tolerance)
-//
+///
+///	\relates	zeno::Vector4
+///
+///	\brief		Overload of boolean equals operator
+///
+///	\param		_left		Vector4 to be compared
+///
+///	\param		_right		Vector4 to be compared
+///
+///	\return		Boolean value representing whether or not
+///				all of the components of \a _left are equal
+///				to those of \a _right
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 bool operator ==(const Vector4<T>& _left, const Vector4<T>& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of != operator
-//	returns boolean on whether the components of both
-//	vectors are not the same (no tolerance)
-//
+///
+///	\relates	zeno::Vector4
+///
+///	\brief		Overload of boolean not-equals operator
+///
+///	\param		_left		Vector4 to be compared
+///
+///	\param		_right		Vector4 to be compared
+///
+///	\return		Boolean value representing whether or not
+///				any of the components of \a _left are not 
+///				equal to those of \a _right
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 bool operator !=(const Vector4<T>& _left, const Vector4<T>& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of << operator for std::ostream
-//
+///
+///	\relates	zeno::Vector4
+///
+///	\brief		Overload of << operator
+///
+///	\param		os			std::ostream reference
+///
+///	\param		_vec		Vector4 to be output
+///
+///	\return		std::ostream reference with formatted Vector4
+///				output insertted into it
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 std::ostream& operator <<(std::ostream& os, zeno::Vector4<T> const& _vec);
-
-
 
 
 #include "Vector4.inl"
@@ -206,3 +313,16 @@ typedef Vector4<double>				Vector4d;
 } //~ namespace zeno
 
 #endif //~ INCLUDED_ZENO_SYSTEM_VECTOR_4_HPP
+
+////////////////////////////////////////////////////////////
+///
+///	\class zeno::Vector4
+///	\ingroup System
+///
+///	Explanation of how this all works
+///
+///	\code 
+///	zeno::Vector4<float> vec = zeno::Vector4<float>();
+///	\endcode
+///
+////////////////////////////////////////////////////////////

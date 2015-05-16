@@ -96,101 +96,188 @@ template <typename T>
 Vector3<T>& operator -=(Vector3<T>& _left, const Vector3<T>& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of - operator
-//	returns subtraction of _right from _left
-//
+///
+///	\relates	zeno::Vector3
+///
+///	\brief		Overload of minus operator
+///
+///	\param		_left		Vector3 to be subtracted from
+///
+///	\param		_right		Vector3 to subtract
+///
+///	\return		Vector3 which is component-wise subtraction 
+///				of \a _right from \a _left
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector3<T> operator -(const Vector3<T>& _left, const Vector3<T>& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overlaod of += operator
-//	Modifies _left by adding _right to it
-//
+///
+///	\relates	zeno::Vector3
+///
+///	\brief		Overload of plus-equals operator
+///
+///	\param		_left		Vector3 to be added to
+///
+///	\param		_right		Vector3 to add
+///
+///	\return		Reference to \a _left Vector3
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector3<T> operator +=(Vector3<T>& _left, const Vector3<T>& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of + operator
-//	returns addition of _left and _right
-//
+///
+///	\relates	zeno::Vector3
+///
+///	\brief		Overload of plus operator
+///
+///	\param		_left		Left Vector3 to add
+///
+///	\param		_right		Right Vector3 to add
+///
+///	\return		Vector3 which is component-wise addition of
+///				\a _left and \a _right
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector3<T> operator +(const Vector3<T>& _left, const Vector3<T>& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of /= operator
-//	Modifies _left by dividing by _right per value
-//
+///
+///	\relates	zeno::Vector3
+///
+///	\brief		Overload of divide-equals operator
+///
+///	\param		_left		Vector3 to be divided
+///
+///	\param		_right		Value to divide the Vector3 by
+///
+///	\return		Reference to \a _left Vector3
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector3<T>& operator /=(Vector3<T>& _left, T _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of / operator
-//	returns component wise division of _left by _right
-//
+///
+///	\relates	zeno::Vector3
+///
+///	\brief		Overload of divide operator
+///
+///	\param		_left		Vector3 to be divided
+///
+///	\param		_right		Value to divide Vector3 by
+///
+///	\return		Vector3 which is the component-wise division
+///				of \a _left by \a _right
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector3<T> operator /(const Vector3<T>& _left, T _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of *= operator
-//	modifies _left by multiplying by _right per value
-//
+///
+///	\relates	zeno::Vector3
+///
+///	\brief		Overload of multiply-equal operator
+///
+///	\param		_left		Vector3 to be multiplied
+///
+///	\param		_right		Value to multiply Vector3 by
+///
+///	\return		Reference to \a _left which is a componen-
+///				wise multiplication of \a _left by \a _right\
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector3<T> operator *=(Vector3<T>& _left, T _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of * operator
-//	returns component wise multiplication of _left by _right
-//
+///
+///	\relates	zeno::Vector3
+///
+///	\brief		Overload of multiply operator
+///
+///	\param		_left		Vector3 to be multiplied
+///
+///	\param		_right		Value to multiply Vector3 by
+///
+///	\return		Vector3 which is a component-wise 
+///				multiplication of \a _left by \a _right
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector3<T> operator *(const Vector3<T>& _left, T _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of * operator
-//	returns component wise multiplication of _right by _left
-//
+///
+///	\relates	zeno::Vector3
+///
+/// \brief		Overload of multiply operator
+///
+///	\param		_left		Value to multiply Vector3 by
+///
+///	\param		_right		Vector3 to be multiplied
+///
+///	\return		Vector3 which is a component-wise
+///				multiplication of \a _right by \a _left
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 Vector3<T> operator *(T _left, const Vector3<T>& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of == operator
-//	returns boolean on whether the components of both
-//	vectors are the same (no tolerance)
-//
+///
+///	\relates	zeno::Vector3
+///
+///	\brief		Overload of boolean equals operator
+///
+///	\param		_left		Vector3 to be compared
+///
+///	\param		_right		Vector3 to be compared
+///
+///	\return		Boolean value representing whether or not
+///				all of the components of \a _left are equal
+///				to those of \a _right
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 bool operator ==(const Vector3<T>& _left, const Vector3<T>& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of != operator
-//	returns boolean on whether the components of both
-//	vectors are not the same (no tolerance)
-//
+///
+///	\relates	zeno::Vector3
+///
+///	\brief		Overload of boolean not-equals operator
+///
+///	\param		_left		Vector3 to be compared
+///
+///	\param		_right		Vector3 to be compared
+///
+///	\return		Boolean value representing whether or not
+///				any of the components of \a _left are not 
+///				equal to those of \a _right
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 bool operator !=(const Vector3<T>& _left, const Vector3<T>& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of << operator for std::ostream
-//
+///
+///	\relates	zeno::Vector3
+///
+///	\brief		Overload of << operator
+///
+///	\param		os			std::ostream reference
+///
+///	\param		_vec		Vector3 to be output
+///
+///	\return		std::ostream reference with formatted Vector3
+///				output insertted into it
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 std::ostream& operator <<(std::ostream& os, zeno::Vector3<T> const& _vec);
@@ -208,3 +295,16 @@ typedef Vector3<double>				Vector3d;
 } //~ namespace zeno
 
 #endif //~ INCLUDED_ZENO_SYSTEM_VECTOR_3_HPP
+
+////////////////////////////////////////////////////////////
+///
+///	\class zeno::Vector3
+///	\ingroup System
+///
+///	Explanation of how this all works
+///
+///	\code 
+///	zeno::Vector3<float> vec = zeno::Vector3<float>();
+///	\endcode
+///
+////////////////////////////////////////////////////////////

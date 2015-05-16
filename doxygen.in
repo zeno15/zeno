@@ -1,9 +1,10 @@
-PROJECT_NAME = 'zeno'
+PROJECT_NAME = zeno
 
 
 # System Module
 INPUT += ./include/zeno/System/Vector2.hpp
 INPUT += ./include/zeno/System/Vector3.hpp
+INPUT += ./include/zeno/System/Vector4.hpp
 
 
 
