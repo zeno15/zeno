@@ -47,6 +47,7 @@ look into if a abstract base class "Drawable" etc is a good thing
 
 
 Implement doxygen into header files
+	-	Change the created #include file, not including zeno/system/file.hpp
 
 implement sleep function
 
@@ -99,7 +100,7 @@ look into whether or not to remove cross,  normalise etc from Vector3<T>
 	
 Look into configuration files
 	-	Version numbers
-	-	Source file lists etc
+	-	Source file lists et
 
 
 Greater Goals
@@ -223,3 +224,9 @@ Texture
 	
 Transformable3D
 	-	
+	
+Implement doxygen into header file
+	-	Rect.hpp 
+	-	Vector2.hpp 
+	-	Vector3.hpp 
+	-	Vector4.hpp 

@@ -43,7 +43,7 @@ public:
 	///
 	///	\brief	Copy constructor
 	///
-	///	Initialises the vector to have the same values as that 
+	///	Initialises the Vector2 to have the same values as that 
 	///	of the parameter
 	///
 	///	\param	_vec	Vector2 that is used to initialise this

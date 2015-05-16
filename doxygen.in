@@ -2,6 +2,7 @@ PROJECT_NAME = zeno
 
 
 # System Module
+INPUT += ./include/zeno/System/Rect.hpp
 INPUT += ./include/zeno/System/Vector2.hpp
 INPUT += ./include/zeno/System/Vector3.hpp
 INPUT += ./include/zeno/System/Vector4.hpp
@@ -10,5 +11,6 @@ INPUT += ./include/zeno/System/Vector4.hpp
 
 OUTPUT_DIRECTORY = doc
 GENERATE_HTML = YES
-HTML_OUTPUT = html/
+HTML_OUTPUT = .
 HTML_FILE_EXTENSION = .html
+GENERATE_LATEX = NO

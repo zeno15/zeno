@@ -5,106 +5,159 @@
 
 #include <algorithm>
 
+////////////////////////////////////////////////////////////
+///
+///	\namespace	zeno
+///
+////////////////////////////////////////////////////////////
 namespace zeno {
 
 ////////////////////////////////////////////////////////////
-//
-//	Template class for 2 rectangle operations
-//
+///
+///	\brief	Template class for 2D rectangle operations
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 class Rect
 {
 public:
 	////////////////////////////////////////////////////////////
-	//
-	//	Default constructor, bottom left at 0,0 and size = 0x0
-	//
+	///
+	///	\brief	Default constructor
+	///
+	///	Initialises Rect with \a left, \a bot, \a width and 
+	///	\a height at 0
+	///
 	////////////////////////////////////////////////////////////
 	Rect(void);
 	
 	////////////////////////////////////////////////////////////
-	//
-	//	Non-default constructor, sets bottom, left, width and height
-	//
+	///
+	///	\brief	Initialises Rect with the four given values
+	///
+	///	\param	_left		value that left is set to
+	///
+	///	\param	_bot		value that bot is set to
+	///
+	///	\param	_width		value that width is set to
+	///
+	///	\param	_height		value that height is set to
+	///
 	////////////////////////////////////////////////////////////
 	Rect(T _left, T _bot, T _width, T _height);
 	
 	////////////////////////////////////////////////////////////
-	//
-	//	Non -default constructor, sets position and size
-	//
+	///
+	///	\brief	Initialises the Rect with the given position
+	///			and size
+	///
+	///	\param	_position	Vector2 that left and bot are set to
+	///
+	///	\param	_size		Vector2 that width and height are
+	///						set to
+	///
 	////////////////////////////////////////////////////////////
 	Rect(const Vector2<T>& _position, const Vector2<T>& _size);
 	
 	////////////////////////////////////////////////////////////
-	//
-	//	Copy constructor, from any template type
-	//
+	///
+	///	\brief	Copy constructor
+	///
+	///	Initialises the Rect to have the same values as that 
+	///	of the parameter
+	///
+	///	\param	_rect	Rect that is used to initialise this
+	///					Rect
+	///
 	////////////////////////////////////////////////////////////
 	template <typename U>
 	explicit Rect(const Rect<U>& _rect);
 	
 	////////////////////////////////////////////////////////////
-	//
-	//	Checks if the given x and y coordinates are contained
-	//
+	///
+	///	\brief	Checks whether a point at the given x and y
+	///			coordinate is contained within this Rect
+	///
+	///	\param	_x		x coordinate of the point to check
+	///
+	///	\param	_y		y coordinate of the point to check
+	///
+	///	\return	Boolean value representing whether or not the 
+	///			x and y coordinate is contained
+	///
 	////////////////////////////////////////////////////////////
 	bool contains(T _x, T _y);
 	////////////////////////////////////////////////////////////
-	//
-	//	Checks if the given position is contained
-	//
+	///
+	///	\brief	Checks whether the given Vector2 is contained
+	///			within this Rect
+	///
+	///	\param	_position	Vector2 representation of the 
+	///						position to check
+	///
+	///	\return	Boolean value whether or not the given position
+	///			is contained
+	///
 	////////////////////////////////////////////////////////////
 	bool contains(const Vector2<T>& _position);
 	
 	////////////////////////////////////////////////////////////
-	//
-	//	Checks if the given rect intersects with the current one,
-	//	and if so returns the intersection region
-	//
+	///
+	///	\brief	Checks whether the given Rect intersects with
+	///			this one
+	///
+	///	\param	_rect			Rect to check intersection against
+	///
+	///	\param	_intersection	Rect that, if the intersection is
+	///							true, will contain the intersected
+	///							area
+	///
+	///	\return	Boolean value representing whether or not the
+	///			given Rect intersects with this Rect
+	///
 	////////////////////////////////////////////////////////////
 	bool intersects(const Rect<T>& _rect, Rect<T>& _intersection = Rect<T>());
 	
 public:
-	////////////////////////////////////////////////////////////
-	//
-	//	left-most x coordinate of rectangle
-	//
-	////////////////////////////////////////////////////////////
-	T left;
-	////////////////////////////////////////////////////////////
-	//
-	//	bottom-most y coordinate of rectangle
-	//
-	////////////////////////////////////////////////////////////
-	T bot;
-	////////////////////////////////////////////////////////////
-	//
-	//	width of the rectangle
-	//
-	////////////////////////////////////////////////////////////
-	T width;
-	////////////////////////////////////////////////////////////
-	//
-	//	height of the rectangle
-	//
-	////////////////////////////////////////////////////////////
-	T height;
+	T left;		///<	left position of the Rect
+
+	T bot;		///<	bottom position of the Rect
+
+	T width;	///<	width of the Rect
+
+	T height;	///<	height of the Rect
 };
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of == operator
-//
+///
+///	\relates	zeno::Rect
+///
+///	\brief		Overload of equal-to operator
+///
+///	\param		_left		First Rect to compare
+///
+///	\param		_right		Second Rect to compare
+///
+///	\return		Boolean value representing if the given two
+///				Rect's intersect
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 bool operator ==(const Rect<T>& _left, const Rect<T>& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of != operator
-//
+///
+///	\relates	zeno::Rect
+///
+///	\brief		Overload of not equal-to operator
+///
+///	\param		_left		First Rect to compare
+///
+///	\param		_right		Second Rect to compare
+///
+///	\return		Boolean value representing if the given two
+///				Rect's don't intersect
+///
 ////////////////////////////////////////////////////////////
 template <typename T>
 bool operator !=(const Rect<T>& _left, const Rect<T>& _right);
@@ -117,3 +170,16 @@ typedef Rect<float> FloatRect;
 } //~ namespace zeno
 
 #endif //~ INCLUDED_ZENO_SYSTEM_RECT_HPP
+
+////////////////////////////////////////////////////////////
+///
+///	\class zeno::Rect
+///	\ingroup System
+///
+///	Explanation of how this all works
+///
+///	\code 
+///	zeno::Rect<float> vec = zeno::Rect<float>();
+///	\endcode
+///
+////////////////////////////////////////////////////////////
