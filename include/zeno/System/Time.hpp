@@ -110,203 +110,403 @@ private:
 };
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of == operator
-//	compares if two Time objects are equal
-//
+///
+///	\relates zeno::Time
+///
+///	\brief	Overload of boolean equal operator
+///
+///	\param	_left	Time object
+///
+///	\param	_right	Time object
+///
+///	\return	Boolean value representing if the two Time 
+///			objects represent the same Time value
+///
 ////////////////////////////////////////////////////////////
 bool operator ==(const Time& _left, const Time& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of != operator
-//	compares if two Time objects are not equal
-//
+///
+///	\relates zeno::Time
+///
+///	\brief	Overload of boolean not-equal operator
+///
+///	\param	_left	Time object
+///
+///	\param	_right	Time object
+///
+///	\return	Boolean value representing if the two Time 
+///			objects represent a different Time value
+///
 ////////////////////////////////////////////////////////////
 bool operator !=(const Time& _left, const Time& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of > operator
-//	compares if one Time object is greater than another
-//
+///
+///	\relates	zeno::Time
+///
+///	\brief		Overload of greater-than operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Time object
+///
+///	\return		Boolean value representing if \a _left is
+///				greater than \a _right
+///
 ////////////////////////////////////////////////////////////
 bool operator >(const Time& _left, const Time& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of >= operator
-//	compares if one Time object is greater than/equal to another
-//
+///
+///	\relates	zeno::Time
+///
+///	\brief		Overload of greater-than-or-equal operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Time object
+///
+///	\return		Boolean value representing if \a _left is
+///				greater than or equal to \a _right
+///
 ////////////////////////////////////////////////////////////
 bool operator >=(const Time& _left, const Time& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of < operator
-//	compares if one Time object is less than another
-//
+///
+///	\relates	zeno::Time
+///
+///	\brief		Overload of less-than operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Time object
+///
+///	\return		Boolean value representing if \a _left is
+///				less than \a _right
+///
 ////////////////////////////////////////////////////////////
 bool operator <(const Time& _left, const Time& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of <= operator
-//	compares if one Tine object is less than/equal to another
-//
+///
+///	\relates	zeno::Time
+///
+///	\brief		Overload of less-than-or-equal operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Time object
+///
+///	\return		Boolean value representing if \a _left is
+///				less than or equal to \a _right
+///
 ////////////////////////////////////////////////////////////
 bool operator <=(const Time& _left, const Time& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of - operator
-//	returns negated Time object
-//
+///
+///	\relates	zeno::Time
+///
+///	\brief		Overload of negate operator
+///
+///	\param		_right	Time object
+///
+///	\return		Time object which has the negated value of
+///				\a _right
+///
 ////////////////////////////////////////////////////////////
 Time operator -(const Time& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of - operator
-//	returns one Time object subtracted from another
-//
+///
+///	\relates 	zeno::Time
+///
+///	\brief		Overload of minus operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Time object
+///
+///	\return		Time object who has the value of \a _left 
+///				with \a _right subtracted from it
+///
 ////////////////////////////////////////////////////////////
 Time operator -(const Time& _left, const Time& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of -= operator
-//	subtracts one Time object from another
-//
+///
+///	\relates	zeno::Time
+///
+///	\brief		Overload of minus-equals operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Time object
+///
+///	\return		Reference to \a _left which has \a _right
+///				subtracted from it
+///
 ////////////////////////////////////////////////////////////
 Time& operator -=(Time& _left, const Time& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of + operator
-//	return one Time object added to another
-//
+///
+///	\relates 	zeno::Time
+///
+///	\brief		Overload of plus operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Time object
+///
+///	\return		Time object who has the value of \a _left 
+///				added to \a _right
+///
 ////////////////////////////////////////////////////////////
 Time operator +(const Time& _left, const Time& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of += operator
-//	adds one Time object to another
-//
+///
+///	\relates 	zeno::Time
+///
+///	\brief		Overload of plus-equals operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Time object
+///
+///	\return		Reference to \a _left which has \a _right
+///				added to it
+///
 ////////////////////////////////////////////////////////////
 Time& operator +=(Time& _left, const Time& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of * operator
-//	returns a Time object multiplied by a float value (seconds)
-//
+///
+///	\relates 	zeno::Time
+///
+///	\brief		Overload of multiply operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Value in seconds
+///
+///	\return		Time object who has the value of \a _left 
+///				multiplied by \a _right
+///
 ////////////////////////////////////////////////////////////
 Time operator *(const Time& _left, const float& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of * operator
-//	return a Time object multiplied by a long long value (microseconds)
-//
+///
+///	\relates 	zeno::Time
+///
+///	\brief		Overload of multiply operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Value in microseconds
+///
+///	\return		Time object who has the value of \a _left 
+///				multiplied by \a _right
+///
 ////////////////////////////////////////////////////////////
 Time operator *(const Time& _left, const long long& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of * operator
-//	returns a Time object multiplied by another
-//
+///
+///	\relates 	zeno::Time
+///
+///	\brief		Overload of multiply operator
+///
+///	\param		_left	Value in seconds
+///
+///	\param		_right	Time object
+///
+///	\return		Time object who has the value of \a _left 
+///				multiplied by \a _right
+///
 ////////////////////////////////////////////////////////////
 Time operator *(const float& _left, const Time& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of * operator
-//	returns a long long value (microseconds) multiplied by a Time object
-//
+///
+///	\relates 	zeno::Time
+///
+///	\brief		Overload of multiply operator
+///
+///	\param		_left	Value in microseconds
+///
+///	\param		_right	Time object
+///
+///	\return		Time object who has the value of \a _left 
+///				multiplied by \a _right
+///
 ////////////////////////////////////////////////////////////
 Time operator *(const long long& _left, const Time& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of *= operator
-//	multiplies one Time object by a float value (seconds)
-//
+///
+///	\relates 	zeno::Time
+///
+///	\brief		Overload of multiply-equals operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Value in seconds
+///
+///	\return		Reference to \a _left which has been multiplied
+///				by \a _right
+///
 ////////////////////////////////////////////////////////////
 Time& operator *=(Time& _left, const float& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of *= operator
-//	multiplies one Time object by a long long value (microseconds)
-//
+///
+///	\relates 	zeno::Time
+///
+///	\brief		Overload of multiply-equals operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Value in microseconds
+///
+///	\return		Reference to \a _left which has been multiplied
+///				by \a _right
+///
 ////////////////////////////////////////////////////////////
 Time& operator *=(Time& _left, const long long& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of / operator
-//	returns float value of one Time object divided by another
-//
+///
+///	\relates 	zeno::Time
+///
+///	\brief		Overload of divide operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Time object
+///
+///	\return		Time object which is \a _left divided by 
+///				\a _right
+///
 ////////////////////////////////////////////////////////////
 float operator /(const Time& _left, const Time& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overoad of / operator
-//	returns a Time object by a float value (seconds)
-//
+///
+///	\relates 	zeno::Time
+///
+///	\brief		Overload of divide operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Value in seconds
+///
+///	\return		Time object which is \a _left divided by 
+///				\a _right
+///
 ////////////////////////////////////////////////////////////
 Time operator /(const Time& _left, const float& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of / operator
-//	returns a Time object by a long long value (microseconds)
-//
+///
+///	\relates 	zeno::Time
+///
+///	\brief		Overload of divide operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Value in microseconds
+///
+///	\return		Time object which is \a _left divided by 
+///				\a _right
+///
 ////////////////////////////////////////////////////////////
 Time operator /(const Time& _left, const long long& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of /= operator
-//	divides a Time object by a float value (seconds)
-//
+///
+///	\relates 	zeno::Time
+///
+///	\brief		Overload of divide-equals operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Value in seconds
+///
+///	\return		Reference to \a _left which has been divided
+///				by \a _right
+///
 ////////////////////////////////////////////////////////////
 Time& operator /=(Time& _left, const float& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of /= operator
-//	divides a Time object by a long long value (microseconds)
-//
+///
+///	\relates 	zeno::Time
+///
+///	\brief		Overload of divide-equals operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Value in microseconds
+///
+///	\return		Reference to \a _left which has been divided
+///				by \a _right
+///
 ////////////////////////////////////////////////////////////
 Time& operator /=(Time& _left, const long long& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of % operator
-//	returns a Time object modulo another Time object
-//
+///
+///	\relates 	zeno::Time
+///
+///	\brief		Overload of modulo operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Time object
+///
+///	\return		Time object which is the remainder of 
+///				\a _left modulo \a _right
+///
 ////////////////////////////////////////////////////////////
 Time operator %(const Time& _left, const Time& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of %= operator
-//	modulos one TIme object by another Time object
-//
+///
+///	\relates	zeno::Time
+///
+///	\brief		Overload of modulo-equals operator
+///
+///	\param		_left	Time object
+///
+///	\param		_right	Time object
+///
+///	\return		Reference to \a _left Time object which is
+///				the remainder of \a _left modulo \a _right
+///
 ////////////////////////////////////////////////////////////
 Time& operator %=(Time& _left, const Time& _right);
 
 ////////////////////////////////////////////////////////////
-//
-//	Overload of << operator for std::ostream
-//
+///
+///	\relates	zeno::Time
+///
+///	\brief		Overload of << operator
+///
+///	\param		os			std::ostream reference
+///
+///	\param		_time		Time to be output
+///
+///	\return		std::ostream reference with formatted Time
+///				output inserted into it
+///
 ////////////////////////////////////////////////////////////
 std::ostream& operator <<(std::ostream& os, zeno::Time const& _time);
+
 } //~ namespace zeno
 
 #endif //~ INCLUDED_ZENO_SYSTEM_TIME_HPP
