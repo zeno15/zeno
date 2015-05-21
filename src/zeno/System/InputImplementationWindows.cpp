@@ -2,8 +2,36 @@
 
 #include <zeno/Window/Window.hpp>
 
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif //~ NOMINMAX
 #include <windows.h>
+
+
+//~ Some of these aren't defined for MINGW
+#ifndef VK_XBUTTON1
+#define VK_XBUTTON1 0x05
+#endif //~ VK_XBUTTON1
+
+#ifndef VK_XBUTTON2
+#define VK_XBUTTON2 0x06
+#endif //~ VK_XBUTTON2
+
+#ifndef VK_OEM_COMMA
+#define VK_OEM_COMMA 0xBC
+#endif //~ VK_OEM_COMMA
+
+#ifndef VK_OEM_PERIOD
+#define VK_OEM_PERIOD 0xBE
+#endif //~ VK_OEM_PERIOD
+
+#ifndef VK_OEM_PLUS
+#define VK_OEM_PLUS 0xBB
+#endif //~ VK_OEM_PLUS
+
+#ifndef VK_OEM_MINUS
+#define VK_OEM_MINUS 0xBD
+#endif //~ VK_OEM_MINUS
 
 namespace zeno {
 

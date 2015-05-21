@@ -8,6 +8,25 @@
 
 #define KEY_REPEAT_BIT 0x40000000 
 
+
+//~ These aren't defined for MINGW
+#ifndef WM_XBUTTONDOWN
+#define WM_XBUTTONDOWN 0x020B
+#endif //~ WM_XBUTTONDOWN
+
+#ifndef WM_XBUTTONUP
+#define WM_XBUTTONUP 0x020C
+#endif //~ WM_XBUTTONUP
+
+#ifndef XBUTTON1
+#define XBUTTON1 0x0001
+#endif //~ XBUTTON1
+
+#ifndef XBUTTON2
+#define XBUTTON2 0x0002
+#endif //~ XBUTTON2
+
+
 namespace zeno {
 
 WindowImplementationWin32::WindowImplementationWin32(void) :
@@ -46,8 +65,8 @@ bool WindowImplementationWin32::create(const VideoMode& _videoMode, const std::s
 
     }
 
-	unsigned int width = _videoMode.width;
-	unsigned int height = _videoMode.height;
+	LONG width = static_cast<LONG>(_videoMode.width);
+    LONG height = static_cast<LONG>(_videoMode.height);
 
 	if (!(_style & WindowStyle::Fullscreen))
     {
@@ -124,10 +143,10 @@ Vector2u WindowImplementationWin32::getSize(void) const
 	RECT rect;
 
 	GetClientRect(m_Handle, &rect);
-	unsigned int width = rect.right - rect.left;
-	unsigned int height = rect.bottom - rect.top;
+	LONG width = rect.right - rect.left;
+	LONG height = rect.bottom - rect.top;
 
-	return Vector2u(width, height);
+	return Vector2u(static_cast<unsigned int>(width), static_cast<unsigned int>(height));
 }
 
 void WindowImplementationWin32::setSize(const Vector2u& _size)

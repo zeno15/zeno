@@ -283,8 +283,6 @@ template <typename T>
 std::ostream& operator <<(std::ostream& os, zeno::Vector3<T> const& _vec);
 
 
-
-
 #include "Vector3.inl"
 
 typedef Vector3<int>				Vector3i;

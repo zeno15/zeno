@@ -7,7 +7,9 @@
 #include <zeno/Window/WindowHandle.hpp>
 
 #include <vector>
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif //~ NOMINMAX
 #include <Windows.h>
 
 namespace zeno {

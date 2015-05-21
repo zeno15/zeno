@@ -2,8 +2,6 @@
 
 #include <zeno/System/Event.hpp>
 #include <zeno/System/Time.hpp>
-#include <zeno/GUI/GuiBase.hpp>
-#include <zeno/Graphics/ShaderManager.hpp>
 
 #include <iostream>
 
@@ -64,6 +62,9 @@ void GuiDesktop::processEvent(const Event& _event) const
 
 	if (!translateEvent(_event, event)) return;
 
+    std::vector<GUIEvent> floats;
+
+
 	for (GuiPane pane : m_Panes)
 	{
 		if (pane.processEvent(event))
@@ -74,16 +75,12 @@ void GuiDesktop::processEvent(const Event& _event) const
 }
 void GuiDesktop::render(void)
 {
-	//Shader& guiShader = ShaderManager::getInstance().getShader("GUI");
-
-	Mat4x4 ortho = Mat4x4::Orthographic2D(0.0f, static_cast<float>(m_Resolution.x), static_cast<float>(m_Resolution.y), 0.0f);
+    Mat4x4 ortho = Mat4x4::Orthographic2D(0.0f, static_cast<float>(m_Resolution.x), static_cast<float>(m_Resolution.y), 0.0f);
 	
-	for (GuiPane pane : m_Panes)
+	for (GuiPane& pane : m_Panes)
 	{
 		pane.render(ortho);
 	}
-
-	Shader::unbind();
 }
 
 void GuiDesktop::addChild(GuiBase *_child)
@@ -132,7 +129,7 @@ bool GuiDesktop::translateEvent(const Event& _event, GUIEvent& _guiEvent) const
 		return false;
 	case (Event::EventType::MouseMoved):
 		_guiEvent.type = GUIEvent::EventType::MouseMove;
-		_guiEvent.mouseMove.x = _event.position.x;
+		_guiEvent.mouseMove.x = static_cast<unsigned int>(_event.position.x);
 		_guiEvent.mouseMove.y = m_Resolution.y - _event.position.y;
 		return true;
 	case (Event::EventType::TextEntered):
@@ -183,14 +180,14 @@ GuiPane& GuiDesktop::getPane(const std::string& _id)
 		}
 	}
 
-	throw std::exception(std::string("Pane \"" + _id + "\" not present in desktop.").c_str());
+	throw std::runtime_error(std::string("Pane \"" + _id + "\" not present in desktop."));
 }
 
 void GuiDesktop::processThrown(void)
 {
 	for (GUIEvent event : m_ThrownEvents)
 	{
-		for (GuiPane pane : m_Panes)
+		for (GuiPane& pane : m_Panes)
 		{
 			if (pane.processEvent(event))
 			{

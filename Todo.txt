@@ -102,6 +102,7 @@ Look into configuration files
 	-	Version numbers
 	-	Source file lists et
 
+for << operator overloading, change to stream insertion operator
 
 Greater Goals
 	-	Make application to create gui layouts, then export to a file

@@ -1,9 +1,10 @@
 #include <zeno/System/Mat4x4.hpp>
 
+#include <zeno/System/VectorMath.hpp>
+
 #include <iostream>
 #include <sstream>
 #include <algorithm>
-#include <cmath>
 
 #define TO_RADIANS(x) (x * 3.14159265f / 180.0f)
 
@@ -226,7 +227,7 @@ Mat4x4& Mat4x4::inverse(void)
 	
 	return *this;
 }
-//~ https://github.com/g-truc/glm/blob/master/glm/gtc/matrix_transform.inl
+
 Mat4x4 Mat4x4::Orthographic2D(const float& _left, const float& _right, const float& _top, const float& _bottom)
 {
 	Mat4x4 mat(1.0f);
@@ -258,27 +259,30 @@ Mat4x4 Mat4x4::Orthographic3D(const float& _left, const float& _right, const flo
 
 Mat4x4 Mat4x4::lookat(const Vector3<float>& _eye, const Vector3<float>& _pos, const Vector3<float>& _up)
 {
-	Vector3f forward = (_pos - _eye).normalise();
+	Vector3f forward = Vector3f(_pos - _eye);
+    normalise(forward);
 
-	Vector3f side = forward.cross(_up).normalise();
+	Vector3f side = cross(forward, _up);
+    normalise(side);
 
-	Vector3f up = side.cross(forward).normalise();
+	Vector3f up = cross(side, forward);
+    normalise(up);
 
 	Mat4x4 mat;
 	mat[0]	=	side.x;
 	mat[4]	=	side.y;
 	mat[8]	=	side.z;
-	mat[12]	=	-side.dot(_eye);
+	mat[12]	=	-dot(side, _eye);
 
 	mat[1]	=	up.x;
 	mat[5]	=	up.y;
 	mat[9]	=	up.z;
-	mat[13]	=	-up.dot(_eye);
+	mat[13]	=	-dot(up, _eye);
 
 	mat[2]	=	-forward.x;
 	mat[6]	=	-forward.y;
 	mat[10]	=	-forward.z;
-	mat[14]	=	-forward.dot(_eye);
+	mat[14]	=	-dot(forward, _eye);
 
 	mat[3]	=	0.0f;
 	mat[7]	=	0.0f;

@@ -2,6 +2,8 @@
 
 #include <zeno/Graphics/ImageLoader.hpp>
 
+#include <stdexcept>
+
 namespace zeno {
 
 void Image::create(unsigned int _width, unsigned int _height, const Colour& _colour /*= Colour::Black*/)
@@ -69,7 +71,7 @@ void Image::copy(const Image& _image, const Vector2u& _offset /*= Vector2u()*/)
 	if (_image.getSize().x > getSize().x + _offset.x ||
 		_image.getSize().y > getSize().y + _offset.y)
 	{
-		throw std::exception("Image being copied does not fit");
+		throw std::runtime_error("Image being copied does not fit");
 	}
 
 	for (unsigned int y = 0; y < _image.getSize().y; y += 1)

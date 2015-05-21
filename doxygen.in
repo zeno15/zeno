@@ -2,18 +2,18 @@ PROJECT_NAME = zeno
 
 
 # System Module
-INPUT += ./include/zeno/System/Clock.hpp
-INPUT += ./include/zeno/System/Event.hpp
-INPUT += ./include/zeno/System/Rect.hppp
-INPUT += ./include/zeno/System/Time.hpp
-INPUT += ./include/zeno/System/Transformable3D.hpp
-INPUT += ./include/zeno/System/Vector2.hpp
-INPUT += ./include/zeno/System/Vector3.hpp
-INPUT += ./include/zeno/System/Vector4.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Clock.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Event.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Rect.hppp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Time.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Transformable3D.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Vector2.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Vector3.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Vector4.hpp
 
 
 
-OUTPUT_DIRECTORY = doc
+OUTPUT_DIRECTORY = @CMAKE_CURRENT_SOURCE_DIR@/doc
 GENERATE_HTML = YES
 HTML_OUTPUT = .
 HTML_FILE_EXTENSION = .html

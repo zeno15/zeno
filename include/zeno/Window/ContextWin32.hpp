@@ -1,7 +1,9 @@
 #ifndef INCLUDED_ZENO_WINDOW_CONTEXT_WIN32_HPP
 #define INCLUDED_ZENO_WINDOW_CONTEXT_WIN32_HPP
 
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif //~ NOMINMAX
 #include <Windows.h>
 
 namespace zeno {

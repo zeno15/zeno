@@ -1,10 +1,17 @@
 #include <zeno/System/Clock.hpp>
 
 #ifdef _WIN32
+
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif //~ NOMINMAX
+
 #include <Windows.h>
+
 #else
+
 #include <ctime>
+
 #endif //~ _WIN32
 
 #ifdef _WIN32
