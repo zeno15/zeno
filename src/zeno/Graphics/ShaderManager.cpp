@@ -8,11 +8,11 @@
 //~ Default shaders that are needed for vertex arrays and text rendering
 namespace {
 
-	const std::string vertexSource = std::string(	"#version 430\n" \
+	const std::string vertexSource = std::string(	"#version 130\n" \
 													"\n" \
-													"layout(location = 0) in vec3 in_Position;\n" \
-													"layout(location = 1) in vec4 in_Colour;\n" \
-													"layout(location = 2) in vec2 in_TexUV;\n" \
+													"in vec3 in_Position;\n" \
+													"in vec4 in_Colour;\n" \
+													"in vec2 in_TexUV;\n" \
 													"\n" \
 													"varying vec4 fragColour;\n" \
 													"\n" \
@@ -26,7 +26,7 @@ namespace {
 													"}\n");
 
 
-	const std::string fragmentSource = std::string(	"#version 430\n" \
+	const std::string fragmentSource = std::string(	"#version 130\n" \
 													"\n" \
 													"varying vec4 fragColour;\n" \
 													"\n" \
@@ -37,11 +37,11 @@ namespace {
 													"	gl_FragColor = texture(tex, gl_TexCoord[0].xy) * fragColour;\n" \
 													"}\n");	
 
-	const std::string vertexTextSource = std::string(	"#version 430\n" \
+	const std::string vertexTextSource = std::string(	"#version 130\n" \
 														"\n" \
-														"layout(location = 0) in vec3 in_Position;\n" \
-														"layout(location = 1) in vec4 in_Colour;\n" \
-														"layout(location = 2) in vec2 in_TexUV;\n" \
+														"in vec3 in_Position;\n" \
+														"in vec4 in_Colour;\n" \
+														"in vec2 in_TexUV;\n" \
 														"\n" \
 														"varying vec4 fragColour;\n" \
 														"\n" \
@@ -59,7 +59,7 @@ namespace {
 														"}\n");
 
 
-	const std::string fragmentTextSource = std::string(	"#version 430\n" \
+	const std::string fragmentTextSource = std::string(	"#version 130\n" \
 														"\n" \
 														"varying vec4 fragColour;\n" \
 														"\n" \

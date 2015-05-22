@@ -20,21 +20,32 @@ Window::~Window(void)
 }
 
 
-void Window::create(const VideoMode& _videoMode, const std::string& _title, uint32_t _style /*= WindowStyle::Default*/)
+bool Window::create(const VideoMode& _videoMode, const std::string& _title, uint32_t _style /*= WindowStyle::Default*/)
 {
 	m_VideoMode = _videoMode;
 	m_Title = _title;
 	m_WindowStyle = _style;
 
-	m_WindowImpl.create(_videoMode, _title, _style);
-	
+
+
+    bool value = m_WindowImpl.create(_videoMode, _title, _style);
+
+    if (!value)
+    {
+        return false;
+    }
+
 	#ifdef _WIN32
 	m_ContextImpl.create(m_WindowImpl.getHandle());
 	#endif
 	#ifdef __linux__
-	m_ContextImpl.create(m_WindowImpl.getDisplayHandle(), m_WindowImpl.getHandle());
-	#endif 
+	value = m_ContextImpl.create(m_WindowImpl.getDisplayHandle(), m_WindowImpl.getHandle());
+	#endif
+
+
 	setVerticalSync(true);
+
+    return value;
 }
 
 void Window::close(void)

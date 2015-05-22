@@ -53,7 +53,7 @@ public:
 	//	Creates a window and context implementation
 	//
 	////////////////////////////////////////////////////////////
-	void create(const VideoMode& _videoMode, const std::string& _title, uint32_t _style = WindowStyle::Default);
+	bool create(const VideoMode& _videoMode, const std::string& _title, uint32_t _style = WindowStyle::Default);
 
 	////////////////////////////////////////////////////////////
 	//

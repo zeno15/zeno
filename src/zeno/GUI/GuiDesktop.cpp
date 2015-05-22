@@ -8,10 +8,10 @@
 //~ Anonymous namespace containing the gui shader
 namespace {
 
-	const std::string GUIVertexSource = std::string(	"#version 430\n" \
+	const std::string GUIVertexSource = std::string(	"#version 130\n" \
 														"\n" \
-														"layout(location = 0) in vec3 in_Position;\n" \
-														"layout(location = 1) in vec4 in_Colour;\n" \
+														"in vec3 in_Position;\n" \
+														"in vec4 in_Colour;\n" \
 														"\n" \
 														"uniform mat4 View = mat4(1.0f);\n" \
 														"\n" \
@@ -24,7 +24,7 @@ namespace {
 														"}\n");
 
 
-	const std::string GUIFragmentSource = std::string(	"#version 430\n" \
+	const std::string GUIFragmentSource = std::string(	"#version 130\n" \
 														"\n" \
 														"varying vec4 col;\n" \
 														"\n" \

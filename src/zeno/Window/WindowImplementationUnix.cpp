@@ -1,6 +1,6 @@
-#include <WindowImplementationUnix.hpp>
+#include <zeno/Window/WindowImplementationUnix.hpp>
 
-#include <VideoMode.hpp>
+#include <zeno/Window/VideoMode.hpp>
 #include <GL/glx.h>
 #include <GL/glu.h>
 
@@ -129,6 +129,11 @@ void WindowImplementationUnix::processEvent()
 
 void WindowImplementationUnix::processWaitingEvents(void)
 {
+}
+
+void WindowImplementationUnix::switchToFullscreen(const VideoMode& _videoMode)
+{
+    //~ TODO implement
 }
 
 } //~ namespace zeno

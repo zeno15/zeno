@@ -1,3 +1,6 @@
+cmake_minimum_required(VERSION 3.2)
+project(zeno)
+
 #[[
 Building glew with mingw
 
@@ -41,8 +44,7 @@ then in objs folder is freetype.a
 ]]
 
 
-cmake_minimum_required(VERSION 3.2)
-project(zeno)
+
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
@@ -59,7 +61,6 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 # TODO check if this should be removed, and have it be a cmake variable being the path to std and freetype etc
 # Add the external libraries folder to the include directories
 include_directories(${CMAKE_SOURCE_DIR}/extlibs)
-
 
 
 #-----------------------------  Window start    ----------------------
@@ -200,6 +201,12 @@ if (_WIN32 OR WIN32)
     add_definitions(-DGLEW_STATIC)
     add_definitions(-D_WIN32)
 
+    set(LIBS
+        glew32s
+        opengl32
+        freetype
+    )
+
     set (WINDOW_HEADER_FILES ${WINDOW_HEADER_FILES}
             ${CMAKE_SOURCE_DIR}/include/zeno/Window/WindowImplementationWin32.hpp
             ${CMAKE_SOURCE_DIR}/include/zeno/Window/ContextWin32.hpp
@@ -219,6 +226,33 @@ if (_WIN32 OR WIN32)
 
 else (_WIN32 OR WIN32)
     # Add non win32 files
+    set(LIBS
+        xcb
+        X11
+        GL
+        GLEW
+        freetype
+    )
+
+    set (WINDOW_HEADER_FILES ${WINDOW_HEADER_FILES}
+            ${CMAKE_SOURCE_DIR}/include/zeno/Window/WindowImplementationUnix.hpp
+            ${CMAKE_SOURCE_DIR}/include/zeno/Window/ContextUnix.hpp
+        )
+
+    set (WINDOW_SOURCE_FILES ${WINDOW_SOURCE_FILES}
+            ${CMAKE_SOURCE_DIR}/src/zeno/Window/WindowImplementationUnix.cpp
+            ${CMAKE_SOURCE_DIR}/src/zeno/Window/ContextUnix.cpp
+        )
+
+    set(SYSTEM_HEADER_FILES ${SYSTEM_HEADER_FILES}
+    		${CMAKE_SOURCE_DIR}/include/zeno/System/InputImplementationUnix.hpp
+    	)
+    set(SYSTEM_SOURCE_FILES ${SYSTEM_SOURCE_FILES}
+    		${CMAKE_SOURCE_DIR}/src/zeno/System/InputImplementationUnix.cpp
+    	)
+
+    # freetype is installed to a different location on ubuntu, this solves
+    include_directories(/usr/local/include/freetype2/)
 endif (_WIN32 OR WIN32)
 
 
@@ -262,5 +296,5 @@ add_library(zeno-gui${LIBRARY_EXTENSION}        ${LIBRARY_BUILD_TYPE}   ${GUI_SO
 #add_library(zeno-audio${LIBRARY_EXTENSION}      ${LIBRARY_BUILD_TYPE}   ${AUDIO_SOURCE_FILES}       ${AUDIO_HEADER_FILES})
 
 add_executable(testProgram test.cpp)
-target_link_libraries(testProgram LINK_PUBLIC zeno-window${LIBRARY_EXTENSION} zeno-network${LIBRARY_EXTENSION} zeno-gui${LIBRARY_EXTENSION} zeno-graphics${LIBRARY_EXTENSION} zeno-system${LIBRARY_EXTENSION} glew32s opengl32 freetype)
+target_link_libraries(testProgram LINK_PUBLIC zeno-window${LIBRARY_EXTENSION} zeno-network${LIBRARY_EXTENSION} zeno-gui${LIBRARY_EXTENSION} zeno-graphics${LIBRARY_EXTENSION} zeno-system${LIBRARY_EXTENSION} ${LIBS})
 

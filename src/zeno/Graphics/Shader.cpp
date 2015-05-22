@@ -119,7 +119,7 @@ bool Shader::compileShader(void)
 	
 	//~ -----------------------VERTEX
 	// Compile vertex shader
-    glShaderSource(vertShader, 1, &vertSrc, NULL);
+    glShaderSource(vertShader, 1, (const char **)&vertSrc, NULL);
     glCompileShader(vertShader);
 
     // Checking vertex shader
@@ -138,7 +138,7 @@ bool Shader::compileShader(void)
 	if (m_UsingGeometry)
 	{
 		// Compile geometry shader
-		glShaderSource(geomShader, 1, &geomSrc, NULL);
+		glShaderSource(geomShader, 1, (const char **)&geomSrc, NULL);
 		glCompileShader(geomShader);
 
 		// Checking geometry shader
@@ -156,7 +156,7 @@ bool Shader::compileShader(void)
 
 	//~ -----------------------FRAGMENT
 	// Compile fragment shader
-    glShaderSource(fragShader, 1, &fragSrc, NULL);
+    glShaderSource(fragShader, 1, (const char **)&fragSrc, NULL);
     glCompileShader(fragShader);
 
     // Checking fragment shader

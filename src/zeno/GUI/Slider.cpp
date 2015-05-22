@@ -142,7 +142,7 @@ void Slider::render(Mat4x4 _transform) const
 
 FloatRect Slider::getBounds(void)
 {
-	std::cout << "TODO" << std::endl;
+	//~ TODO
 
 	return FloatRect();
 }

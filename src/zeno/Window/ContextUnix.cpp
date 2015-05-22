@@ -1,4 +1,4 @@
-#include <ContextUnix.hpp>
+#include <zeno/Window/ContextUnix.hpp>
 
 #include <GL/glx.h>
 #include <GL/glu.h>
@@ -21,6 +21,17 @@ bool ContextUnix::create(::Display *displayHandle, WindowHandle _handle)
 	
 	glXMakeCurrent(displayHandle, _handle, glXCreateContext(displayHandle, vi, NULL, GL_TRUE));
 	return true;
+}
+
+void ContextUnix::setVerticalSync(bool _vsync /*= true*/)
+{
+	//~ TODO implement
+}
+
+bool ContextUnix::getVerticalSyncState(void)
+{
+	//~ TODO implement
+	return false;
 }
 	
 } //~ namespace zeno
