@@ -5,6 +5,7 @@ PROJECT_NAME = zeno
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Clock.hpp
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Event.hpp
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Keyboard.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Mat4x4.hpp
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Mouse.hpp
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Rect.hpp
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Time.hpp

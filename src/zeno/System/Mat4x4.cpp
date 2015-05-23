@@ -376,35 +376,35 @@ Mat4x4 Mat4x4::createScale(const Vector3f & _scale)
 std::ostream& operator<<(std::ostream& os, const Mat4x4& _mat)
 {
 	os << 
-	_mat.values[0] << " " << _mat.values[4] << " " << _mat.values[8]	<< " " << _mat.values[12] << std::endl <<
-	_mat.values[1] << " " << _mat.values[5] << " " << _mat.values[9]	<< " " << _mat.values[13] << std::endl <<
-	_mat.values[2] << " " << _mat.values[6] << " " << _mat.values[10]	<< " " << _mat.values[14] << std::endl <<
-	_mat.values[3] << " " << _mat.values[7] << " " << _mat.values[11]	<< " " << _mat.values[15] << std::endl;
+	_mat[0] << " " << _mat[4] << " " << _mat[8]	<< " " << _mat[12] << std::endl <<
+	_mat[1] << " " << _mat[5] << " " << _mat[9]	<< " " << _mat[13] << std::endl <<
+	_mat[2] << " " << _mat[6] << " " << _mat[10]<< " " << _mat[14] << std::endl <<
+	_mat[3] << " " << _mat[7] << " " << _mat[11]<< " " << _mat[15] << std::endl;
 
 	return os;
 }
 
 bool operator ==(const Mat4x4& _left, const Mat4x4& _right)
 {
-	return (_left.values[0] == _right.values[0] &&
-		_left.values[1] == _right.values[1] &&
-		_left.values[2] == _right.values[2] &&
-		_left.values[3] == _right.values[3] &&
+	return (_left[0] == _right[0] &&
+            _left[1] == _right[1] &&
+            _left[2] == _right[2] &&
+            _left[3] == _right[3] &&
 
-		_left.values[4] == _right.values[4] &&
-		_left.values[5] == _right.values[5] &&
-		_left.values[6] == _right.values[6] &&
-		_left.values[7] == _right.values[7] &&
+            _left[4] == _right[4] &&
+            _left[5] == _right[5] &&
+            _left[6] == _right[6] &&
+            _left[7] == _right[7] &&
 
-		_left.values[8] == _right.values[8] &&
-		_left.values[9] == _right.values[9] &&
-		_left.values[10] == _right.values[10] &&
-		_left.values[11] == _right.values[11] &&
+            _left[8] == _right[8] &&
+            _left[9] == _right[9] &&
+            _left[10] == _right[10] &&
+            _left[11] == _right[11] &&
 
-		_left.values[12] == _right.values[12] &&
-		_left.values[13] == _right.values[13] &&
-		_left.values[14] == _right.values[14] &&
-		_left.values[15] == _right.values[15]);
+            _left[12] == _right[12] &&
+            _left[13] == _right[13] &&
+            _left[14] == _right[14] &&
+            _left[15] == _right[15]);
 }
 
 bool operator !=(const Mat4x4& _left, const Mat4x4& _right)
@@ -414,10 +414,10 @@ bool operator !=(const Mat4x4& _left, const Mat4x4& _right)
 
 Vector4<float> operator*(const Mat4x4& _left, const Vector4<float>& _right)
 {
-	return Vector4<float>(	_left.values[0] * _right.x + _left.values[4] * _right.y + _left.values[8] * _right.z + _left.values[12] * _right.w,
-							_left.values[1] * _right.x + _left.values[5] * _right.y + _left.values[9] * _right.z + _left.values[13] * _right.w,
-							_left.values[2] * _right.x + _left.values[6] * _right.y + _left.values[10] * _right.z + _left.values[14] * _right.w,
-							_left.values[3] * _right.x + _left.values[7] * _right.y + _left.values[11] * _right.z + _left.values[15] * _right.w);
+	return Vector4<float>(	_left[0] * _right.x + _left[4] * _right.y + _left[8] * _right.z + _left[12] * _right.w,
+							_left[1] * _right.x + _left[5] * _right.y + _left[9] * _right.z + _left[13] * _right.w,
+							_left[2] * _right.x + _left[6] * _right.y + _left[10] * _right.z + _left[14] * _right.w,
+							_left[3] * _right.x + _left[7] * _right.y + _left[11] * _right.z + _left[15] * _right.w);
 }
 
 Vector3<float> operator*(const Mat4x4& _left, const Vector3<float>& _right)
@@ -435,10 +435,10 @@ Mat4x4 operator*(const Mat4x4& _left, const Mat4x4& _right)
 	{
 		for (unsigned int j = 0; j < 4; j += 1)
 		{
-			result.values[j * 4 + i] = 	_left.values[0 + i] * 	_right.values[0 + 4 * j] +
-										_left.values[4 + i] * 	_right.values[1 + 4 * j] +
-										_left.values[8 + i] * 	_right.values[2 + 4 * j] +
-										_left.values[12 + i] * 	_right.values[3 + 4 * j];
+			result[j * 4 + i] = 	_left[0 + i] * 	    _right[0 + 4 * j] +
+                                    _left[4 + i] * 	    _right[1 + 4 * j] +
+                                    _left[8 + i] * 	    _right[2 + 4 * j] +
+                                    _left[12 + i] * 	_right[3 + 4 * j];
 		}
 	}
 	
