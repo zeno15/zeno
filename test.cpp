@@ -17,14 +17,9 @@ int main(int _argc, char **_argv)
     m.width = 1280;
     m.height = 720;
 
-    if (!window.create(m, "zeno::Window Test", zeno::WindowStyle::Default))
-    {
-        return -1;
-    }
-    if (glewInit() != GLEW_OK)
-    {
-        std::cout << "Glew failed to initialise." << std::endl;
-    }
+    window.create(m, "zeno::Window Test", zeno::WindowStyle::Default);
+
+
 
     window.setVerticalSync(true);
 

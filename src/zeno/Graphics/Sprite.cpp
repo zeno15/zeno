@@ -62,34 +62,34 @@ void Sprite::setTextureBounds(const FloatRect& _bounds)
 
 	
 	//~ Bottom Left
-	m_VertexArray[0].position	= Vector3f(m_Position.x, m_Position.y, 0.0f);
+	m_VertexArray[0].position	= Vector3f(0.0f, 0.0f, 0.0f);
 	m_VertexArray[0].colour		= Colour::White;
 	m_VertexArray[0].texture	= Vector2f(B, L);
 
 	//~ Bottom Right
-	m_VertexArray[1].position	= Vector3f(m_Position.x + m_Size.x, m_Position.y, 0.0f);
+	m_VertexArray[1].position	= Vector3f(0.0f + m_Size.x, 0.0f, 0.0f);
 	m_VertexArray[1].colour		= Colour::White;
 	m_VertexArray[1].texture	= Vector2f(T, L);
 
 	//~ Top Right
-	m_VertexArray[2].position	= Vector3f(m_Position.x + m_Size.x, m_Position.y + m_Size.y, 0.0f);
+	m_VertexArray[2].position	= Vector3f(0.0f + m_Size.x, 0.0f + m_Size.y, 0.0f);
 	m_VertexArray[2].colour		= Colour::White;
 	m_VertexArray[2].texture	= Vector2f(T, R);
 
 
 	
 	//~ Bottom Left
-	m_VertexArray[3].position	= Vector3f(m_Position.x, m_Position.y, 0.0f);
+	m_VertexArray[3].position	= Vector3f(0.0f, 0.0f, 0.0f);
 	m_VertexArray[3].colour		= Colour::White;
 	m_VertexArray[3].texture	= Vector2f(B, L);
 	
 	//~ Top Right
-	m_VertexArray[4].position	= Vector3f(m_Position.x + m_Size.x, m_Position.y + m_Size.y, 0.0f);
+	m_VertexArray[4].position	= Vector3f(0.0f + m_Size.x, 0.0f + m_Size.y, 0.0f);
 	m_VertexArray[4].colour		= Colour::White;
 	m_VertexArray[4].texture	= Vector2f(T, R);
 
 	//~ Top Left
-	m_VertexArray[5].position	= Vector3f(m_Position.x, m_Position.y + m_Size.y, 0.0f);
+	m_VertexArray[5].position	= Vector3f(0.0f, 0.0f + m_Size.y, 0.0f);
 	m_VertexArray[5].colour		= Colour::White;
 	m_VertexArray[5].texture	= Vector2f(B, R);
 	

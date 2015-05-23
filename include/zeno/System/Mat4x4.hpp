@@ -8,20 +8,26 @@
 #include <zeno/System/Vector3.hpp>
 #include <zeno/System/Vector4.hpp>
 
+////////////////////////////////////////////////////////////
+///
+/// \namespace zeno
+///
+////////////////////////////////////////////////////////////
 namespace zeno {
 
 ////////////////////////////////////////////////////////////
-//
-//	4x4 Matrix class for 3D point manipulation
-//	When accessing at an index the values are arranged as follows;
-//
-//	0	4	8	12
-//	1	5	9	13
-//	2	6	10	14
-//	3	7	11	15
-//
-//	ie, column major, for OpenGL.
-//
+///
+///	\brief  4x4 Matrix class for 3D point manipulation
+///
+///	When accessing at an index the values are arranged as follows;
+///
+///	0	4	8	12
+///	1	5	9	13
+///	2	6	10	14
+///	3	7	11	15
+///
+///	ie, column major, for OpenGL.
+///
 ////////////////////////////////////////////////////////////
 class Mat4x4
 {
@@ -42,7 +48,7 @@ public:
 
 	////////////////////////////////////////////////////////////
 	//
-	//	Initialises the uppermost lefthand 3x3 corner to
+	//	Initialises the uppermost left-hand 3x3 corner to
 	//	the values of the given column vectors
 	//
 	////////////////////////////////////////////////////////////
@@ -220,12 +226,7 @@ public:
 	friend Mat4x4 operator*=(Mat4x4& _left, const Mat4x4& _right);
 
 private:
-	////////////////////////////////////////////////////////////
-	//
-	//	16 floats that make up the matrix
-	//
-	////////////////////////////////////////////////////////////
-	std::vector<float> values;
+	std::vector<float> values;  ///<    vector containing the 16 floats
 };
 
 ////////////////////////////////////////////////////////////
@@ -247,3 +248,16 @@ bool operator !=(const Mat4x4& _left, const Mat4x4& _right);
 } //~ namespace zeno
 
 #endif //~ INCLUDED_ZENO_SYSTEM_MAT_4_X_4_HPP
+
+////////////////////////////////////////////////////////////
+///
+///	\class zeno::Mat4x4
+///	\ingroup System
+///
+///	Explanation of how this all works
+///
+///	\code
+///	zeno::Mat4x4 mat = zeno::Mat4x4(1.0f);
+///	\endcode
+///
+////////////////////////////////////////////////////////////

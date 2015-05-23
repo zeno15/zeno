@@ -9,6 +9,8 @@ methodName(T _name);
 
 Remove superfluous #includes
 
+Change the _WIN32 and __linux__ to library specfic ones defined in CMakeLists.txt
+
 External libs
 	-	Make sure that in the cmake process you need to define the locations of the directories, rather than using the extlibs folder
 

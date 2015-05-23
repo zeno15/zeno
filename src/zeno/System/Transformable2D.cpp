@@ -2,23 +2,44 @@
 
 namespace zeno {
 
-void Transformable2D::setPosition(const Vector2f& _position)
+Transformable2D::Transformable2D(void) :
+m_Transform(1.0f)
 {
-	m_Position = _position;
 }
+
+
+void Transformable2D::resetTransformation(void)
+{
+    m_Transform = Mat4x4(1.0f);
+}
+
+
+const Mat4x4& Transformable2D::getTransform(void) const
+{
+    return m_Transform;
+}
+
+Mat4x4& Transformable2D::getTransform(void)
+{
+    return m_Transform;
+}
+
+
 void Transformable2D::move(const Vector2f& _offset)
 {
-	setPosition(_offset + getPosition());
+    m_Transform[12] += _offset.x;
+    m_Transform[13] += _offset.y;
 }
 
-const Vector2f& Transformable2D::getPosition(void) const
+void Transformable2D::setPosition(const Vector2f& _position)
 {
-	return m_Position;
+    m_Transform[12] = _position.x;
+    m_Transform[13] = _position.y;
 }
 
-Mat4x4 Transformable2D::getTransform(void) const
+Vector2f Transformable2D::getPosition(void) const
 {
-	return Mat4x4::createTranslation(Vector3f(m_Position.x, m_Position.y, 0.0f));
+    return Vector2f(m_Transform[12], m_Transform[13]);
 }
 
-} //~ namespace zenocd ze
+} //~ namespace zeno

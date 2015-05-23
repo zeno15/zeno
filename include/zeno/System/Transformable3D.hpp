@@ -48,42 +48,58 @@ public:
 	const Mat4x4& getTransform(void) const;
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Returns read/write reference to the transformation
-	//
+	///
+    /// \brief      Gets a read/write reference to the transform
+    ///
+    /// \return     Mat4x4 read/write reference
+    ///
 	////////////////////////////////////////////////////////////
 	Mat4x4& getTransform(void);
 	
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Translates the transformation by the given offset
-	//
+	///
+    /// \brief      Increases the translation by the given offset
+    ///
+    /// \param      _offset Vector3
+    ///
 	////////////////////////////////////////////////////////////
 	void move(const Vector3f& _offset);
 	////////////////////////////////////////////////////////////
-	//
-	//	Sets the translation of the transformation to the given
-	//	position
-	//
+	///
+    /// \brief      Sets the translation to the given position
+    ///
+    /// \param      _position Vector3
+    ///
 	////////////////////////////////////////////////////////////
 	void setPosition(const Vector3f& _position);
 	////////////////////////////////////////////////////////////
-	//
-	//	Gets the translation of the transformation
-	//
+	///
+    /// \brief      Gets the accumulated translation
+    ///
+    /// \return     Vector3 representing the translation
+    ///
 	////////////////////////////////////////////////////////////
 	Vector3f getPosition(void) const;
 
 private:
-	////////////////////////////////////////////////////////////
-	//
-	//	Internal representation of the transformation
-	//
-	////////////////////////////////////////////////////////////
-	Mat4x4				m_Transform;
+	Mat4x4				m_Transform;    ///<    Internal representation of the transformation
+
 };
 
 } //~ namespace zeno
 
 #endif //~ INCLUDED_ZENO_SYSTEM_TRANSFORMABLE_3D_HPP
+
+////////////////////////////////////////////////////////////
+///
+///	\class zeno::Transformable3D
+///	\ingroup System
+///
+///	Explanation of how this all works
+///
+///	\code
+///	zeno::Transformable3D transform = zeno::Transformable3D();
+///	\endcode
+///
+////////////////////////////////////////////////////////////

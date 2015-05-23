@@ -19,16 +19,16 @@ Vector2i Mouse::getPosition(void)
 {
 	return InputImplementation::getMousePosition();
 }
-Vector2i Mouse::getPosition(const Window& _relative)
+Vector2i Mouse::getPosition(const Window& _window)
 {
-	return InputImplementation::getMousePosition(_relative);
+	return InputImplementation::getMousePosition(_window);
 }
 
-void Mouse::setPosition(const Vector2<int>& _position)
+void Mouse::setPosition(const Vector2i& _position)
 {
 	InputImplementation::setMousePosition(_position);
 }
-void Mouse::setPosition(const Vector2<int>& _position, const Window& _window)
+void Mouse::setPosition(const Vector2i& _position, const Window& _window)
 {
 	InputImplementation::setMousePosition(_position, _window);
 }

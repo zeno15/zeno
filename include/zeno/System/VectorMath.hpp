@@ -196,7 +196,7 @@ T dot(const Vector3<T>& _left, const Vector3<T>& _right);
 ///
 ///	Explanation of how this all works
 ///
-///	\code s
+///	\code
 ///	\endcode
 ///
 ////////////////////////////////////////////////////////////
