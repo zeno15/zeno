@@ -11,23 +11,9 @@ int main(int _argc, char **_argv)
 {
     zeno::Window window = zeno::Window();
 
-    zeno::VideoMode m;
-
-    m.bitsPerPixel = 32;
-    m.width = 1280;
-    m.height = 720;
-
-    window.create(m, "zeno::Window Test", zeno::WindowStyle::Default);
-
-
+    window.create(zeno::VideoMode(1280, 720), "Window", zeno::WindowStyle::Titlebar);
 
     window.setVerticalSync(true);
-
-    int glVersion[2] = { -1, -1 };
-    glGetIntegerv(GL_MAJOR_VERSION, &glVersion[0]);
-    glGetIntegerv(GL_MINOR_VERSION, &glVersion[1]);
-
-    std::cout << "OpenGL " << glVersion[0] << "." << glVersion[1] << std::endl;
 
     std::cout << "Vendor: " << glGetString(GL_VENDOR) << std::endl;
     std::cout << "Renderer: " << glGetString(GL_RENDERER) << std::endl;
@@ -37,6 +23,18 @@ int main(int _argc, char **_argv)
     zeno::GuiDesktop desktop;
     desktop.setResolution(window.getSize());
 
+#ifdef _WIN32
+    if (!desktop.loadGUIFont("C:/Windows/Fonts/segoeui.ttf", 32))
+    {
+        std::cout << "Failed to load font." << std::endl;
+    }
+#else
+    if (!desktop.loadGUIFont("/usr/share/fonts/truetype/ubuntu-font-family/UbuntuMono-B.ttf", 32))
+    {
+        std::cout << "Failed to load font." << std::endl;
+    }
+#endif
+
     desktop.addPane("Pane");
 
     desktop.addToPane("Pane", new zeno::Button("Button"));
@@ -45,13 +43,16 @@ int main(int _argc, char **_argv)
     desktop.addToPane("Pane", new zeno::Slider("Slider"));
     desktop.getElementFromPane<zeno::Slider>("Pane", "Slider")->registerCallback([](float _arg){std::cout << "Slider updated to: " << _arg * 100.0f << std::endl;});
 	
-#ifdef _WIN32
-    desktop.loadGUIFont("C:/Windows/Fonts/segoeui.ttf", 16);
-#else
-    desktop.loadGUIFont("/usr/share/fonts/truetype/ubuntu-font-family/UbuntuMono-B.ttf", 16);
-#endif
+    desktop.addToPane("Pane", new zeno::TextBox("TextBox", desktop.getGUIFont()));
+    desktop.getElementFromPane<zeno::TextBox>("Pane", "TextBox")->setPosition(zeno::Vector3f(640.0f, 0.0f, 0.0f));
+    desktop.getElementFromPane<zeno::TextBox>("Pane", "TextBox")->setText("Text!");
 
     glClearColor(100.0f / 255.0f, 149.0f / 255.0f, 247.0f / 255.0f, 1.0f);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     bool running = true;
 

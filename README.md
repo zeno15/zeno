@@ -1,5 +1,7 @@
 # zeno
-Multi-purpose libraries for cross platform developement
+Multi-purpose libraries for cross platform development
 
-Need to link to glew and opengl for windows to work
-Need to link to freetype for fonts to work
+Requires OpenGL 3.3 or greater to work
+
+Need to link to GLEW and OpenGL for windows to work
+Need to link to Freetype for fonts to work

@@ -12,12 +12,27 @@ namespace zeno {
 ////////////////////////////////////////////////////////////
 struct VideoMode
 {
-	////////////////////////////////////////////////////////////
-	//
-	//	Bits per pixel
-	//
-	////////////////////////////////////////////////////////////
-	unsigned int bitsPerPixel;
+    VideoMode() :
+            width(0),
+            height(0),
+            bitsPerPixel(32)
+    {
+    }
+
+    VideoMode(unsigned int _width, unsigned int _height) :
+            width(_width),
+            height(_height),
+            bitsPerPixel(32)
+    {
+    }
+
+    VideoMode(unsigned int _width, unsigned int _height, unsigned int _bitsPerPixel) :
+            width(_width),
+            height(_height),
+            bitsPerPixel(_bitsPerPixel)
+    {
+    }
+
 	////////////////////////////////////////////////////////////
 	//
 	//	Width of the window
@@ -30,6 +45,12 @@ struct VideoMode
 	//
 	////////////////////////////////////////////////////////////
 	unsigned int height;
+    ////////////////////////////////////////////////////////////
+    //
+    //	Bits per pixel
+    //
+    ////////////////////////////////////////////////////////////
+    unsigned int bitsPerPixel;
 };
 
 } //~ namespace zeno

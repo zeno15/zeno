@@ -1,6 +1,7 @@
 #include <zeno/Graphics/ShaderManager.hpp>
 
 #include <iostream>
+#include <stdexcept>
 
 #define DEFAULT_SHADER_NAME		"Zenos_Default_Shader"
 #define TEXT_SHADER_NAME		"Zenos_Text_Shader"
@@ -8,11 +9,11 @@
 //~ Default shaders that are needed for vertex arrays and text rendering
 namespace {
 
-	const std::string vertexSource = std::string(	"#version 130\n" \
+	const std::string vertexSource = std::string(	"#version 430\n" \
 													"\n" \
-													"in vec3 in_Position;\n" \
-													"in vec4 in_Colour;\n" \
-													"in vec2 in_TexUV;\n" \
+													"layout (location = 0) in vec3 in_Position;\n" \
+													"layout (location = 1) in vec4 in_Colour;\n" \
+													"layout (location = 2) in vec2 in_TexUV;\n" \
 													"\n" \
 													"varying vec4 fragColour;\n" \
 													"\n" \
@@ -26,7 +27,7 @@ namespace {
 													"}\n");
 
 
-	const std::string fragmentSource = std::string(	"#version 130\n" \
+	const std::string fragmentSource = std::string(	"#version 430\n" \
 													"\n" \
 													"varying vec4 fragColour;\n" \
 													"\n" \
@@ -37,37 +38,32 @@ namespace {
 													"	gl_FragColor = texture(tex, gl_TexCoord[0].xy) * fragColour;\n" \
 													"}\n");	
 
-	const std::string vertexTextSource = std::string(	"#version 130\n" \
-														"\n" \
-														"in vec3 in_Position;\n" \
-														"in vec4 in_Colour;\n" \
-														"in vec2 in_TexUV;\n" \
-														"\n" \
-														"varying vec4 fragColour;\n" \
-														"\n" \
-														"uniform mat4 View = mat4(1.0f);\n" \
-														"\n" \
-														"uniform vec2 texSize;\n" \
-														"\n" \
-														"uniform vec4 textColour;\n" \
-														"\n" \
-														"void main(void) \n" \
-														"{\n" \
-														"	gl_Position = View * vec4(in_Position, 1.0f);\n" \
-														"   fragColour  = textColour;\n" \
-														"	gl_TexCoord[0].xy = vec2(in_TexUV.x / texSize.x, in_TexUV.y / texSize.y);\n" \
-														"}\n");
+	const std::string vertexTextSource = std::string(	"#version 330\n"\
+                                                        "\n"\
+                                                        "uniform vec2 texSize = vec2(1.0f, 1.0f);\n"\
+                                                        "uniform vec4 colour;\n"\
+                                                        "uniform mat4 view = mat4(1.0f);\n"\
+                                                        "\n"\
+                                                        "layout(location = 0) in vec4 in_Position;\n"\
+                                                        "\n"\
+                                                        "void main()\n"\
+                                                        "{\n"\
+                                                        "    gl_Position = view * vec4(in_Position.xy, 0.0f, 1.0f);\n"\
+                                                        "\n"\
+                                                        "    gl_TexCoord[0].x = in_Position.z / texSize.x;\n"\
+                                                        "    gl_TexCoord[0].y = (texSize.y - in_Position.w) / texSize.y;\n"\
+                                                        "}\n");
 
 
-	const std::string fragmentTextSource = std::string(	"#version 130\n" \
+	const std::string fragmentTextSource = std::string(	"#version 330\n" \
 														"\n" \
-														"varying vec4 fragColour;\n" \
+														"uniform vec4 colour = vec4(1.0f, 1.0f, 1.0f, 1.0f);\n" \
 														"\n" \
 														"uniform sampler2D tex;\n" \
 														"\n" \
 														"void main(void)\n" \
 														"{\n" \
-														"	gl_FragColor = vec4(texture(tex, gl_TexCoord[0].xy).r * fragColour.r, texture(tex, gl_TexCoord[0].xy).r * fragColour.g, texture(tex, gl_TexCoord[0].xy).r * fragColour.b, texture(tex, gl_TexCoord[0].xy).r * fragColour.a);\n" \
+														"	gl_FragColor = vec4(colour.xyz, texture(tex, gl_TexCoord[0].xy).r * colour.w);\n" \
 														"}\n");	
 
 
@@ -82,9 +78,9 @@ ShaderManager::ShaderManager(void)
 	getShader(DEFAULT_SHADER_NAME).getLocationOfUniform("View");
 	
 	addShaderFromSource(TEXT_SHADER_NAME, vertexTextSource, fragmentTextSource);
-	getShader(TEXT_SHADER_NAME).getLocationOfUniform("View");
+	getShader(TEXT_SHADER_NAME).getLocationOfUniform("view");
+    getShader(TEXT_SHADER_NAME).getLocationOfUniform("colour");
 	getShader(TEXT_SHADER_NAME).getLocationOfUniform("texSize");
-	getShader(TEXT_SHADER_NAME).getLocationOfUniform("textColour");
 }
 ShaderManager::~ShaderManager(void)
 {
@@ -186,9 +182,8 @@ Shader& ShaderManager::getShader(const std::string& _name)
 			return m_Shaders.at(i).second;
 		}
 	}
-	//~ Shader not found
 
-	return getShader(DEFAULT_SHADER_NAME);
+    throw std::runtime_error(std::string("Shader \"" + _name + "\" not present in ShaderManager."));
 }
 
 } //~ namespace zeno

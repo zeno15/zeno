@@ -16,6 +16,9 @@ INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Vector3.hpp
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Vector4.hpp
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/VectorMath.hpp
 
+# Window Module
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Window/WindowStyle.hpp
+
 
 
 OUTPUT_DIRECTORY = @CMAKE_CURRENT_SOURCE_DIR@/doc

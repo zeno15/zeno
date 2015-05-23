@@ -140,6 +140,7 @@ GUIBase
 		-	Slider
 		-	Button
 		-	Label
+		-   TextBox
 
 ProgressBar
 	-	Have option for indeterminate length, ie |             []				| with [] moving
@@ -181,7 +182,13 @@ Texture
 	-	Look into modifying texture, expanding etc
 	-	Have persistant options for texture, stay when reloaded
 	-	Implement single channel texture, for font
-	
+
+Implement doxygen into header file
+	-	Graphics module
+	-	GUI module
+	-	Network module
+	-	Window module
+
 ---------------------------------------------------------------------------------------------------
 COMPLETE
 
@@ -229,7 +236,4 @@ Transformable3D
 	-	
 	
 Implement doxygen into header file
-	-	Rect.hpp 
-	-	Vector2.hpp 
-	-	Vector3.hpp 
-	-	Vector4.hpp 
+	-	System module

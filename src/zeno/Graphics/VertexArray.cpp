@@ -49,9 +49,9 @@ void VertexArray::create(void)
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * getCount(), data, GL_STATIC_DRAW);
-	
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(0 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *)(3 * sizeof(float)));
@@ -61,8 +61,9 @@ void VertexArray::create(void)
 
 void VertexArray::render(const RenderData& _data) const
 {
-	Shader& shader = ShaderManager::getInstance().getShader("Zenos_Default_Shader");
+	Shader& shader = ShaderManager::getInstance().getShader(_data.shader);
 	shader.bind();
+
 	if (_data.texture != nullptr)
 	{
 		_data.texture->bind();

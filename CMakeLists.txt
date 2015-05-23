@@ -62,6 +62,15 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 # Add the external libraries folder to the include directories
 include_directories(${CMAKE_SOURCE_DIR}/extlibs)
 
+#-----------------------------  Module Includes start ----------------------
+set(MODULE_INCLUDES ${MODULE_INCLUDES}
+        ${CMAKE_SOURCE_DIR}/include/zeno/Graphics.hpp
+        ${CMAKE_SOURCE_DIR}/include/zeno/GUI.hpp
+        ${CMAKE_SOURCE_DIR}/include/zeno/Network.hpp
+        ${CMAKE_SOURCE_DIR}/include/zeno/System.hpp
+        ${CMAKE_SOURCE_DIR}/include/zeno/Window.hpp
+    )
+#-----------------------------  Module Includes end   ----------------------
 
 #-----------------------------  Window start    ----------------------
 set(WINDOW_HEADER_FILES ${WINDOW_HEADER_FILES}

@@ -15,24 +15,6 @@ m_Verticies(0),
 m_TextColour(Colour::White),
 m_UseKerning(false)
 {
-	if (zeno::ShaderManager::getInstance().addShader("TextShader", "C:/Users/Mark/Documents/Github/textVertexShader.glsl", "C:/Users/Mark/Documents/Github/textFragmentShader.glsl"))
-	{
-		std::cout << "Shader loaded succesfully." << std::endl;
-		zeno::ShaderManager::getInstance().getShader("TextShader").bind();
-
-		if (!zeno::ShaderManager::getInstance().getShader("TextShader").getLocationOfUniform("colour"))
-		{
-			std::cout << "Failed to get \"colour\" uniform" << std::endl;
-		}
-		if (!zeno::ShaderManager::getInstance().getShader("TextShader").getLocationOfUniform("view"))
-		{
-			std::cout << "Failed to get \"view\" uniform" << std::endl;
-		}
-		if (!zeno::ShaderManager::getInstance().getShader("TextShader").getLocationOfUniform("texSize"))
-		{
-			std::cout << "Failed to get \"texSize\" uniform" << std::endl;
-		}
-	}
 }
 Text::~Text(void)
 {
@@ -120,19 +102,24 @@ void Text::render(RenderData _data) const
 {
 	if (_data.shader == "Zenos_Default_Shader")
 	{
-		_data.shader = "TextShader";
+		_data.shader = "Zenos_Text_Shader";
 	}
 
-	zeno::ShaderManager::getInstance().getShader(_data.shader).bind();
-	
-	zeno::ShaderManager::getInstance().getShader(_data.shader).passUniform("colour", m_TextColour);
-	zeno::ShaderManager::getInstance().getShader(_data.shader).passUniform("texSize", m_Font->getTextureAtlas().getSize());
-	zeno::ShaderManager::getInstance().getShader(_data.shader).passUniform("view", _data.transform);
+	Shader& shader = ShaderManager::getInstance().getShader(_data.shader);
+    shader.bind();
+
+    shader.passUniform("colour", m_TextColour);
+    shader.passUniform("texSize", m_Font->getTextureAtlas().getSize());
+    shader.passUniform("view", _data.transform);
 
 	m_Font->getTextureAtlas().bind();
 
 	glBindVertexArray(m_VAO);
 	glDrawArrays(GL_TRIANGLES, 0, m_Verticies);
+
+    m_Font->getTextureAtlas().unbind();
+
+    shader.unbind();
 }
 
 void Text::setColour(const Colour& _colour)
