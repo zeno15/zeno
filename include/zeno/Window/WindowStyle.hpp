@@ -36,3 +36,15 @@ public:
 } //~ namespace zeno
 
 #endif //~ INCLUDED_ZENO_WINDOW_WINDOW_STYLE_HPP
+
+////////////////////////////////////////////////////////////
+///
+///	\class zeno::WindowStyle
+///	\ingroup Window
+///
+///	Explanation of how this all works
+///
+///	\code
+///	\endcode
+///
+////////////////////////////////////////////////////////////

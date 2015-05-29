@@ -32,6 +32,8 @@ Look at http://visualgdb.com/tutorials/linux/ for developing on windows for linu
 -	Also check/modify all the window get/set size functions
 
 Set v-sync etc or desired fps
+    -   Vsync on linux
+    -   Desired fps on windows and linux
 
 LShift doesnt work
 
@@ -202,6 +204,9 @@ add different libraries for each sub directory
 Change all #ifndef INCLUDED_FILENAME_EXTENSION's to something with the project name etc in it
 
 AdjustWindowRect to have windows be the actual size. not including the frame
+
+Set v-sync etc or desired fps
+    -   Windows
 
 Fonts
 	-	move font stuff to graphics

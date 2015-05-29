@@ -11,7 +11,7 @@ int main(int _argc, char **_argv)
 {
     zeno::Window window = zeno::Window();
 
-    window.create(zeno::VideoMode(1280, 720), "Window", zeno::WindowStyle::Titlebar);
+    window.create(zeno::VideoMode(1280, 720), "Window", zeno::WindowStyle::Default);
 
     window.setVerticalSync(true);
 

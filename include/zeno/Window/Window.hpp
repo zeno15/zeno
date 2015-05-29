@@ -12,198 +12,242 @@
 
 #include <vector>
 
+////////////////////////////////////////////////////////////
+///
+/// \namespace zeno
+///
+////////////////////////////////////////////////////////////
 namespace zeno {
 
 //~ TODO Need context settings to set antialiasing/opengl version
 
 ////////////////////////////////////////////////////////////
-//
-//	Base class for all platform specific windows to
-//	inherate from.
-//
+///
+/// \brief	Platform independent window class
+///
 ////////////////////////////////////////////////////////////
 class Window
 {
 public:
 	////////////////////////////////////////////////////////////
-	//
-	//	Default constructor
-	//
+	///
+	/// \brief	Constructor
+    ///
+    /// Does not create a window, user must call create
+	///
 	////////////////////////////////////////////////////////////
 	Window(void);
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Constructor, effectively calls create with the given
-	//	parameters
+	///
+	/// \brief  Constructor
+	///
+	/// Calls create with the given parameters
 	//
 	////////////////////////////////////////////////////////////
 	Window(const VideoMode& _videoMode, const std::string& _title, uint32_t _style = WindowStyle::Default);
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Deconstructor
-	//
+	///
+	/// \brief	Destructor
+	///
+    /// Frees all resources associated with the window
+    ///
 	////////////////////////////////////////////////////////////
 	~Window(void);
 
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Creates a window and context implementation
-	//
+	///
+	/// \brief	Creates a window and context implementation
+    ///
+    /// \param  _videoMode  VideoMode to use for the window
+    ///
+    /// \param  _title      Title for the window
+    ///
+    /// \param  _style      WindowStyle for the window
+    ///
+    /// \return Boolean value on whether the Window was created
+    ///         successfully or not
+	///
 	////////////////////////////////////////////////////////////
 	bool create(const VideoMode& _videoMode, const std::string& _title, uint32_t _style = WindowStyle::Default);
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Closes the window, frees the resources associated with
-	//	the window and the context
-	//
+	///
+    /// \brief Closes the window, frees the resources associated
+	///	       with the window and the context
+	///
 	////////////////////////////////////////////////////////////
 	void close(void);
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Returns whether the window is open and running
-	//
+	///
+	///	\brief  Returns whether the window is open
+    ///
+    /// \return True if window is open, false otherwise
+	///
 	////////////////////////////////////////////////////////////
 	bool isOpen(void) const;
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Gets the position of the window
-	//
+	///
+	/// \brief	Gets the position of the window relative to the
+    ///         desktop
+    ///
+    /// \return Vector2 representing distance to top left of the
+    ///         desktop
+	///
 	////////////////////////////////////////////////////////////
 	Vector2i getPosition(void) const;
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Sets the position of the window
-	//
+	///
+	/// \brief	Sets the position of the window relative to the
+    ///         desktop
+    ///
+    /// \param  _position   Vector2 representing distance to top
+    ///                     left of the desktop
+	///
 	////////////////////////////////////////////////////////////
 	void setPosition(const Vector2i& _position);
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Gets the size of the window
-	//
+	///
+	///	\brief  Gets the size of the window
+	///
+    /// \return Vector2 representing the width and height of the
+    ///         window
+    ///
 	////////////////////////////////////////////////////////////
 	Vector2u getSize(void) const;
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Sets the size of the window
-	//
+	///
+	/// \brief	Sets the size of the window
+	///
+    /// \param  _size   Desired size of the window
+    ///
 	////////////////////////////////////////////////////////////
 	void setSize(const Vector2u& _size);
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Swaps the buffers, displaying the window
-	//
+	///
+	///	\brief  Swaps the buffers, displaying the window contents
+	///
 	////////////////////////////////////////////////////////////
 	void display(void);
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Returns whether or not there are any unprocessed events
-	//	in the queue, if there are it modifies the given event
-	//
+	///
+	///	\brief  Polls the window for the next event in the queue
+    ///
+    /// \param  _event  Event that will be modified with the
+    ///                 first event in the queue
+    ///
+    /// \return True if there was an event in the queue and the
+    ///         given event now represents it, false otherwise
+	///
 	////////////////////////////////////////////////////////////
 	bool pollEvent(Event& _event);
 	////////////////////////////////////////////////////////////
-	//
-	//	Waits for an event to enter the queue, modifies the 
-	//	given event
-	//
+	///
+	///	\brief  Blocking version of pollEvent
+    ///
+    /// \param  _event  Event that will be modified with the
+    ///                 first event in the queue
+	///
 	////////////////////////////////////////////////////////////
 	void waitEvent(Event& _event);
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Sets whether repeated key input is being used
-	//
+	///
+	/// \brief	Sets whether repeated key input is being used
+    ///
+    /// \param  _repeat True to enable, False to disable
+	///
 	////////////////////////////////////////////////////////////
 	void setRepeatedKeys(bool _repeat);
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Returns the system specific window handle
-	//
+	///
+	///	\brief  Returns the system specific window handle
+    ///
+    /// \return WindowHandle, only for internal use
+	///
 	////////////////////////////////////////////////////////////
 	WindowHandle getHandle(void) const;
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Sets the title of the window
-	//
+	///
+	/// \brief	Sets the title of the window
+    ///
+    /// \param  _title  String to set the Window title to
+	///
 	////////////////////////////////////////////////////////////
 	void setTitle(const std::string& _title);
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Gets the current title of the window
-	//
+	///
+	///	\brief  Gets the current title of the window
+	///
+    /// \return String containing the title of the window
+    ///
 	////////////////////////////////////////////////////////////
 	std::string getTitle(void) const;
 	
 	////////////////////////////////////////////////////////////
-	//
-	//	Enables/disables vsync with respect to the given value
-	//
+	///
+	/// \brief	Enables/disables v-sync
+    ///
+    /// \param  _vsync  True to enable v-sync, False to disable
+	///
 	////////////////////////////////////////////////////////////
 	void setVerticalSync(bool _vsync = true);
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Returns whether or not vsync is enabled for the window
-	//
+	///
+	///	\brief  Returns whether or not v-sync is enabled
+    ///
+    /// \return True if v-sync is enabled, false otherwise
+	///
 	////////////////////////////////////////////////////////////
 	bool getVerticalSyncState(void);
 	
 
 	////////////////////////////////////////////////////////////
-	//
-	//	Switches the window to fullscreen mode
-	//
+	///
+	///	\brief  Switches the window to fullscreen mode
+    ///
+    /// \param  _videoMode  The VideoMode to use
+	///
 	////////////////////////////////////////////////////////////
 	void switchToFullscreen(const VideoMode& _videoMode);
 
-protected:
-	////////////////////////////////////////////////////////////
-	//
-	//	The currently implemented video mode
-	//
-	////////////////////////////////////////////////////////////
-	VideoMode					m_VideoMode;
-	////////////////////////////////////////////////////////////
-	//
-	//	The title of the window
-	//
-	////////////////////////////////////////////////////////////
-	std::string					m_Title;
-	////////////////////////////////////////////////////////////
-	//
-	//	The style of the window
-	//
-	////////////////////////////////////////////////////////////
-	uint32_t					m_WindowStyle;
+private:
+	VideoMode					m_VideoMode;        ///<    The currently implemented video mode
 
-	////////////////////////////////////////////////////////////
-	//
-	//	The system specific window implementation
-	//
-	////////////////////////////////////////////////////////////
-	WindowImplementation		m_WindowImpl;
-	////////////////////////////////////////////////////////////
-	//
-	//	The system specific context implementation
-	//
-	////////////////////////////////////////////////////////////
-	ContextImplementation		m_ContextImpl;
+	std::string					m_Title;            ///<    The title of the window
+
+	uint32_t					m_WindowStyle;      ///<    The style of the window
+
+	WindowImplementation		m_WindowImpl;       ///<    The system specific window implementation
+
+	ContextImplementation		m_ContextImpl;      ///<    The system specific context implementation
 };
 
 } //~ namespace zeno
 
 #endif //~ INCLUDED_ZENO_WINDOW_WINDOW_HPP
+
+////////////////////////////////////////////////////////////
+///
+///	\class zeno::Window
+///	\ingroup Window
+///
+///	Explanation of how this all works
+///
+///	\code
+///	\endcode
+///
+////////////////////////////////////////////////////////////
