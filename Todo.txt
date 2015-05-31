@@ -191,6 +191,8 @@ Implement doxygen into header file
 	-	Network module
 	-	Window module
 
+	-   Need to fill in the "How this works" section at the bottom of each class
+
 ---------------------------------------------------------------------------------------------------
 COMPLETE
 

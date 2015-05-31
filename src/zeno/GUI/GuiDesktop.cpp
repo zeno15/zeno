@@ -50,10 +50,6 @@ GuiDesktop::GuiDesktop(void)
 		std::cout << "Failed to get location of uniform: View" << std::endl;
 	}
 }
-GuiDesktop::~GuiDesktop(void)
-{
-
-}
 
 
 void GuiDesktop::processEvent(const Event& _event)
@@ -62,16 +58,13 @@ void GuiDesktop::processEvent(const Event& _event)
 
 	if (!translateEvent(_event, event)) return;
 
-    std::vector<GUIEvent> floats;
-
-
-	for (GuiPane pane : m_Panes)
-	{
-		if (pane.processEvent(event))
-		{
-			return;
-		}
-	}
+    for (unsigned int i = 0; i < m_Panes.size(); i += 1)
+    {
+        if (m_Panes.at(i).processEvent(event))
+        {
+            return;
+        }
+    }
 }
 void GuiDesktop::render(void)
 {
@@ -81,16 +74,6 @@ void GuiDesktop::render(void)
 	{
 		pane.render(ortho);
 	}
-}
-
-void GuiDesktop::addChild(GuiBase *_child)
-{
-	m_Children.push_back(_child);
-}
-
-void GuiDesktop::setResolution(unsigned int _x, unsigned int _y)
-{
-	setResolution(Vector2u(_x, _y));
 }
 
 void GuiDesktop::setResolution(const Vector2u& _resolution)

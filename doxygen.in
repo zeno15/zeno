@@ -21,6 +21,17 @@ INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Window/VideoMode.hpp
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Window/Window.hpp
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Window/WindowStyle.hpp
 
+# GUI Module
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/GUI/GuiDesktop.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/GUI/GUIEvent.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/GUI/GuiBase.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/GUI/GuiPane.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/GUI/Label.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/GUI/ProgressBar.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/GUI/Slider.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/GUI/TextBox.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/GUI/Button.hpp
+
 
 
 OUTPUT_DIRECTORY = @CMAKE_CURRENT_SOURCE_DIR@/doc
