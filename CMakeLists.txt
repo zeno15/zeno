@@ -128,10 +128,12 @@ set(SYSTEM_SOURCE_FILES ${SYSTEM_SOURCE_FILES}
 #-----------------------------  Network start    ----------------------
 set(NETWORK_HEADER_FILES ${NETWORK_HEADER_FILES}
 		${CMAKE_SOURCE_DIR}/include/zeno/Network/Socket.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Network/UDPSocket.hpp
 	)
 
 set(NETWORK_SOURCE_FILES ${NETWORK_SOURCE_FILES}
         ${CMAKE_SOURCE_DIR}/src/zeno/Network/Socket.cpp
+        ${CMAKE_SOURCE_DIR}/src/zeno/Network/UDPSocket.cpp
     )
 #-----------------------------  Network end    ----------------------
 
@@ -218,6 +220,7 @@ if (_WIN32 OR WIN32)
         glew32s
         opengl32
         freetype
+        ws2_32
     )
 
     set (WINDOW_HEADER_FILES ${WINDOW_HEADER_FILES}

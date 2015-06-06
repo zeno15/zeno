@@ -2,13 +2,61 @@
 #include <iostream>
 
 #include <zeno/Window/Window.hpp>
-
+#include <zeno/Network.hpp>
 #include <zeno/GUI.hpp>
 
 #include <GL/glew.h>
 
 int main(int _argc, char **_argv)
 {
+    zeno::UDPSocket udp;
+
+    if (udp.bind(5554) == zeno::Socket::ERROR_SCOKET)
+    {
+        std::cout << "Failed to bind socket: " << WSAGetLastError() << std::endl;
+    }
+    else
+    {
+        std::cout << "Socket bound to port 5554" << std::endl;
+    }
+    zeno::Socket::SocketStatus stat;
+
+    std::string data = "Hey Hercules!";
+
+
+    stat = udp.send((void *)data.c_str(), data.size(), "192.168.2.9", 80);
+    if (stat == zeno::Socket::GOOD_SOCKET)
+    {
+        std::cout << "Socket sent " << data << std::endl;
+    }
+    else
+    {
+        std::cout << "Socket failed to send" << std::endl;
+    }
+
+    char buffer[128] = {'\0'};
+    std::size_t received;
+
+    std::string remoteAddress;
+    int remotePort;
+
+    stat = udp.receive(buffer, 128, received, remoteAddress, remotePort);
+
+    if (stat == zeno::Socket::GOOD_SOCKET)
+    {
+        std::cout << "Received: " << buffer << ", from address: " << remoteAddress << " on port: " << remotePort << std::endl;
+    }
+    else
+    {
+        std::cout << "Socket failed to retrieve" << std::endl;
+    }
+
+
+
+
+
+    return 0;
+
     zeno::Window window = zeno::Window();
 
     window.create(zeno::VideoMode(1280, 720), "Window", zeno::WindowStyle::Default);

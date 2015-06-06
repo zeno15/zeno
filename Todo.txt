@@ -1,5 +1,18 @@
 --------------------------------------------------------------------------------------------------
-TODO	-	
+TODO	-
+
+Custom error stream
+
+Network
+    -   SSL
+        -   https://stackoverflow.com/questions/7698488/turn-a-simple-socket-into-an-ssl-socket
+        -   http://citrixblogger.org/2010/09/13/public-key-certificate-locations-in-windows/
+        -   https://msdn.microsoft.com/en-us/library/windows/desktop/aa384076(v=vs.85).aspx
+
+
+    -   IP address struct/class? Insteadd of strings
+    -   Split sockets into platform specifics
+    -   Remvoe WSASession class from Socket.hpp
 
 build glew and freetype from source? to avoid LNK4099 errors?
 
