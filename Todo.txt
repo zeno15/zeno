@@ -151,6 +151,7 @@ ProgressBar
 	-	Generalise position, size getters/setters
 	-	Rewrite constructor so no data is buffered in it, have seperate functions use glBufferSubData
 	-	When complete pulse the bar to indicate completeness
+	-   Remove progressUpdate event, change to getting the element and calling a method
 
 Button
 	-	Add methods to get/set colours, size, position, outline thickness
@@ -189,7 +190,6 @@ Implement doxygen into header file
 	-	Graphics module
 	-	GUI module
 	-	Network module
-	-	Window module
 
 	-   Need to fill in the "How this works" section at the bottom of each class
 
@@ -208,7 +208,7 @@ Change all #ifndef INCLUDED_FILENAME_EXTENSION's to something with the project n
 AdjustWindowRect to have windows be the actual size. not including the frame
 
 Set v-sync etc or desired fps
-    -   Windows
+    -   Win32
 
 Fonts
 	-	move font stuff to graphics
@@ -244,3 +244,4 @@ Transformable3D
 	
 Implement doxygen into header file
 	-	System module
+	-	Window module

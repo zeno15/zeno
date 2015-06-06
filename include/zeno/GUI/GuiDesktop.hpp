@@ -151,7 +151,13 @@ public:
 private:
 	////////////////////////////////////////////////////////////
 	///
-	///	\brief
+	///	\brief  Translates a Window Event to a GUIEvent
+    ///
+    /// \param  _event  Window Event to translate
+    ///
+    /// \param  _guiEvent   GUIEvent to be modified
+    ///
+    /// \return True if Event can be translated
 	///
 	////////////////////////////////////////////////////////////
 	bool translateEvent(const Event& _event, GUIEvent& _guiEvent) const;

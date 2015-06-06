@@ -10,11 +10,6 @@ m_Id(_id)
 
 }
 
-GuiBase::~GuiBase(void)
-{
-
-}
-
 
 void GuiBase::setActive(bool _active)
 {

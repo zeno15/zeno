@@ -168,11 +168,11 @@ GuiPane& GuiDesktop::getPane(const std::string& _id)
 
 void GuiDesktop::processThrown(void)
 {
-	for (GUIEvent event : m_ThrownEvents)
+    for (unsigned int i = 0; i < m_ThrownEvents.size(); i += 1)
 	{
 		for (GuiPane& pane : m_Panes)
 		{
-			if (pane.processEvent(event))
+			if (pane.processEvent(m_ThrownEvents.at(i)))
 			{
 				continue;
 			}

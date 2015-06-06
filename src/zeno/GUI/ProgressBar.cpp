@@ -117,7 +117,7 @@ ProgressBar::~ProgressBar(void)
 
 bool ProgressBar::processEvent(const GUIEvent& _event)
 {
-	if (_event.type == GUIEvent::ProgressUpdate)
+	if (_event.type == GUIEvent::ProgressUpdate && _event.progress.id == m_Id)
 	{
 		m_CurrentPercentage = _event.progress.progress;
 		resendData(m_CurrentPercentage);
