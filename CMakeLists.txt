@@ -128,11 +128,13 @@ set(SYSTEM_SOURCE_FILES ${SYSTEM_SOURCE_FILES}
 #-----------------------------  Network start    ----------------------
 set(NETWORK_HEADER_FILES ${NETWORK_HEADER_FILES}
 		${CMAKE_SOURCE_DIR}/include/zeno/Network/Socket.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Network/TCPSocket.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Network/UDPSocket.hpp
 	)
 
 set(NETWORK_SOURCE_FILES ${NETWORK_SOURCE_FILES}
         ${CMAKE_SOURCE_DIR}/src/zeno/Network/Socket.cpp
+        ${CMAKE_SOURCE_DIR}/src/zeno/Network/TCPSocket.cpp
         ${CMAKE_SOURCE_DIR}/src/zeno/Network/UDPSocket.cpp
     )
 #-----------------------------  Network end    ----------------------

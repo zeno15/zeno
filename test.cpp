@@ -9,7 +9,7 @@
 
 int main(int _argc, char **_argv)
 {
-    zeno::UDPSocket udp;
+    /*zeno::UDPSocket udp;
 
     if (udp.bind(5554) == zeno::Socket::ERROR_SCOKET)
     {
@@ -49,11 +49,60 @@ int main(int _argc, char **_argv)
     else
     {
         std::cout << "Socket failed to retrieve" << std::endl;
+    }*/
+
+    zeno::TCPSocket socket;
+
+    zeno::Socket::SocketStatus stat = socket.connect("localhost", 5555);
+
+    if (stat == zeno::Socket::GOOD_SOCKET)
+    {
+        std::cout << "Connection successful" << std::endl;
+    }
+    else
+    {
+        std::cout << "Connection failed" << std::endl;
+        socket.shutdown(zeno::TCPSocket::ShutDownType::BOTH);
+        socket.close();
+
+        return 1;
     }
 
+    stat = socket.send((void *)"TCP Socket send!", 16);
 
+    if (stat == zeno::Socket::GOOD_SOCKET)
+    {
+        std::cout << "Send successful" << std::endl;
+    }
+    else
+    {
+        std::cout << "Send failed" << std::endl;
+        socket.shutdown(zeno::TCPSocket::ShutDownType::BOTH);
+        socket.close();
 
+        return 1;
+    }
 
+    char buffer[128] = {'\0'};
+    std::size_t received;
+
+    stat = socket.receive((void *)buffer, 128, received);
+
+    if (stat == zeno::Socket::GOOD_SOCKET)
+    {
+        std::cout << "Receive successful: " << buffer << std::endl;
+    }
+    else
+    {
+        std::cout << "Receive failed" << std::endl;
+        socket.shutdown(zeno::TCPSocket::ShutDownType::BOTH);
+        socket.close();
+
+        return 1;
+    }
+
+    socket.shutdown(zeno::TCPSocket::ShutDownType::BOTH);
+    socket.close();
 
     return 0;
 
