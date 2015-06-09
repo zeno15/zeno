@@ -21,6 +21,11 @@ m_RemotePort(-1)
 
 Socket::SocketStatus TCPSocket::connect(const std::string& _address, int _port)
 {
+    if (m_Handle == INVALID_SOCKET)
+    {
+        m_Handle = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    }
+
     struct hostent *host;
 
     host = gethostbyname(_address.c_str());
@@ -51,7 +56,7 @@ Socket::SocketStatus TCPSocket::send(void *_data, std::size_t _dataLength)
 
 Socket::SocketStatus TCPSocket::receive(void *_data, std::size_t _dataLength, std::size_t& _received)
 {
-    _received = ::recv(m_Handle, (char *)_data, _dataLength, 0);
+    _received = static_cast<std::size_t>(::recv(m_Handle, (char *)_data, (int)_dataLength, 0));
 
     if (_received <= 0)
     {
@@ -69,6 +74,8 @@ void TCPSocket::shutdown(ShutDownType _type)
 void TCPSocket::close(void)
 {
     closesocket(m_Handle);
+
+    m_Handle = INVALID_SOCKET;
 }
 
 } //~ namespace zeno

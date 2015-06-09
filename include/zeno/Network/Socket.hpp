@@ -42,6 +42,11 @@ public:
         GOOD_SOCKET,
         ERROR_SCOKET
     };
+    enum ShutDownType {
+        RECEIVE,        ///<    The socket will not receive any more data
+        SEND,           ///<    The socket will not send any more data
+        BOTH            ///<    The socket will not send or receive any more data
+    };
 
 	////////////////////////////////////////////////////////////
 	///
