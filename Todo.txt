@@ -8,6 +8,8 @@ Network
         -   https://stackoverflow.com/questions/7698488/turn-a-simple-socket-into-an-ssl-socket
         -   http://citrixblogger.org/2010/09/13/public-key-certificate-locations-in-windows/
         -   https://msdn.microsoft.com/en-us/library/windows/desktop/aa384076(v=vs.85).aspx
+        -   https://stackoverflow.com/questions/7698488/turn-a-simple-socket-into-an-ssl-socket
+        -   https://stackoverflow.com/questions/1499086/poco-c-net-ssl-how-to-post-https-request
 
 
     -   IP address struct/class? Insteadd of strings

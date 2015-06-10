@@ -73,6 +73,7 @@ void TCPSocket::shutdown(ShutDownType _type)
 
 void TCPSocket::close(void)
 {
+    shutdown(Socket::ShutDownType::BOTH);
     closesocket(m_Handle);
 
     m_Handle = INVALID_SOCKET;

@@ -7,38 +7,193 @@
 
 #include <GL/glew.h>
 
-int main(int _argc, char **_argv)
+#include <fstream>
+
+#include <openssl/bio.h>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+
+#include <zeno/Network/Socket.hpp>
+#include <io.h>
+
+#define SSL_PORT 443
+#define SERVER "www.fanfiction.net"
+
+typedef struct {
+    SOCKET socket;
+    SSL *sslHandle;
+    SSL_CTX *sslContext;
+} connection;
+
+SOCKET tcpConnect(void)
 {
-    zeno::TCPListener server;
+    int error;
+    SOCKET handle;
 
-    server.listen(5555);
+    struct hostent *host;
+    struct sockaddr_in server;
 
-    zeno::TCPSocket sock;
-
-    if (server.accept(sock) == zeno::Socket::SocketStatus::ERROR_SCOKET)
+    host = gethostbyname (SERVER);
+    handle = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (handle == -1)
     {
-        std::cout << "Failed to accept socket." << std::endl;
-        return 1;
+        std::cout << "Error creating socket" << std::endl;
+        handle = 0;
     }
     else
     {
-        std::cout << "Successful connect" << std::endl;
-    }
+        server.sin_family = AF_INET;
+        server.sin_port = htons (SSL_PORT);
+        server.sin_addr = *((struct in_addr *) host->h_addr);
 
-    std::size_t received;
-    char buffer[128] = {'\0'};
 
-    do
-    {
-        zeno::Socket::SocketStatus stat = sock.receive(buffer, 128, received);
-
-        if (stat != zeno::Socket::SocketStatus::ERROR_SCOKET)
+        error = connect (handle, (struct sockaddr *) &server,
+                         sizeof (struct sockaddr));
+        if (error == -1)
         {
-            std::cout << "Buffer: " << buffer << std::endl;
+            std::cout << "Error connecting" << std::endl;
+            handle = 0;
         }
     }
-    while (received != 0);
 
+    return handle;
+}
+
+char *sslRead (connection *c)
+{
+    const int readSize = 1024;
+    char *rc = NULL;
+    int received, count = 0;
+    char buffer[1024];
+
+    if (c)
+    {
+        while (1)
+        {
+            if (!rc)
+                rc = (char*)malloc (readSize * sizeof (char) + 1);
+            else
+                rc = (char*)realloc (rc, (count + 1) *
+                                  readSize * sizeof (char) + 1);
+
+            received = SSL_read (c->sslHandle, buffer, readSize);
+            buffer[received] = '\0';
+
+            if (received > 0)
+                strcat (rc, buffer);
+
+            if (received < readSize)
+                break;
+            count++;
+        }
+    }
+
+    return rc;
+}
+
+// Write text to the connection
+void sslWrite (connection *c, char *text)
+{
+    if (c)
+        SSL_write (c->sslHandle, text, strlen (text));
+}
+
+void sslDisconnect (connection *c)
+{
+    if (c->socket)
+        closesocket(c->socket);
+    if (c->sslHandle)
+    {
+        SSL_shutdown (c->sslHandle);
+        SSL_free (c->sslHandle);
+    }
+    if (c->sslContext)
+        SSL_CTX_free (c->sslContext);
+
+    free (c);
+}
+
+connection *sslConnect(void)
+{
+    connection *c = nullptr;
+
+    c = (connection *)malloc(sizeof(connection));
+
+    c->sslHandle = nullptr;
+    c->sslContext = nullptr;
+
+    c->socket = tcpConnect();
+
+    if (c->socket != 0)
+    {
+        SSL_load_error_strings();
+        SSL_library_init();
+
+        c->sslContext = SSL_CTX_new (SSLv23_client_method ());
+        if (c->sslContext == NULL)
+        {
+            std::cout << "Error creating SSL context" << std::endl;
+            return nullptr;
+        }
+
+        c->sslHandle = SSL_new (c->sslContext);
+        if (c->sslHandle == NULL)
+        {
+            std::cout << "Error creating SSL handle" << std::endl;
+            return nullptr;
+        }
+
+        if (!SSL_set_fd(c->sslHandle, c->socket))
+        {
+            std::cout << "Error connecting ssl to our socket connection" << std::endl;
+            return nullptr;
+        }
+
+        if (SSL_connect(c->sslHandle) != 1)
+        {
+            std::cout << "Error SSL_connect" << std::endl;
+            return nullptr;
+        }
+    }
+    else
+    {
+        std::cout << "tcpConnect failed." << std::endl;
+        return nullptr;
+    }
+
+    std::cout << "sslConnect success" << std::endl;
+    return c;
+}
+
+int main(int _argc, char **_argv)
+{
+    zeno::WSASession::getInstance();
+
+
+    connection *c = sslConnect();
+    if (c == nullptr)
+    {
+        std::cout << "sslConnect failed." << std::endl;
+        return 1;
+    }
+
+    sslWrite(c, "GET /s/9399635/1/Measure-Each-Step-to-Infinity/ HTTP/1.1\r\n" \
+                "host: www.fanfiction.net\r\n\r\n");
+
+    char *response = sslRead(c);
+
+    std::cout << response << std::endl;
+
+    std::cout << "Reading again" << std::endl;
+    //http://www.jmarshall.com/easy/http/#http1.1c2
+
+    response = sslRead(c);
+
+    std::cout << response << std::endl;
+
+    sslDisconnect(c);
+
+    std::cout << "Success" << std::endl;
     return 0;
 
     zeno::Window window = zeno::Window();

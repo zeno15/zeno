@@ -27,6 +27,11 @@ public:
     void shutdown(ShutDownType _type);
 
     void close(void);
+
+    SOCKET getHandle(void)
+    {
+        return m_Handle;
+    }
 private:
     friend class TCPListener;
 
