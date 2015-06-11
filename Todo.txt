@@ -4,6 +4,7 @@ TODO	-
 Custom error stream
 
 Network
+    -   Make it work on linux
     -   SSL
         -   https://stackoverflow.com/questions/7698488/turn-a-simple-socket-into-an-ssl-socket
         -   http://citrixblogger.org/2010/09/13/public-key-certificate-locations-in-windows/
@@ -15,6 +16,11 @@ Network
     -   IP address struct/class? Insteadd of strings
     -   Split sockets into platform specifics
     -   Remvoe WSASession class from Socket.hpp
+
+    -   HTTPSRequest
+        -   Have callback for different chunks, progress etc
+        -   Split into HTTPRequest
+        -   SSL Socket port
 
 build glew and freetype from source? to avoid LNK4099 errors?
 
