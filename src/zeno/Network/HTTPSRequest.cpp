@@ -110,6 +110,8 @@ void HTTPSRequest::get(const std::string& _target)
 
     std::string chunkSizeString = parseHeader(tokenisedResponse);
 
+    //~ TODO deal with the case when you get some data in the initial read, www.google.co.nz and '/' for example
+
     if (!m_Chunked)
     {
         //~ TODO non chunked transfer encoding, need to find a website that doesnt do it

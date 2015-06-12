@@ -1,218 +1,312 @@
---------------------------------------------------------------------------------------------------
-TODO	-
+TODO
 
-Custom error stream
+CMAKE
+    -   Document CMakeLists.txt
+    -	Make sure that in the cmake process you need to define the locations of the directories, rather than using the extlibs folder
+    -   use find_required in cmake for glew, opengl, freetype etc
+    -   Look into configuration files
+        -	Version numbers
+        -	Source file lists etc
+Graphics
+    -   Complete Graphics.hpp
+
+    *   Colour
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   Font
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -	Redo to use signed distance field technqiue, maybe not worth it. Have as a separate choice, long load time
+            -	http://contourtextures.wikidot.com/
+            -	Valve paper, use 2 channel to preserve sharp corners
+            -	http://webstaff.itn.liu.se/~stegu/aadist/edtaa_preprint.pdf
+            -	Look at signed distance field for specific usage cases, default is freetype textured quads
+	    -	Look into options for texture atlas size, start width > 512 etc, max size
+    *   Glyph
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -   Change to struct?
+        -   Look into if cache aligning is performance necessary
+    *   Image
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   ImageLoader
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   Renderable
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -	For vertex array, sprite, text implement renderable
+    *   RenderData
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+	    -	Make different constructors for different use cases
+    *   Shader
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+	    -	 Put a comment in the destructor of zeno::Shader, seems to be called excessively
+    *   ShaderManager
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -   Have default shaders built into source code in build process, not in ShaderManager.cpp
+    *   Sprite
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+	    -	Creating with default constructor crashes (in separate project, maybe build process is weird, setting texture rectangle issue)
+    *   Text
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -	Fix overlapping font quads not working, kerning etc
+        -	Look into issue with rotated text artifacts
+        -	Change way they are rendered so it defaults to the default shader, but if other is set will use that
+            -	Have the uniform passing only be used if it is the default shader
+    *   Texture
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -	Look into modifying texture, expanding etc
+        -	Have persistent options for texture, stay when reloaded
+        -	Implement different channel textures, for font (1 channel) etc
+        -   find better way to update textures than completely recreating them (i.e. as in font) Pixel Buffer Objects
+    *   Vertex
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   VertexArray
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -   Have shader for when a texture is/isn't used with vertex array
+
+GUI
+    -   Complete GUI.hpp
+    -   Better naming (GUIBase/GUIDesktop etc)
+    -	http://highschool.cs.vt.edu/Svc2012/S2012/gui-events-slides.pdf
+    -	https://courses.cs.washington.edu/courses/cse331/13sp/lectures/lect23-graphics.pdf
+
+    *   Button
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -	Add methods to get/set colours, size, position, outline thickness
+        -	Do we want the label colour to change for the text when button state changes?
+    *   GuiBase
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -	Need virtual method to return what depth the parts of the element cover
+        -	have visible/enabled etc
+        -	may need to have disabled colours for elements, or just tone the colours down?
+        -	need to have function to return start and end heights of created verticies
+        -	Desired/requested sizes, and the actual size a pane can give an element
+        -	Pass render data down the children hierachy
+        -	Implement has focus etc
+    *   GuiDesktop
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -   Have default shaders built into source code in build process, not in GuiDesktop.cpp
+        -   GuiDesktop better event management (not using created events instantly)
+        -	Have it as a member of the window? user has to set it so its not wasteful etc
+        -	Set a single font for entire gui desktop or per pane?
+        -	Dont create a new component then add, rather use GUIDesktop like a factory
+        -	Maybe have quad tree for doing GUIPane bounding checks?
+        -	Add to window.pollEvent() to pass to the desktop if it is present
+    *   GUIEvent
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -   Remove, use normal window events
+        -   Have panes register what events they want and only pass if necessary
+    *   GuiPane
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -   Have pane check bounds of mouse clicks etc so as to not waste all components checking
+        -	Have fast opt out of event handling, have objects register with panes what events they want
+        -	Have tab and shift-tab change which element has focus
+        -	Need a way for one element to notify others that it has focus so others can relinquish it
+        -	Each pane should gather up all verticies for all components it contains, so drawing a pane is 1 draw call for verticies and 1 for text?
+    *   Label
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+	    -	Crashes if you try to draw before setting the label string
+    *   ProgressBar
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -	Have option for indeterminate length, ie |             []				| with [] moving
+        -	Change position to use uniform passed to shader
+        -	Change size to use uniform passed to shader
+        -	Generalise position, size getters/setters
+        -	Rewrite constructor so no data is buffered in it, have seperate functions use glBufferSubData
+        -	When complete pulse the bar to indicate completeness
+        -   Remove progressUpdate event, change to getting the element and calling a method
+    *   Slider
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+	    -	Need to clean up vertex creation
+    *   TextBox
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+	    -	Add to GUIEvent normal keypress events, ie left right etc
 
 Network
+    -   Complete Network.hpp
     -   Make it work on linux
-    -   SSL
-        -   https://stackoverflow.com/questions/7698488/turn-a-simple-socket-into-an-ssl-socket
-        -   http://citrixblogger.org/2010/09/13/public-key-certificate-locations-in-windows/
-        -   https://msdn.microsoft.com/en-us/library/windows/desktop/aa384076(v=vs.85).aspx
-        -   https://stackoverflow.com/questions/7698488/turn-a-simple-socket-into-an-ssl-socket
-        -   https://stackoverflow.com/questions/1499086/poco-c-net-ssl-how-to-post-https-request
-
-
-    -   IP address struct/class? Insteadd of strings
+    -   IP address struct/class? Instead of strings
     -   Split sockets into platform specifics
-    -   Remvoe WSASession class from Socket.hpp
+    -   Remove WSASession class from Socket.hpp, or put it somewhere platform specific
 
-    -   HTTPSRequest
+    *   HTTPRequest
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   HTTPSRequest
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -   Re-write from https://www.ietf.org/rfc/rfc2616.txt
         -   Have callback for different chunks, progress etc
         -   Split into HTTPRequest
         -   SSL Socket port
+        -   Deal with trailers
+    *   Socket
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   TCPListener
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   TCPSocket
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   UDPSocket
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   FTP
+        -   TODO Next release
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
 
-build glew and freetype from source? to avoid LNK4099 errors?
+System
+    -   Complete System.hpp
+    -   Implement sleep function
 
-Look into whether functions should look like:
-static const void
-methodName(T _name);
+    *   Clock
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   Event
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   InputImplementationUnix
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   InputImplementationWindows
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   Keyboard
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -   LShift doesn't work
+    *   Mat4x4
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   Mouse
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   Rect
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   Time
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   Transformable2D
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -	Apply to text
+        -	Apply to sprite
+        -   Have Transformable3D as a member, and have same methods except pass 0.0f in for all z components?
+    *   Transformable3D
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+	    -	Apply to GuiBase
+    *   Vector2
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   Vector3
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   Vector4
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   VectorMath
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
 
-Remove superfluous #includes
+Window
+    -   Complete Window.hpp
 
-Change the _WIN32 and __linux__ to library specfic ones defined in CMakeLists.txt
+    *   ContextImplementation
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   ContextUnix
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   ContextWin32
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   VideoMode
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   Window
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -   Set v-sync
+            -   Windows
+            -   Linux
+        -   Set desired FPS
+            -   Windows
+            -   Linux
+        -   OpenGL contexts when using different windows
+        -   Look into specifying more options, stencil depth etc
+        -   Also check/modify all the window get/set size functions
+            -   Check window border size etc
+    *   WindowHandle
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   WindowImplementation
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   WindowImplementationUnix
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   WindowImplementationWin32
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   WindowStyle
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+        -   Implement window styles
+            -   Windows
+            -   Linux
 
-External libs
-	-	Make sure that in the cmake process you need to define the locations of the directories, rather than using the extlibs folder
+Audio
+    -   TODO Next release
+
+Other
+    -   Buy a Mac!
+    -   Custom error stream
+    -   Profiler
+    -   for << operator overloading, change to stream insertion operator
+    -   Look at licenses for OpenSSL, GLEW, Freetype, ws2_32, OpenGL etc and modify lib license if necessary
+        -   stb (png opening etc)
+    -   Look into whether functions should look like:
+            static const void
+            methodName(T _name);
+    -   Remove superfluous #includes
+    -   consistancy when using sizeof(float), change all to sizeof(GLfloat)
+    -   Change the _WIN32 and __linux__ to library specfic ones defined in CMakeLists.txt
+    -   Investigate change from platform conditional includes (InputImpl) to typedefs (WindowImpl)?
+    -   Re-implement unit tests
+    -   Find other common linux versions, create virtual machine so can build and run Unit tests and examples
+    -   Change all Deconstructor to Destructor
+	-	Test that all 4 library versions (static/shared, debug/release) work on all platforms
+	-   Particle System
+        -	Using Geometry shader and point sprites (GL_POINT_SPRITE, )
+    -   Random Number
+	    -	Put wrapper around c++11 functions for simple use cases
 
 
-GUI
-	-	http://highschool.cs.vt.edu/Svc2012/S2012/gui-events-slides.pdf
-	-	https://courses.cs.washington.edu/courses/cse331/13sp/lectures/lect23-graphics.pdf
-	
-COMMENT ON ALL THINGS
-	-	Texture
 
-Change from platform conditional includes (InputImpl) to typedefs (WindowImpl)?
-
-Remove glew/opengl from zeno lib, instead have swapBuffer() etc for display
-
-Look at http://visualgdb.com/tutorials/linux/ for developing on windows for linux
-
-
--	Also check/modify all the window get/set size functions
-
-Set v-sync etc or desired fps
-    -   Vsync on linux
-    -   Desired fps on windows and linux
-
-LShift doesnt work
-
-Implement window styles
-
-change all Deconstructor to Destructor
-
-use find_required in cmake for glew, opengl, freetype etc
-
-have shared libraries be created as well
-	-	Test that all 4 library versions work on both platforms
-
-look into if a abstract base class "Drawable" etc is a good thing
-	-	For vertex array, sprite, text implement drawable
-
-
-Implement doxygen into header files
-	-	Change the created #include file, not including zeno/system/file.hpp
-
-implement sleep function
-
-opengl contexts when using different windows
-
-have shaders work with multiple textures for vertex array?
-have shader for when a texture is/isnt used with vertex array
-
-Events
-	-	Look into WM_CHAR, text entered
-
-2d transformable
-	-	Apply to text
-	-	Apply to sprite
-	
-	
-3d transformable
-	-	Apply to GuiBase
-
-RenderData
-	-	Make different constructors for different use cases
-
-Fonts/Text
-	-	Embed text shader into shader manager
-	-	Look into options for texture atlas size, start width > 512 etc, max size
-	-	Have generateText add glyphs to the atlas
-	-	Look into issue with rotated text artifacts
-	-	Change way they are rendered so it defaults to the default shader, but if other is set will use that
-		-	Have the uniform passing only be used if it is the default shader
-	-	Fix overlapping font quads not 
-	-	Redo to use signed distance field technqiue, maybe not worth it. Look back into freetype  - autohinting for small font sizes
-		-	http://contourtextures.wikidot.com/
-		-	Valve paper, use 2 channel to preserve sharp corners
-		-	http://webstaff.itn.liu.se/~stegu/aadist/edtaa_preprint.pdf
-		-	Look at signed distance field for specific usage cases, default is freetype textured quads
-
-find better way to update textures than completely recreating them (i.e. as in font) Pixel Buffer Objects
-
-add in generic headers for each different sub module
-
-inherit Transformable3D for gui objects, since depth may be important
-GuiDesktop better event management (not using created events instantly)
-
-consistancy when using sizeof(float), change all to sizeof(GLfloat)
-
-look into whether to remove operator<< overload from Vector2<T> class etc
-
-look into whether or not to remove cross,  normalise etc from Vector3<T>
-	-	 Make Vector2/3/4<T> VectorMath hpp/cpp
-	
-Look into configuration files
-	-	Version numbers
-	-	Source file lists et
-
-for << operator overloading, change to stream insertion operator
-
-Greater Goals
-	-	Make application to create gui layouts, then export to a file
-	
-Sprite
-	-	Creating with default constructor crashes (in seperate project, maybe build process is weird, setting texture rectangle issue)
-
-GUIDesktop
-	-	implement names/id's for all guibase objects so events can go to specific objects
-	-	Have it as a member of the window? user has to set it so its not wasteful etc
-	-	Set a single font for entire gui desktop or per pane?
-	-	Each pane should gather up all verticies for all components it contains, so drawing a pane is 1 draw call for verticies and 1 for text?
-	-	Dont create a new component then add, rather use GUIDesktop like a factory
-	-	Maybe have quad tree for doing GUIPane bounding checks?
-	-	Add to window.pollEvent() to pass to the desktop if it is present
-
-GuiPane
-	-	Have fast opt out of event handling, have objects register with panes what events they want
-	-	Have tab and shift-tab change which element has focus
-	-	Need a way for one element to notify others that it has focus so others can relinquish it
-
-GUIBase
-	-	Need virtual method to return what depth the parts of the element cover
-	-	have visible/enabled etc 
-	-	may need to have disabled colours for elements, or just tone the colours down?
-	-	need to have function to return start and end heights of created verticies
-	-	Desired/requested sizes, and the actual size a pane can give an element
-	-	Pass render data down the children hierachy
-	-	Implement has focus etc
-	
-	-	Implement Transformable3D for
-		-	Progress bar
-		-	Slider
-		-	Button
-		-	Label
-		-   TextBox
-
-ProgressBar
-	-	Have option for indeterminate length, ie |             []				| with [] moving
-	-	Change position to use uniform passed to shader
-	-	Change size to use uniform passed to shader
-	-	Generalise position, size getters/setters
-	-	Rewrite constructor so no data is buffered in it, have seperate functions use glBufferSubData
-	-	When complete pulse the bar to indicate completeness
-	-   Remove progressUpdate event, change to getting the element and calling a method
-
-Button
-	-	Add methods to get/set colours, size, position, outline thickness
-	-	Do we want the label colour to change for the text when button state changes?
-	
-Slider
-	-	Need to clean up vertex creation
-	
-Label
-	-	Crashes if you try to draw before setting the label string
-	
-Text Box
-	-	Add to GUIEvent normal keypress events, ie left right etc
-	
-Random Number
-	-	Put wrapper around c++11 functions for simple use cases
-	
-Profiler
-	-	Visual debug info etc
-	
-Shader
-	-	 Put a comment in the destructor of zeno::Shader, seems to be called excessively
-	
-Particle System
-	-	Using Geometry shader and point sprites (GL_POINT_SPRITE, )
-	
-Image
-	
-Texture
-	-	Comment
-	-	Look into modifying texture, expanding etc
-	-	Have persistant options for texture, stay when reloaded
-	-	Implement single channel texture, for font
-
-Implement doxygen into header file
-	-	Graphics module
-	-	GUI module
-	-	Network module
-
-	-   Need to fill in the "How this works" section at the bottom of each class
 
 ---------------------------------------------------------------------------------------------------
 COMPLETE
@@ -259,10 +353,3 @@ Image
 
 Texture
 	-	Implement setting min/mag filter options
-	
-Transformable3D
-	-	
-	
-Implement doxygen into header file
-	-	System module
-	-	Window module
