@@ -9,35 +9,59 @@
 
 #include <fstream>
 
-#define SSL_PORT 443
-#define SERVER "www.fanfiction.net"
-
+#define SERVER "https://www.fanfiction.net"
 
 int main(int _argc, char **_argv)
 {
-    zeno::WSASession::getInstance();
+    zeno::HTTPProtocol http;
 
+    http.setHost(SERVER);
 
-    zeno::HTTPSRequest https;
+    zeno::HTTPProtocol::Request request;
 
-    https.connectTCP(SERVER, SSL_PORT);
-    https.connectSSL();
+    request.setURI("/s/9399635/");
 
-    https.get("/s/9399635/1/Measure-Each-Step-to-Infinity/");
+    zeno::HTTPProtocol::Response response = http.makeRequest(request);
 
-    std::cout << "Chapter 1 ##############################################" << std::endl;
-    std::cout << https.getResponse() << std::endl;
+    std::cout << "Response code: " << response.getStatus() << std::endl;
 
-    https.get("/s/9399635/2/Measure-Each-Step-to-Infinity/");
-
-    std::cout << "Chapter 2 ##############################################" << std::endl;
-    std::cout << https.getResponse() << std::endl;
-
-    https.closeConnection();
-
-
+    std::cout << response.getBody() << std::endl;
 
     return 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     zeno::Window window = zeno::Window();
 

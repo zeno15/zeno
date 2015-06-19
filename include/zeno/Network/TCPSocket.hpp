@@ -18,21 +18,21 @@ public:
 
     TCPSocket(void);
 
-    Socket::SocketStatus connect(const std::string& _address, int _port);
+    virtual Socket::SocketStatus connect(const std::string& _address, int _port);
 
-    Socket::SocketStatus send(void *_data, std::size_t _dataLength);
+    virtual Socket::SocketStatus send(void *_data, std::size_t _dataLength);
 
-    Socket::SocketStatus receive(void *_data, std::size_t _dataLength, std::size_t& _received);
+    virtual Socket::SocketStatus receive(void *_data, std::size_t _dataLength, std::size_t& _received);
 
     void shutdown(ShutDownType _type);
 
-    void close(void);
+    virtual void close(void);
 
     SOCKET getHandle(void)
     {
         return m_Handle;
     }
-private:
+protected:
     friend class TCPListener;
 
     SOCKET  m_Handle;               ///<    Windows specific socket handle

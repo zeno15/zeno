@@ -40,7 +40,8 @@ public:
     //~ TODO -  Make these proper
     enum SocketStatus {
         GOOD_SOCKET,
-        ERROR_SCOKET
+        ERROR_SCOKET,
+        SOCKET_DONE
     };
     enum ShutDownType {
         RECEIVE,        ///<    The socket will not receive any more data

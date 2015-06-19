@@ -127,15 +127,17 @@ set(SYSTEM_SOURCE_FILES ${SYSTEM_SOURCE_FILES}
 
 #-----------------------------  Network start    ----------------------
 set(NETWORK_HEADER_FILES ${NETWORK_HEADER_FILES}
-        ${CMAKE_SOURCE_DIR}/src/zeno/Network/HTTPSRequest.cpp
-        ${CMAKE_SOURCE_DIR}/src/zeno/Network/Socket.cpp
+        ${CMAKE_SOURCE_DIR}/include/zeno/Network/HTTPProtocol.hpp
+        ${CMAKE_SOURCE_DIR}/include/zeno/Network/SSLTCPSocket.hpp
+        ${CMAKE_SOURCE_DIR}/include/zeno/Network/Socket.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Network/TCPListener.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Network/TCPSocket.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Network/UDPSocket.hpp
 	)
 
 set(NETWORK_SOURCE_FILES ${NETWORK_SOURCE_FILES}
-        ${CMAKE_SOURCE_DIR}/src/zeno/Network/HTTPSRequest.cpp
+        ${CMAKE_SOURCE_DIR}/src/zeno/Network/HTTPProtocol.cpp
+        ${CMAKE_SOURCE_DIR}/src/zeno/Network/SSLTCPSocket.cpp
         ${CMAKE_SOURCE_DIR}/src/zeno/Network/Socket.cpp
         ${CMAKE_SOURCE_DIR}/src/zeno/Network/TCPListener.cpp
         ${CMAKE_SOURCE_DIR}/src/zeno/Network/TCPSocket.cpp

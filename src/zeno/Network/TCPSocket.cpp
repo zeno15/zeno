@@ -58,7 +58,11 @@ Socket::SocketStatus TCPSocket::receive(void *_data, std::size_t _dataLength, st
 {
     _received = static_cast<std::size_t>(::recv(m_Handle, (char *)_data, (int)_dataLength, 0));
 
-    if (_received <= 0)
+    if (_received == 0)
+    {
+        return Socket::SocketStatus::SOCKET_DONE;
+    }
+    else if (_received < 0)
     {
         return Socket::SocketStatus::ERROR_SCOKET;
     }

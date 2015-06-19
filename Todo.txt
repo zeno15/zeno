@@ -1,9 +1,10 @@
 TODO
-
+	-	http://sourceforge.net/projects/mingw-w64/files/latest/download
 CMAKE
     -   Document CMakeLists.txt
     -	Make sure that in the cmake process you need to define the locations of the directories, rather than using the extlibs folder
     -   use find_required in cmake for glew, opengl, freetype etc
+    -   Have glew static option etc
     -   Look into configuration files
         -	Version numbers
         -	Source file lists etc
@@ -144,7 +145,7 @@ GUI
 
 Network
     -   Complete Network.hpp
-    -   Make it work on linux
+    -   TODO important: Make it work on linux
     -   IP address struct/class? Instead of strings
     -   Split sockets into platform specifics
     -   Remove WSASession class from Socket.hpp, or put it somewhere platform specific
@@ -152,7 +153,11 @@ Network
     *   HTTPRequest
         -   Fill in the "How this works" section at the bottom of each class
         -   Comment doxygen for each function and class etc
+        -   TODO Next release
+            -   Stop having connection close field as default
     *   HTTPSRequest
+        -   Remove HTTPSRequest, just have httprequest internally use ssl sockets if needed? detect from response or url?
+        -   If a request has a field "Connection: close" it will send a 0 length thing at the end
         -   Fill in the "How this works" section at the bottom of each class
         -   Comment doxygen for each function and class etc
         -   Re-write from https://www.ietf.org/rfc/rfc2616.txt
@@ -160,16 +165,22 @@ Network
         -   Split into HTTPRequest
         -   SSL Socket port
         -   Deal with trailers
+        -   TODO Next release
+            -   Stop having connection close field as default
     *   Socket
         -   Fill in the "How this works" section at the bottom of each class
         -   Comment doxygen for each function and class etc
+        -   TODO important: Non-blocking sockets
     *   TCPListener
+        -   Return more useful SocketStatus values
         -   Fill in the "How this works" section at the bottom of each class
         -   Comment doxygen for each function and class etc
     *   TCPSocket
+        -   Return more useful SocketStatus values
         -   Fill in the "How this works" section at the bottom of each class
         -   Comment doxygen for each function and class etc
     *   UDPSocket
+        -   Return more useful SocketStatus values
         -   Fill in the "How this works" section at the bottom of each class
         -   Comment doxygen for each function and class etc
     *   FTP
