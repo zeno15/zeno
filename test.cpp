@@ -19,7 +19,7 @@ int main(int _argc, char **_argv)
 
     zeno::HTTPProtocol::Request request;
 
-    request.setURI("/s/9399635/");
+    request.setURI("/s/9399635/1/");
 
     zeno::HTTPProtocol::Response response = http.makeRequest(request);
 
@@ -109,7 +109,6 @@ int main(int _argc, char **_argv)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     bool running = true;
-
 
     while (running)
     {

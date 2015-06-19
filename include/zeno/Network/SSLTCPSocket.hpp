@@ -9,22 +9,22 @@
 
 namespace zeno {
 
-    class SSLTCPSocket : public TCPSocket
-    {
-    public:
-        virtual Socket::SocketStatus connect(const std::string& _address, int _port);
+class SSLTCPSocket : public TCPSocket
+{
+public:
+    virtual Socket::SocketStatus connect(const std::string& _address, int _port);
 
-        virtual Socket::SocketStatus send(void *_data, std::size_t _dataLength);
+    virtual Socket::SocketStatus send(void *_data, std::size_t _dataLength);
 
-        virtual Socket::SocketStatus receive(void *_data, std::size_t _dataLength, std::size_t& _received);
+    virtual Socket::SocketStatus receive(void *_data, std::size_t _dataLength, std::size_t& _received);
 
-        virtual void close(void);
+    virtual void close(void);
 
-    private:
-        SSL *m_SSLHandle;
-        SSL_CTX *m_SSLContext;
+private:
+    SSL *m_SSLHandle;
+    SSL_CTX *m_SSLContext;
 
-    };
+};
 
 } //~ namespace zeno
 

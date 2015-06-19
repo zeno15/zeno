@@ -213,10 +213,10 @@ void HTTPProtocol::Response::parseResponseString(const std::string& _responseStr
         }
         else
         {
-            line.clear();
-            while (std::getline(resp, line))
+            std::istreambuf_iterator<char> start(resp);
+            for (std::istreambuf_iterator<char> iter = start; iter != std::istreambuf_iterator<char>(); iter ++)
             {
-                m_Body.append(line);
+                m_Body.push_back(*iter);
             }
         }
         return;
@@ -387,12 +387,14 @@ HTTPProtocol::Response HTTPProtocol::makeRequest(const HTTPProtocol::Request& _r
 
         buffer[received] = '\0';
 
-        receivedMessage.append(std::string(buffer));
+        receivedMessage.append(buffer);
     }
 
     response.parseResponseString(receivedMessage);
 
     socket->close();
+
+    delete socket;
 
     return response;
 }
