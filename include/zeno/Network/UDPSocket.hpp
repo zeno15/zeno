@@ -114,3 +114,27 @@ private:
 } //~ namespace zeno
 
 #endif //~ INCLUDEDD_ZENO_NETWORK_UDPSOCKET_HPP
+
+////////////////////////////////////////////////////////////
+///
+///	\class zeno::UDPSocket
+///	\ingroup Network
+///
+///	Explanation of how this all works
+///
+///	\code
+///
+/// zeno::UDPSocket receiver;
+/// receiver.bind(5555);
+///
+/// zeno::UDPSocket sender;
+/// sender.send((void *)"Hello", 5, "127.0.0.1", 5555);
+///
+/// char buffer[1024];
+/// std::size_t received;
+///
+/// receiver.receive((void *)buffer, 1024, received);
+///
+///	\endcode
+///
+////////////////////////////////////////////////////////////

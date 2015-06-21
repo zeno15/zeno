@@ -12,6 +12,11 @@
 ////////////////////////////////////////////////////////////
 namespace zeno {
 
+////////////////////////////////////////////////////////////
+///
+/// \brief  Socket which implements the TCP protocol
+///
+////////////////////////////////////////////////////////////
 class TCPSocket : public Socket
 {
 public:
@@ -45,3 +50,29 @@ protected:
 } //~ namespace zeno
 
 #endif //~ INCLUDED_ZENO_NETWORK_TCPSOCKET_HPP
+
+////////////////////////////////////////////////////////////
+///
+///	\class zeno::UDPSocket
+///	\ingroup Network
+///
+///	Explanation of how this all works
+///
+///	\code
+///
+/// zeno::TCPSocket socket;
+///
+/// socket.connect("www.google.co.nz", 80);
+///
+/// socket.send((void *)"GET / HTTP/1.0\r\n", 16);
+///
+/// char buffer[1024];
+/// std::size_t received;
+///
+/// socket.receive((void *)buffer, 1024, received);
+///
+/// socket.close();
+///
+///	\endcode
+///
+////////////////////////////////////////////////////////////

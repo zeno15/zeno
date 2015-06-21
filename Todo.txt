@@ -150,12 +150,11 @@ Network
     -   Split sockets into platform specifics
     -   Remove WSASession class from Socket.hpp, or put it somewhere platform specific
 
-    *   HTTPRequest
+    *   HTTPProtocol
         -   Fill in the "How this works" section at the bottom of each class
         -   Comment doxygen for each function and class etc
         -   TODO Next release
             -   Stop having connection close field as default
-    *   HTTPSRequest
         -   Remove HTTPSRequest, just have httprequest internally use ssl sockets if needed? detect from response or url?
         -   If a request has a field "Connection: close" it will send a 0 length thing at the end
         -   Fill in the "How this works" section at the bottom of each class
@@ -165,11 +164,7 @@ Network
         -   Split into HTTPRequest
         -   SSL Socket port
         -   Deal with trailers
-        -   TODO Next release
-            -   Stop having connection close field as default
     *   Socket
-        -   Fill in the "How this works" section at the bottom of each class
-        -   Comment doxygen for each function and class etc
         -   TODO important: Non-blocking sockets
     *   TCPListener
         -   Return more useful SocketStatus values
@@ -181,10 +176,11 @@ Network
         -   Comment doxygen for each function and class etc
     *   UDPSocket
         -   Return more useful SocketStatus values
-        -   Fill in the "How this works" section at the bottom of each class
-        -   Comment doxygen for each function and class etc
     *   FTP
         -   TODO Next release
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   SSLTCPSocket
         -   Fill in the "How this works" section at the bottom of each class
         -   Comment doxygen for each function and class etc
 
@@ -364,3 +360,77 @@ Image
 
 Texture
 	-	Implement setting min/mag filter options
+
+Graphics
+
+    *   Colour
+    *   Font
+    *   Glyph
+    *   Image
+    *   ImageLoader
+    *   Renderable
+    *   RenderData
+    *   Shader
+    *   ShaderManager
+    *   Sprite
+    *   Text
+    *   Texture
+    *   Vertex
+    *   VertexArray
+
+GUI
+
+    *   Button
+    *   GuiBase
+    *   GuiDesktop
+    *   GuiEvent
+    *   GuiPane
+    *   Label
+    *   ProgressBar
+    *   Slider
+    *   TextBox
+
+Network
+
+    *   HTTPProtocol
+    *   Socket
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   SSLTCPSocket
+    *   TCPListener
+    *   TCPSocket
+    *   UDPSocket
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+
+System
+
+    *   Clock
+    *   Event
+    *   InputImplementationUnix
+    *   InputImplementationWindows
+    *   Keyboard
+    *   Mat4x4
+    *   Mouse
+    *   Rect
+    *   Time
+    *   Transformable2D
+    *   Transformable3D
+    *   Vector2
+    *   Vector3
+    *   Vector4
+    *   VectorMath
+
+Window
+    -   Complete Window.hpp
+
+    *   ContextImplementation
+    *   ContextUnix
+    *   ContextWin32
+    *   VideoMode
+    *   Window
+    *   WindowHandle
+    *   WindowImplementation
+    *   WindowImplementationUnix
+    *   WindowImplementationWin32
+    *   WindowStyle
