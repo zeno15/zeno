@@ -21,6 +21,7 @@ m_RemotePort(-1)
 
 Socket::SocketStatus TCPSocket::connect(const std::string& _address, int _port)
 {
+
     if (m_Handle == INVALID_SOCKET)
     {
         m_Handle = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);

@@ -2,11 +2,13 @@
 
 #include <iostream>
 
+#define SSL_PORT 443
+
 namespace zeno {
 
 Socket::SocketStatus SSLTCPSocket::connect(const std::string& _address, int _port)
 {
-    TCPSocket::connect(_address, 443);
+    TCPSocket::connect(_address, _port == 0 ? SSL_PORT : _port);
 
     if (getHandle() == INVALID_SOCKET)
     {
@@ -17,12 +19,14 @@ Socket::SocketStatus SSLTCPSocket::connect(const std::string& _address, int _por
     SSL_load_error_strings();
     SSL_library_init();
 
-    m_SSLContext = SSL_CTX_new(SSLv23_client_method());
+    m_SSLContext = SSL_CTX_new(TLS_client_method());
     if (m_SSLContext == nullptr)
     {
         std::cout << "Error initialising SSL context" << std::endl;
         return Socket::SocketStatus::ERROR_SCOKET;
     }
+    //~ Don't use insecure things, tls1 or > only
+    SSL_CTX_set_options(m_SSLContext, SSL_OP_NO_SSLv2 | SSL_OP_NO_SSLv3);
 
     m_SSLHandle = SSL_new(m_SSLContext);
     if (m_SSLHandle == nullptr)
@@ -42,14 +46,18 @@ Socket::SocketStatus SSLTCPSocket::connect(const std::string& _address, int _por
         std::cout << "Error connecting SSL" << std::endl;
         return Socket::SocketStatus::ERROR_SCOKET;
     }
-
 }
 
 Socket::SocketStatus SSLTCPSocket::send(void *_data, std::size_t _dataLength)
 {
-    SSL_write(m_SSLHandle, _data, _dataLength);
-
-    return Socket::SocketStatus::GOOD_SOCKET;
+    if (SSL_write(m_SSLHandle, _data, _dataLength) > 0)
+    {
+        return Socket::SocketStatus::GOOD_SOCKET;
+    }
+    else
+    {
+        return Socket::SocketStatus::ERROR_SCOKET;
+    }
 }
 
 Socket::SocketStatus SSLTCPSocket::receive(void *_data, std::size_t _dataLength, std::size_t& _received)

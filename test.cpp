@@ -1,8 +1,8 @@
 #include <cstdlib>
 #include <iostream>
 
-#include <zeno/Window/Window.hpp>
 #include <zeno/Network.hpp>
+#include <zeno/Window/Window.hpp>
 #include <zeno/GUI.hpp>
 
 #include <GL/glew.h>
@@ -13,6 +13,7 @@
 
 int main(int _argc, char **_argv)
 {
+
     zeno::HTTPProtocol http;
 
     http.setHost(SERVER);
@@ -27,40 +28,8 @@ int main(int _argc, char **_argv)
 
     std::cout << response.getBody() << std::endl;
 
+
     return 0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     zeno::Window window = zeno::Window();
