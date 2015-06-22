@@ -3,8 +3,6 @@
 
 #include <zeno/Network/Socket.hpp>
 
-#include <winsock2.h>
-
 ////////////////////////////////////////////////////////////
 ///
 /// \namespace zeno
@@ -107,7 +105,7 @@ public:
     void close(void);
 
 private:
-    SOCKET  m_Handle;       ///<    Windows specific socket handle
+    SocketHandle  m_Handle;       ///<    Windows specific socket handle
 
 };
 

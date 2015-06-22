@@ -2,9 +2,9 @@
 #define INCLUDED_ZENO_NETWORK_SOCKET_HPP
 
 #include <string>
-
-#include <winsock2.h>
 #include <system_error>
+
+#include <zeno/Network/SocketHandle.hpp>
 
 ////////////////////////////////////////////////////////////
 ///
@@ -91,33 +91,6 @@ protected:
     int                 m_LocalPort;        ///<    Port Number
 
     bool                m_IsBlocking;       ///<    Blocking state of the socket
-};
-
-class WSASession
-{
-public:
-    static WSASession& getInstance(void)
-    {
-        //~ Ensures that a valid WSA Session is running
-        static WSASession wsa = WSASession();
-
-        return wsa;
-    }
-private:
-    WSASession(void)
-    {
-        if (WSAStartup(MAKEWORD(2, 2), &data) != 0)
-        {
-            throw std::system_error(WSAGetLastError(), std::system_category(), "WSAStartup Failed");
-        }
-    }
-
-    ~WSASession(void)
-    {
-        WSACleanup();
-    }
-
-    WSADATA data;
 };
 
 } //~ namespace zeno

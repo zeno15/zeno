@@ -1,10 +1,8 @@
 #ifndef INCLUDED_ZENO_NETWORK_TCPLISTENER_HPP
 #define INCLUDED_ZENO_NETWORK_TCPLISTENER_HPP
 
-#include <zeno/Network/Socket.hpp>
 #include <zeno/Network/TCPSocket.hpp>
 
-#include <winsock2.h>
 
 ////////////////////////////////////////////////////////////
 ///
@@ -32,7 +30,7 @@ public:
     void close(void);
 
 private:
-    SOCKET  m_Handle;               ///<    Windows specific socket handle
+    SocketHandle  m_Handle;               ///<    Windows specific socket handle
 
     std::string m_RemoteAddress;    ///<    Address of the remote end of the connection
 

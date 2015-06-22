@@ -3,7 +3,6 @@
 
 #include <zeno/Network/Socket.hpp>
 
-#include <winsock2.h>
 
 ////////////////////////////////////////////////////////////
 ///
@@ -33,14 +32,14 @@ public:
 
     virtual void close(void);
 
-    SOCKET getHandle(void)
+    SocketHandle getHandle(void)
     {
         return m_Handle;
     }
 protected:
     friend class TCPListener;
 
-    SOCKET  m_Handle;               ///<    Windows specific socket handle
+    SocketHandle  m_Handle;               ///<    Windows specific socket handle
 
     std::string m_RemoteAddress;    ///<    Address of the remote end of the connection
 

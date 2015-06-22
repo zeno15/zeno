@@ -1,14 +1,13 @@
 #include <zeno/Network/UDPSocket.hpp>
 
 #include <iostream>
+#include <unistd.h>
 
 namespace zeno {
 
 UDPSocket::UDPSocket(void) :
 Socket(Socket::SocketType::UDP)
 {
-    WSASession::getInstance();
-
     m_Handle = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
     if (m_Handle == INVALID_SOCKET)
@@ -73,7 +72,7 @@ Socket::SocketStatus UDPSocket::receive(void *_data, std::size_t _maxDataLength,
 Socket::SocketStatus UDPSocket::receive(void *_data, std::size_t _maxDataLength, std::size_t& _lengthReceived, std::string& _remoteAddress, int& _remotePort)
 {
     sockaddr_in  source;
-    int sourceSize = sizeof(source);
+    unsigned int sourceSize = sizeof(source);
 
     _lengthReceived = (std::size_t)recvfrom(m_Handle, (char *)_data, _maxDataLength, 0, (sockaddr *)(&source), &sourceSize);
 
@@ -86,7 +85,13 @@ Socket::SocketStatus UDPSocket::receive(void *_data, std::size_t _maxDataLength,
 
 void UDPSocket::close(void)
 {
-    closesocket(m_Handle);
+
+    #ifdef _WIN32
+    ::closesocket(m_Handle);
+    #endif //~ _WIN32
+    #ifdef __linux__
+    ::close(m_Handle);
+    #endif //~ __linux
 
     m_LocalPort = -1;
 }

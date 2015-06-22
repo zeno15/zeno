@@ -7,6 +7,9 @@ m_SocketType(_socketType),
 m_LocalPort(-1),
 m_IsBlocking(true)
 {
+    #ifdef _WIN32
+    WSASession::getInstance();
+    #endif //~ _WIN32
 }
 
 

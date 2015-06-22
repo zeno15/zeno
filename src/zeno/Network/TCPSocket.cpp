@@ -1,6 +1,7 @@
 #include <zeno/Network/TCPSocket.hpp>
 
 #include <iostream>
+#include <unistd.h>
 
 namespace zeno {
 
@@ -8,8 +9,6 @@ TCPSocket::TCPSocket(void) :
 Socket(SocketType::TCP),
 m_RemotePort(-1)
 {
-    WSASession::getInstance();
-
     m_Handle = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
     if (m_Handle == INVALID_SOCKET)
@@ -79,7 +78,13 @@ void TCPSocket::shutdown(ShutDownType _type)
 void TCPSocket::close(void)
 {
     shutdown(Socket::ShutDownType::BOTH);
-    closesocket(m_Handle);
+
+    #ifdef _WIN32
+    ::closesocket(m_Handle);
+    #endif //~ _WIN32
+    #ifdef __linux__
+    ::close(m_Handle);
+    #endif //~ __linux
 
     m_Handle = INVALID_SOCKET;
 }

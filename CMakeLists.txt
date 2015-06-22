@@ -130,6 +130,7 @@ set(NETWORK_HEADER_FILES ${NETWORK_HEADER_FILES}
         ${CMAKE_SOURCE_DIR}/include/zeno/Network/HTTPProtocol.hpp
         ${CMAKE_SOURCE_DIR}/include/zeno/Network/SSLTCPSocket.hpp
         ${CMAKE_SOURCE_DIR}/include/zeno/Network/Socket.hpp
+        ${CMAKE_SOURCE_DIR}/include/zeno/Network/SocketHandle.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Network/TCPListener.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Network/TCPSocket.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Network/UDPSocket.hpp
@@ -258,6 +259,9 @@ else (_WIN32 OR WIN32)
         GL
         GLEW
         freetype
+        ssl
+        crypto
+        dl
     )
 
     set (WINDOW_HEADER_FILES ${WINDOW_HEADER_FILES}

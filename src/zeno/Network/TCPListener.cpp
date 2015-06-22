@@ -1,7 +1,7 @@
 #include <zeno/Network/TCPListener.hpp>
 
 #include <iostream>
-#include <winsock2.h>
+#include <unistd.h>
 
 namespace zeno {
 
@@ -9,8 +9,6 @@ TCPListener::TCPListener(void) :
 Socket(SocketType::TCP),
 m_RemotePort(-1)
 {
-    WSASession::getInstance();
-
     m_Handle = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
     if (m_Handle == INVALID_SOCKET)
@@ -23,8 +21,15 @@ Socket::SocketStatus TCPListener::listen(int _port)
 {
     sockaddr_in addr;
 
+
     addr.sin_family = AF_INET;
+    #ifdef _WIN32
     addr.sin_addr.S_un.S_addr = INADDR_ANY;
+    #endif //~ _WIN32
+    #ifdef __linux__
+    addr.sin_addr.s_addr = INADDR_ANY;
+    #endif //~ __linux__
+
     addr.sin_port = htons(_port);
 
     if (::bind(m_Handle, (sockaddr *)(&addr), sizeof(addr)) != 0)
@@ -43,9 +48,9 @@ Socket::SocketStatus TCPListener::listen(int _port)
 Socket::SocketStatus TCPListener::accept(TCPSocket& _socket)
 {
     sockaddr_in remoteAddress;
-    int remoteAddressLength;
+    unsigned int remoteAddressLength;
 
-    SOCKET remoteHandle = ::accept(m_Handle, (sockaddr *)(&remoteAddress), &remoteAddressLength);
+    SocketHandle remoteHandle = ::accept(m_Handle, (sockaddr *)(&remoteAddress), &remoteAddressLength);
 
     if (remoteHandle == INVALID_SOCKET)
     {
@@ -68,7 +73,12 @@ void TCPListener::shutdown(Socket::ShutDownType _type)
 void TCPListener::close(void)
 {
     shutdown(Socket::ShutDownType::BOTH);
+    #ifdef _WIN32
     ::closesocket(m_Handle);
+    #endif //~ _WIN32
+    #ifdef __linux__
+    ::close(m_Handle);
+    #endif //~ __linux
 }
 
 } //~ namespace zeno
