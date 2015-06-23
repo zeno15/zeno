@@ -49,7 +49,7 @@ public:
     ///
     /// \param  _data   Pointer to the start of the data to send
     ///
-    /// \param  _dataLenth  Size of the data to send in bytes
+    /// \param  _dataLength  Size of the data to send in bytes
     ///
     /// \param  _address    Address to send data to
     ///

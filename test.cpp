@@ -14,7 +14,7 @@
 int main(int _argc, char **_argv)
 {
 
-    zeno::HTTPProtocol http;
+    zeno::HTTPProtocol http = zeno::HTTPProtocol();
 
     http.setHost(SERVER);
 
@@ -26,11 +26,14 @@ int main(int _argc, char **_argv)
 
     std::cout << "Response code: " << response.getStatus() << std::endl;
 
+    for (const std::pair<std::string, std::string>& pair : response.getFields())
+    {
+        std::cout << pair.first << ": " << pair.second << std::endl;
+    }
+
     std::cout << response.getBody() << std::endl;
 
-
     return 0;
-
 
     zeno::Window window = zeno::Window();
 

@@ -89,4 +89,19 @@ void TCPSocket::close(void)
     m_Handle = INVALID_SOCKET;
 }
 
+SocketHandle TCPSocket::getHandle(void)
+{
+    return m_Handle;
+}
+
+std::string TCPSocket::getRemoteAddress(void)
+{
+    return m_RemoteAddress;
+}
+
+int TCPSocket::getRemotePort(void)
+{
+    return m_RemotePort;
+}
+
 } //~ namespace zeno

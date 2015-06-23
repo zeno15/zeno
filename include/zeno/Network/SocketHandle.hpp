@@ -5,6 +5,14 @@
 
 #include <winsock2.h>
 
+////////////////////////////////////////////////////////////
+///
+/// \brief  Utility class to ensure sockets work on Windows
+///
+/// Essentially just calls WSAStartup the first time a socket
+/// is made, and calls WSACleanup when the program ends
+///
+////////////////////////////////////////////////////////////
 class WSASession
 {
 public:
@@ -32,7 +40,7 @@ private:
     WSADATA data;
 };
 
-typedef SOCKET zeno::SocketHandle;
+typedef SOCKET SocketHandle;
 
 #endif
 #ifdef __linux__

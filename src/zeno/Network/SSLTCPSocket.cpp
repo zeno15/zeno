@@ -2,6 +2,10 @@
 
 #include <iostream>
 
+#include <openssl/bio.h>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+
 #define SSL_PORT 443
 
 namespace zeno {

@@ -145,35 +145,21 @@ GUI
 
 Network
     -   Complete Network.hpp
-    -   TODO important: Make it work on linux
     -   IP address struct/class? Instead of strings
     -   Split sockets into platform specifics
-    -   Remove WSASession class from Socket.hpp, or put it somewhere platform specific
 
     *   HTTPProtocol
-        -   Fill in the "How this works" section at the bottom of each class
-        -   Comment doxygen for each function and class etc
         -   TODO Next release
             -   Stop having connection close field as default
-        -   Remove HTTPSRequest, just have httprequest internally use ssl sockets if needed? detect from response or url?
-        -   If a request has a field "Connection: close" it will send a 0 length thing at the end
-        -   Fill in the "How this works" section at the bottom of each class
-        -   Comment doxygen for each function and class etc
-        -   Re-write from https://www.ietf.org/rfc/rfc2616.txt
-        -   Have callback for different chunks, progress etc
-        -   Split into HTTPRequest
-        -   SSL Socket port
-        -   Deal with trailers
+            -   Have callback for different chunks, progress etc
+            -   Deal with trailers
+            -   POST requests
     *   Socket
-        -   TODO important: Non-blocking sockets
+        -   TODO Next release: Non-blocking sockets
     *   TCPListener
         -   Return more useful SocketStatus values
-        -   Fill in the "How this works" section at the bottom of each class
-        -   Comment doxygen for each function and class etc
     *   TCPSocket
         -   Return more useful SocketStatus values
-        -   Fill in the "How this works" section at the bottom of each class
-        -   Comment doxygen for each function and class etc
     *   UDPSocket
         -   Return more useful SocketStatus values
     *   FTP
@@ -181,8 +167,6 @@ Network
         -   Fill in the "How this works" section at the bottom of each class
         -   Comment doxygen for each function and class etc
     *   SSLTCPSocket
-        -   Fill in the "How this works" section at the bottom of each class
-        -   Comment doxygen for each function and class etc
 
 System
     -   Complete System.hpp
@@ -391,14 +375,24 @@ GUI
     *   TextBox
 
 Network
+    -   Remove WSASession class from Socket.hpp, or put it somewhere platform specific
 
     *   HTTPProtocol
+        -   Remove HTTPSRequest, just have httprequest internally use ssl sockets if needed? detect from response or url?
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
     *   Socket
         -   Fill in the "How this works" section at the bottom of each class
         -   Comment doxygen for each function and class etc
     *   SSLTCPSocket
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
     *   TCPListener
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
     *   TCPSocket
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
     *   UDPSocket
         -   Fill in the "How this works" section at the bottom of each class
         -   Comment doxygen for each function and class etc

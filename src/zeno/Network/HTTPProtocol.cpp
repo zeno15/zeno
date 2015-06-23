@@ -27,11 +27,11 @@ std::string HTTPProtocol::Request::getRequestType(void) const
     return types[m_Type];
 }
 
-unsigned int HTTPProtocol::Request::getMajorVersion(void)
+unsigned int HTTPProtocol::Request::getMajorVersion(void) const
 {
     return  m_MajorVersionNumber;
 }
-unsigned int HTTPProtocol::Request::getMinorVersion(void)
+unsigned int HTTPProtocol::Request::getMinorVersion(void) const
 {
     return m_MinorVersionNumber;
 }
@@ -95,21 +95,13 @@ void HTTPProtocol::Request::setURI(const std::string& _uri)
     m_URI = _uri;
 }
 
-std::string HTTPProtocol::Request::getURI(void)
+std::string HTTPProtocol::Request::getURI(void) const
 {
     return m_URI;
 }
 
 
 
-void HTTPProtocol::Response::setBody(const std::string& _str)
-{
-    m_Body = _str;
-}
-void HTTPProtocol::Response::appendBody(const std::string& _str)
-{
-    m_Body.append(_str);
-}
 
 const std::vector<std::pair<std::string, std::string>>& HTTPProtocol::Response::getFields(void) const
 {
@@ -248,32 +240,21 @@ void HTTPProtocol::Response::parseResponseString(const std::string& _responseStr
     }
 }
 
-std::string HTTPProtocol::Response::getBody(void)
+std::string HTTPProtocol::Response::getBody(void) const
 {
     return m_Body;
 }
 
-unsigned int HTTPProtocol::Response::getMajorVersion(void)
+unsigned int HTTPProtocol::Response::getMajorVersion(void) const
 {
     return m_MajorVersionNumber;
 }
-unsigned int HTTPProtocol::Response::getMinorVersion(void)
+unsigned int HTTPProtocol::Response::getMinorVersion(void) const
 {
     return m_MinorVersionNumber;
 }
 
 
-
-HTTPProtocol::HTTPProtocol(void) :
-m_HTTPS(false)
-{
-
-}
-
-HTTPProtocol::~HTTPProtocol(void)
-{
-
-}
 
 
 void HTTPProtocol::setHost(const std::string& _host, unsigned int _port /*= 0*/)
@@ -305,6 +286,7 @@ void HTTPProtocol::setHost(const std::string& _host, unsigned int _port /*= 0*/)
     else
     {
         std::cout << "Unknown protocol: " << _host << std::endl;
+        m_HTTPS = false;
     }
 }
 
@@ -399,7 +381,7 @@ HTTPProtocol::Response HTTPProtocol::makeRequest(const HTTPProtocol::Request& _r
     return response;
 }
 
-unsigned int HTTPProtocol::Response::getStatus(void)
+unsigned int HTTPProtocol::Response::getStatus(void) const
 {
     return m_StatusCode;
 }

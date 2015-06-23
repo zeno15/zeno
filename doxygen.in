@@ -34,6 +34,11 @@ INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/GUI/Button.hpp
 
 # Network Module
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Network/Socket.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Network/UDPSocket.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Network/TCPSocket.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Network/TCPListener.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Network/SSLTCPSocket.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Network/HTTPProtocol.hpp
 
 
 OUTPUT_DIRECTORY = @CMAKE_CURRENT_SOURCE_DIR@/doc

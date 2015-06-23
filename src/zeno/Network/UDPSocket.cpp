@@ -72,7 +72,14 @@ Socket::SocketStatus UDPSocket::receive(void *_data, std::size_t _maxDataLength,
 Socket::SocketStatus UDPSocket::receive(void *_data, std::size_t _maxDataLength, std::size_t& _lengthReceived, std::string& _remoteAddress, int& _remotePort)
 {
     sockaddr_in  source;
-    unsigned int sourceSize = sizeof(source);
+
+    #ifdef _WIN32
+    int  sourceSize;
+    #endif //~ _WIN32
+    #ifdef __linux__
+    unsigned int sourceSize;
+    #endif //~ __linux
+    sourceSize = sizeof(source);
 
     _lengthReceived = (std::size_t)recvfrom(m_Handle, (char *)_data, _maxDataLength, 0, (sockaddr *)(&source), &sourceSize);
 

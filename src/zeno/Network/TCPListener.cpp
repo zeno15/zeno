@@ -6,13 +6,13 @@
 namespace zeno {
 
 TCPListener::TCPListener(void) :
-Socket(SocketType::TCP),
-m_RemotePort(-1)
+Socket(SocketType::TCP)
 {
     m_Handle = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
     if (m_Handle == INVALID_SOCKET)
     {
+        //~ TODO custom error stream
         std::cout << "Failed to init TCPListener socket." << std::endl;
     }
 }
@@ -37,6 +37,7 @@ Socket::SocketStatus TCPListener::listen(int _port)
         return Socket::SocketStatus::ERROR_SCOKET;
     }
 
+    //~ TODO have max connections (10) be modifiable
     if (::listen(m_Handle, 10) != 0)
     {
         return Socket::SocketStatus::ERROR_SCOKET;
@@ -48,7 +49,12 @@ Socket::SocketStatus TCPListener::listen(int _port)
 Socket::SocketStatus TCPListener::accept(TCPSocket& _socket)
 {
     sockaddr_in remoteAddress;
+    #ifdef _WIN32
+    int  remoteAddressLength;
+    #endif //~ _WIN32
+    #ifdef __linux__
     unsigned int remoteAddressLength;
+    #endif //~ __linux
 
     SocketHandle remoteHandle = ::accept(m_Handle, (sockaddr *)(&remoteAddress), &remoteAddressLength);
 
@@ -65,14 +71,9 @@ Socket::SocketStatus TCPListener::accept(TCPSocket& _socket)
     return Socket::SocketStatus::GOOD_SOCKET;
 }
 
-void TCPListener::shutdown(Socket::ShutDownType _type)
-{
-    ::shutdown(m_Handle, _type);
-}
-
 void TCPListener::close(void)
 {
-    shutdown(Socket::ShutDownType::BOTH);
+    ::shutdown(m_Handle, Socket::ShutDownType::BOTH);
     #ifdef _WIN32
     ::closesocket(m_Handle);
     #endif //~ _WIN32

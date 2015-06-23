@@ -43,6 +43,12 @@ public:
         ERROR_SCOKET,
         SOCKET_DONE
     };
+
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Enumeration of different ways to shutdown sockets
+    ///
+    ////////////////////////////////////////////////////////////
     enum ShutDownType {
         RECEIVE,        ///<    The socket will not receive any more data
         SEND,           ///<    The socket will not send any more data
