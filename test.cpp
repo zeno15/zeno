@@ -13,6 +13,9 @@
 
 int main(int _argc, char **_argv)
 {
+    std::cout << "Done." << std::endl;
+
+    return EXIT_SUCCESS;
 
     zeno::HTTPProtocol http = zeno::HTTPProtocol();
 

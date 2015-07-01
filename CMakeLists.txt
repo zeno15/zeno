@@ -220,6 +220,18 @@ set(AUDIO_SOURCE_FILES ${AUDIO_SOURCE_FILES}
     )
 #-----------------------------  Audio end    ----------------------
 
+#-----------------------------  Utility start    ----------------------
+set(UTILITY_HEADER_FILES ${UTILITY_HEADER_FILES}
+        ${CMAKE_SOURCE_DIR}/include/zeno/Utility/StringMethods.hpp
+        ${CMAKE_SOURCE_DIR}/include/zeno/Utility/XML.hpp
+	)
+
+set(UTILITY_SOURCE_FILES ${UTILITY_SOURCE_FILES}
+        ${CMAKE_SOURCE_DIR}/src/zeno/Utility/StringMethods.cpp
+        ${CMAKE_SOURCE_DIR}/src/zeno/Utility/XML.cpp
+	)
+#-----------------------------  Utility end    ----------------------
+
 if (_WIN32 OR WIN32)
     # Add win32 files
     add_definitions(-DGLEW_STATIC)
@@ -324,7 +336,14 @@ add_library(zeno-network${LIBRARY_EXTENSION}    ${LIBRARY_BUILD_TYPE}   ${NETWOR
 add_library(zeno-graphics${LIBRARY_EXTENSION}   ${LIBRARY_BUILD_TYPE}   ${GRAPHICS_SOURCE_FILES}    ${GRAPHICS_HEADER_FILES})
 add_library(zeno-gui${LIBRARY_EXTENSION}        ${LIBRARY_BUILD_TYPE}   ${GUI_SOURCE_FILES}         ${GUI_HEADER_FILES})
 #add_library(zeno-audio${LIBRARY_EXTENSION}      ${LIBRARY_BUILD_TYPE}   ${AUDIO_SOURCE_FILES}       ${AUDIO_HEADER_FILES})
+add_library(zeno-utility${LIBRARY_EXTENSION}    ${LIBRARY_BUILD_TYPE}   ${UTILITY_SOURCE_FILES}     ${UTILITY_HEADER_FILES})
 
 add_executable(testProgram test.cpp)
-target_link_libraries(testProgram LINK_PUBLIC zeno-window${LIBRARY_EXTENSION} zeno-network${LIBRARY_EXTENSION} zeno-gui${LIBRARY_EXTENSION} zeno-graphics${LIBRARY_EXTENSION} zeno-system${LIBRARY_EXTENSION} ${LIBS})
+target_link_libraries(testProgram LINK_PUBLIC   zeno-window${LIBRARY_EXTENSION}
+                                                zeno-network${LIBRARY_EXTENSION}
+                                                zeno-gui${LIBRARY_EXTENSION}
+                                                zeno-graphics${LIBRARY_EXTENSION}
+                                                zeno-system${LIBRARY_EXTENSION}
+                                                zeno-utility${LIBRARY_EXTENSION}
+                                                ${LIBS})
 

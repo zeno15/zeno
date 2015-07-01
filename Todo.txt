@@ -273,6 +273,14 @@ Window
 Audio
     -   TODO Next release
 
+Utility
+    *   StringMethods
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+    *   XML
+        -   Fill in the "How this works" section at the bottom of each class
+        -   Comment doxygen for each function and class etc
+
 Other
     -   Buy a Mac!
     -   Custom error stream
