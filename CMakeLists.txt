@@ -224,11 +224,13 @@ set(AUDIO_SOURCE_FILES ${AUDIO_SOURCE_FILES}
 set(UTILITY_HEADER_FILES ${UTILITY_HEADER_FILES}
         ${CMAKE_SOURCE_DIR}/include/zeno/Utility/StringMethods.hpp
         ${CMAKE_SOURCE_DIR}/include/zeno/Utility/XML.hpp
+        ${CMAKE_SOURCE_DIR}/include/zeno/Utility/Zip.hpp
 	)
 
 set(UTILITY_SOURCE_FILES ${UTILITY_SOURCE_FILES}
         ${CMAKE_SOURCE_DIR}/src/zeno/Utility/StringMethods.cpp
         ${CMAKE_SOURCE_DIR}/src/zeno/Utility/XML.cpp
+        ${CMAKE_SOURCE_DIR}/src/zeno/Utility/Zip.cpp
 	)
 #-----------------------------  Utility end    ----------------------
 

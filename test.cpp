@@ -1,19 +1,81 @@
 #include <cstdlib>
 #include <iostream>
 
+#include <zeno/System/Clock.hpp>
 #include <zeno/Network.hpp>
 #include <zeno/Window/Window.hpp>
 #include <zeno/GUI.hpp>
 
 #include <GL/glew.h>
 
-#include <fstream>
+#include <ctime>
+
+#include <zeno/Utility/Zip.hpp>
 
 #define SERVER "https://www.fanfiction.net"
 
+uint32_t CRC_32t(const std::string& _data)
+{
+    uint32_t crc = 0xFFFFFFFF;
+    uint32_t polynomial = 0xEDB88320;
+
+    for (char c : _data)
+    {
+        crc ^= c;
+
+        for (unsigned int i = 0; i < 8; i += 1)
+        {
+            if ((crc & 1) != 0)
+            {
+                crc = (crc >> 1) ^ polynomial;
+            }
+            else
+            {
+                crc = crc >> 1;
+            }
+        }
+    }
+
+    return ~crc;
+}
+
 int main(int _argc, char **_argv)
 {
-    std::cout << "Done." << std::endl;
+    zeno::Zip zip;
+
+    if (!zip.addFile("C:/Users/Mark/Desktop/File.txt"))
+    {
+        std::cout << "Failed to add file File.txt" << std::endl;
+        return EXIT_FAILURE;
+    }
+    if (!zip.addFile("C:/Users/Mark/Desktop/TextDocument.txt"))
+    {
+        std::cout << "Failed to add file TextDocument.txt" << std::endl;
+        return EXIT_FAILURE;
+    }
+    if (!zip.addFile("C:/Users/Mark/Desktop/Longer.txt"))
+    {
+        std::cout << "Failed to add file Longer.txt" << std::endl;
+        return EXIT_FAILURE;
+    }
+    if (!zip.addFile("C:/Users/Mark/Desktop/Dolphin.png"))
+    {
+        std::cout << "Failed to add file Dolphin.png" << std::endl;
+        return EXIT_FAILURE;
+    }
+    if (!zip.addFile("C:/Users/Mark/Desktop/Voyage.epub"))
+    {
+        std::cout << "Failed to add file Voyage.epub" << std::endl;
+        return EXIT_FAILURE;
+    }
+
+
+
+    if (!zip.saveToFile("C:/Users/Mark/Desktop/Output.zip"))
+    {
+        std::cout << "Zip file failed to save" << std::endl;
+        return EXIT_FAILURE;
+    }
 
     return EXIT_SUCCESS;
 
