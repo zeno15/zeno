@@ -42,7 +42,7 @@ public:
     ///
     ///
     ////////////////////////////////////////////////////////////
-    bool addFile(const std::string& _filename);
+    bool addFile(const std::string& _filename, const std::string& _destination = "");
 
     ////////////////////////////////////////////////////////////
     ///

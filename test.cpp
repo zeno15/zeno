@@ -43,27 +43,27 @@ int main(int _argc, char **_argv)
 {
     zeno::Zip zip;
 
-    if (!zip.addFile("C:/Users/Mark/Desktop/File.txt"))
+    if (!zip.addFile("C:/Users/Mark/Desktop/File.txt", "Text/"))
     {
         std::cout << "Failed to add file File.txt" << std::endl;
         return EXIT_FAILURE;
     }
-    if (!zip.addFile("C:/Users/Mark/Desktop/TextDocument.txt"))
+    if (!zip.addFile("C:/Users/Mark/Desktop/TextDocument.txt", "Text/"))
     {
         std::cout << "Failed to add file TextDocument.txt" << std::endl;
         return EXIT_FAILURE;
     }
-    if (!zip.addFile("C:/Users/Mark/Desktop/Longer.txt"))
+    if (!zip.addFile("C:/Users/Mark/Desktop/Longer.txt", "Text/"))
     {
         std::cout << "Failed to add file Longer.txt" << std::endl;
         return EXIT_FAILURE;
     }
-    if (!zip.addFile("C:/Users/Mark/Desktop/Dolphin.png"))
+    if (!zip.addFile("C:/Users/Mark/Desktop/Dolphin.png", "Pictures/"))
     {
         std::cout << "Failed to add file Dolphin.png" << std::endl;
         return EXIT_FAILURE;
     }
-    if (!zip.addFile("C:/Users/Mark/Desktop/Voyage.epub"))
+    if (!zip.addFile("C:/Users/Mark/Desktop/Voyage.epub", "Epubs/"))
     {
         std::cout << "Failed to add file Voyage.epub" << std::endl;
         return EXIT_FAILURE;

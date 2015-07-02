@@ -38,7 +38,7 @@ Zip::Zip(void)
 }
 
 
-bool Zip::addFile(const std::string& _filename)
+bool Zip::addFile(const std::string& _filename, const std::string& _destination /*= ""*/)
 {
     std::ifstream input;
     input.open(_filename, std::ios::in | std::ios::binary);
@@ -62,7 +62,11 @@ bool Zip::addFile(const std::string& _filename)
 
     m_Files.push_back(str);
 
-    m_Filenames.push_back(_filename.substr(pos));
+    std::string finalDestination = std::string(_destination + _filename.substr(pos));
+    std::cout << "Adding file to: " << finalDestination << std::endl;
+
+    m_Filenames.push_back(finalDestination);
+
 
     input.close();
 
