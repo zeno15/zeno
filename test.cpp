@@ -69,6 +69,9 @@ int main(int _argc, char **_argv)
         return EXIT_FAILURE;
     }
 
+    std::vector<unsigned char> data = {'H', 'e', 'l', 'l', 'o'};
+    zip.addFileFromMemory(data, "MemoryFile.txt", "Text/");
+
 
 
     if (!zip.saveToFile("C:/Users/Mark/Desktop/Output.zip"))

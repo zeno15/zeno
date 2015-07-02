@@ -63,12 +63,20 @@ bool Zip::addFile(const std::string& _filename, const std::string& _destination 
     m_Files.push_back(str);
 
     std::string finalDestination = std::string(_destination + _filename.substr(pos));
-    std::cout << "Adding file to: " << finalDestination << std::endl;
 
     m_Filenames.push_back(finalDestination);
 
 
     input.close();
+
+    return true;
+}
+
+bool Zip::addFileFromMemory(const std::vector<unsigned char>& _data, const std::string& _filename, const std::string& _destination /*= ""*/)
+{
+    m_Files.push_back(_data);
+
+    m_Filenames.push_back(std::string(_destination + _filename));
 
     return true;
 }
@@ -116,27 +124,7 @@ bool Zip::saveToFile(const std::string& _filename)
 
 bool Zip::loadFromFile(const std::string& _filename)
 {
-    std::ifstream file;
-    file.open(_filename, std::ios::in | std::ios::binary);
-
-    if (!file.good())
-    {
-        return false;
-    }
-
-    std::string str;
-
-    file.seekg(0, std::ios::end);
-    str.reserve(static_cast<unsigned int>(file.tellg()));
-    file.seekg(0, std::ios::beg);
-
-    std::cout << "'" << _filename << "': " << file.tellg() << "REDO see the add file method" << std::endl;
-
-    str.assign((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-
-    std::cout << Zip::getType(str) << std::endl;
-
-    return true;
+    return false;
 }
 
 std::vector<unsigned char> Zip::createLocalHeader(const std::vector<unsigned char>& _data, const std::string& _filename)
