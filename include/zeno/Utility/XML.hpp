@@ -27,21 +27,22 @@ private:
             COMMENT,
             CONTENT,
             ELEMENT,
-            CLOSED_ELEMENT
+            CLOSED_ELEMENT,
+            ROOT
         };
 
         void clear(void);
 
         bool create(const std::string& _data);
 
-        void print(unsigned int _indentation);
+        std::string writeToString(unsigned int _indentation);
 
         unsigned int getNumChildren(void)
         {
             return m_Nodes.size();
         }
 
-        XMLNode *getChild(const std::string& _tagName);
+        XMLNode *getChild(const std::string& _tagName, int _index = -1);
 
     public:
         std::vector<XMLNode *>      m_Nodes;
@@ -68,7 +69,15 @@ public:
 
     void printTree(void);
 
-    bool addComment(const std::string& _comment, const std::string& _path = "/", unsigned int _index = -1);
+    //~ TODO see if you can insert at a given index within the desired node
+    bool addComment(const std::string& _comment, const std::string& _path = "/", std::vector<int> _index = std::vector<int>());
+    bool addContent(const std::string& _content, const std::string& _path = "/", std::vector<int> _index = std::vector<int>());
+    bool addElement(const std::string& _tag, const std::vector<std::pair<std::string, std::string>>& _attributes = std::vector<std::pair<std::string, std::string>>(), const std::string& _path = "/", std::vector<int> _index = std::vector<int>());
+    bool addClosedElement(const std::string& _tag, const std::vector<std::pair<std::string, std::string>>& _attributes = std::vector<std::pair<std::string, std::string>>(), const std::string& _path = "/", std::vector<int> _index = std::vector<int>());
+    bool addDeclaration(const std::string& _declaration);
+
+    std::string writeToString(void);
+    bool writeToFile(const std::string& _filename);
 
 private:
     static bool extractFromBetweenTag(const std::string& _tag, std::string& _extracted, std::string& _data);

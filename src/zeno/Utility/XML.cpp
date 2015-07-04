@@ -149,59 +149,80 @@ bool XML::XMLNode::create(const std::string& _data)
     return true;
 }
 
-void XML::XMLNode::print(unsigned int _indentation)
+
+std::string XML::XMLNode::writeToString(unsigned int _indentation)
 {
+    std::string output;
+
     std::string indent(4 * _indentation, ' ');
 
     if (m_Type == NodeType::DECLARATION ||
         m_Type == NodeType::COMMENT ||
         m_Type == NodeType::CONTENT)
     {
-        std::cout << indent << m_Content << std::endl;
+        output += (indent + m_Content + "\n");
     }
-
     if (m_Type == NodeType::ELEMENT)
     {
-        std::cout << indent << "<" << m_Tag;
+        output += (indent + "<" + m_Tag);
 
         for (std::pair<std::string, std::string>& pair : m_AttributePairs)
         {
-            std::cout << " " << pair.first << "=\"" << pair.second << "\"";
+            //~ TODO Check if pair.second contains ", if so use 'pair.second'
+            output += (" " + pair.first + "=\"" + pair.second + "\"");
         }
 
-        std::cout << ">" << std::endl;
+        output += (">\n");
     }
     if (m_Type == NodeType::CLOSED_ELEMENT)
     {
-        std::cout << indent << "<" << m_Tag;
+        output += (indent + "<" + m_Tag);
 
         for (std::pair<std::string, std::string>& pair : m_AttributePairs)
         {
-            std::cout << " " << pair.first << "=\"" << pair.second << "\"";
+            //~ TODO Check if pair.second contains ", if so use 'pair.second'
+            output += (" " + pair.first + "=\"" + pair.second + "\"");
         }
 
-        std::cout << "/>" << std::endl;
+        output += ("/>\n");
     }
 
     for (XMLNode *node : m_Nodes)
     {
-        node->print(_indentation + 1);
+        output += node->writeToString(_indentation + 1);
     }
 
     if (m_Type == NodeType::ELEMENT)
     {
-        std::cout << indent << "</" << m_Tag << ">" << std::endl;
+        //std::cout << indent << "</" << m_Tag << ">" << std::endl;
+        output += (indent + "</" + m_Tag + ">\n");
     }
+
+    return output;
 }
 
-XMLNode *XML::XMLNode::getChild(const std::string& _tagName)
+XML::XMLNode *XML::XMLNode::getChild(const std::string& _tagName, int _index /*= -1*/)
 {
-    
+    int count = 0;
+
+    for (XMLNode *node : m_Nodes)
+    {
+        if (node->m_Tag == _tagName)
+        {
+            if (count == _index || _index == -1)
+            {
+                return node;
+            }
+
+            count += 1;
+        }
+    }
+
     return nullptr;
 }
 
 
-    XML::~XML(void)
+XML::~XML(void)
 {
     m_Root.clear();
 }
@@ -242,25 +263,220 @@ bool XML::createTree(const std::string& _data)
 {
     m_Root.clear();
 
-    return m_Root.create(_data);
+    bool val = m_Root.create(_data);
+
+    m_Root.m_Type = XMLNode::NodeType::ROOT;
+
+    return val;
 }
 
 void XML::printTree(void)
 {
-    m_Root.print(0);
+    std::cout << writeToString();
 }
 
-bool XML::addComment(const std::string& _comment, const std::string& _path /*= "/"*/, unsigned int _index /*= -1*/)
+bool XML::addComment(const std::string& _comment, const std::string& _path /*= "/"*/, std::vector<int> _index /* = std::vector<int>()*/)
+{
+    //~ TODO remove this common code from the various addXXX methods
+    std::vector<std::string> pathVector = splitStringByString(_path, "/");
+
+    XMLNode *node = &m_Root;
+
+    if (_index.size() == 0)
+    {
+        _index = std::vector<int>(pathVector.size(), -1);
+    }
+    if (_index.size() != pathVector.size())
+    {
+        std::cout << "Incorrectly sized index vector" << std::endl;
+        return false;
+    }
+
+
+    for (unsigned int i = 0; i < pathVector.size(); i += 1)
+    {
+        if (node->getChild(pathVector.at(i), _index.at(i)) != nullptr)
+        {
+            node = node->getChild(pathVector.at(i), _index.at(i));
+        }
+        else
+        {
+            std::cout << "Could not get desired node" << std::endl;
+            return false;
+        }
+    }
+
+    XMLNode *newNode = new XMLNode();
+    newNode->m_Type = XMLNode::NodeType::COMMENT;
+    newNode->m_Content = "<!--" + _comment + "-->";
+
+    node->m_Nodes.insert(node->m_Nodes.begin(), newNode);
+
+    return true;
+}
+bool XML::addContent(const std::string& _content, const std::string& _path /*= "/"*/, std::vector<int> _index /*= std::vector<int>()*/)
 {
     std::vector<std::string> pathVector = splitStringByString(_path, "/");
 
-    std::cout << "Path '" << _path << "' split has length: " << pathVector.size() << std::endl;
-    for (std::string str : pathVector)
+    XMLNode *node = &m_Root;
+
+    if (_index.size() == 0)
     {
-        std::cout << "Path: " << str << std::endl;
+        _index = std::vector<int>(pathVector.size(), -1);
+    }
+    if (_index.size() != pathVector.size())
+    {
+        std::cout << "Incorrectly sized index vector" << std::endl;
+        return false;
     }
 
-    return false;
+
+    for (unsigned int i = 0; i < pathVector.size(); i += 1)
+    {
+        if (node->getChild(pathVector.at(i), _index.at(i)) != nullptr)
+        {
+            node = node->getChild(pathVector.at(i), _index.at(i));
+        }
+        else
+        {
+            std::cout << "Could not get desired node" << std::endl;
+            return false;
+        }
+    }
+
+    XMLNode *newNode = new XMLNode();
+    newNode->m_Type = XMLNode::NodeType::CONTENT;
+    newNode->m_Content = _content;
+
+    node->m_Nodes.push_back(newNode);
+
+    return true;
+}
+bool XML::addElement(const std::string& _tag,
+                     const std::vector<std::pair<std::string, std::string>>& _attributes /*= std::vector<std::pair<std::string, std::string>>()*/,
+                     const std::string& _path /*= "/"*/,
+                     std::vector<int> _index /*= std::vector<int>()*/)
+
+{
+    std::vector<std::string> pathVector = splitStringByString(_path, "/");
+
+    XMLNode *node = &m_Root;
+
+    if (_index.size() == 0)
+    {
+        _index = std::vector<int>(pathVector.size(), -1);
+    }
+    if (_index.size() != pathVector.size())
+    {
+        std::cout << "Incorrectly sized index vector" << std::endl;
+        return false;
+    }
+
+
+    for (unsigned int i = 0; i < pathVector.size(); i += 1)
+    {
+        if (node->getChild(pathVector.at(i), _index.at(i)) != nullptr)
+        {
+            node = node->getChild(pathVector.at(i), _index.at(i));
+        }
+        else
+        {
+            std::cout << "Could not get desired node" << std::endl;
+            return false;
+        }
+    }
+    XMLNode *newNode = new XMLNode();
+    newNode->m_Type = XMLNode::NodeType::ELEMENT;
+    newNode->m_Tag = _tag;
+    for (auto& pair : _attributes)
+    {
+        newNode->m_AttributePairs.push_back(pair);
+    }
+
+    node->m_Nodes.push_back(newNode);
+
+    return true;
+}
+bool XML::addClosedElement(const std::string& _tag,
+                           const std::vector<std::pair<std::string, std::string>>& _attributes /*= std::vector<std::pair<std::string, std::string>>()*/,
+                           const std::string& _path /*= "/"*/,
+                           std::vector<int> _index /*= std::vector<int>()*/)
+{
+    std::vector<std::string> pathVector = splitStringByString(_path, "/");
+
+    XMLNode *node = &m_Root;
+
+    if (_index.size() == 0)
+    {
+        _index = std::vector<int>(pathVector.size(), -1);
+    }
+    if (_index.size() != pathVector.size())
+    {
+        std::cout << "Incorrectly sized index vector" << std::endl;
+        return false;
+    }
+
+
+    for (unsigned int i = 0; i < pathVector.size(); i += 1)
+    {
+        if (node->getChild(pathVector.at(i), _index.at(i)) != nullptr)
+        {
+            node = node->getChild(pathVector.at(i), _index.at(i));
+        }
+        else
+        {
+            std::cout << "Could not get desired node" << std::endl;
+            return false;
+        }
+    }
+    XMLNode *newNode = new XMLNode();
+    newNode->m_Type = XMLNode::NodeType::CLOSED_ELEMENT;
+    newNode->m_Tag = _tag;
+    for (const std::pair<std::string, std::string>& pair : _attributes)
+    {
+        newNode->m_AttributePairs.push_back(pair);
+    }
+
+    node->m_Nodes.push_back(newNode);
+
+    return true;
+}
+bool XML::addDeclaration(const std::string& _declaration)
+{
+    XMLNode *newNode = new XMLNode();
+    newNode->m_Type = XMLNode::NodeType::DECLARATION;
+    newNode->m_Content = "<?" + _declaration + "?>";
+
+    m_Root.m_Nodes.insert(m_Root.m_Nodes.begin(), newNode);
+
+    return true;
+}
+
+std::string XML::writeToString(void)
+{
+    std::string output;
+
+    for (XMLNode *node : m_Root.m_Nodes)
+    {
+        output += node->writeToString(0);
+    }
+
+    return output;
+}
+bool XML::writeToFile(const std::string& _filename)
+{
+    std::ofstream output;
+    output.open(_filename);
+    if (!output.good())
+    {
+        return false;
+    }
+
+    output << (writeToString());
+
+    output.close();
+
+    return true;
 }
 
 bool XML::extractFromBetweenTag(const std::string& _tag, std::string& _extracted, std::string& _data)

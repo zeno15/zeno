@@ -27,16 +27,43 @@ int main(int _argc, char **_argv)
     }
 
     std::cout << "Pre modifications." << std::endl;
-    xml.printTree();
+    std::cout << xml.writeToString() << std::endl;
     std::cout << "Post modifications." << std::endl;
 
-    if (!xml.addComment("Commentything", "/root/Breakfast/"))
+    if (!xml.addComment("Commentything", "/root/breakfast_menu/food/", {0, 0, 1}))
     {
         std::cout << "Failed to add comment" << std::endl;
         return EXIT_FAILURE;
     }
+    if (!xml.addContent("Miscellaneous content.", "/root/breakfast_menu/food/", {0, 0, 3}))
+    {
+        std::cout << "Failed to add content" << std::endl;
+        return EXIT_FAILURE;
+    }
+    if (!xml.addDeclaration("DECLARATION THING"))
+    {
+        std::cout << "Failed to add declaration" << std::endl;
+        return EXIT_FAILURE;
+    }
+    if (!xml.addElement("New_Tag", {{"Attribute1", "Value1"}, {"Attribute2", "Value2"}, {"Attribute3", "Value3"}}, "/root/breakfast_menu/food/", {0, 0, 2}))
+    {
+        std::cout << "Failed to add element" << std::endl;
+        return EXIT_FAILURE;
+    }
+    if (!xml.addContent("New_Tag content.", "/root/breakfast_menu/food/New_Tag/", {0, 0, 2, 0}))
+    {
+        std::cout << "Failed to add content" << std::endl;
+        return EXIT_FAILURE;
+    }
+    if (!xml.addClosedElement("New_Tag_Closed", {{"CAttribute1", "CValue1"}, {"CAttribute2", "CValue2"}, {"CAttribute3", "CValue3"}}, "/root/breakfast_menu/food/", {0, 0, 2}))
+    {
+        std::cout << "Failed to add closed element" << std::endl;
+        return EXIT_FAILURE;
+    }
 
-    xml.printTree();
+    std::cout << xml.writeToString() << std::endl;
+
+    xml.writeToFile("C:/Users/Mark/Desktop/zeno.xml");
 
     return EXIT_SUCCESS;
     zeno::Zip zip;
