@@ -34,6 +34,11 @@ std::vector<std::string> splitStringByString(const std::string& _string, const s
 ////////////////////////////////////////////////////////////
 std::vector<std::string> splitStringByDelimeters(const std::string& _string, const std::vector<std::string>& _splitStrings);
 
+bool startsWith(const std::string& _str, const std::string& _start);
+bool endsWith(const std::string& _str, const std::string& _end);
+
+std::string stripLeadingWhitespace(const std::string& _str);
+
 } //~ namespace zeno
 
 #endif //~ INCLUDED_ZENO_UTILITY_STRING_METHODS_HPP

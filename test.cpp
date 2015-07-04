@@ -10,37 +10,35 @@
 
 #include <ctime>
 
+#include <zeno/Utility/XML.hpp>
 #include <zeno/Utility/Zip.hpp>
 
 #define SERVER "https://www.fanfiction.net"
 
-uint32_t CRC_32t(const std::string& _data)
-{
-    uint32_t crc = 0xFFFFFFFF;
-    uint32_t polynomial = 0xEDB88320;
 
-    for (char c : _data)
-    {
-        crc ^= c;
-
-        for (unsigned int i = 0; i < 8; i += 1)
-        {
-            if ((crc & 1) != 0)
-            {
-                crc = (crc >> 1) ^ polynomial;
-            }
-            else
-            {
-                crc = crc >> 1;
-            }
-        }
-    }
-
-    return ~crc;
-}
 
 int main(int _argc, char **_argv)
 {
+    zeno::XML xml = zeno::XML();
+
+    if (!xml.loadFromFile("C:/Users/Mark/Desktop/simple.xml"))
+    {
+        return EXIT_FAILURE;
+    }
+
+    std::cout << "Pre modifications." << std::endl;
+    xml.printTree();
+    std::cout << "Post modifications." << std::endl;
+
+    if (!xml.addComment("Commentything", "/root/Breakfast/"))
+    {
+        std::cout << "Failed to add comment" << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    xml.printTree();
+
+    return EXIT_SUCCESS;
     zeno::Zip zip;
 
     if (!zip.addFile("C:/Users/Mark/Desktop/File.txt", "Text/"))
