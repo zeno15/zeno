@@ -39,6 +39,8 @@ bool endsWith(const std::string& _str, const std::string& _end);
 
 std::string stripLeadingWhitespace(const std::string& _str);
 
+void replaceAll(std::string& _string, const std::string& _substring, const std::string& _replacement);
+
 } //~ namespace zeno
 
 #endif //~ INCLUDED_ZENO_UTILITY_STRING_METHODS_HPP

@@ -59,5 +59,15 @@ std::string stripLeadingWhitespace(const std::string& _str)
     return str;
 }
 
+void replaceAll(std::string& _string, const std::string& _substring, const std::string& _replacement)
+{
+    std::size_t pos = 0;
+    while ((pos = _string.find(_substring, pos)) != std::string::npos)
+    {
+        _string.replace(pos, _substring.size(), _replacement);
+
+        pos += _replacement.size();
+    }
+}
 
 } //~ namespace zeno

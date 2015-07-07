@@ -69,6 +69,13 @@ Button::~Button(void)
 
 bool Button::processEvent(const GUIEvent& _event)
 {
+    //~ TODO - better way of modifying the bounds of the button
+
+    m_Bounds.left   = getTransform()[12];
+    m_Bounds.bot    = getTransform()[13];
+
+
+
 	//~ TODO	-	Optimise away bounds checking in the click/release, keep track of if it is within in MouseMove if block
 	if (m_MouseContained && _event.type == GUIEvent::EventType::LeftClick)
 	{

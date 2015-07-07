@@ -81,6 +81,7 @@ GUI
     -   Better naming (GUIBase/GUIDesktop etc)
     -	http://highschool.cs.vt.edu/Svc2012/S2012/gui-events-slides.pdf
     -	https://courses.cs.washington.edu/courses/cse331/13sp/lectures/lect23-graphics.pdf
+    -   Have elements look different when disabled/active etc
 
     *   Button
         -   Fill in the "How this works" section at the bottom of each class
@@ -251,6 +252,7 @@ Window
         -   Look into specifying more options, stencil depth etc
         -   Also check/modify all the window get/set size functions
             -   Check window border size etc
+        -   Set window icon
     *   WindowHandle
         -   Fill in the "How this works" section at the bottom of each class
         -   Comment doxygen for each function and class etc

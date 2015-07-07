@@ -58,6 +58,8 @@ public:
 	void setText(const std::string& _text);
 	void addText(const std::string& _text);
 
+	void setSize(const Vector2f& _size);
+
 private:
 	void recreate(void);
 

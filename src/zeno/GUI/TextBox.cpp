@@ -76,7 +76,7 @@ bool TextBox::processEvent(const GUIEvent& _event)
 				std::cout << "String: " << m_String << std::endl;
 				m_BoxText.generateText(m_String, m_Font);
 
-				std::cout << "Text left: " << m_BoxText.getBounds().left << ", bottom: " << m_BoxText.getBounds().bot << ", width: " << m_BoxText.getBounds().width << ", height: " << m_BoxText.getBounds().height << std::endl;
+				//std::cout << "Text left: " << m_BoxText.getBounds().left << ", bottom: " << m_BoxText.getBounds().bot << ", width: " << m_BoxText.getBounds().width << ", height: " << m_BoxText.getBounds().height << std::endl;
 			}
 		}
 	}
@@ -122,6 +122,15 @@ FloatRect TextBox::getBounds(void)
 	Vector2f size(m_Size.x, m_Size.y);
 
 	return FloatRect(pos, size);
+}
+
+void TextBox::setSize(const Vector2f& _size)
+{
+    if (_size != m_Size)
+    {
+        m_Size = _size;
+        recreate();
+    }
 }
 
 void TextBox::recreate(void)

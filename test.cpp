@@ -10,6 +10,7 @@
 
 #include <ctime>
 
+#include <zeno/Utility/Epub.hpp>
 #include <zeno/Utility/XML.hpp>
 #include <zeno/Utility/Zip.hpp>
 
@@ -19,7 +20,23 @@
 
 int main(int _argc, char **_argv)
 {
-    zeno::XML xml = zeno::XML();
+    zeno::Epub epub;
+
+    std::string c1Data = "<h1>Chapter 1 title</h1><p>Chapter 1 data content</p>";
+    std::string c2Data = "<h1>Chapter 2 title</h1><p>Chapter 2 data content</p>";
+    std::string c3Data = "<h1>Chapter 3 title</h1><p>Chapter 3 data content</p>";
+
+    epub.addChapterContent(c1Data, "Chapter 1 Chapter Name");
+    epub.addChapterContent(c2Data, "Chapter 2 Chapter Name");
+    epub.addChapterContent(c3Data, "Chapter 3 Chapter Name");
+
+    epub.setEpubTitle("Mark misc title");
+    epub.setEpubAuthor("Mark Davison");
+
+    epub.writeToFile("C:/Users/Mark/Desktop/Example.epub");
+
+    return EXIT_SUCCESS;
+    /*zeno::XML xml = zeno::XML();
 
     if (!xml.loadFromFile("C:/Users/Mark/Desktop/simple.xml"))
     {
@@ -126,7 +143,7 @@ int main(int _argc, char **_argv)
 
     std::cout << response.getBody() << std::endl;
 
-    return 0;
+    return 0;*/
 
     zeno::Window window = zeno::Window();
 
@@ -158,6 +175,7 @@ int main(int _argc, char **_argv)
 
     desktop.addToPane("Pane", new zeno::Button("Button"));
     desktop.getElementFromPane<zeno::Button>("Pane", "Button")->registerCallback([](void){ std::cout << "Button was pressed!" << std::endl;});
+    desktop.getElementFromPane<zeno::Button>("Pane", "Button")->setPosition(zeno::Vector3f(0.0f, 50.0f, 0.0f));
 
     desktop.addToPane("Pane", new zeno::Slider("Slider"));
     desktop.getElementFromPane<zeno::Slider>("Pane", "Slider")->registerCallback([](float _arg){std::cout << "Slider updated to: " << _arg * 100.0f << std::endl;});
@@ -165,6 +183,9 @@ int main(int _argc, char **_argv)
     desktop.addToPane("Pane", new zeno::TextBox("TextBox", desktop.getGUIFont()));
     desktop.getElementFromPane<zeno::TextBox>("Pane", "TextBox")->setPosition(zeno::Vector3f(640.0f, 0.0f, 0.0f));
     desktop.getElementFromPane<zeno::TextBox>("Pane", "TextBox")->setText("Text!");
+
+    desktop.addToPane("Pane", new zeno::Label("Label", desktop.getGUIFont()));
+    desktop.getElementFromPane<zeno::Label>("Pane", "Label")->setLabel("Hello");
 
     glClearColor(100.0f / 255.0f, 149.0f / 255.0f, 247.0f / 255.0f, 1.0f);
     glEnable(GL_DEPTH_TEST);

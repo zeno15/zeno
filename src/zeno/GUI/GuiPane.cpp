@@ -16,8 +16,15 @@ GuiPane::~GuiPane(void)
 
 bool GuiPane::processEvent(const GUIEvent& _event)
 {
+	if (!m_Active)
+    {
+        return false;
+    }
 	for (GuiBase *element : m_Children)
 	{
+        //~ Don't update inactive elements
+        if (!element->getActive()) continue;
+
 		if (element->processEvent(_event))
 		{
 			return true;
@@ -29,6 +36,10 @@ bool GuiPane::processEvent(const GUIEvent& _event)
 
 void GuiPane::render(Mat4x4 _transform) const
 {
+    if (!m_Active)
+    {
+        return;
+    }
 	for (GuiBase *element : m_Children)
 	{
 		element->render(_transform);
