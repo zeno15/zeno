@@ -12,15 +12,14 @@
 
 namespace zeno {
 
-TextBox::TextBox(const std::string& _id, Font *_font) :
-m_Font(_font),
-GuiBase(_id),
+TextBox::TextBox(const std::string& _id, GuiBase *_parent) :
+GuiBase(_id, _parent),
+m_Font(nullptr),
 m_Size(100.0f, 50.0f),
 m_BorderSize(4.0f)
 {
 	recreate();
 	m_BoxText.setColour(Colour::Black);
-	m_BoxText.generateText("", m_Font);
 }
 TextBox::~TextBox(void)
 {
@@ -73,8 +72,10 @@ bool TextBox::processEvent(const GUIEvent& _event)
 
 			if (textChanged)
 			{
-				std::cout << "String: " << m_String << std::endl;
-				m_BoxText.generateText(m_String, m_Font);
+				if (m_Font)
+                {
+                    m_BoxText.generateText(m_String, m_Font);
+                }
 
 				//std::cout << "Text left: " << m_BoxText.getBounds().left << ", bottom: " << m_BoxText.getBounds().bot << ", width: " << m_BoxText.getBounds().width << ", height: " << m_BoxText.getBounds().height << std::endl;
 			}
@@ -122,6 +123,11 @@ FloatRect TextBox::getBounds(void)
 	Vector2f size(m_Size.x, m_Size.y);
 
 	return FloatRect(pos, size);
+}
+
+void TextBox::setFont(Font *_font)
+{
+    m_Font = _font;
 }
 
 void TextBox::setSize(const Vector2f& _size)
@@ -223,6 +229,11 @@ void TextBox::setText(const std::string& _text)
 void TextBox::addText(const std::string& _text)
 {
 	setText(getText() + _text);
+}
+
+TextBox *TextBox::createElement(const std::string& _id, GuiBase *_parent)
+{
+    return new TextBox(_id, _parent);
 }
 
 } //~ namespace zeno

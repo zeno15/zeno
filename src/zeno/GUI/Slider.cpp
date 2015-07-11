@@ -20,19 +20,19 @@
 
 namespace zeno {
 
-Slider::Slider(const std::string& _id) :
-GuiBase(_id), 
+Slider::Slider(const std::string& _id, GuiBase *_parent) :
+GuiBase(_id, _parent),
 m_NumDiscreteValues(6),
 m_BarColour(0.5f, 0.5f, 0.5f),
 m_DefaultSlideColour(0.6f, 0.6f, 0.6f),
 m_HoverSlideColour(Colour::Yellow),
 m_HeldSlideColour(Colour::Green),
-m_Position(300.0f, 100.0f),
-m_Length(300.0f),
+m_Position(0.0f, 0.0f),
+m_Length(100.0f),
 m_SlideOffsetPercent(0.0f),
 m_HasSlide(false),
 m_MouseContained(false),
-m_Continuous(false),
+m_Continuous(true),
 m_State(State::HOVER)
 {
 	glGenVertexArrays(1, &m_VAO);
@@ -49,13 +49,16 @@ Slider::~Slider(void)
 
 bool Slider::processEvent(const GUIEvent& _event)
 {
+    float x = getTransform()[12];
+    float y = getTransform()[13];
+
 	if (m_HasSlide)
 	{
 		if (_event.type == GUIEvent::EventType::LeftRelease)
 		{
 			m_HasSlide = false;
 
-			FloatRect slideBounds(m_Position - Vector2f(SLIDE_WIDTH, SLIDE_HEIGHT) * 0.5f + Vector2f(m_SlideOffsetPercent * m_Length, 0.0f), Vector2f(SLIDE_WIDTH, SLIDE_HEIGHT));
+			FloatRect slideBounds(Vector2f(x, y) - Vector2f(SLIDE_WIDTH, SLIDE_HEIGHT) * 0.5f + Vector2f(m_SlideOffsetPercent * m_Length, 0.0f), Vector2f(SLIDE_WIDTH, SLIDE_HEIGHT));
 
 			if (slideBounds.contains(Vector2f(static_cast<float>(_event.mouseButton.x), static_cast<float>(_event.mouseButton.y))))
 			{
@@ -71,16 +74,16 @@ bool Slider::processEvent(const GUIEvent& _event)
 		{
 			float newX = static_cast<float>(_event.mouseMove.x);
 
-			if (newX < m_Position.x)
+			if (newX < x)
 			{
-				newX = m_Position.x;
+				newX = x;
 			}
-			if (newX > m_Position.x + m_Length)
+			if (newX > x + m_Length)
 			{
-				newX = m_Position.x + m_Length;
+				newX = x + m_Length;
 			}
 
-			float newPercent = calculateDiscretePosition((newX - m_Position.x) / m_Length);
+			float newPercent = calculateDiscretePosition((newX - x) / m_Length);
 
 			if (newPercent != m_SlideOffsetPercent)
 			{
@@ -96,7 +99,7 @@ bool Slider::processEvent(const GUIEvent& _event)
 	{
 		if (_event.type == GUIEvent::EventType::MouseMove)
 		{
-			FloatRect slideBounds(m_Position - Vector2f(SLIDE_WIDTH, SLIDE_HEIGHT) * 0.5f + Vector2f(m_SlideOffsetPercent * m_Length, 0.0f), Vector2f(SLIDE_WIDTH, SLIDE_HEIGHT));
+			FloatRect slideBounds(Vector2f(x, y) - Vector2f(SLIDE_WIDTH, SLIDE_HEIGHT) * 0.5f + Vector2f(m_SlideOffsetPercent * m_Length, 0.0f), Vector2f(SLIDE_WIDTH, SLIDE_HEIGHT));
 
 			if (slideBounds.contains(Vector2f(static_cast<float>(_event.mouseMove.x), static_cast<float>(_event.mouseMove.y))))
 			{
@@ -129,6 +132,8 @@ bool Slider::processEvent(const GUIEvent& _event)
 void Slider::render(Mat4x4 _transform) const
 {
 	Shader& shader = ShaderManager::getInstance().getShader("GUI");
+
+    _transform *= getTransform();
 
 	shader.bind();
 	shader.passUniform("View", _transform);
@@ -318,5 +323,10 @@ float Slider::calculateDiscretePosition(float _continuousPosition)
 	
 	return floorf(discreteValue + 0.5f) * discreteDistance;
 }
+
+    Slider *Slider::createElement(const std::string& _id, GuiBase *_parent)
+    {
+        return new Slider(_id, _parent);
+    }
 
 } //~ namespace zeno

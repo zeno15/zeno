@@ -9,6 +9,8 @@
 #include <zeno/System/Vector2.hpp>
 
 #include <vector>
+#include <iostream>
+
 ////////////////////////////////////////////////////////////
 ///
 /// \namespace zeno
@@ -25,7 +27,7 @@ class Event;
 ///	\brief  Class to manage rendering and updating gui elements
 ///
 ////////////////////////////////////////////////////////////
-class GuiDesktop
+class Desktop
 {
 public:
     ////////////////////////////////////////////////////////////
@@ -35,7 +37,7 @@ public:
     /// Ensures that the default shader is loaded correctly
     ///
     ////////////////////////////////////////////////////////////
-	GuiDesktop(void);
+	Desktop(void);
 
     ////////////////////////////////////////////////////////////
     ///
@@ -82,49 +84,16 @@ public:
 
     ////////////////////////////////////////////////////////////
     ///
-    /// \brief  Adds a new pane to the GuiDesktop
-    ///
-    /// \param  _name The name of the new GuiPane
-    ///
-    ////////////////////////////////////////////////////////////
-	void addPane(const std::string& _name);
-
-    ////////////////////////////////////////////////////////////
-    ///
-    /// \brief  Gets reference to GuiPane that has the given \a _id
-    ///
-    /// \param  _id Unique identification of the GuiPane
-    ///
-    /// \return Read/write reference to GuiPane
-    ///
-    ////////////////////////////////////////////////////////////
-	GuiPane& getPane(const std::string& _id);
-
-    ////////////////////////////////////////////////////////////
-    ///
-    /// \brief  Adds a new GUI element to a GuiPane
-    ///
-    /// \param  _pane   The id of the GuiPane to add the child to
-    ///
-    /// \param  _child  Pointer to a new GUI element to add
-    ///
-    ////////////////////////////////////////////////////////////
-    void addToPane(const std::string& _pane, GuiBase *_child);
-
-    ////////////////////////////////////////////////////////////
-    ///
-    /// \brief  Get a pointer to the desired GUI element
-    ///
-    /// \param  _pane       GuiPane name to get element from
-    ///
-    /// \param  _element    Name of desired element to retrieve
-    ///
-    /// \return Pointer to GUI element, provided type should
-    ///         match the type of the element returned
     ///
     ////////////////////////////////////////////////////////////
     template <typename T>
-    T *getElementFromPane(const std::string& _pane, const std::string& _element);
+    void addToElement(const std::string& _id, const std::string& _parent = std::string());
+
+    ////////////////////////////////////////////////////////////
+    ///
+    ////////////////////////////////////////////////////////////
+    template <typename T>
+    T& getElement(const std::string& _id);
 
     ////////////////////////////////////////////////////////////
     ///
@@ -163,17 +132,22 @@ private:
 	bool translateEvent(const Event& _event, GUIEvent& _guiEvent) const;
 
 private:
+    static const std::string           m_DesktopPaneId;
+
+private:
 	Vector2u					m_Resolution;       ///<    Resolution of the desktop
 
-    std::vector<GuiPane>        m_Panes;            ///<    Vector of GuiPane the desktop owns
+    GuiPane                     m_DesktopPane;      ///<    Base pane that contains all elements
 
 	std::vector<GUIEvent>		m_ThrownEvents;     ///<    Vector of events that have been thrown
 
 	Font 						m_GUIFont;          ///<    Font to use for all GUI elements
+
+    std::vector<std::string>    m_InvalidIds;       ///<    Vector containing all Ids that have been used
 };
 
 
-#include <zeno/GUI/GuiDesktop.inl>
+#include <zeno/GUI/Desktop.inl>
 
 
 } //~ namespace zeno
@@ -182,7 +156,7 @@ private:
 
 ////////////////////////////////////////////////////////////
 ///
-///	\class zeno::GuiDesktop
+///	\class zeno::Desktop
 ///	\ingroup GUI
 ///
 ///	Explanation of how this all works

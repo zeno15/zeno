@@ -1,15 +1,25 @@
 #include <zeno/GUI/GuiBase.hpp>
 
+#include <iostream>
+
 namespace zeno {
 
-GuiBase::GuiBase(const std::string& _id) :
+GuiBase::GuiBase(const std::string& _id, GuiBase *_parent) :
 m_Active(true),
 m_HasFocus(false),
+m_Visible(false),
+m_IsPane(false),
+m_Parent(_parent),
 m_Id(_id)
 {
 
 }
 
+
+FloatRect GuiBase::getBounds(void)
+{
+    throw std::runtime_error("unimplemented function GuiBase::getBounds()");
+}
 
 void GuiBase::setActive(bool _active)
 {
@@ -21,21 +31,42 @@ bool GuiBase::getActive(void) const
 	return m_Active;
 }
 
+void GuiBase::setVisibility(bool _visible)
+{
+    m_Visible = _visible;
+}
+
+bool GuiBase::getVisibility(void) const
+{
+    return m_Visible;
+}
+
 void GuiBase::addChild(GuiBase *_child)
 {
 	m_Children.push_back(_child);
 }
 
-bool GuiBase::hasChildren(void) const
+GuiBase *GuiBase::getChild(const std::string& _id)
 {
-	return (m_Children.size() > 0);
+    for (GuiBase *child : m_Children)
+    {
+        if (child->getId() == _id)
+        {
+            return child;
+        }
+
+        GuiBase *c = child->getChild(_id);
+
+        if (c != nullptr)
+        {
+            return c;
+        }
+    }
+
+    return nullptr;
 }
 
-std::vector<GuiBase *> GuiBase::getChildren(void)
-{
-	return m_Children;
-}
-std::string GuiBase::getId(void)
+std::string GuiBase::getId(void) const
 {
 	return m_Id;
 }

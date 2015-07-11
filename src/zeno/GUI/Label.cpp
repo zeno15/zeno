@@ -4,9 +4,9 @@
 
 namespace zeno {
 
-Label::Label(const std::string& _id, Font *_font) :
-GuiBase(_id),
-m_LabelFont(_font)
+Label::Label(const std::string& _id, GuiBase *_parent) :
+GuiBase(_id, _parent),
+m_LabelFont(nullptr)
 {
 }
 Label::~Label(void)
@@ -45,6 +45,16 @@ void Label::setLabel(const std::string& _label)
 void Label::setLabelColour(const Colour& _colour)
 {
 	m_LabelText.setColour(_colour);
+}
+
+void Label::setFont(Font *_font)
+{
+    m_LabelFont = _font;
+}
+
+Label *Label::createElement(const std::string& _id, GuiBase *_parent)
+{
+    return new Label(_id, _parent);
 }
 
 } //~ namespace zeno

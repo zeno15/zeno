@@ -1,4 +1,4 @@
-#include <zeno/GUI/GuiDesktop.hpp>
+#include <zeno/GUI/Desktop.hpp>
 
 #include <zeno/System/Event.hpp>
 #include <zeno/System/Time.hpp>
@@ -38,9 +38,12 @@ namespace {
 
 } //~ anonymous namespace
 
+const std::string zeno::Desktop::m_DesktopPaneId = "ZENO_DEFAULT_DESKTOP_PANE_ID";
+
 namespace zeno {
 
-GuiDesktop::GuiDesktop(void)
+Desktop::Desktop(void) :
+m_DesktopPane(m_DesktopPaneId, nullptr)
 {
 	ShaderManager::getInstance().addShaderFromSource("GUI", GUIVertexSource, GUIFragmentSource);
 	Shader& guiShader = ShaderManager::getInstance().getShader("GUI");
@@ -49,44 +52,37 @@ GuiDesktop::GuiDesktop(void)
 	{
 		std::cout << "Failed to get location of uniform: View" << std::endl;
 	}
+
+
 }
 
 
-void GuiDesktop::processEvent(const Event& _event)
+void Desktop::processEvent(const Event& _event)
 {
 	GUIEvent event;
 
 	if (!translateEvent(_event, event)) return;
 
-    for (unsigned int i = 0; i < m_Panes.size(); i += 1)
-    {
-        if (m_Panes.at(i).processEvent(event))
-        {
-            return;
-        }
-    }
+    m_DesktopPane.processEvent(event);
 }
-void GuiDesktop::render(void)
+void Desktop::render(void)
 {
     Mat4x4 ortho = Mat4x4::Orthographic2D(0.0f, static_cast<float>(m_Resolution.x), static_cast<float>(m_Resolution.y), 0.0f);
 
-	for (GuiPane& pane : m_Panes)
-	{
-		pane.render(ortho);
-	}
+	m_DesktopPane.render(ortho);
 }
 
-void GuiDesktop::setResolution(const Vector2u& _resolution)
+void Desktop::setResolution(const Vector2u& _resolution)
 {
 	m_Resolution = _resolution;
 }
 
-void GuiDesktop::throwEvent(const GUIEvent& _guiEvent)
+void Desktop::throwEvent(const GUIEvent& _guiEvent)
 {
 	m_ThrownEvents.push_back(_guiEvent);
 }
 
-bool GuiDesktop::translateEvent(const Event& _event, GUIEvent& _guiEvent) const
+bool Desktop::translateEvent(const Event& _event, GUIEvent& _guiEvent) const
 {
 	switch (_event.type)
 	{
@@ -140,61 +136,25 @@ bool GuiDesktop::translateEvent(const Event& _event, GUIEvent& _guiEvent) const
 	}
 }
 
-void GuiDesktop::addPane(const std::string& _name)
-{
-	for (unsigned int i = 0; i < m_Panes.size(); i += 1)
-	{
-		if (m_Panes.at(i).getId() == _name)
-		{
-			return;
-		}
-	}
-
-	m_Panes.push_back(GuiPane(_name));
-}
-
-GuiPane& GuiDesktop::getPane(const std::string& _id)
-{
-	for (unsigned int i = 0; i < m_Panes.size(); i += 1)
-	{
-		if (m_Panes.at(i).getId() == _id)
-		{
-			return m_Panes.at(i);
-		}
-	}
-
-	throw std::runtime_error(std::string("Pane \"" + _id + "\" not present in desktop."));
-}
-
-void GuiDesktop::processThrown(void)
+void Desktop::processThrown(void)
 {
     for (unsigned int i = 0; i < m_ThrownEvents.size(); i += 1)
 	{
-		for (GuiPane& pane : m_Panes)
-		{
-			if (pane.processEvent(m_ThrownEvents.at(i)))
-			{
-				continue;
-			}
-		}
+		m_DesktopPane.processEvent(m_ThrownEvents.at(i));
 	}
 
 	m_ThrownEvents.clear();
 }
 
-bool GuiDesktop::loadGUIFont(const std::string& _filename, unsigned int _fontSize /*= 32*/)
+bool Desktop::loadGUIFont(const std::string& _filename, unsigned int _fontSize /*= 32*/)
 {
 	return m_GUIFont.loadFromFile(_filename, _fontSize);
 }
 
-Font *GuiDesktop::getGUIFont(void)
+Font *Desktop::getGUIFont(void)
 {
 	return &m_GUIFont;
 }
 
-void GuiDesktop::addToPane(const std::string& _pane, GuiBase *_child)
-{
-	getPane(_pane).addChild(_child);
-}
 
 } //~ namespace zeno

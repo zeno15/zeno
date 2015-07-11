@@ -15,8 +15,8 @@
 
 namespace zeno {
 
-ProgressBar::ProgressBar(const std::string& _id) :
-GuiBase(_id), 
+ProgressBar::ProgressBar(const std::string& _id, GuiBase *_parent) :
+GuiBase(_id, _parent),
 m_Size(200.0f, 100.0f),
 m_Position(50.0f, 50.0f),
 m_CurrentPercentage(0.0f),
@@ -117,12 +117,6 @@ ProgressBar::~ProgressBar(void)
 
 bool ProgressBar::processEvent(const GUIEvent& _event)
 {
-	if (_event.type == GUIEvent::ProgressUpdate && _event.progress.id == m_Id)
-	{
-		m_CurrentPercentage = _event.progress.progress;
-		resendData(m_CurrentPercentage);
-		return true;
-	}
 	return false;
 }
 
@@ -236,6 +230,15 @@ void ProgressBar::setOutlineThickness(float _thickness)
 	}
 }
 
+void ProgressBar::setPercentage(float _perc)
+{
+    if (_perc != m_CurrentPercentage)
+    {
+        m_CurrentPercentage = _perc;
+        resendData(m_CurrentPercentage);
+    }
+}
+
 void ProgressBar::resendData(float _percent)
 {
 	float length = (m_Size.x - 2.0f * m_OutlineThickness) * _percent;
@@ -289,6 +292,11 @@ void ProgressBar::recreate(void)
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(dataV), dataV);
 
 	resendData(m_CurrentPercentage);
+}
+
+ProgressBar *ProgressBar::createElement(const std::string& _id, GuiBase *_parent)
+{
+    return new ProgressBar(_id, _parent);
 }
 
 } //~ namespace zeno

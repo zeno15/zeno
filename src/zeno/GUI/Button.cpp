@@ -14,8 +14,8 @@
 
 namespace zeno {
 
-Button::Button(const std::string& _id) :
-GuiBase(_id), 
+Button::Button(const std::string& _id, GuiBase *_parent) :
+GuiBase(_id, _parent),
 m_BackgroundDefaultColour(Colour::Cyan),
 m_BackgroundDepressedColour(Colour::Yellow),
 m_ForegroundDefaultColour(Colour::Magenta),
@@ -61,10 +61,6 @@ m_Label(nullptr)
 
 Button::~Button(void)
 {
-	if (m_Label != nullptr)
-	{
-		delete m_Label;
-	}
 }
 
 bool Button::processEvent(const GUIEvent& _event)
@@ -236,12 +232,14 @@ void Button::changeState(State _newState)
 
 void Button::addLabel(const std::string& _labelString, Font *_font)
 {
+    throw std::runtime_error("Need to change new label to use the child heirachy");
+    /*
 	if (m_Label != nullptr)
 	{
 		delete m_Label;
 	}
 
-	m_Label = new Label(m_Id + _labelString, _font);
+	m_Label = new Label(m_Id + _labelString, this, _font);
 	m_Label->move(Vector3f(0.0f, 0.0f, 0.2f));
 
 	m_Label->setLabel(_labelString);
@@ -250,6 +248,12 @@ void Button::addLabel(const std::string& _labelString, Font *_font)
 	m_Bounds.height = m_Label->getBounds().height + m_OutlineThickness * 4.0f + m_Label->getBounds().bot;
 
 	resendPositions();
+     */
+}
+
+Button *Button::createElement(const std::string& _id, GuiBase *_parent)
+{
+    return new Button(_id, _parent);
 }
 
 } //~ namespace zeno
