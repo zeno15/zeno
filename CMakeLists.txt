@@ -188,7 +188,7 @@ set(GUI_HEADER_FILES ${GUI_HEADER_FILES}
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/GUIEvent.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/Desktop.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/GuiBase.hpp
-		${CMAKE_SOURCE_DIR}/include/zeno/GUI/GuiPane.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/GUI/Pane.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/Button.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/Label.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/ProgressBar.hpp
@@ -203,7 +203,7 @@ set(GUI_HEADER_FILES ${GUI_HEADER_FILES}
 set(GUI_SOURCE_FILES ${GUI_SOURCE_FILES}
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/Desktop.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/GuiBase.cpp
-		${CMAKE_SOURCE_DIR}/src/zeno/GUI/GuiPane.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/GUI/Pane.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/Button.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/Label.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/ProgressBar.cpp

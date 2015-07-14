@@ -128,11 +128,6 @@ void Button::render(Mat4x4 _transform) const
 	glDrawArrays(GL_TRIANGLES, 0, NUM_VERTEXES);
 	glBindVertexArray(0);
 
-	if (m_Label != nullptr)
-	{
-		m_Label->render(trans * Mat4x4::createTranslation(Vector3f(m_OutlineThickness * 2.0f - m_Label->getBounds().left, m_OutlineThickness * 2.0f - m_Label->getBounds().bot, 0.0f)));
-	}
-
 	shader.unbind();
 }
 

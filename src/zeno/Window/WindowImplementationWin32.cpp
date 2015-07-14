@@ -32,7 +32,6 @@ namespace zeno {
 WindowImplementationWin32::WindowImplementationWin32(void) :
 m_Handle(NULL),
 m_RepeatedKeys(false),
-m_ExitSizeChange(true),
 m_Title("UNTITLED")
 {
 
@@ -237,18 +236,7 @@ void WindowImplementationWin32::processEvent(UINT message, WPARAM wParam, LPARAM
 		pushEvent(e);
 		break;
 
-	case (WM_EXITSIZEMOVE) :
-		m_ExitSizeChange = true;
-		break;
-
 	case (WM_SIZE) :
-		//~ Only want the last size change event
-		if (!m_ExitSizeChange)
-		{
-			return;
-		}
-		m_ExitSizeChange = false;
-
 		e.type = Event::EventType::WindowSizeChanged;
 
 		m_Size = Vector2u(HIWORD(lParam), LOWORD(lParam));

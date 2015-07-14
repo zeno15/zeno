@@ -7,7 +7,7 @@ namespace zeno {
 GuiBase::GuiBase(const std::string& _id, GuiBase *_parent) :
 m_Active(true),
 m_HasFocus(false),
-m_Visible(false),
+m_Visible(true),
 m_IsPane(false),
 m_Parent(_parent),
 m_Id(_id)

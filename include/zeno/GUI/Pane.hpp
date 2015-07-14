@@ -10,7 +10,7 @@ namespace zeno {
 //	
 //
 ////////////////////////////////////////////////////////////
-class GuiPane : public GuiBase
+class Pane : public GuiBase
 {
 public:
 
@@ -29,6 +29,12 @@ public:
 	////////////////////////////////////////////////////////////
 	virtual void render(Mat4x4 _transform) const;
 
+    void setColour(const Colour& _col);
+
+    void setBounds(const FloatRect& _bounds);
+
+    void removeBounds(void);
+
 private:
 
     friend class Desktop;
@@ -38,16 +44,24 @@ private:
     //
     //
     ////////////////////////////////////////////////////////////
-    GuiPane(const std::string& _id, GuiBase *_parent);
+    Pane(const std::string& _id, GuiBase *_parent);
 
     ////////////////////////////////////////////////////////////
     //
     //
     //
     ////////////////////////////////////////////////////////////
-    ~GuiPane(void);
+    ~Pane(void);
 
-    static GuiPane *createElement(const std::string& _id, GuiBase *_parent);
+    static Pane *createElement(const std::string& _id, GuiBase *_parent);
+
+private:
+    bool                    m_Bounded;
+    FloatRect               m_Bounds;
+
+    unsigned int            m_VAO;
+    unsigned int            m_PositionVBO;
+    unsigned int            m_ColourVBO;
 };
 
 } //~ namespace zeno

@@ -48,32 +48,46 @@ int main(int _argc, char **_argv)
 
     auto dp = &desktop;
 
+    //~ Pane 1
+    desktop.addToElement<zeno::Pane>("Pane1");
+
+    desktop.getElement<zeno::Pane>("Pane1").setBounds(zeno::FloatRect(10.0f, 10.0f, 620.0f, 700.0f));
+    desktop.getElement<zeno::Pane>("Pane1").setColour(zeno::Colour(0.7f, 0.7f, 0.7f));
+
     //~ Button 1
-    desktop.addToElement<zeno::Button>("New Button Id");
+    desktop.addToElement<zeno::Button>("New Button Id", "Pane1");
 
     desktop.getElement<zeno::Button>("New Button Id").registerCallback([](void){ std::cout << "Button was pressed!" << std::endl;});
-    desktop.getElement<zeno::Button>("New Button Id").setPosition(zeno::Vector3f(50.0f, 50.0f, 0.0f));
+    desktop.getElement<zeno::Button>("New Button Id").setPosition(zeno::Vector3f(620.0f, 50.0f, 0.0f));
+
+
+
+    //~ Pane 2
+    desktop.addToElement<zeno::Pane>("Pane2");
+
+    desktop.getElement<zeno::Pane>("Pane2").setBounds(zeno::FloatRect(650.0f, 10.0f, 620.0f, 700.0f));
+    desktop.getElement<zeno::Pane>("Pane2").setColour(zeno::Colour(0.7f, 0.7f, 0.7f));
 
     //~ Button 2
-    desktop.addToElement<zeno::Button>("New Button Id2");
+    desktop.addToElement<zeno::Button>("New Button Id2", "Pane2");
 
     desktop.getElement<zeno::Button>("New Button Id2").registerCallback([](void){ std::cout << "Button 2 was pressed!" << std::endl;});
-    desktop.getElement<zeno::Button>("New Button Id2").setPosition(zeno::Vector3f(200.0f, 50.0f, 0.0f));
-
+    desktop.getElement<zeno::Button>("New Button Id2").setPosition(zeno::Vector3f(620.0f, 150.0f, 0.0f));
+/*
     //~ Slider
-    desktop.addToElement<zeno::Slider>("Slider");
+    desktop.addToElement<zeno::Slider>("Slider", "Pane2");
 
     desktop.getElement<zeno::Slider>("Slider").registerCallback([&](float _arg){dp->getElement<zeno::ProgressBar>("ProgressBar").setPercentage(_arg);});
     desktop.getElement<zeno::Slider>("Slider").setPosition(zeno::Vector3f(350.0f, 50.0f, 0.0f));
 
     //~ ProgressBar
-    desktop.addToElement<zeno::ProgressBar>("ProgressBar");
+    desktop.addToElement<zeno::ProgressBar>("ProgressBar", "Pane2");
 
     desktop.getElement<zeno::ProgressBar>("ProgressBar").setPosition(zeno::Vector2f(350.0f, 100.0f));
     desktop.getElement<zeno::ProgressBar>("ProgressBar").setSize(zeno::Vector2f(100.0f, 25.0f));
 
     //~ Label
-    desktop.addToElement<zeno::Label>("Label");
+    desktop.addToElement<zeno::Label>("Label", "Pane2");
 
     desktop.getElement<zeno::Label>("Label").setFont(desktop.getGUIFont());
     desktop.getElement<zeno::Label>("Label").setLabelColour(zeno::Colour::Magenta);
@@ -81,16 +95,12 @@ int main(int _argc, char **_argv)
     desktop.getElement<zeno::Label>("Label").setPosition(zeno::Vector3f(350.0f, 150.0f, 0.0f));
 
     //~ Text Box
-    desktop.addToElement<zeno::TextBox>("TextBox");
+    desktop.addToElement<zeno::TextBox>("TextBox", "Pane2");
 
     desktop.getElement<zeno::TextBox>("TextBox").setFont(desktop.getGUIFont());
     desktop.getElement<zeno::TextBox>("TextBox").setSize(zeno::Vector2f(200.0f, 50.0f));
     desktop.getElement<zeno::TextBox>("TextBox").setText("TextBox");
-    desktop.getElement<zeno::TextBox>("TextBox").setPosition(zeno::Vector3f(350.0f, 200.0f, 0.0f));
-
-    //desktop.addToPane("Pane", new zeno::TextBox("TextBox", desktop.getGUIFont()));
-    //desktop.getElementFromPane<zeno::TextBox>("Pane", "TextBox")->setPosition(zeno::Vector3f(640.0f, 0.0f, 0.0f));
-    //desktop.getElementFromPane<zeno::TextBox>("Pane", "TextBox")->setText("Text!");
+    desktop.getElement<zeno::TextBox>("TextBox").setPosition(zeno::Vector3f(350.0f, 200.0f, 0.0f));*/
 
 
 
@@ -102,6 +112,7 @@ int main(int _argc, char **_argv)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     bool running = true;
+    bool paneVisible = true;
 
     while (running)
     {
@@ -111,6 +122,19 @@ int main(int _argc, char **_argv)
             if (event.type == zeno::Event::EventType::WindowClosed)
             {
                 running = false;
+            }
+            else if (event.type == zeno::Event::EventType::WindowSizeChanged)
+            {
+                glViewport(0, 0, event.size.width, event.size.height);
+                desktop.setResolution(zeno::Vector2u(event.size.width, event.size.height));
+                std::cout << "Resized window W: " << event.size.width << ", H: " << event.size.height << std::endl;
+            }
+            else if (event.type == zeno::Event::EventType::KeyDown)
+            {
+                if (event.key.key == zeno::Keyboard::Space)
+                {
+
+                }
             }
 
             desktop.processEvent(event);

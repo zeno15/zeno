@@ -3,6 +3,8 @@
 #include <zeno/System/Event.hpp>
 #include <zeno/System/Time.hpp>
 
+#include <GL/glew.h>
+
 #include <iostream>
 
 //~ Anonymous namespace containing the gui shader
@@ -53,7 +55,7 @@ m_DesktopPane(m_DesktopPaneId, nullptr)
 		std::cout << "Failed to get location of uniform: View" << std::endl;
 	}
 
-
+    m_DesktopPane.setColour(Colour::Transparent);
 }
 
 
@@ -75,6 +77,8 @@ void Desktop::render(void)
 void Desktop::setResolution(const Vector2u& _resolution)
 {
 	m_Resolution = _resolution;
+
+    m_DesktopPane.setBounds(FloatRect(0.0f, 0.0f, _resolution.x, _resolution.y));
 }
 
 void Desktop::throwEvent(const GUIEvent& _guiEvent)

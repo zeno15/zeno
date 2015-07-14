@@ -4,7 +4,7 @@
 #include <zeno/Graphics/Font.hpp>
 
 #include <zeno/GUI/GUIEvent.hpp>
-#include <zeno/GUI/GuiPane.hpp>
+#include "Pane.hpp"
 
 #include <zeno/System/Vector2.hpp>
 
@@ -137,7 +137,7 @@ private:
 private:
 	Vector2u					m_Resolution;       ///<    Resolution of the desktop
 
-    GuiPane                     m_DesktopPane;      ///<    Base pane that contains all elements
+    Pane m_DesktopPane;      ///<    Base pane that contains all elements
 
 	std::vector<GUIEvent>		m_ThrownEvents;     ///<    Vector of events that have been thrown
 

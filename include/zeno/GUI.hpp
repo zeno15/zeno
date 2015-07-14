@@ -5,7 +5,7 @@
 #include <zeno/GUI/GUIEvent.hpp>
 
 #include <zeno/GUI/GuiBase.hpp>
-#include <zeno/GUI/GuiPane.hpp>
+#include <zeno/GUI/Pane.hpp>
 
 #include <zeno/GUI/Button.hpp>
 #include <zeno/GUI/Label.hpp>

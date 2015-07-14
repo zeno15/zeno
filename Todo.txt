@@ -8,6 +8,8 @@ CMAKE
     -   Look into configuration files
         -	Version numbers
         -	Source file lists etc
+    -   Add options to not build network module etc
+
 Graphics
     -   Complete Graphics.hpp
 
