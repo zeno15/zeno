@@ -76,6 +76,11 @@ public:
     bool addClosedElement(const std::string& _tag, const std::vector<std::pair<std::string, std::string>>& _attributes = std::vector<std::pair<std::string, std::string>>(), const std::string& _path = "/", std::vector<int> _index = std::vector<int>());
     bool addDeclaration(const std::string& _declaration);
 
+    std::vector<std::pair<std::string, std::string>>& getAttributes(const std::string& _tag, const std::string& _path = "/", std::vector<int> _index = std::vector<int>());
+
+    std::string getContent(const std::string& _path = "/", std::vector<int> _index = std::vector<int>());
+    bool setContent(const std::string& _content, const std::string& _path = "/", std::vector<int> _index = std::vector<int>());
+
     std::string writeToString(void);
     bool writeToFile(const std::string& _filename);
 

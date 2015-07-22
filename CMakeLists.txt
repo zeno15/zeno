@@ -41,6 +41,7 @@ mingw32-make.exe
 mingw32-make.exe
 
 then in objs folder is freetype.a
+need to rename to libfreetype.a
 ]]
 
 
@@ -54,13 +55,15 @@ set(LIBRARY_EXTENSION "")
 # Default build type
 set(LIBRARY_BUILD_TYPE "STATIC")
 
+set(STB_LOCATION "${CMAKE_SOURCE_DIR}/extlibs")
 
 # Set the generic include directory for the project
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # TODO check if this should be removed, and have it be a cmake variable being the path to std and freetype etc
 # Add the external libraries folder to the include directories
-include_directories(${CMAKE_SOURCE_DIR}/extlibs)
+#include_directories(${CMAKE_SOURCE_DIR}/extlibs)
+include_directories(${STB_LOCATION})
 
 #-----------------------------  Module Includes start ----------------------
 set(MODULE_INCLUDES ${MODULE_INCLUDES}

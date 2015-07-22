@@ -60,7 +60,6 @@ bool XML::XMLNode::create(const std::string& _data)
             std::cout << "Found close < without open >: poorly formatted xml" << std::endl;
             return false;
         }
-
         std::string element = data.substr(startLoc, closeLoc - startLoc + 1);
 
         if (startsWith(element, DECLARATION_START) && endsWith(element, DECLARATION_END))
@@ -73,7 +72,6 @@ bool XML::XMLNode::create(const std::string& _data)
             node->m_Content = element;
 
             m_Nodes.push_back(node);
-
             data = data.substr(data.find('<', closeLoc), std::string::npos);
         }
         else if (startsWith(element, COMMENT_START) && endsWith(element, COMMENT_END))
@@ -86,12 +84,15 @@ bool XML::XMLNode::create(const std::string& _data)
             node->m_Content = element;
 
             m_Nodes.push_back(node);
-
             data = data.substr(data.find('<', closeLoc), std::string::npos);
         }
         else if (startsWith(element, CLOSED_ELEMENT_START) && endsWith(element, CLOSED_ELEMENT_END))
         {
-            data = data.substr(data.find('<', closeLoc), std::string::npos);
+            std::size_t startLocation = data.find('<', closeLoc);
+
+            //~ If you cant find a tag start '<' then the data can be replaced with an empty string, no more content/tags
+            data = (startLocation == std::string::npos) ? "" : data.substr(startLocation, std::string::npos);
+
 
             std::size_t loc = element.find_first_of("> ");
             std::string tag = element.substr(1, loc - 1);
@@ -137,6 +138,9 @@ bool XML::XMLNode::create(const std::string& _data)
                 if (!extractAttributesFromElement(element, node))
                 {
                     std::cout << "Element failed to extract attributes" << std::endl;
+
+                    delete node;
+
                     return false;
                 }
 
@@ -450,6 +454,131 @@ bool XML::addDeclaration(const std::string& _declaration)
     m_Root.m_Nodes.insert(m_Root.m_Nodes.begin(), newNode);
 
     return true;
+}
+
+std::vector<std::pair<std::string, std::string>>& XML::getAttributes(const std::string& _tag, const std::string& _path /*= "/"*/, std::vector<int> _index /*= std::vector<int>()*/)
+{
+    std::vector<std::string> pathVector = splitStringByString(_path, "/");
+
+    XMLNode *node = &m_Root;
+
+    if (_index.size() == 0)
+    {
+        _index = std::vector<int>(pathVector.size(), -1);
+    }
+    if (_index.size() != pathVector.size())
+    {
+        std::cout << "Incorrectly sized index vector" << std::endl;
+
+        return m_Root.m_AttributePairs;
+    }
+
+
+    for (unsigned int i = 0; i < pathVector.size(); i += 1)
+    {
+        if (node->getChild(pathVector.at(i), _index.at(i)) != nullptr)
+        {
+            node = node->getChild(pathVector.at(i), _index.at(i));
+        }
+        else
+        {
+            std::cout << "Could not get desired node" << std::endl;
+
+            return m_Root.m_AttributePairs;
+        }
+    }
+
+    for (XMLNode *n : node->m_Nodes)
+    {
+        if (n->m_Tag == _tag)
+        {
+            return n->m_AttributePairs;
+        }
+    }
+
+    return m_Root.m_AttributePairs;
+}
+
+std::string XML::getContent(const std::string& _path /*= "/"*/, std::vector<int> _index /*= std::vector<int>()*/)
+{
+    std::vector<std::string> pathVector = splitStringByString(_path, "/");
+
+    XMLNode *node = &m_Root;
+
+    if (_index.size() == 0)
+    {
+        _index = std::vector<int>(pathVector.size(), -1);
+    }
+    if (_index.size() != pathVector.size())
+    {
+        std::cout << "Incorrectly sized index vector" << std::endl;
+        return "";
+    }
+
+
+    for (unsigned int i = 0; i < pathVector.size(); i += 1)
+    {
+        if (node->getChild(pathVector.at(i), _index.at(i)) != nullptr)
+        {
+            node = node->getChild(pathVector.at(i), _index.at(i));
+        }
+        else
+        {
+            std::cout << "Could not get desired node" << std::endl;
+            return "";
+        }
+    }
+
+    for (XMLNode *n : node->m_Nodes)
+    {
+        if (n->m_Type == XMLNode::NodeType::CONTENT)
+        {
+            return n->m_Content;
+        }
+    }
+
+    return "";
+}
+bool XML::setContent(const std::string& _content, const std::string& _path /*= "/"*/, std::vector<int> _index /*= std::vector<int>()*/)
+{
+    std::vector<std::string> pathVector = splitStringByString(_path, "/");
+
+    XMLNode *node = &m_Root;
+
+    if (_index.size() == 0)
+    {
+        _index = std::vector<int>(pathVector.size(), -1);
+    }
+    if (_index.size() != pathVector.size())
+    {
+        std::cout << "Incorrectly sized index vector" << std::endl;
+        return false;
+    }
+
+
+    for (unsigned int i = 0; i < pathVector.size(); i += 1)
+    {
+        if (node->getChild(pathVector.at(i), _index.at(i)) != nullptr)
+        {
+            node = node->getChild(pathVector.at(i), _index.at(i));
+        }
+        else
+        {
+            std::cout << "Could not get desired node" << std::endl;
+            return false;
+        }
+    }
+
+    for (XMLNode *n : node->m_Nodes)
+    {
+        if (n->m_Type == XMLNode::NodeType::CONTENT)
+        {
+            n->m_Content = _content;
+            return true;
+        }
+    }
+
+    return false;
 }
 
 std::string XML::writeToString(void)

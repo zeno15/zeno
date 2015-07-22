@@ -20,6 +20,28 @@
 
 int main(int _argc, char **_argv)
 {
+    zeno::XML xml = zeno::XML();
+    std::cout << "Constructed" << std::endl;
+    xml.loadFromFile("C:/Users/Mark/Desktop/zeno.xml");
+    std::cout << "Loaded" << std::endl;
+    std::cout << xml.writeToString() << std::endl;
+    std::cout << "Belgian waffle description: '" << xml.getContent("/root/breakfast_menu/food/description/") << "'" <<std::endl;
+    std::string newDescrip = "WOOHOO New Descripton";
+    std::cout << "Changing description to: " << newDescrip << std::endl;
+    xml.setContent(newDescrip, "/root/breakfast_menu/food/description/");
+    std::cout << "New Content: '" << xml.getContent("/root/breakfast_menu/food/description/") << "'" <<std::endl;
+
+    auto pairs = xml.getAttributes("closed", "/root/breakfast_menu/");
+
+    for (auto p : pairs)
+    {
+        std::cout << p.first << ": " << p.second << std::endl;
+    }
+
+
+    return EXIT_SUCCESS;
+
+
     zeno::Window window = zeno::Window();
 
     window.create(zeno::VideoMode(1280, 720), "Window", zeno::WindowStyle::Default);
