@@ -69,8 +69,6 @@ void VertexArray::render(const RenderData& _data) const
 		_data.texture->bind();
 	}
 
-
-
 	shader.passUniform("View", _data.transform);
 
 	glBindVertexArray(m_VAO);

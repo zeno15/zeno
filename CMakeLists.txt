@@ -153,15 +153,18 @@ set(NETWORK_SOURCE_FILES ${NETWORK_SOURCE_FILES}
 
 #-----------------------------  Graphics start    ----------------------
 set(GRAPHICS_HEADER_FILES ${GRAPHICS_HEADER_FILES}
+		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Circle.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Colour.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Font.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Glyph.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Image.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/ImageLoader.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Rectangle.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Renderable.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/RenderData.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Shader.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/ShaderManager.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Shape.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Sprite.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Text.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Texture.hpp
@@ -170,13 +173,16 @@ set(GRAPHICS_HEADER_FILES ${GRAPHICS_HEADER_FILES}
 	)
 
 set(GRAPHICS_SOURCE_FILES ${GRAPHICS_SOURCE_FILES}
+		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Circle.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Colour.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Font.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Glyph.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Image.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/ImageLoader.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Rectangle.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Shader.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/ShaderManager.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Shape.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Sprite.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Text.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Texture.cpp
