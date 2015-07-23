@@ -38,7 +38,7 @@ void Circle::regeneratePoints(void)
         m_Points.push_back(Vector2f(x, y));
     }
 
-    updatePositions();
+    updateInternalPositions();
 }
 
 } //~ namespace zeno

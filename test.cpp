@@ -6,6 +6,7 @@
 #include <zeno/Window/Window.hpp>
 #include <zeno/Graphics/Rectangle.hpp>
 #include <zeno/Graphics/Circle.hpp>
+#include <zeno/Graphics/Polygon.hpp>
 #include <zeno/GUI.hpp>
 
 #include <GL/glew.h>
@@ -60,9 +61,20 @@ int main(int _argc, char **_argv)
 
     zeno::Rectangle r(zeno::Vector2f(100.0f, 100.0f), zeno::Vector2f(250.0f, 50.0f));
     r.setInternalColour(zeno::Colour::Magenta);
+    r.setOutlineThickness(4.0f);
 
-    zeno::Circle c(64.0f, 6);
+    zeno::Circle c(64.0f);
     c.setPosition(zeno::Vector2f(96.0f, 96.0f));
+    c.setOutlineColour(zeno::Colour::Magenta);
+    c.setOutlineThickness(14.0f);
+
+    zeno::Polygon p;
+    p.addPoint(zeno::Vector2f(-50.0f, -50.0f), false);
+    p.addPoint(zeno::Vector2f(0.0f, -20.0f), false);
+    p.addPoint(zeno::Vector2f(50.0f, -50.0f), false);
+    p.addPoint(zeno::Vector2f(0.0f, 50.0f));
+    p.setPosition(zeno::Vector2f(450.0f, 96.0f));
+    p.setOutlineThickness(4.0f);
 
     zeno::RenderData data;
 
@@ -98,6 +110,7 @@ int main(int _argc, char **_argv)
 
         r.render(data.transform);
         c.render(data.transform);
+        p.render(data.transform);
 
         desktop.render();
 

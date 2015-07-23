@@ -20,7 +20,7 @@ void Rectangle::setSize(const zeno::Vector2f& _size)
     m_Points.push_back(Vector2f(_size.x, _size.y));
     m_Points.push_back(Vector2f(0.0f,    _size.y));
 
-    updatePositions();
+    updateInternalPositions();
 }
 
 } //~ namespace zeno

@@ -1,5 +1,10 @@
 PROJECT_NAME = zeno
 
+#Graphics Module
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Graphics/Circle.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Graphics/Polygon.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Graphics/Rectangle.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Graphics/Shape.hpp
 
 # System Module
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/System/Clock.hpp

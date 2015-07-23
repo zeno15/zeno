@@ -1,7 +1,10 @@
-#ifndef INCLUDED_ZENO_GRAPHICS_RECTANGLE_HPP
-#define INCLUDED_ZENO_GRAPHICS_RECTANGLE_HPP
+#ifndef INCLUDED_ZENO_GRAPHICS_CONVEX_POLYGON_HPP
+#define INCLUDED_ZENO_GRAPHICS_CONVEX_POLYGON_HPP
 
 #include <zeno/Graphics/Shape.hpp>
+#include <zeno/System/Vector2.hpp>
+
+#include <vector>
 
 ////////////////////////////////////////////////////////////
 ///
@@ -13,35 +16,33 @@ namespace zeno {
 ////////////////////////////////////////////////////////////
 ///
 /// \brief  Class extending Shape allowing for drawing of
-///         rectangular shapes
+///         arbitrary convex shapes
 ///
 ////////////////////////////////////////////////////////////
-class Rectangle : public Shape
+class Polygon : public Shape
 {
 public:
     ////////////////////////////////////////////////////////////
     ///
-    /// \brief  Constructor
+    /// \brief  Adds a single point to the shape
     ///
-    /// \param  _size   Vector2f representing the size of the
-    ///                 rectangle
+    /// \param  _point Vector2f position of the point
     ///
-    /// \param  _position   Vector2f representing the position
-    ///                     of the lower left corner
-    ///
-    ////////////////////////////////////////////////////////////
-    Rectangle(const zeno::Vector2f& _size, const zeno::Vector2f& _position = zeno::Vector2f());
-
-    ////////////////////////////////////////////////////////////
-    ///
-    /// \brief  Sets the size of the rectangle
-    ///
-    /// \param  _size   New size of the rectangle
+    /// \param  _update Boolean whether or not to construct the
+    ///                 shape or not
     ///
     ////////////////////////////////////////////////////////////
-    void setSize(const zeno::Vector2f& _size);
+    void addPoint(const Vector2f& _point, bool _update = true);
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Adds a vector of points to the shape
+    ///
+    /// \param  _points std::vector<Vector2f> positions to add
+    ///
+    ////////////////////////////////////////////////////////////
+    void addPoints(const std::vector<Vector2f>& _points);
 };
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_ZENO_GRAPHICS_RECTANGLE_HPP
+#endif //~ INCLUDED_ZENO_GRAPHICS_CONVEX_POLYGON_HPP

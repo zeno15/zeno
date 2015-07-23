@@ -155,6 +155,7 @@ set(NETWORK_SOURCE_FILES ${NETWORK_SOURCE_FILES}
 set(GRAPHICS_HEADER_FILES ${GRAPHICS_HEADER_FILES}
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Circle.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Colour.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Polygon.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Font.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Glyph.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Image.hpp
@@ -175,6 +176,7 @@ set(GRAPHICS_HEADER_FILES ${GRAPHICS_HEADER_FILES}
 set(GRAPHICS_SOURCE_FILES ${GRAPHICS_SOURCE_FILES}
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Circle.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Colour.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Polygon.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Font.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Glyph.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Image.cpp

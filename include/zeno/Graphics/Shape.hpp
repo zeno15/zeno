@@ -24,32 +24,106 @@ namespace zeno {
 class Shape : public Transformable2D
 {
 public:
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Constructor
+    ///
+    ////////////////////////////////////////////////////////////
     Shape(void);
 
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief Deconstructor
+    ///
+    ////////////////////////////////////////////////////////////
     ~Shape(void);
 
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief Renders the shape
+    ///
+    /// \param  _transform  Mat4x4 transformation to apply to
+    ///                     the shape
+    ///
+    ////////////////////////////////////////////////////////////
     void render(zeno::Mat4x4& _transform) const;
 
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Sets the colour for the internal section
+    ///
+    /// \param  _colour Colour to be used for the internal section
+    ///
+    ////////////////////////////////////////////////////////////
     void setInternalColour(const Colour& _colour);
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Sets the colour for the outline
+    ///
+    /// \param  _colour Colour to be used for the outline
+    ///
+    ////////////////////////////////////////////////////////////
+    void setOutlineColour(const Colour& _colour);
+
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Sets the thickness of the outline
+    ///
+    /// \param  _thickness  The desired thickness of the outline,
+    //          if set to 0, no outline will be drawn
+    ///
+    ////////////////////////////////////////////////////////////
+    void setOutlineThickness(float _thickness);
 
 protected:
-    void updatePositions(void);
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Internal method that updates the positions of
+    ///         the internal section of the shape
+    ///
+    ////////////////////////////////////////////////////////////
+    void updateInternalPositions(void);
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Internal method that updates the positions of
+    ///         the outline of the shape
+    ///
+    ////////////////////////////////////////////////////////////
+    void updateOutlinePositions(void);
 
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Internal method that updates the colours of
+    ///         the internal section of the shape
+    ///
+    ////////////////////////////////////////////////////////////
     void updateInternalColours(void);
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Internal method that updates the colours of
+    ///         the outline of the shape
+    ///
+    ////////////////////////////////////////////////////////////
+    void updateOutlineColours(void);
 
 protected:
-    std::vector<zeno::Vector2f> m_Points;
+    std::vector<zeno::Vector2f> m_Points;       ///<    vector of 2D points the shape is made up of
 
-    Colour m_InternalColour;
-    Colour m_OutlineColour;
+    Colour m_InternalColour;                    ///<    Colour of the internal section of the shape
+    Colour m_OutlineColour;                     ///<    Colour of the outline of the shape
 
-    float m_OutlineThickness;
+    float m_OutlineThickness;                   ///<    Thickness of the outline
 
-    unsigned int m_VAO;
-    unsigned int m_PositionVBO;
-    unsigned int m_ColourVBO;
+    unsigned int m_PointsToRender;              ///<    Number of points that need to be rendered for the internal section
+    unsigned int m_OutlinePointsToRender;       ///<    Number of points that need to be rendered for the outline
 
-    unsigned int m_PointsToRender;
+    unsigned int m_InternalVAO;                 ///<    VAO of the internal section
+    unsigned int m_InternalPositionVBO;         ///<    VBO representing positions of the internal section
+    unsigned int m_InternalColourVBO;           ///<    VBO representing colours of the internal section
+
+    unsigned int m_OutlineVAO;                  ///<    VAO of the outline
+    unsigned int m_OutlinePositionVBO;          ///<    VBO representing positions of the outline
+    unsigned int m_OutlineColourVBO;            ///<    VBO representing colours of the outline
 };
 
 } //~ namespace zeno

@@ -3,24 +3,65 @@
 
 #include <zeno/Graphics/Shape.hpp>
 
+////////////////////////////////////////////////////////////
+///
+/// \namespace zeno
+///
+////////////////////////////////////////////////////////////
 namespace zeno {
 
-    class Circle : public Shape
-    {
-    public:
-        Circle(float _radius, unsigned int _points = 30);
+////////////////////////////////////////////////////////////
+///
+/// \brief  Class extending Shape allowing for drawing of
+///         circles
+///
+////////////////////////////////////////////////////////////
+class Circle : public Shape
+{
+public:
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Constructor
+    ///
+    /// \param  _radius Desired radius of the circle
+    ///
+    /// \param  _points Desired number of points to make the
+    ///                 circle from
+    ///
+    ////////////////////////////////////////////////////////////
+    Circle(float _radius, unsigned int _points = 30);
 
-        void setRadius(float _radius);
-        void setPoints(unsigned int _points);
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Sets the radius of the circle
+    ///
+    /// \param  _radius Desired radius size
+    ///
+    ////////////////////////////////////////////////////////////
+    void setRadius(float _radius);
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Sets the number of points to make the circle from
+    ///
+    /// \param  _points Desired number of points to make the
+    ///                 circle from
+    ///
+    ////////////////////////////////////////////////////////////
+    void setPoints(unsigned int _points);
 
-    private:
-        void regeneratePoints(void);
+private:
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Internal method to regenerate the points
+    ///
+    ////////////////////////////////////////////////////////////
+    void regeneratePoints(void);
 
-    private:
-        unsigned int m_CirclePoints;
+private:
+    unsigned int m_CirclePoints;        ///<    Number of points the circle is made from
 
-        float m_Radius;
-    };
+    float m_Radius;                     ///<    Radius of the circle
+};
 
 } //~ namespace zeno
 
