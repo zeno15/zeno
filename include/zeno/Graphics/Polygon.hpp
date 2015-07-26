@@ -41,8 +41,37 @@ public:
     ///
     ////////////////////////////////////////////////////////////
     void addPoints(const std::vector<Vector2f>& _points);
+
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief Clears all points so new ones can be added
+    ///
+    ////////////////////////////////////////////////////////////
+    void clearPoints(void);
 };
 
 } //~ namespace zeno
 
 #endif //~ INCLUDED_ZENO_GRAPHICS_CONVEX_POLYGON_HPP
+
+////////////////////////////////////////////////////////////
+///
+///	\class zeno::Polygon
+///	\ingroup Graphics
+///
+///	Explanation of how this all works
+///
+///	\code
+///
+///	zeno::Polygon p;
+///	p.addPoint(zeno::Vector2f(-50.0f, -50.0f), false);
+///	p.addPoint(zeno::Vector2f(0.0f, -20.0f), false);
+///	p.addPoint(zeno::Vector2f(50.0f, -50.0f), false);
+///	p.addPoint(zeno::Vector2f(0.0f, 50.0f));
+///	p.setOutlineThickness(4.0f);
+///
+/// p.render(zeno::Mat4x4::Orthographic2D(0.0f, 600.0f, 800.0f, 0.0f);
+///
+///	\endcode
+///
+////////////////////////////////////////////////////////////

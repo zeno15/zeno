@@ -335,7 +335,12 @@ HTTPProtocol::Response HTTPProtocol::makeRequest(const HTTPProtocol::Request& _r
 
     if (m_HTTPS)
     {
+        #ifdef NO_BUILD_SSL
+        std::cout << "Library built without ssl support, cannot use https" << std::endl;
+        return response;
+        #else
         socket = new SSLTCPSocket();
+        #endif //~ NO_BUILD_SSL
     }
     else
     {

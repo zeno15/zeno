@@ -66,3 +66,23 @@ private:
 } //~ namespace zeno
 
 #endif //~ INCLUDED_ZENO_GRAPHICS_CIRCLE_HPP
+
+////////////////////////////////////////////////////////////
+///
+///	\class zeno::Circle
+///	\ingroup Graphics
+///
+///	Explanation of how this all works
+///
+///	\code
+///
+/// zeno::Circle c(64.0f);
+/// c.setPosition(zeno::Vector2f(96.0f, 96.0f));
+/// c.setOutlineColour(zeno::Colour::Magenta);
+/// c.setOutlineThickness(14.0f);
+///
+/// p.render(zeno::Mat4x4::Orthographic2D(0.0f, 600.0f, 800.0f, 0.0f);
+///
+///	\endcode
+///
+////////////////////////////////////////////////////////////

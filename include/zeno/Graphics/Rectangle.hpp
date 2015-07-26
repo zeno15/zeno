@@ -45,3 +45,22 @@ public:
 } //~ namespace zeno
 
 #endif //~ INCLUDED_ZENO_GRAPHICS_RECTANGLE_HPP
+
+////////////////////////////////////////////////////////////
+///
+///	\class zeno::Rectangle
+///	\ingroup Graphics
+///
+///	Explanation of how this all works
+///
+///	\code
+///
+/// zeno::Rectangle r(zeno::Vector2f(100.0f, 100.0f), zeno::Vector2f(250.0f, 50.0f));
+/// r.setInternalColour(zeno::Colour::Magenta);
+/// r.setOutlineThickness(4.0f);
+///
+/// p.render(zeno::Mat4x4::Orthographic2D(0.0f, 600.0f, 800.0f, 0.0f);
+///
+///	\endcode
+///
+////////////////////////////////////////////////////////////

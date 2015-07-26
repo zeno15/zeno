@@ -7,11 +7,6 @@
 
 namespace zeno {
 
-Epub::Epub(void)
-{
-
-}
-
 void Epub::reset(void)
 {
     m_Title = "";

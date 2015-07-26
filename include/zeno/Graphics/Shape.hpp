@@ -2,7 +2,9 @@
 #define INCLUDED_ZENO_GRAPHICS_SHAPE_HPP
 
 #include <zeno/Graphics/Colour.hpp>
+
 #include <zeno/System/Mat4x4.hpp>
+#include <zeno/System/Rect.hpp>
 #include <zeno/System/Transformable2D.hpp>
 #include <zeno/System/Vector2.hpp>
 
@@ -46,7 +48,7 @@ public:
     ///                     the shape
     ///
     ////////////////////////////////////////////////////////////
-    void render(zeno::Mat4x4& _transform) const;
+    void render(const zeno::Mat4x4& _transform) const;
 
     ////////////////////////////////////////////////////////////
     ///
@@ -74,6 +76,15 @@ public:
     ///
     ////////////////////////////////////////////////////////////
     void setOutlineThickness(float _thickness);
+
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Gets the bounding box of the Shape
+    ///
+    /// \return FloatRect Rect representing bounding box of shape
+    ///
+    ////////////////////////////////////////////////////////////
+    FloatRect getBounds(void) const;
 
 protected:
     ////////////////////////////////////////////////////////////
@@ -113,6 +124,9 @@ protected:
     Colour m_OutlineColour;                     ///<    Colour of the outline of the shape
 
     float m_OutlineThickness;                   ///<    Thickness of the outline
+
+    FloatRect m_InternalBounds;                 ///<    Bounding box of the internal points of the shape
+    FloatRect m_OutlineBounds;                  ///<    Bounding box of the outline points of the shape
 
     unsigned int m_PointsToRender;              ///<    Number of points that need to be rendered for the internal section
     unsigned int m_OutlinePointsToRender;       ///<    Number of points that need to be rendered for the outline
