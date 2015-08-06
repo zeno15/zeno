@@ -12,6 +12,7 @@ CMAKE
 
 Graphics
     -   Complete Graphics.hpp
+        -   Move glew const values somewhere else
 
     *   Colour
         -   Fill in the "How this works" section at the bottom of each class

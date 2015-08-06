@@ -37,6 +37,7 @@ INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/GUI/ProgressBar.hpp
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/GUI/Slider.hpp
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/GUI/TextBox.hpp
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/GUI/Button.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/GUI/CheckBox.hpp
 
 # Network Module
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Network/Socket.hpp

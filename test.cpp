@@ -74,6 +74,9 @@ int main(int _argc, char **_argv)
     p.setPosition(zeno::Vector2f(450.0f, 96.0f));
     p.setOutlineThickness(4.0f);
 
+    desktop.addToElement<zeno::CheckBox>("CheckBox");
+    desktop.getElement<zeno::CheckBox>("CheckBox").setPosition(zeno::Vector3f(50.0f, 250.0f, 0.0f));
+
     zeno::RenderData data;
 
     while (running)

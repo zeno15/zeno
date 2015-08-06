@@ -12,5 +12,6 @@
 #include <zeno/GUI/ProgressBar.hpp>
 #include <zeno/GUI/Slider.hpp>
 #include <zeno/GUI/TextBox.hpp>
+#include <zeno/GUI/CheckBox.hpp>
 
 #endif //~ INCLUDED_ZENO_GUI_HPP
