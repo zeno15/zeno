@@ -276,6 +276,7 @@ if (_WIN32 OR WIN32)
     # Add win32 files
     add_definitions(-DGLEW_STATIC)
     add_definitions(-D_WIN32)
+    add_definitions(-DNOMINMAX)
 
 
     if (BUILD_SSL STREQUAL "TRUE")
