@@ -17,7 +17,6 @@
 #include <zeno/Utility/XML.hpp>
 #include <zeno/Utility/Zip.hpp>
 
-#define SERVER "https://www.fanfiction.net"
 
 
 
@@ -57,7 +56,6 @@ int main(int _argc, char **_argv)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     bool running = true;
-    bool paneVisible = true;
 
     zeno::Rectangle r(zeno::Vector2f(100.0f, 100.0f), zeno::Vector2f(250.0f, 50.0f));
     r.setInternalColour(zeno::Colour::Magenta);

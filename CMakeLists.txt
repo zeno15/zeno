@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
 project(zeno)
 
+
 #[[
 Building glew with mingw
 
@@ -55,7 +56,12 @@ set(LIBRARY_EXTENSION "")
 # Default build type
 set(LIBRARY_BUILD_TYPE "STATIC")
 
+set(BUILD_SSL "TRUE")
+
+message(STATUS "BUILD_SSL: " ${BUILD_SSL})
+
 set(STB_LOCATION "${CMAKE_SOURCE_DIR}/extlibs")
+
 
 # Set the generic include directory for the project
 include_directories(${CMAKE_SOURCE_DIR}/include)
@@ -64,6 +70,17 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 # Add the external libraries folder to the include directories
 #include_directories(${CMAKE_SOURCE_DIR}/extlibs)
 include_directories(${STB_LOCATION})
+
+
+
+
+# Locations for GLEW include and lib
+# include_directories(path/to/glew/include)
+# link_directories(path/to/glew32s.lib)
+
+# Locations for freetype include and lib
+# include_directories(path/to/freetype/include)
+# link_directories(path/to/freetype.lib)
 
 #-----------------------------  Module Includes start ----------------------
 set(MODULE_INCLUDES ${MODULE_INCLUDES}
@@ -131,7 +148,6 @@ set(SYSTEM_SOURCE_FILES ${SYSTEM_SOURCE_FILES}
 #-----------------------------  Network start    ----------------------
 set(NETWORK_HEADER_FILES ${NETWORK_HEADER_FILES}
         ${CMAKE_SOURCE_DIR}/include/zeno/Network/HTTPProtocol.hpp
-        ${CMAKE_SOURCE_DIR}/include/zeno/Network/SSLTCPSocket.hpp
         ${CMAKE_SOURCE_DIR}/include/zeno/Network/Socket.hpp
         ${CMAKE_SOURCE_DIR}/include/zeno/Network/SocketHandle.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Network/TCPListener.hpp
@@ -141,12 +157,21 @@ set(NETWORK_HEADER_FILES ${NETWORK_HEADER_FILES}
 
 set(NETWORK_SOURCE_FILES ${NETWORK_SOURCE_FILES}
         ${CMAKE_SOURCE_DIR}/src/zeno/Network/HTTPProtocol.cpp
-        ${CMAKE_SOURCE_DIR}/src/zeno/Network/SSLTCPSocket.cpp
         ${CMAKE_SOURCE_DIR}/src/zeno/Network/Socket.cpp
         ${CMAKE_SOURCE_DIR}/src/zeno/Network/TCPListener.cpp
         ${CMAKE_SOURCE_DIR}/src/zeno/Network/TCPSocket.cpp
         ${CMAKE_SOURCE_DIR}/src/zeno/Network/UDPSocket.cpp
     )
+
+
+if (BUILD_SSL STREQUAL "TRUE")
+set(NETWORK_HEADER_FILES ${NETWORK_HEADER_FILES}
+        ${CMAKE_SOURCE_DIR}/include/zeno/Network/SSLTCPSocket.hpp
+)
+set(NETWORK_SOURCE_FILES ${NETWORK_SOURCE_FILES}
+        ${CMAKE_SOURCE_DIR}/src/zeno/Network/SSLTCPSocket.cpp
+)
+endif (BUILD_SSL STREQUAL "TRUE")
 #-----------------------------  Network end    ----------------------
 
 
@@ -155,11 +180,11 @@ set(NETWORK_SOURCE_FILES ${NETWORK_SOURCE_FILES}
 set(GRAPHICS_HEADER_FILES ${GRAPHICS_HEADER_FILES}
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Circle.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Colour.hpp
-		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Polygon.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Font.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Glyph.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Image.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/ImageLoader.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Polygon.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Rectangle.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Renderable.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/RenderData.hpp
@@ -176,11 +201,11 @@ set(GRAPHICS_HEADER_FILES ${GRAPHICS_HEADER_FILES}
 set(GRAPHICS_SOURCE_FILES ${GRAPHICS_SOURCE_FILES}
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Circle.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Colour.cpp
-		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Polygon.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Font.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Glyph.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Image.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/ImageLoader.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Polygon.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Rectangle.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Shader.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/ShaderManager.cpp
@@ -251,13 +276,24 @@ if (_WIN32 OR WIN32)
     # Add win32 files
     add_definitions(-DGLEW_STATIC)
     add_definitions(-D_WIN32)
+    add_definitions(-DNOMINMAX)
 
-    set(LIBS
+
+    if (BUILD_SSL STREQUAL "TRUE")
+        message(STATUS "BUILD_SSL == TRUE")
+        set(LIBS  ${LIBS}
+            ssl
+            crypto
+        )
+    else (BUILD_SSL STREQUAL "TRUE")
+        message(STATUS "BUILD_SSL != TRUE")
+        add_definitions(-DNO_BUILD_SSL)
+    endif (BUILD_SSL STREQUAL "TRUE")
+
+    set(LIBS ${LIBS}
         glew32s
         opengl32
         freetype
-        ssl
-        crypto
         ws2_32
     )
 
@@ -280,14 +316,25 @@ if (_WIN32 OR WIN32)
 
 else (_WIN32 OR WIN32)
     # Add non win32 files
-    set(LIBS
+
+
+    if (BUILD_SSL STREQUAL "TRUE")
+        message(STATUS "BUILD_SSL == TRUE")
+        set(LIBS ${LIBS}
+            ssl
+            crypto
+        )
+    else (BUILD_SSL STREQUAL "TRUE")
+        message(STATUS "BUILD_SSL != TRUE")
+        add_definitions(-DNO_BUILD_SSL)
+    endif (BUILD_SSL STREQUAL "TRUE")
+
+    set(LIBS ${LIBS}
         xcb
         X11
         GL
         GLEW
         freetype
-        ssl
-        crypto
         dl
     )
 
@@ -312,7 +359,7 @@ else (_WIN32 OR WIN32)
     include_directories(/usr/local/include/freetype2/)
 endif (_WIN32 OR WIN32)
 
-
+message(STATUS "LIBS: " ${LIBS})
 
 # Determine what type of library (Static/Shared) to build
 if (NOT CMAKE_SHARED_LIBS)
@@ -344,6 +391,7 @@ if(DOXYGEN_FOUND)
     COMMENT "Generating API documentation with Doxygen" VERBATIM
 )
 endif(DOXYGEN_FOUND)
+
 
 add_library(zeno-window${LIBRARY_EXTENSION}     ${LIBRARY_BUILD_TYPE}   ${WINDOW_SOURCE_FILES}      ${WINDOW_HEADER_FILES})
 add_library(zeno-system${LIBRARY_EXTENSION}     ${LIBRARY_BUILD_TYPE}   ${SYSTEM_SOURCE_FILES}      ${SYSTEM_HEADER_FILES})

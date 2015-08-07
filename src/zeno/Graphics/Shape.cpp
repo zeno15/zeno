@@ -36,7 +36,7 @@ Shape::~Shape(void)
     glDeleteVertexArrays(1, &m_OutlineVAO);
 }
 
-void Shape::render(zeno::Mat4x4& _transform) const
+void Shape::render(const zeno::Mat4x4& _transform) const
 {
     ShaderManager::getInstance().getShader("Zenos_Default_Shader").bind();
 
@@ -104,6 +104,11 @@ void Shape::updateInternalPositions(void)
         maxY = std::max(maxY, m_Points[i].y);
     }
 
+    m_InternalBounds.left   = minX;
+    m_InternalBounds.bot    = minY;
+    m_InternalBounds.width  = maxX - minX;
+    m_InternalBounds.height = maxY - minY;
+
     data[0] = (minX + maxX) / 2.0f;
     data[1] = (minY + maxY) / 2.0f;
 
@@ -126,6 +131,11 @@ void Shape::updateOutlinePositions(void)
 {
     std::vector<float> data((m_Points.size() + 1) * 2 * 3, 0.01f);
 
+    float minX = std::numeric_limits<float>().max();
+    float maxX = std::numeric_limits<float>().min();
+    float minY = std::numeric_limits<float>().max();
+    float maxY = std::numeric_limits<float>().min();
+
     for (unsigned int i = 0; i < m_Points.size(); i += 1)
     {
         Vector2f prevPoint = (i == 0) ? m_Points.back() : m_Points[i - 1];
@@ -145,7 +155,18 @@ void Shape::updateOutlinePositions(void)
         data[i * 6 + 1] = currPoint.y;
         data[i * 6 + 3] = currPoint.x + extrusion.x * m_OutlineThickness;
         data[i * 6 + 4] = currPoint.y + extrusion.y * m_OutlineThickness;
+
+        minX = std::min(minX, currPoint.x + extrusion.x * m_OutlineThickness);
+        maxX = std::max(maxX, currPoint.x + extrusion.x * m_OutlineThickness);
+
+        minY = std::min(minY, currPoint.y + extrusion.y * m_OutlineThickness);
+        maxY = std::max(maxY, currPoint.y + extrusion.y * m_OutlineThickness);
     }
+
+    m_OutlineBounds.left   = minX;
+    m_OutlineBounds.bot    = minY;
+    m_OutlineBounds.width  = maxX - minX;
+    m_OutlineBounds.height = maxY - minY;
 
     data[m_Points.size() * 2 * 3 + 0] = data[0];
     data[m_Points.size() * 2 * 3 + 1] = data[1];
@@ -208,6 +229,11 @@ void Shape::updateOutlineColours(void)
 
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
+}
+
+FloatRect Shape::getBounds(void) const
+{
+    return (m_OutlineThickness > 0.0f) ? m_OutlineBounds : m_InternalBounds;
 }
 
 } //~ namespace zeno

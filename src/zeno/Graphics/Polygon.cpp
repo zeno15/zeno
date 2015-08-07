@@ -2,23 +2,30 @@
 
 namespace zeno {
 
-    void Polygon::addPoint(const Vector2f& _point, bool _update /*= true*/)
-    {
-        m_Points.push_back(_point);
+void Polygon::addPoint(const Vector2f& _point, bool _update /*= true*/)
+{
+    m_Points.push_back(_point);
 
-        if  (_update)
-        {
-            updateInternalPositions();
-        }
-    }
-    void Polygon::addPoints(const std::vector<Vector2f>& _points)
+    if  (_update)
     {
-        for (const Vector2f& vec : _points)
-        {
-            addPoint(vec, false);
-        }
-
         updateInternalPositions();
     }
+}
+void Polygon::addPoints(const std::vector<Vector2f>& _points)
+{
+    for (const Vector2f& vec : _points)
+    {
+        addPoint(vec, false);
+    }
+
+    updateInternalPositions();
+}
+
+void Polygon::clearPoints(void)
+{
+    m_Points.clear();
+
+    updateInternalPositions();
+}
 
 } //~ namespace zeno

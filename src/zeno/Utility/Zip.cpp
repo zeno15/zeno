@@ -32,12 +32,6 @@ uint32_t CRC_32(const std::vector<unsigned char>& _data)
 
 namespace zeno {
 
-Zip::Zip(void)
-{
-
-}
-
-
 bool Zip::addFile(const std::string& _filename, const std::string& _destination /*= ""*/)
 {
     std::ifstream input;
