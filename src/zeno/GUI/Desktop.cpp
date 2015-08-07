@@ -46,7 +46,7 @@ const std::string zeno::Desktop::m_DesktopPaneId = "ZENO_DEFAULT_DESKTOP_PANE_ID
 namespace zeno {
 
 Desktop::Desktop(void) :
-m_DesktopPane(m_DesktopPaneId, nullptr)
+m_DesktopPane(m_DesktopPaneId, nullptr, *this)
 {
 	ShaderManager::getInstance().addShaderFromSource("GUI", GUIVertexSource, GUIFragmentSource);
 	Shader& guiShader = ShaderManager::getInstance().getShader("GUI");

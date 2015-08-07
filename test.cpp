@@ -77,6 +77,16 @@ int main(int _argc, char **_argv)
     desktop.addToElement<zeno::CheckBox>("CheckBox");
     desktop.getElement<zeno::CheckBox>("CheckBox").setPosition(zeno::Vector3f(50.0f, 250.0f, 0.0f));
 
+    desktop.addToElement<zeno::ComboBox>("ComboBox");
+    desktop.getElement<zeno::ComboBox>("ComboBox").setPosition(zeno::Vector3f(150.0f, 550.0f, 0.0f));
+    desktop.getElement<zeno::ComboBox>("ComboBox").addChoice("Option 1");
+    desktop.getElement<zeno::ComboBox>("ComboBox").addChoice("Option 2");
+    desktop.getElement<zeno::ComboBox>("ComboBox").addChoice("Option 3");
+    desktop.getElement<zeno::ComboBox>("ComboBox").addChoice("Option 4");
+    desktop.getElement<zeno::ComboBox>("ComboBox").addChoice("Option 5");
+    desktop.getElement<zeno::ComboBox>("ComboBox").addChoice("Option 6");
+    desktop.getElement<zeno::ComboBox>("ComboBox").addChoice("Option 7");
+
     zeno::RenderData data;
 
     while (running)
@@ -97,7 +107,7 @@ int main(int _argc, char **_argv)
             {
                 if (event.key.key == zeno::Keyboard::Space)
                 {
-
+                    std::cout << "Current combo box choice: '" << desktop.getElement<zeno::ComboBox>("ComboBox").getCurrentChoice() << "'" << std::endl;
                 }
             }
 

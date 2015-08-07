@@ -15,8 +15,8 @@
 
 namespace zeno {
 
-ProgressBar::ProgressBar(const std::string& _id, GuiBase *_parent) :
-GuiBase(_id, _parent),
+ProgressBar::ProgressBar(const std::string& _id, GuiBase *_parent, Desktop& _desktop) :
+GuiBase(_id, _parent, _desktop),
 m_Size(200.0f, 100.0f),
 m_Position(50.0f, 50.0f),
 m_CurrentPercentage(0.0f),
@@ -294,9 +294,9 @@ void ProgressBar::recreate(void)
 	resendData(m_CurrentPercentage);
 }
 
-ProgressBar *ProgressBar::createElement(const std::string& _id, GuiBase *_parent)
+ProgressBar *ProgressBar::createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop)
 {
-    return new ProgressBar(_id, _parent);
+    return new ProgressBar(_id, _parent, _desktop);
 }
 
 } //~ namespace zeno

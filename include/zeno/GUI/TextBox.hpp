@@ -58,7 +58,7 @@ private:
     //	Default constructor
     //
     ////////////////////////////////////////////////////////////
-    TextBox(const std::string& _id, GuiBase *_parent);
+    TextBox(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
     ////////////////////////////////////////////////////////////
     //
     //	Destructor
@@ -66,7 +66,7 @@ private:
     ////////////////////////////////////////////////////////////
     ~TextBox(void);
 
-    static TextBox *createElement(const std::string& _id, GuiBase *_parent);
+    static TextBox *createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
 
 	void recreate(void);
 

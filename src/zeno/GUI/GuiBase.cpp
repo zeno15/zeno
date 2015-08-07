@@ -1,16 +1,19 @@
 #include <zeno/GUI/GuiBase.hpp>
 
+#include <zeno/GUI/Desktop.hpp>
+
 #include <iostream>
 
 namespace zeno {
 
-GuiBase::GuiBase(const std::string& _id, GuiBase *_parent) :
+GuiBase::GuiBase(const std::string& _id, GuiBase *_parent, Desktop& _desktop) :
 m_Active(true),
 m_HasFocus(false),
 m_Visible(true),
 m_IsPane(false),
 m_Parent(_parent),
-m_Id(_id)
+m_Id(_id),
+m_Desktop(_desktop)
 {
 
 }
@@ -69,6 +72,11 @@ GuiBase *GuiBase::getChild(const std::string& _id)
 std::string GuiBase::getId(void) const
 {
 	return m_Id;
+}
+
+void GuiBase::initialise(void)
+{
+
 }
 
 } //~ namespace zeno

@@ -90,7 +90,7 @@ private:
     //	Constructor
     //
     ////////////////////////////////////////////////////////////
-    ProgressBar(const std::string& _id, GuiBase *_parent);
+    ProgressBar(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
 
     ////////////////////////////////////////////////////////////
     //
@@ -114,7 +114,7 @@ private:
 	////////////////////////////////////////////////////////////
 	void recreate(void);
 
-    static ProgressBar *createElement(const std::string& _id, GuiBase *_parent);
+    static ProgressBar *createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
 
 private:
 	////////////////////////////////////////////////////////////

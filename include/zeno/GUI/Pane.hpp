@@ -44,7 +44,7 @@ private:
     //
     //
     ////////////////////////////////////////////////////////////
-    Pane(const std::string& _id, GuiBase *_parent);
+    Pane(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
 
     ////////////////////////////////////////////////////////////
     //
@@ -53,7 +53,7 @@ private:
     ////////////////////////////////////////////////////////////
     ~Pane(void);
 
-    static Pane *createElement(const std::string& _id, GuiBase *_parent);
+    static Pane *createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
 
 private:
     bool                    m_Bounded;

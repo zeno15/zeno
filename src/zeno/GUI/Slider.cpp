@@ -20,8 +20,8 @@
 
 namespace zeno {
 
-Slider::Slider(const std::string& _id, GuiBase *_parent) :
-GuiBase(_id, _parent),
+Slider::Slider(const std::string& _id, GuiBase *_parent, Desktop& _desktop) :
+GuiBase(_id, _parent, _desktop),
 m_NumDiscreteValues(6),
 m_BarColour(0.5f, 0.5f, 0.5f),
 m_DefaultSlideColour(0.6f, 0.6f, 0.6f),
@@ -324,9 +324,9 @@ float Slider::calculateDiscretePosition(float _continuousPosition)
 	return floorf(discreteValue + 0.5f) * discreteDistance;
 }
 
-    Slider *Slider::createElement(const std::string& _id, GuiBase *_parent)
-    {
-        return new Slider(_id, _parent);
-    }
+Slider *Slider::createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop)
+{
+    return new Slider(_id, _parent, _desktop);
+}
 
 } //~ namespace zeno

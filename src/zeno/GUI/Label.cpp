@@ -4,8 +4,8 @@
 
 namespace zeno {
 
-Label::Label(const std::string& _id, GuiBase *_parent) :
-GuiBase(_id, _parent),
+Label::Label(const std::string& _id, GuiBase *_parent, Desktop& _desktop) :
+GuiBase(_id, _parent, _desktop),
 m_LabelFont(nullptr)
 {
 }
@@ -21,10 +21,13 @@ bool Label::processEvent(const GUIEvent& _event)
 
 void Label::render(Mat4x4 _transform) const
 {
-	zeno::RenderData data;
-	data.transform = _transform * getTransform();
+    if (m_Active)
+    {
+        zeno::RenderData data;
+        data.transform = _transform * getTransform();
 
-	m_LabelText.render(data);
+        m_LabelText.render(data);
+    }
 }
 
 FloatRect Label::getBounds(void)
@@ -52,9 +55,9 @@ void Label::setFont(Font *_font)
     m_LabelFont = _font;
 }
 
-Label *Label::createElement(const std::string& _id, GuiBase *_parent)
+Label *Label::createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop)
 {
-    return new Label(_id, _parent);
+    return new Label(_id, _parent, _desktop);
 }
 
 } //~ namespace zeno

@@ -3,8 +3,6 @@
 #include <zeno/Graphics.hpp>
 #include <zeno/GUI/GUIEvent.hpp>
 
-#include <iostream>
-
 #include <GL/glew.h>
 
 #define NUM_VERTEXES 18
@@ -15,8 +13,8 @@
 
 namespace zeno {
 
-CheckBox::CheckBox(const std::string& _id, GuiBase *_parent) :
-GuiBase(_id, _parent),
+CheckBox::CheckBox(const std::string& _id, GuiBase *_parent, Desktop& _desktop) :
+GuiBase(_id, _parent, _desktop),
 m_Checked(false)
 {
     glGenVertexArrays(1, &m_VAO);
@@ -57,9 +55,9 @@ CheckBox::~CheckBox(void)
 }
 
 
-CheckBox *CheckBox::createElement(const std::string& _id, GuiBase *_parent)
+CheckBox *CheckBox::createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop)
 {
-    return new CheckBox(_id, _parent);
+    return new CheckBox(_id, _parent, _desktop);
 }
 
 

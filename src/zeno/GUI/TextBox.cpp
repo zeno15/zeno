@@ -12,8 +12,8 @@
 
 namespace zeno {
 
-TextBox::TextBox(const std::string& _id, GuiBase *_parent) :
-GuiBase(_id, _parent),
+TextBox::TextBox(const std::string& _id, GuiBase *_parent, Desktop& _desktop) :
+GuiBase(_id, _parent, _desktop),
 m_Font(nullptr),
 m_Size(100.0f, 50.0f),
 m_BorderSize(4.0f)
@@ -231,9 +231,9 @@ void TextBox::addText(const std::string& _text)
 	setText(getText() + _text);
 }
 
-TextBox *TextBox::createElement(const std::string& _id, GuiBase *_parent)
+TextBox *TextBox::createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop)
 {
-    return new TextBox(_id, _parent);
+    return new TextBox(_id, _parent, _desktop);
 }
 
 } //~ namespace zeno

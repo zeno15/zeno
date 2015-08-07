@@ -61,7 +61,7 @@ private:
     //	Default constructor
     //
     ////////////////////////////////////////////////////////////
-    Label(const std::string& _id, GuiBase *_parent);
+    Label(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
     ////////////////////////////////////////////////////////////
     //
     //	Deconstructor
@@ -69,7 +69,7 @@ private:
     ////////////////////////////////////////////////////////////
     ~Label(void);
 
-    static Label *createElement(const std::string& _id, GuiBase *_parent);
+    static Label *createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
 
 private:
 	////////////////////////////////////////////////////////////

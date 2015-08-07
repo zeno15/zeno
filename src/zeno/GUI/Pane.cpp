@@ -7,8 +7,8 @@
 
 namespace zeno {
 
-Pane::Pane(const std::string& _id, GuiBase *_parent) :
-GuiBase(_id, _parent),
+Pane::Pane(const std::string& _id, GuiBase *_parent, Desktop& _desktop) :
+GuiBase(_id, _parent, _desktop),
 m_Bounded(false),
 m_VAO(0)
 {
@@ -80,7 +80,7 @@ void Pane::render(Mat4x4 _transform) const
               static_cast<int>(m_Bounds.width),
               static_cast<int>(m_Bounds.height));
 
-    Shader& shader = ShaderManager::getInstance().getShader("GUI");
+    Shader &shader = ShaderManager::getInstance().getShader("GUI");
 
     Mat4x4 trans = _transform * getTransform();
 
@@ -99,16 +99,17 @@ void Pane::render(Mat4x4 _transform) const
 
     shader.unbind();
 
-	for (GuiBase *element : m_Children)
-	{
-		element->render(_transform);
-	}
+    for (GuiBase *element : m_Children)
+    {
+        element->render(_transform);
+    }
 
     glDisable(GL_SCISSOR_TEST);
 }
-    Pane *Pane::createElement(const std::string& _id, GuiBase *_parent)
+
+Pane *Pane::createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop)
 {
-    return new Pane(_id, _parent);
+    return new Pane(_id, _parent, _desktop);
 }
 
 void Pane::setColour(const Colour& _col)

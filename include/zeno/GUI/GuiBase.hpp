@@ -6,6 +6,7 @@
 
 #include <zeno/Graphics/ShaderManager.hpp>
 
+
 #include <zeno/System/Mat4x4.hpp>
 #include <zeno/System/Rect.hpp>
 #include <zeno/System/Transformable3D.hpp>
@@ -18,6 +19,7 @@
 namespace zeno {
 
 class GUIEvent;
+class Desktop;
 
 ////////////////////////////////////////////////////////////
 ///
@@ -107,7 +109,9 @@ protected:
     /// \param  _id     Unique identification for the element
     ///
     ////////////////////////////////////////////////////////////
-    GuiBase(const std::string& _id, GuiBase *_parent);
+    GuiBase(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
+
+    virtual void initialise(void);
 
 
 protected:
@@ -150,6 +154,8 @@ protected:
 	//
 	////////////////////////////////////////////////////////////
 	std::string					m_Id;
+
+    Desktop&                    m_Desktop;
 };
 
 } //~ namespace zeno

@@ -14,8 +14,8 @@
 
 namespace zeno {
 
-Button::Button(const std::string& _id, GuiBase *_parent) :
-GuiBase(_id, _parent),
+Button::Button(const std::string& _id, GuiBase *_parent, Desktop& _desktop) :
+GuiBase(_id, _parent, _desktop),
 m_BackgroundDefaultColour(Colour::Cyan),
 m_BackgroundDepressedColour(Colour::Yellow),
 m_ForegroundDefaultColour(Colour::Magenta),
@@ -246,9 +246,9 @@ void Button::addLabel(const std::string& _labelString, Font *_font)
      */
 }
 
-Button *Button::createElement(const std::string& _id, GuiBase *_parent)
+Button *Button::createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop)
 {
-    return new Button(_id, _parent);
+    return new Button(_id, _parent, _desktop);
 }
 
 } //~ namespace zeno

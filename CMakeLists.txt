@@ -231,6 +231,7 @@ set(GUI_HEADER_FILES ${GUI_HEADER_FILES}
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/Slider.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/TextBox.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/CheckBox.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/GUI/ComboBox.hpp
 
 
 
@@ -247,6 +248,7 @@ set(GUI_SOURCE_FILES ${GUI_SOURCE_FILES}
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/Slider.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/TextBox.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/CheckBox.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/GUI/ComboBox.cpp
 	)
 #-----------------------------  GUI end    ----------------------
 

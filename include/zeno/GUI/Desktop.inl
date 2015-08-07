@@ -36,9 +36,12 @@ void Desktop::addToElement(const std::string& _id, const std::string& _parent /*
         throw std::runtime_error("Parent Element: '" + _parent + "' does not exist in the GUI Desktop");
     }
 
-    T *newElement = T::createElement(_id, parent);
+    m_InvalidIds.push_back(_id);
+
+    T *newElement = T::createElement(_id, parent, *this);
 
     parent->addChild(newElement);
 
-    m_InvalidIds.push_back(_id);
+    newElement->initialise();
+
 }

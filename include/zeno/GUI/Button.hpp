@@ -76,7 +76,7 @@ private:
     //	Default constructor
     //
     ////////////////////////////////////////////////////////////
-    Button(const std::string& _id, GuiBase *_parent);
+    Button(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
     ////////////////////////////////////////////////////////////
     //
     //	Destructor
@@ -84,7 +84,7 @@ private:
     ////////////////////////////////////////////////////////////
     ~Button(void);
 
-    static Button *createElement(const std::string& _id, GuiBase *_parent);
+    static Button *createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
 
 
 private:

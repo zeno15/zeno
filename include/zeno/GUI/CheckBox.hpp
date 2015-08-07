@@ -39,7 +39,7 @@ namespace zeno {
         //	Default constructor
         //
         ////////////////////////////////////////////////////////////
-        CheckBox(const std::string& _id, GuiBase *_parent);
+        CheckBox(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
         ////////////////////////////////////////////////////////////
         //
         //	Destructor
@@ -47,7 +47,7 @@ namespace zeno {
         ////////////////////////////////////////////////////////////
         ~CheckBox(void);
 
-        static CheckBox *createElement(const std::string& _id, GuiBase *_parent);
+        static CheckBox *createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
 
         void initialisePositions(void);
         void initialiseColours(void);

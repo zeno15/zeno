@@ -61,7 +61,7 @@ private:
     //	Constructor
     //
     ////////////////////////////////////////////////////////////
-    Slider(const std::string& _id, GuiBase *_parent);
+    Slider(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
 
     ////////////////////////////////////////////////////////////
     //
@@ -70,7 +70,7 @@ private:
     ////////////////////////////////////////////////////////////
     ~Slider(void);
 
-    static Slider *createElement(const std::string& _id, GuiBase *_parent);
+    static Slider *createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
 
     enum State {
 		DEFAULT,
