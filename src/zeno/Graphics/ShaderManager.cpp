@@ -16,7 +16,8 @@ namespace {
 													"layout (location = 1) in vec4 in_Colour;\n" \
 													"layout (location = 2) in vec2 in_TexUV;\n" \
 													"\n" \
-													"varying vec4 fragColour;\n" \
+													"out vec4 fragColour;\n" \
+													"out vec2 texCoord;\n" \
 													"\n" \
 													"uniform mat4 View = mat4(1.0f);\n" \
 													"\n" \
@@ -24,19 +25,20 @@ namespace {
 													"{\n" \
 													"	gl_Position = View * vec4(in_Position, 1.0f);\n" \
 													"   fragColour  = in_Colour;\n" \
-													"	gl_TexCoord[0].xy = in_TexUV;\n" \
+													"	texCoord = in_TexUV;\n" \
 													"}\n");
 
 
     const std::string fragmentTexSource = std::string(	"#version 430\n" \
 													"\n" \
-													"varying vec4 fragColour;\n" \
+													"in vec4 fragColour;\n" \
+													"in vec2 texCoord;\n" \
 													"\n" \
 													"uniform sampler2D tex;\n" \
 													"\n" \
 													"void main(void)\n" \
 													"{\n" \
-													"	gl_FragColor = texture(tex, gl_TexCoord[0].xy) * fragColour;\n" \
+													"	gl_FragColor = texture(tex, texCoord) * fragColour;\n" \
 													"}\n");
 
     const std::string vertexSource = std::string(	"#version 330\n" \
@@ -44,7 +46,7 @@ namespace {
 													"layout (location = 0) in vec3 in_Position;\n" \
 													"layout (location = 1) in vec4 in_Colour;\n" \
 													"\n" \
-													"varying vec4 fragColour;\n" \
+													"out vec4 fragColour;\n" \
 													"\n" \
 													"uniform mat4 View = mat4(1.0f);\n" \
 													"\n" \
@@ -57,17 +59,19 @@ namespace {
 
     const std::string fragmentSource = std::string(	"#version 330\n" \
 													"\n" \
-													"varying vec4 fragColour;\n" \
+													"in vec4 fragColour;\n" \
+													"out vec4 fragOutput;\n" \
 													"\n" \
 													"void main(void)\n" \
 													"{\n" \
-													"	gl_FragColor = fragColour;\n" \
+													"	fragOutput = fragColour;\n" \
 													"}\n");
 
     const std::string vertexTextSource = std::string(	"#version 330\n"\
                                                         "\n"\
                                                         "uniform vec2 texSize = vec2(1.0f, 1.0f);\n"\
                                                         "uniform vec4 colour;\n"\
+													    "out vec2 texCoord;\n" \
                                                         "uniform mat4 view = mat4(1.0f);\n"\
                                                         "\n"\
                                                         "layout(location = 0) in vec4 in_Position;\n"\
@@ -76,20 +80,22 @@ namespace {
                                                         "{\n"\
                                                         "    gl_Position = view * vec4(in_Position.xy, 0.0f, 1.0f);\n"\
                                                         "\n"\
-                                                        "    gl_TexCoord[0].x = in_Position.z / texSize.x;\n"\
-                                                        "    gl_TexCoord[0].y = (texSize.y - in_Position.w) / texSize.y;\n"\
+                                                        "    texCoord.x = in_Position.z / texSize.x;\n"\
+                                                        "    texCoord.y = (texSize.y - in_Position.w) / texSize.y;\n"\
                                                         "}\n");
 
 
 	const std::string fragmentTextSource = std::string(	"#version 330\n" \
 														"\n" \
 														"uniform vec4 colour = vec4(1.0f, 1.0f, 1.0f, 1.0f);\n" \
+													    "in vec2 texCoord;\n" \
 														"\n" \
 														"uniform sampler2D tex;\n" \
+													    "out vec4 fragOutput;\n" \
 														"\n" \
 														"void main(void)\n" \
 														"{\n" \
-														"	gl_FragColor = vec4(colour.xyz, texture(tex, gl_TexCoord[0].xy).r * colour.w);\n" \
+														"	fragOutput = vec4(colour.xyz, texture(tex, texCoord).r * colour.w);\n" \
 														"}\n");	
 
 

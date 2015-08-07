@@ -17,7 +17,7 @@ namespace {
 														"\n" \
 														"uniform mat4 View = mat4(1.0f);\n" \
 														"\n" \
-														"varying vec4 col;\n" \
+														"out vec4 col;\n" \
 														"\n" \
 														"void main(void) \n" \
 														"{\n" \
@@ -28,11 +28,12 @@ namespace {
 
 	const std::string GUIFragmentSource = std::string(	"#version 330\n" \
 														"\n" \
-														"varying vec4 col;\n" \
+														"in vec4 col;\n" \
+                                                        "out vec4 fragColour;\n"\
 														"\n" \
 														"void main(void)\n" \
 														"{\n" \
-														"	gl_FragColor = col;\n" \
+														"	fragColour = col;\n" \
 														"}\n");
 
 
