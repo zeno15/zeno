@@ -1,11 +1,16 @@
-#ifndef INCLUDED_ZENO_GUI_COMBO_BOX_HPP
-#define INCLUDED_ZENO_GUI_COMBO_BOX_HPP
+#ifndef INCLUDED_ZENO_GUI_RADIO_BUTTON_HPP
+#define INCLUDED_ZENO_GUI_RADIO_BUTTON_HPP
 
 #include <zeno/GUI/GuiBase.hpp>
 
+////////////////////////////////////////////////////////////
+///
+/// \namespace zeno
+///
+////////////////////////////////////////////////////////////
 namespace zeno {
 
-class ComboBox : public GuiBase
+class RadioButton : public GuiBase
 {
 public:
     ////////////////////////////////////////////////////////////
@@ -24,59 +29,38 @@ public:
     ////////////////////////////////////////////////////////////
     virtual void render(Mat4x4 _transform) const;
 
-    //~ Expensive, causes combo box to be rebuilt
-    void addChoice(const std::string& _choice);
-
-    std::string getCurrentChoice(void) const;
-
 private:
     friend class Desktop;
+    friend class RadioButtonGroup;
 
     ////////////////////////////////////////////////////////////
     //
     //	Default constructor
     //
     ////////////////////////////////////////////////////////////
-    ComboBox(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
+    RadioButton(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
     ////////////////////////////////////////////////////////////
     //
     //	Destructor
     //
     ////////////////////////////////////////////////////////////
-    ~ComboBox(void);
+    ~RadioButton(void);
 
-    static ComboBox *createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
+    static RadioButton *createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
 
-    void createBoxPositions(void);
-    void createBoxColours(void);
+    void unset(void);
 
-    void setTrianglePositions(void);
-    void setTriangleColours(void);
-
-    void setBackgroundPositions(void);
-    void setBackgroundColours(void);
-
-    void setOptionBoxPositions(void);
-    void setOptionBoxColours(void);
-
-    void initialise(void);
+    void initialisePositions(void);
+    void initialiseColours(void);
 
 private:
     unsigned int m_VAO;
     unsigned int m_PositionVBO;
     unsigned int m_ColourVBO;
 
-    Vector2f m_BoxSize;
-
-    bool m_Extended;
-
-    unsigned int m_Options;
-
-    std::vector<std::string> m_OptionStrings;
-
-    int m_CurrentChoice;
+    bool m_Checked;
 };
 
 } //~ namespace zeno
 
-#endif //~ INCLUDED_ZENO_GUI_COMBO_BOX_HPP
+#endif //~ INCLUDED_ZENO_GUI_RADIO_BUTTON_HPP

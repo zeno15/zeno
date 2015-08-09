@@ -231,7 +231,9 @@ set(GUI_HEADER_FILES ${GUI_HEADER_FILES}
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/Slider.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/TextBox.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/GUI/CheckBox.hpp
-		${CMAKE_SOURCE_DIR}/include/zeno/GUI/ComboBox.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/GUI/DropdownMenu.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/GUI/RadioButton.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/GUI/RadioButtonGroup.hpp
 
 
 
@@ -248,7 +250,9 @@ set(GUI_SOURCE_FILES ${GUI_SOURCE_FILES}
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/Slider.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/TextBox.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/GUI/CheckBox.cpp
-		${CMAKE_SOURCE_DIR}/src/zeno/GUI/ComboBox.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/GUI/DropdownMenu.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/GUI/RadioButton.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/GUI/RadioButtonGroup.cpp
 	)
 #-----------------------------  GUI end    ----------------------
 

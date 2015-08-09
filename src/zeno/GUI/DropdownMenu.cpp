@@ -1,4 +1,4 @@
-#include <zeno/GUI/ComboBox.hpp>
+#include <zeno/GUI/DropdownMenu.hpp>
 
 #include <zeno/Graphics.hpp>
 #include <zeno/GUI/Desktop.hpp>
@@ -17,7 +17,7 @@
 
 namespace zeno {
 
-ComboBox::ComboBox(const std::string& _id, GuiBase *_parent, Desktop& _desktop) :
+DropdownMenu::DropdownMenu(const std::string& _id, GuiBase *_parent, Desktop& _desktop) :
 GuiBase(_id, _parent, _desktop),
 m_BoxSize(250.0f, 40.0f),
 m_Extended(false),
@@ -57,7 +57,7 @@ m_CurrentChoice(-1)
     setBackgroundColours();
 }
 
-ComboBox::~ComboBox(void)
+DropdownMenu::~DropdownMenu(void)
 {
     glDeleteBuffers(1, &m_PositionVBO);
     glDeleteBuffers(1, &m_ColourVBO);
@@ -66,12 +66,12 @@ ComboBox::~ComboBox(void)
 }
 
 
-ComboBox *ComboBox::createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop)
+DropdownMenu *DropdownMenu::createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop)
 {
-    return new ComboBox(_id, _parent, _desktop);
+    return new DropdownMenu(_id, _parent, _desktop);
 }
 
-bool ComboBox::processEvent(const GUIEvent& _event)
+bool DropdownMenu::processEvent(const GUIEvent& _event)
 {
     if (_event.type == GUIEvent::EventType::LeftClick)
     {
@@ -117,7 +117,7 @@ bool ComboBox::processEvent(const GUIEvent& _event)
     return false;
 }
 
-void ComboBox::render(Mat4x4 _transform) const
+void DropdownMenu::render(Mat4x4 _transform) const
 {
     Shader& shader = ShaderManager::getInstance().getShader("GUI");
 
@@ -139,7 +139,7 @@ void ComboBox::render(Mat4x4 _transform) const
     }
 }
 
-void ComboBox::addChoice(const std::string& _choice)
+void DropdownMenu::addChoice(const std::string& _choice)
 {
     m_Options += 1;
 
@@ -174,7 +174,7 @@ void ComboBox::addChoice(const std::string& _choice)
     m_Desktop.getElement<Label>(std::string(getId() + _choice)).setActive(false);
 }
 
-void ComboBox::createBoxPositions(void)
+void DropdownMenu::createBoxPositions(void)
 {
     glBindVertexArray(m_VAO);
     glBindBuffer(GL_ARRAY_BUFFER, m_PositionVBO);
@@ -208,7 +208,7 @@ void ComboBox::createBoxPositions(void)
 
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * data.size(), data.data());
 }
-void ComboBox::createBoxColours(void)
+void DropdownMenu::createBoxColours(void)
 {
 
     glBindVertexArray(m_VAO);
@@ -243,7 +243,7 @@ void ComboBox::createBoxColours(void)
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * data.size(), data.data());
 }
 
-void ComboBox::setTrianglePositions(void)
+void DropdownMenu::setTrianglePositions(void)
 {
     glBindVertexArray(m_VAO);
     glBindBuffer(GL_ARRAY_BUFFER, m_PositionVBO);
@@ -258,7 +258,7 @@ void ComboBox::setTrianglePositions(void)
 
     glBufferSubData(GL_ARRAY_BUFFER, sizeof(GLfloat) * TRIANGLE_OFFSET * zenoGLEWDefinitions::FLOATS_IN_POSITION, sizeof(GLfloat) * data.size(), data.data());
 }
-void ComboBox::setTriangleColours(void)
+void DropdownMenu::setTriangleColours(void)
 {
     glBindVertexArray(m_VAO);
     glBindBuffer(GL_ARRAY_BUFFER, m_ColourVBO);
@@ -272,7 +272,7 @@ void ComboBox::setTriangleColours(void)
     glBufferSubData(GL_ARRAY_BUFFER, sizeof(GLfloat) * TRIANGLE_OFFSET * zenoGLEWDefinitions::FLOATS_IN_COLOUR, sizeof(GLfloat) * data.size(), data.data());
 }
 
-void ComboBox::setBackgroundPositions(void)
+void DropdownMenu::setBackgroundPositions(void)
 {
     glBindVertexArray(m_VAO);
     glBindBuffer(GL_ARRAY_BUFFER, m_PositionVBO);
@@ -291,7 +291,7 @@ void ComboBox::setBackgroundPositions(void)
 
     glBufferSubData(GL_ARRAY_BUFFER, sizeof(GLfloat) * BACKGROUND_OFFSET * zenoGLEWDefinitions::FLOATS_IN_POSITION, sizeof(GLfloat) * data.size(), data.data());
 }
-void ComboBox::setBackgroundColours(void)
+void DropdownMenu::setBackgroundColours(void)
 {
     glBindVertexArray(m_VAO);
     glBindBuffer(GL_ARRAY_BUFFER, m_ColourVBO);
@@ -308,7 +308,7 @@ void ComboBox::setBackgroundColours(void)
 
     glBufferSubData(GL_ARRAY_BUFFER, sizeof(GLfloat) * BACKGROUND_OFFSET * zenoGLEWDefinitions::FLOATS_IN_COLOUR, sizeof(GLfloat) * data.size(), data.data());
 }
-void ComboBox::setOptionBoxPositions(void)
+void DropdownMenu::setOptionBoxPositions(void)
 {
     glBindVertexArray(m_VAO);
     glBindBuffer(GL_ARRAY_BUFFER, m_PositionVBO);
@@ -345,7 +345,7 @@ void ComboBox::setOptionBoxPositions(void)
 
     glBufferSubData(GL_ARRAY_BUFFER, sizeof(GLfloat) * CHOICE_BOX_OFFSET * zenoGLEWDefinitions::FLOATS_IN_POSITION, sizeof(GLfloat) * data.size(), data.data());
 }
-void ComboBox::setOptionBoxColours(void)
+void DropdownMenu::setOptionBoxColours(void)
 {
     glBindVertexArray(m_VAO);
     glBindBuffer(GL_ARRAY_BUFFER, m_ColourVBO);
@@ -366,7 +366,7 @@ void ComboBox::setOptionBoxColours(void)
     glBufferSubData(GL_ARRAY_BUFFER, sizeof(GLfloat) * CHOICE_BOX_OFFSET * zenoGLEWDefinitions::FLOATS_IN_COLOUR, sizeof(GLfloat) * data.size(), data.data());
 }
 
-void ComboBox::initialise(void)
+void DropdownMenu::initialise(void)
 {
     m_Desktop.addToElement<Label>(std::string(getId() + "SelectedChoice"), getId());
 
@@ -376,7 +376,7 @@ void ComboBox::initialise(void)
     m_Desktop.getElement<Label>(std::string(getId() + "SelectedChoice")).setPosition(Vector3f(4.0f, 8.0f , 0.2f));
 }
 
-std::string ComboBox::getCurrentChoice(void) const
+std::string DropdownMenu::getCurrentChoice(void) const
 {
     if (m_CurrentChoice == -1)
     {

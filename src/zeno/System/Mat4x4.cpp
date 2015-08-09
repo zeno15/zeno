@@ -39,10 +39,9 @@ Mat4x4(_x.x, _y.x, _z.x, 0.0f,
 Mat4x4::Mat4x4(float _1, float _5, float _9, float _13,
 	       float _2, float _6, float _10, float _14,
 	       float _3, float _7, float _11, float _15,
-	       float _4, float _8, float _12, float _16)
+	       float _4, float _8, float _12, float _16) :
+values(16)
 {
-	values = std::vector<float>(16);
-
 	values[0] = _1;
 	values[1] = _2;
 	values[2] = _3;
@@ -66,7 +65,7 @@ Mat4x4::Mat4x4(float _1, float _5, float _9, float _13,
 
 Mat4x4::Mat4x4(const Mat4x4& _mat)
 {
-	values = std::vector<float>(16);
+    values.resize(16);
 	
 	for (unsigned int i = 0; i < 16; i += 1)
 	{

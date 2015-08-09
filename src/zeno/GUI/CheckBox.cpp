@@ -84,10 +84,8 @@ void CheckBox::render(Mat4x4 _transform) const
 {
     Shader& shader = ShaderManager::getInstance().getShader("GUI");
 
-    Mat4x4 trans = _transform * getTransform();
-
     shader.bind();
-    shader.passUniform("View", trans);
+    shader.passUniform("View", _transform * getTransform());
 
     glBindVertexArray(m_VAO);
     glDrawArrays(GL_TRIANGLES, 0, 12 + (m_Checked ? 6 : 0));

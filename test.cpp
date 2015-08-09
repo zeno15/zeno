@@ -57,35 +57,29 @@ int main(int _argc, char **_argv)
 
     bool running = true;
 
-    zeno::Rectangle r(zeno::Vector2f(100.0f, 100.0f), zeno::Vector2f(250.0f, 50.0f));
-    r.setInternalColour(zeno::Colour::Magenta);
-    r.setOutlineThickness(4.0f);
+    desktop.addToElement<zeno::CheckBox>("CheckBox1");
+    desktop.getElement<zeno::CheckBox>("CheckBox1").setPosition(zeno::Vector3f(50.0f, 250.0f, 0.0f));
 
-    zeno::Circle c(64.0f);
-    c.setPosition(zeno::Vector2f(96.0f, 96.0f));
-    c.setOutlineColour(zeno::Colour::Magenta);
-    c.setOutlineThickness(14.0f);
+    desktop.addToElement<zeno::CheckBox>("CheckBox2");
+    desktop.getElement<zeno::CheckBox>("CheckBox2").setPosition(zeno::Vector3f(50.0f, 275.0f, 0.0f));
 
-    zeno::Polygon p;
-    p.addPoint(zeno::Vector2f(-50.0f, -50.0f), false);
-    p.addPoint(zeno::Vector2f(0.0f, -20.0f), false);
-    p.addPoint(zeno::Vector2f(50.0f, -50.0f), false);
-    p.addPoint(zeno::Vector2f(0.0f, 50.0f));
-    p.setPosition(zeno::Vector2f(450.0f, 96.0f));
-    p.setOutlineThickness(4.0f);
+    desktop.addToElement<zeno::CheckBox>("CheckBox3");
+    desktop.getElement<zeno::CheckBox>("CheckBox3").setPosition(zeno::Vector3f(50.0f, 300.0f, 0.0f));
 
-    desktop.addToElement<zeno::CheckBox>("CheckBox");
-    desktop.getElement<zeno::CheckBox>("CheckBox").setPosition(zeno::Vector3f(50.0f, 250.0f, 0.0f));
+    desktop.addToElement<zeno::DropdownMenu>("DropdownMenu");
+    desktop.getElement<zeno::DropdownMenu>("DropdownMenu").setPosition(zeno::Vector3f(150.0f, 550.0f, 0.0f));
+    desktop.getElement<zeno::DropdownMenu>("DropdownMenu").addChoice("Heeeeeeeellllo");
+    desktop.getElement<zeno::DropdownMenu>("DropdownMenu").addChoice("Option 2");
+    desktop.getElement<zeno::DropdownMenu>("DropdownMenu").addChoice("Option 3");
 
-    desktop.addToElement<zeno::ComboBox>("ComboBox");
-    desktop.getElement<zeno::ComboBox>("ComboBox").setPosition(zeno::Vector3f(150.0f, 550.0f, 0.0f));
-    desktop.getElement<zeno::ComboBox>("ComboBox").addChoice("Option 1");
-    desktop.getElement<zeno::ComboBox>("ComboBox").addChoice("Option 2");
-    desktop.getElement<zeno::ComboBox>("ComboBox").addChoice("Option 3");
-    desktop.getElement<zeno::ComboBox>("ComboBox").addChoice("Option 4");
-    desktop.getElement<zeno::ComboBox>("ComboBox").addChoice("Option 5");
-    desktop.getElement<zeno::ComboBox>("ComboBox").addChoice("Option 6");
-    desktop.getElement<zeno::ComboBox>("ComboBox").addChoice("Option 7");
+    desktop.addToElement<zeno::RadioButtonGroup>("RadioGroup");
+
+    desktop.getElement<zeno::RadioButtonGroup>("RadioGroup").addRadioButton("RB1");
+    desktop.getElement<zeno::RadioButton>("RB1").setPosition(zeno::Vector3f(150.0f, 275.0f, 0.0f));
+    desktop.getElement<zeno::RadioButtonGroup>("RadioGroup").addRadioButton("RB2");
+    desktop.getElement<zeno::RadioButton>("RB2").setPosition(zeno::Vector3f(150.0f, 255.0f, 0.0f));
+    desktop.getElement<zeno::RadioButtonGroup>("RadioGroup").addRadioButton("RB3");
+    desktop.getElement<zeno::RadioButton>("RB3").setPosition(zeno::Vector3f(150.0f, 235.0f, 0.0f));
 
     zeno::RenderData data;
 
@@ -107,7 +101,7 @@ int main(int _argc, char **_argv)
             {
                 if (event.key.key == zeno::Keyboard::Space)
                 {
-                    std::cout << "Current combo box choice: '" << desktop.getElement<zeno::ComboBox>("ComboBox").getCurrentChoice() << "'" << std::endl;
+                    std::cout << "Current combo box choice: '" << desktop.getElement<zeno::DropdownMenu>("DropdownMenu").getCurrentChoice() << "'" << std::endl;
                 }
             }
 
@@ -118,10 +112,6 @@ int main(int _argc, char **_argv)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         data.transform = zeno::Mat4x4::Orthographic2D(0.0f, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y), 0.0f);
-
-        r.render(data.transform);
-        c.render(data.transform);
-        p.render(data.transform);
 
         desktop.render();
 

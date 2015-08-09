@@ -13,6 +13,8 @@
 #include <zeno/GUI/Slider.hpp>
 #include <zeno/GUI/TextBox.hpp>
 #include <zeno/GUI/CheckBox.hpp>
-#include <zeno/GUI/ComboBox.hpp>
+#include <zeno/GUI/DropdownMenu.hpp>
+#include <zeno/GUI/RadioButtonGroup.hpp>
+#include <zeno/GUI/RadioButton.hpp>
 
 #endif //~ INCLUDED_ZENO_GUI_HPP

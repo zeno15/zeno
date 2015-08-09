@@ -18,6 +18,18 @@ T length(const Vector4<T>& _vec)
     return static_cast<T>(sqrt(_vec.x * _vec.x + _vec.y * _vec.y + _vec.z * _vec.z));
 }
 
+template <typename T>
+T distance(const Vector2<T>& _vec1, const Vector2<T>& _vec2)
+{
+    return length(_vec2 - _vec1);
+}
+
+template <typename T>
+T distance(const Vector3<T>& _vec1, const Vector3<T>& _vec2)
+{
+    return length(_vec2 - _vec1);
+}
+
 
 template <typename T>
 T lengthSquared(const Vector2<T>& _vec)

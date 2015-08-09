@@ -12,6 +12,34 @@
 ////////////////////////////////////////////////////////////
 namespace zeno {
 
+////////////////////////////////////////////////////////////
+///
+///	\brief  Returns the distance between two Vector2's
+///
+/// \param  _vec1    Vector2 object
+///
+/// \param  _vec2   Vector2 object
+///
+/// \return T distance between \a _vec1 and \a _vec2
+///
+////////////////////////////////////////////////////////////
+template <typename T>
+T distance(const Vector2<T>& _vec1, const Vector2<T>& _vec2);
+
+////////////////////////////////////////////////////////////
+///
+///	\brief  Returns the distance between two Vector3's
+///
+/// \param  _vec1    Vector3 object
+///
+/// \param  _vec2   Vector3 object
+///
+/// \return T distance between \a _vec1 and \a _vec2
+///
+////////////////////////////////////////////////////////////
+template <typename T>
+T distance(const Vector3<T>& _vec1, const Vector3<T>& _vec2);
+
 
 ////////////////////////////////////////////////////////////
 ///
