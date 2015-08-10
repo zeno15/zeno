@@ -79,7 +79,7 @@ void Desktop::setResolution(const Vector2u& _resolution)
 {
 	m_Resolution = _resolution;
 
-    m_DesktopPane.setBounds(FloatRect(0.0f, 0.0f, _resolution.x, _resolution.y));
+    m_DesktopPane.setBounds(FloatRect(0.0f, 0.0f, static_cast<float>(_resolution.x), static_cast<float>(_resolution.y)));
 }
 
 void Desktop::throwEvent(const GUIEvent& _guiEvent)

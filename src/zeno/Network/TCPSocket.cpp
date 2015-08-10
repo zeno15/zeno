@@ -1,7 +1,9 @@
 #include <zeno/Network/TCPSocket.hpp>
 
 #include <iostream>
+#ifndef _MSC_VER 
 #include <unistd.h>
+#endif 
 
 namespace zeno {
 

@@ -315,7 +315,7 @@ void DropdownMenu::setOptionBoxPositions(void)
 
     std::vector<float> data;
 
-    for (int i = 0; i < m_Options; i += 1)
+    for (int i = 0; i < static_cast<int>(m_Options); i += 1)
     {
         data.push_back(THICKNESS);
         data.push_back(-i * m_BoxSize.y - THICKNESS);

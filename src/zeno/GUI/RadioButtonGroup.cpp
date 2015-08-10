@@ -21,6 +21,18 @@ void RadioButtonGroup::addRadioButton(const std::string& _id)
     m_Desktop.addToElement<RadioButton>(_id, getId());
 
     m_RadioButtons.push_back(_id);
+
+    if (m_ActiveOption == std::string())
+    {
+        //~ No default has been selected.
+        m_Desktop.getElement<RadioButton>(_id).set();
+        m_ActiveOption = _id;
+    }
+}
+
+std::string RadioButtonGroup::getActiveOption(void) const
+{
+    return m_ActiveOption;
 }
 
 RadioButtonGroup *RadioButtonGroup::createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop)
@@ -42,6 +54,9 @@ bool RadioButtonGroup::processEvent(const GUIEvent& _event)
                     m_Desktop.getElement<RadioButton>(id).unset();
                 }
             }
+
+            m_ActiveOption = child->getId();
+
             return true;
         }
     }

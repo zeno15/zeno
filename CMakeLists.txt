@@ -47,8 +47,8 @@ need to rename to libfreetype.a
 
 
 
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+# Comment out for visual studio, is c++11 by default
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
 
 # Default extension, -s for static, -d for debug
 set(LIBRARY_EXTENSION "")
@@ -56,7 +56,7 @@ set(LIBRARY_EXTENSION "")
 # Default build type
 set(LIBRARY_BUILD_TYPE "STATIC")
 
-set(BUILD_SSL "TRUE")
+set(BUILD_SSL TRUE)
 
 message(STATUS "BUILD_SSL: " ${BUILD_SSL})
 
@@ -71,6 +71,15 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 #include_directories(${CMAKE_SOURCE_DIR}/extlibs)
 include_directories(${STB_LOCATION})
 
+
+
+# My testing stuff
+# Visual Studio 2013
+#include_directories(C:/programminglibs/glew-1.12.0/include)
+#link_directories(C:/programminglibs/glew-1.12.0/lib/Release/Win32)
+
+#include_directories(C:/programminglibs/freetype/include)
+#link_directories(C:/programminglibs/freetype/lib)
 
 
 

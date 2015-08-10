@@ -31,6 +31,8 @@ public:
 
     void addRadioButton(const std::string& _id);
 
+    std::string getActiveOption(void) const;
+
 private:
     friend class Desktop;
 
@@ -51,6 +53,8 @@ private:
 
 private:
     std::vector<std::string> m_RadioButtons;
+
+    std::string m_ActiveOption;
 };
 
 } //~ namespace zeno

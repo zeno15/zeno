@@ -102,6 +102,7 @@ int main(int _argc, char **_argv)
                 if (event.key.key == zeno::Keyboard::Space)
                 {
                     std::cout << "Current combo box choice: '" << desktop.getElement<zeno::DropdownMenu>("DropdownMenu").getCurrentChoice() << "'" << std::endl;
+                    std::cout << "Current radio button choice: " << desktop.getElement<zeno::RadioButtonGroup>("RadioGroup").getActiveOption() << std::endl;
                 }
             }
 

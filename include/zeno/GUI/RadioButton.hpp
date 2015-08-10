@@ -49,6 +49,7 @@ private:
     static RadioButton *createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
 
     void unset(void);
+    void set(void);
 
     void initialisePositions(void);
     void initialiseColours(void);

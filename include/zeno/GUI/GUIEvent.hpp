@@ -61,16 +61,6 @@ public:
 
 	////////////////////////////////////////////////////////////
 	///
-	/// \brief	Struct containing data of a progress bar update event
-	///
-	////////////////////////////////////////////////////////////
-	struct ProgressUpdateEvent {
-		float progress;     ///<    The new value for the progress bar
-        std::string id;     ///<    The id of the desired progress bar
-	};
-
-	////////////////////////////////////////////////////////////
-	///
 	/// \brief	Struct containing data for a new mouse position event
 	///
 	////////////////////////////////////////////////////////////
@@ -112,7 +102,6 @@ public:
 	union {
 		MouseButtonEvent		mouseButton;        ///<    Data about mouse button events
 		MouseMoveEvent			mouseMove;          ///<    Data about mouse moved events
-		ProgressUpdateEvent		progress;           ///<    Data about progress bar update events
 		TextEnteredEvent		text;               ///<    Data about text entered events
 		KeyEvent				key;                ///<    Data about key events
 	};

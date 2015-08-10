@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cstdint>
 
 uint32_t CRC_32(const std::vector<unsigned char>& _data)
 {

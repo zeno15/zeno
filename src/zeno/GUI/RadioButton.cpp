@@ -94,6 +94,10 @@ void RadioButton::unset(void)
 {
     m_Checked = false;
 }
+void RadioButton::set(void)
+{
+    m_Checked = true;
+}
 
 void RadioButton::initialisePositions(void)
 {
