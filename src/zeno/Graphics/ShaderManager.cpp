@@ -35,10 +35,10 @@ namespace {
 													"in vec2 texCoord;\n" \
 													"\n" \
 													"uniform sampler2D tex;\n" \
-													"\n" \
+													"out vec4 col;\n" \
 													"void main(void)\n" \
 													"{\n" \
-													"	gl_FragColor = texture(tex, texCoord) * fragColour;\n" \
+													"	col = texture(tex, texCoord) * fragColour;\n" \
 													"}\n");
 
     const std::string vertexSource = std::string(	"#version 330\n" \
@@ -109,7 +109,7 @@ ShaderManager::ShaderManager(void)
     addShaderFromSource(DEFAULT_SHADER_NAME, vertexSource, fragmentSource);
     getShader(DEFAULT_SHADER_NAME).getLocationOfUniform("View");
 
-    addShaderFromSource(DEFAULT_TEX_SHADER_NAME, vertexSource, fragmentSource);
+    addShaderFromSource(DEFAULT_TEX_SHADER_NAME, vertexTexSource, fragmentTexSource);
     getShader(DEFAULT_TEX_SHADER_NAME).getLocationOfUniform("View");
 
 	addShaderFromSource(TEXT_SHADER_NAME, vertexTextSource, fragmentTextSource);

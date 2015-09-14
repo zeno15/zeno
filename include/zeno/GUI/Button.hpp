@@ -67,6 +67,15 @@ public:
 	////////////////////////////////////////////////////////////
 	void addLabel(const std::string& _labelString, Font *_font);
 
+    void setSize(const Vector2f& _size);
+
+    void setOutlineThickness(float _thickness);
+
+    void setBackgroundDefaultColour(const zeno::Colour& _col);
+    void setBackgroundDepressedColour(const zeno::Colour& _col);
+    void setForegroundDefaultColour(const zeno::Colour& _col);
+    void setForegroundHoverColour(const zeno::Colour& _col);
+
 private:
 
     friend class Desktop;

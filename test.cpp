@@ -5,6 +5,8 @@
 #include <zeno/Network.hpp>
 #include <zeno/Window/Window.hpp>
 #include <zeno/Graphics/Rectangle.hpp>
+#include <zeno/Graphics/Texture.hpp>
+#include <zeno/Graphics/Sprite.hpp>
 #include <zeno/Graphics/Circle.hpp>
 #include <zeno/Graphics/Polygon.hpp>
 #include <zeno/GUI.hpp>
@@ -16,9 +18,6 @@
 #include <zeno/Utility/Epub.hpp>
 #include <zeno/Utility/XML.hpp>
 #include <zeno/Utility/Zip.hpp>
-
-
-
 
 int main(int _argc, char **_argv)
 {
@@ -81,7 +80,17 @@ int main(int _argc, char **_argv)
     desktop.getElement<zeno::RadioButtonGroup>("RadioGroup").addRadioButton("RB3");
     desktop.getElement<zeno::RadioButton>("RB3").setPosition(zeno::Vector3f(150.0f, 235.0f, 0.0f));
 
-    zeno::RenderData data;
+    desktop.addToElement<zeno::Button>("Button");
+    desktop.getElement<zeno::Button>("Button").setSize(zeno::Vector2f(50.0f, 50.0f));
+    desktop.getElement<zeno::Button>("Button").setOutlineThickness(2.0f);
+    desktop.getElement<zeno::Button>("Button").setBackgroundDefaultColour(zeno::Colour::White);
+    desktop.getElement<zeno::Button>("Button").setBackgroundDepressedColour(zeno::Colour(0.8f, 0.8f, 0.8f));
+    desktop.getElement<zeno::Button>("Button").setForegroundDefaultColour(zeno::Colour::Black);
+    desktop.getElement<zeno::Button>("Button").setForegroundHoverColour(zeno::Colour(0.6f, 0.6f, 0.4f));
+    desktop.getElement<zeno::Button>("Button").setPosition(zeno::Vector3f(200.0f, 200.0f, 0.0f));
+    desktop.getElement<zeno::Button>("Button").registerCallback([](){ std::cout << "Button press." << std::endl;});
+
+
 
     while (running)
     {
@@ -111,8 +120,6 @@ int main(int _argc, char **_argv)
         desktop.processThrown();
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        data.transform = zeno::Mat4x4::Orthographic2D(0.0f, static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y), 0.0f);
 
         desktop.render();
 

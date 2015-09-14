@@ -102,6 +102,7 @@ void Sprite::render(RenderData& _data)
 	{
 		_data.texture = m_Texture;
 	}
+    _data.shader = "Zenos_Default_Tex_Shader";
 	m_VertexArray.render(_data);
 }
 

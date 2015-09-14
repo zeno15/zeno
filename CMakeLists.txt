@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
 project(zeno)
 
-
+# Install to C:\MinGW64\mingw32\i686-w64-mingw32
 #[[
 Building glew with mingw
 

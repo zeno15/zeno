@@ -215,6 +215,47 @@ void Button::resendPositions(void)
 
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * data.size(), data.data());
 }
+
+void Button::setSize(const Vector2f& _size)
+{
+    m_Bounds.width = _size.x;
+    m_Bounds.height = _size.y;
+
+    resendPositions();
+}
+
+void Button::setOutlineThickness(float _thickness)
+{
+    m_OutlineThickness = _thickness;
+
+    resendPositions();
+}
+
+void Button::setBackgroundDefaultColour(const zeno::Colour& _col)
+{
+    m_BackgroundDefaultColour = _col;
+
+    resendColours();
+}
+void Button::setBackgroundDepressedColour(const zeno::Colour& _col)
+{
+    m_BackgroundDepressedColour = _col;
+
+    resendColours();
+}
+void Button::setForegroundDefaultColour(const zeno::Colour& _col)
+{
+    m_ForegroundDefaultColour = _col;
+
+    resendColours();
+}
+void Button::setForegroundHoverColour(const zeno::Colour& _col)
+{
+    m_ForegroundHoverColour = _col;
+
+    resendColours();
+}
+
 void Button::changeState(State _newState)
 {
 	if (m_State != _newState)
