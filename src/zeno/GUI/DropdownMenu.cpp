@@ -174,6 +174,20 @@ void DropdownMenu::addChoice(const std::string& _choice)
     m_Desktop.getElement<Label>(std::string(getId() + _choice)).setActive(false);
 }
 
+void DropdownMenu::setSize(const zeno::Vector2f& _size)
+{
+    m_BoxSize = _size;
+
+    createBoxPositions();
+    createBoxColours();
+
+    setTrianglePositions();
+    setTriangleColours();
+
+    setBackgroundPositions();
+    setBackgroundColours();
+}
+
 void DropdownMenu::createBoxPositions(void)
 {
     glBindVertexArray(m_VAO);

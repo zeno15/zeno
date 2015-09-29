@@ -29,6 +29,8 @@ public:
 
     std::string getCurrentChoice(void) const;
 
+    void setSize(const zeno::Vector2f& _size);
+
 private:
     friend class Desktop;
 

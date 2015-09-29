@@ -67,6 +67,7 @@ int main(int _argc, char **_argv)
 
     desktop.addToElement<zeno::DropdownMenu>("DropdownMenu");
     desktop.getElement<zeno::DropdownMenu>("DropdownMenu").setPosition(zeno::Vector3f(150.0f, 550.0f, 0.0f));
+    desktop.getElement<zeno::DropdownMenu>("DropdownMenu").setSize(zeno::Vector2f(450.0f, 40.0f));
     desktop.getElement<zeno::DropdownMenu>("DropdownMenu").addChoice("Heeeeeeeellllo");
     desktop.getElement<zeno::DropdownMenu>("DropdownMenu").addChoice("Option 2");
     desktop.getElement<zeno::DropdownMenu>("DropdownMenu").addChoice("Option 3");
