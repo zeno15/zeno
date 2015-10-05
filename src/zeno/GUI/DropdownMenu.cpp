@@ -95,7 +95,7 @@ bool DropdownMenu::processEvent(const GUIEvent& _event)
 
         bounds = FloatRect(Vector2f(getPosition().x, getPosition().y - m_BoxSize.y * m_Options), Vector2f(m_BoxSize.x + m_BoxSize.y, m_BoxSize.y * m_Options));
 
-        if (bounds.contains(pos))
+        if (m_Extended && bounds.contains(pos))
         {
             float relativeDepth = getPosition().y - pos.y;
 
