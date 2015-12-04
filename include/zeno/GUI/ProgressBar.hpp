@@ -81,6 +81,8 @@ public:
 
     void setPercentage(float _perc);
 
+	virtual void initialise(void);
+
 private:
 
     friend class Desktop;

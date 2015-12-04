@@ -1,1 +1,4 @@
-//~ TODO add all window files
+#ifndef INCLUDED_ZENO_WINDOW_HPP
+#define INCLUDED_ZENO_WINDOW_HPP
+
+#endif //~ INCLUDED_ZENO_WINDOW_HPP

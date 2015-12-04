@@ -299,4 +299,9 @@ ProgressBar *ProgressBar::createElement(const std::string& _id, GuiBase *_parent
     return new ProgressBar(_id, _parent, _desktop);
 }
 
+void ProgressBar::initialise(void)
+{
+
+}
+
 } //~ namespace zeno

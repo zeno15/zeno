@@ -88,6 +88,32 @@ bool Rect<T>::intersects(const Rect<T>& _rect, Rect<T>& _intersection /*= Rect<T
 }
 
 template <typename T>
+void Rect<T>::expandToContain(const Rect<T>& _rect)
+{
+	T r1MinX = std::min(left, static_cast<T>(left + width));
+	T r1MaxX = std::max(left, static_cast<T>(left + width));
+	T r1MinY = std::min(bot, static_cast<T>(bot + height));
+	T r1MaxY = std::max(bot, static_cast<T>(bot + height));
+
+	// Compute the min and max of the second rectangle on both axes
+	T r2MinX = std::min(_rect.left, static_cast<T>(_rect.left + _rect.width));
+	T r2MaxX = std::max(_rect.left, static_cast<T>(_rect.left + _rect.width));
+	T r2MinY = std::min(_rect.bot, static_cast<T>(_rect.bot + _rect.height));
+	T r2MaxY = std::max(_rect.bot, static_cast<T>(_rect.bot + _rect.height));
+
+	T minX = std::min(r1MinX, r2MinX);
+	T maxX = std::max(r1MaxX, r2MaxX);
+	T minY = std::min(r1MinY, r2MinY);
+	T maxY = std::max(r1MaxY, r2MaxY);
+
+	left = minX;
+	width = maxX - minX;
+
+	bot = minY;
+	height = maxY - minY;
+}
+
+template <typename T>
 bool operator ==(const Rect<T>& _left, const Rect<T>& _right)
 {
 	return (_left.left 		== _right.left 	&&

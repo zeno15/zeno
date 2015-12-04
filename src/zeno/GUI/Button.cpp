@@ -292,4 +292,10 @@ Button *Button::createElement(const std::string& _id, GuiBase *_parent, Desktop&
     return new Button(_id, _parent, _desktop);
 }
 
+void Button::initialise(void)
+{
+
+}
+
+
 } //~ namespace zeno

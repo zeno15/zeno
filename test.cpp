@@ -12,15 +12,71 @@
 #include <zeno/GUI.hpp>
 
 #include <GL/glew.h>
-
 #include <ctime>
 
 #include <zeno/Utility/Epub.hpp>
 #include <zeno/Utility/XML.hpp>
 #include <zeno/Utility/Zip.hpp>
 
+#include <zeno/Game/Game.hpp>
+
 int main(int _argc, char **_argv)
 {
+    /*zeno::VideoMode mode;
+
+    mode.width = 1280;
+    mode.height = 720;
+
+    zeno::Window window2;
+    if (!window2.create(mode, "Window", zeno::WindowStyle::Titlebar))
+    {
+        std::cout << "Window failed to create" << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    bool running2 = true;
+
+    zeno::Clock clock;
+
+    while (running2)
+    {
+        zeno::Event event;
+        while (window2.pollEvent(event))
+        {
+            if (event.type == zeno::Event::EventType::WindowClosed)
+            {
+                running2 = false;
+            }
+            else if (event.type == zeno::Event::MouseEntered)
+            {
+                std::cout << "zeno: Mouse " << (event.enter.entered ? "entered" : "left") << " the window." << std::endl;
+            }
+            else if (event.type == zeno::Event::MouseButtonPressed)
+            {
+                std::cout << "zeno: Mouse " << event.mouseButton.button << " pressed at x: " << event.mouseButton.x << ", y: " << event.mouseButton.y << std::endl;
+            }
+            else if (event.type == zeno::Event::KeyDown)
+            {
+                std::cout << "zeno: Key down: " << event.key.key << std::endl;
+            }
+            else if (event.type == zeno::Event::KeyRepeat)
+            {
+                std::cout << "zeno: Key repeat: " << event.key.key << std::endl;
+            }
+        }
+
+        //std::cout << "FPS: " << 1.0f / clock.getElapsedTime().asSeconds() << std::endl;
+        clock.restart();
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        window2.display();
+    }
+
+    window2.close();
+
+    return EXIT_SUCCESS;*/
+
     zeno::Window window = zeno::Window();
 
     window.create(zeno::VideoMode(1280, 720), "Window", zeno::WindowStyle::Default);
@@ -66,7 +122,7 @@ int main(int _argc, char **_argv)
     desktop.getElement<zeno::CheckBox>("CheckBox3").setPosition(zeno::Vector3f(50.0f, 300.0f, 0.0f));
 
     desktop.addToElement<zeno::DropdownMenu>("DropdownMenu");
-    desktop.getElement<zeno::DropdownMenu>("DropdownMenu").setPosition(zeno::Vector3f(150.0f, 550.0f, 0.0f));
+    desktop.getElement<zeno::DropdownMenu>("DropdownMenu").setPosition(zeno::Vector3f(150.0f, 500.0f, 0.0f));
     desktop.getElement<zeno::DropdownMenu>("DropdownMenu").setSize(zeno::Vector2f(450.0f, 40.0f));
     desktop.getElement<zeno::DropdownMenu>("DropdownMenu").addChoice("Heeeeeeeellllo");
     desktop.getElement<zeno::DropdownMenu>("DropdownMenu").addChoice("Option 2");
@@ -91,7 +147,40 @@ int main(int _argc, char **_argv)
     desktop.getElement<zeno::Button>("Button").setPosition(zeno::Vector3f(200.0f, 200.0f, 0.0f));
     desktop.getElement<zeno::Button>("Button").registerCallback([](){ std::cout << "Button press." << std::endl;});
 
+    desktop.addToElement<zeno::Pane>("TestPane");
+    desktop.getElement<zeno::Pane>("TestPane").setColour(zeno::Colour::Cyan);
+    desktop.getElement<zeno::Pane>("TestPane").setBounds(zeno::FloatRect(680.0f, 80.0f, 560.0f, 560.0f));
 
+    desktop.addToElement<zeno::Label>("TestPaneLabel", "TestPane");
+    desktop.getElement<zeno::Label>("TestPaneLabel").setFont(desktop.getGUIFont());
+    desktop.getElement<zeno::Label>("TestPaneLabel").setLabel("I'm a label!");
+    desktop.getElement<zeno::Label>("TestPaneLabel").setPosition(zeno::Vector3f(700.0f, 100.0f, 0.1f));
+    desktop.getElement<zeno::Label>("TestPaneLabel").setLabelColour(zeno::Colour::Black);
+
+    desktop.addToElement<zeno::Button>("Left");
+    desktop.getElement<zeno::Button>("Left").setPosition(zeno::Vector3f(680.0f, 20.0f, 0.0f));
+    desktop.getElement<zeno::Button>("Left").setSize(zeno::Vector2f(60.0f, 40.0f));
+    desktop.getElement<zeno::Button>("Left").registerCallback([&](){desktop.getElement<zeno::Pane>("TestPane").scroll(zeno::Vector2f(-5.0f, 0.0f));});
+
+
+    desktop.addToElement<zeno::Button>("Right");
+    desktop.getElement<zeno::Button>("Right").setPosition(zeno::Vector3f(1180.0f, 20.0f, 0.0f));
+    desktop.getElement<zeno::Button>("Right").setSize(zeno::Vector2f(60.0f, 40.0f));
+    desktop.getElement<zeno::Button>("Right").registerCallback([&](){desktop.getElement<zeno::Pane>("TestPane").scroll(zeno::Vector2f(+5.0f, 0.0f));});
+
+
+    desktop.addToElement<zeno::Button>("Up");
+    desktop.getElement<zeno::Button>("Up").setPosition(zeno::Vector3f(620.0f, 580.0f, 0.0f));
+    desktop.getElement<zeno::Button>("Up").setSize(zeno::Vector2f(40.0f, 60.0f));
+    desktop.getElement<zeno::Button>("Up").registerCallback([&](){desktop.getElement<zeno::Pane>("TestPane").scroll(zeno::Vector2f(0.0f, +5.0f));});
+
+
+    desktop.addToElement<zeno::Button>("Down");
+    desktop.getElement<zeno::Button>("Down").setPosition(zeno::Vector3f(620.0f, 80.0f, 0.0f));
+    desktop.getElement<zeno::Button>("Down").setSize(zeno::Vector2f(40.0f, 60.0f));
+    desktop.getElement<zeno::Button>("Down").registerCallback([&](){desktop.getElement<zeno::Pane>("TestPane").scroll(zeno::Vector2f(0.0f, -5.0f));});
+
+    zeno::Game game = zeno::Game();
 
     while (running)
     {

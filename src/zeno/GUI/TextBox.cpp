@@ -236,4 +236,9 @@ TextBox *TextBox::createElement(const std::string& _id, GuiBase *_parent, Deskto
     return new TextBox(_id, _parent, _desktop);
 }
 
+void TextBox::initialise(void)
+{
+
+}
+
 } //~ namespace zeno

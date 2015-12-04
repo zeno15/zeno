@@ -1,0 +1,4 @@
+#ifndef ZENO_UTILITY_HPP
+#define ZENO_UTILITY_HPP
+
+#endif //~ ZENO_UTILITY_HPP

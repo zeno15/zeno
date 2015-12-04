@@ -29,6 +29,16 @@ public:
     ////////////////////////////////////////////////////////////
     virtual void render(Mat4x4 _transform) const;
 
+    ////////////////////////////////////////////////////////////
+    //
+    //	Returns the Rect object that contains all the points of
+    //	the GUI element.
+    //
+    ////////////////////////////////////////////////////////////
+    virtual FloatRect getBounds(void);
+
+    virtual void initialise(void);
+
 private:
     friend class Desktop;
     friend class RadioButtonGroup;

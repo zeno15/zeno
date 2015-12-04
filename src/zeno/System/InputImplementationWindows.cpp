@@ -67,7 +67,7 @@ Vector2<int> InputImplementation::getMousePosition(const Window& _window)
 {
 	POINT point;
 	GetCursorPos(&point);
-	ScreenToClient(_window.getHandle(), &point);
+	//ScreenToClient(_window.getHandle(), &point);
 	return Vector2i(point.x, point.y);
 }
 
@@ -81,7 +81,7 @@ void InputImplementation::setMousePosition(const Vector2<int>& _position, const 
 	POINT pt;
 	pt.x = _position.x;
 	pt.y = _position.y;
-	ClientToScreen(_window.getHandle(), &pt);
+	//ClientToScreen(_window.getHandle(), &pt);
 	SetCursorPos(pt.x, pt.y);
 }
 

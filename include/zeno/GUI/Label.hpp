@@ -52,6 +52,8 @@ public:
 
     void setFont(Font *_font);
 
+	virtual void initialise(void);
+
 private:
 
     friend class Desktop;

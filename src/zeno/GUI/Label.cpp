@@ -60,4 +60,9 @@ Label *Label::createElement(const std::string& _id, GuiBase *_parent, Desktop& _
     return new Label(_id, _parent, _desktop);
 }
 
+void Label::initialise(void)
+{
+
+}
+
 } //~ namespace zeno

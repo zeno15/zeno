@@ -76,6 +76,9 @@ public:
     void setForegroundDefaultColour(const zeno::Colour& _col);
     void setForegroundHoverColour(const zeno::Colour& _col);
 
+	virtual void initialise(void);
+
+
 private:
 
     friend class Desktop;

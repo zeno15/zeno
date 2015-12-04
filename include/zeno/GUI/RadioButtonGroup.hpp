@@ -29,9 +29,19 @@ public:
     ////////////////////////////////////////////////////////////
     virtual void render(Mat4x4 _transform) const;
 
+    ////////////////////////////////////////////////////////////
+    //
+    //	Returns the Rect object that contains all the points of
+    //	the GUI element.
+    //
+    ////////////////////////////////////////////////////////////
+    virtual FloatRect getBounds(void);
+
     void addRadioButton(const std::string& _id);
 
     std::string getActiveOption(void) const;
+
+    virtual void initialise(void);
 
 private:
     friend class Desktop;

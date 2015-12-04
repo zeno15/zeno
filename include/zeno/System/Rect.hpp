@@ -117,6 +117,15 @@ public:
 	///
 	////////////////////////////////////////////////////////////
 	bool intersects(const Rect<T>& _rect, Rect<T>& _intersection = Rect<T>());
+
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Expands the current Rect so it contains the given one
+    ///
+    /// \param  _rect   The rect to ensure is contained
+    ///
+    ////////////////////////////////////////////////////////////
+	void expandToContain(const Rect<T>& _rect);
 	
 public:
 	T left;		///<	left position of the Rect

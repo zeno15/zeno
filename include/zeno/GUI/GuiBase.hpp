@@ -50,7 +50,7 @@ public:
 	//	the GUI element.
 	//
 	////////////////////////////////////////////////////////////
-	FloatRect getBounds(void);
+    virtual FloatRect getBounds(void) = 0;
 
     ////////////////////////////////////////////////////////////
     //
@@ -102,6 +102,8 @@ public:
 	std::string getId(void) const;
 
 protected:
+    friend class Desktop;
+
     ////////////////////////////////////////////////////////////
     ///
     /// \brief	Default constructor
@@ -111,7 +113,9 @@ protected:
     ////////////////////////////////////////////////////////////
     GuiBase(const std::string& _id, GuiBase *_parent, Desktop& _desktop);
 
-    virtual void initialise(void);
+    virtual void initialise(void) = 0;
+
+    void receiveNotificationOfSizeChange(GuiBase *_changedChild);
 
 
 protected:
@@ -146,6 +150,8 @@ protected:
 	std::vector<GuiBase *>		m_Children;
 
     GuiBase *                   m_Parent;
+
+	FloatRect                   m_ChildrenGlobalBounds;
 	
 	////////////////////////////////////////////////////////////
 	//

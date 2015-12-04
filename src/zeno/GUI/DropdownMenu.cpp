@@ -139,6 +139,13 @@ void DropdownMenu::render(Mat4x4 _transform) const
     }
 }
 
+FloatRect DropdownMenu::getBounds(void)
+{
+    std::cout << "TODO: DropDownMenu::getBounds()" << std::endl;
+
+    return FloatRect();
+}
+
 void DropdownMenu::addChoice(const std::string& _choice)
 {
     m_Options += 1;

@@ -48,7 +48,7 @@ need to rename to libfreetype.a
 
 
 # Comment out for visual studio, is c++11 by default
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -static")
 
 # Default extension, -s for static, -d for debug
 set(LIBRARY_EXTENSION "")
@@ -91,10 +91,19 @@ include_directories(${STB_LOCATION})
 # include_directories(path/to/freetype/include)
 # link_directories(path/to/freetype.lib)
 
+# Locations for gflw include and lib
+# include_directories(path/to/gflw/include)
+# link_directories(path/to/gflw.lib)
+
+
+
 #-----------------------------  Module Includes start ----------------------
 set(MODULE_INCLUDES ${MODULE_INCLUDES}
-        ${CMAKE_SOURCE_DIR}/include/zeno/Graphics.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Game.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Utility.hpp
+		#${CMAKE_SOURCE_DIR}/include/zeno/Audio.hpp
         ${CMAKE_SOURCE_DIR}/include/zeno/GUI.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Graphics.hpp
         ${CMAKE_SOURCE_DIR}/include/zeno/Network.hpp
         ${CMAKE_SOURCE_DIR}/include/zeno/System.hpp
         ${CMAKE_SOURCE_DIR}/include/zeno/Window.hpp
@@ -103,11 +112,8 @@ set(MODULE_INCLUDES ${MODULE_INCLUDES}
 
 #-----------------------------  Window start    ----------------------
 set(WINDOW_HEADER_FILES ${WINDOW_HEADER_FILES}
-		${CMAKE_SOURCE_DIR}/include/zeno/Window/ContextImplementation.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Window/VideoMode.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Window/Window.hpp
-		${CMAKE_SOURCE_DIR}/include/zeno/Window/WindowHandle.hpp
-		${CMAKE_SOURCE_DIR}/include/zeno/Window/WindowImplementation.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Window/WindowStyle.hpp
 	)
 
@@ -289,6 +295,18 @@ set(UTILITY_SOURCE_FILES ${UTILITY_SOURCE_FILES}
 	)
 #-----------------------------  Utility end    ----------------------
 
+#-----------------------------  Game start    ----------------------
+set(GAME_HEADER_FILES ${GAME_HEADER_FILES}
+        ${CMAKE_SOURCE_DIR}/include/zeno/Game/Game.hpp
+		)
+
+set(GAME_SOURCE_FILES ${GAME_SOURCE_FILES}
+        ${CMAKE_SOURCE_DIR}/src/zeno/Game/Game.cpp
+		)
+#-----------------------------  Game end    ----------------------
+
+
+
 if (_WIN32 OR WIN32)
     # Add win32 files
     add_definitions(-DGLEW_STATIC)
@@ -308,29 +326,12 @@ if (_WIN32 OR WIN32)
     endif (BUILD_SSL STREQUAL "TRUE")
 
     set(LIBS ${LIBS}
+        glfw3
         glew32s
         opengl32
         freetype
         ws2_32
     )
-
-    set (WINDOW_HEADER_FILES ${WINDOW_HEADER_FILES}
-            ${CMAKE_SOURCE_DIR}/include/zeno/Window/WindowImplementationWin32.hpp
-            ${CMAKE_SOURCE_DIR}/include/zeno/Window/ContextWin32.hpp
-        )
-
-    set (WINDOW_SOURCE_FILES ${WINDOW_SOURCE_FILES}
-            ${CMAKE_SOURCE_DIR}/src/zeno/Window/WindowImplementationWin32.cpp
-            ${CMAKE_SOURCE_DIR}/src/zeno/Window/ContextWin32.cpp
-        )
-
-    set(SYSTEM_HEADER_FILES ${SYSTEM_HEADER_FILES}
-    		${CMAKE_SOURCE_DIR}/include/zeno/System/InputImplementationWindows.hpp
-    	)
-    set(SYSTEM_SOURCE_FILES ${SYSTEM_SOURCE_FILES}
-    		${CMAKE_SOURCE_DIR}/src/zeno/System/InputImplementationWindows.cpp
-    	)
-
 else (_WIN32 OR WIN32)
     # Add non win32 files
 
@@ -354,23 +355,6 @@ else (_WIN32 OR WIN32)
         freetype
         dl
     )
-
-    set (WINDOW_HEADER_FILES ${WINDOW_HEADER_FILES}
-            ${CMAKE_SOURCE_DIR}/include/zeno/Window/WindowImplementationUnix.hpp
-            ${CMAKE_SOURCE_DIR}/include/zeno/Window/ContextUnix.hpp
-        )
-
-    set (WINDOW_SOURCE_FILES ${WINDOW_SOURCE_FILES}
-            ${CMAKE_SOURCE_DIR}/src/zeno/Window/WindowImplementationUnix.cpp
-            ${CMAKE_SOURCE_DIR}/src/zeno/Window/ContextUnix.cpp
-        )
-
-    set(SYSTEM_HEADER_FILES ${SYSTEM_HEADER_FILES}
-    		${CMAKE_SOURCE_DIR}/include/zeno/System/InputImplementationUnix.hpp
-    	)
-    set(SYSTEM_SOURCE_FILES ${SYSTEM_SOURCE_FILES}
-    		${CMAKE_SOURCE_DIR}/src/zeno/System/InputImplementationUnix.cpp
-    	)
 
     # freetype is installed to a different location on ubuntu, this solves
     include_directories(/usr/local/include/freetype2/)
@@ -417,6 +401,7 @@ add_library(zeno-graphics${LIBRARY_EXTENSION}   ${LIBRARY_BUILD_TYPE}   ${GRAPHI
 add_library(zeno-gui${LIBRARY_EXTENSION}        ${LIBRARY_BUILD_TYPE}   ${GUI_SOURCE_FILES}         ${GUI_HEADER_FILES})
 #add_library(zeno-audio${LIBRARY_EXTENSION}      ${LIBRARY_BUILD_TYPE}   ${AUDIO_SOURCE_FILES}       ${AUDIO_HEADER_FILES})
 add_library(zeno-utility${LIBRARY_EXTENSION}    ${LIBRARY_BUILD_TYPE}   ${UTILITY_SOURCE_FILES}     ${UTILITY_HEADER_FILES})
+add_library(zeno-game${LIBRARY_EXTENSION}       ${LIBRARY_BUILD_TYPE}   ${GAME_SOURCE_FILES}        ${GAME_HEADER_FILES})
 
 add_executable(testProgram test.cpp)
 target_link_libraries(testProgram LINK_PUBLIC   zeno-window${LIBRARY_EXTENSION}
@@ -425,5 +410,6 @@ target_link_libraries(testProgram LINK_PUBLIC   zeno-window${LIBRARY_EXTENSION}
                                                 zeno-graphics${LIBRARY_EXTENSION}
                                                 zeno-system${LIBRARY_EXTENSION}
                                                 zeno-utility${LIBRARY_EXTENSION}
+                                                zeno-game${LIBRARY_EXTENSION}
                                                 ${LIBS})
 

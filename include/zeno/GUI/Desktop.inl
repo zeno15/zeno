@@ -44,4 +44,5 @@ void Desktop::addToElement(const std::string& _id, const std::string& _parent /*
 
     newElement->initialise();
 
+    parent->receiveNotificationOfSizeChange(newElement);
 }

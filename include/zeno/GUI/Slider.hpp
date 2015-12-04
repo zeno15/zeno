@@ -52,6 +52,8 @@ public:
 	////////////////////////////////////////////////////////////
 	void registerCallback(std::function<void(float)> _function);
 
+	virtual void initialise(void);
+
 private:
 
     friend class Desktop;

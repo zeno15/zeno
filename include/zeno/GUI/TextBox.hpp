@@ -70,6 +70,8 @@ private:
 
 	void recreate(void);
 
+	virtual void initialise(void);
+
 private:
 	Font *		m_Font;
 

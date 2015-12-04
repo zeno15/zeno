@@ -90,6 +90,13 @@ void RadioButton::render(Mat4x4 _transform) const
     shader.unbind();
 }
 
+FloatRect RadioButton::getBounds(void)
+{
+    std::cout << "TODO: RadioButton::getBounds()" << std::endl;
+
+    return FloatRect();
+}
+
 void RadioButton::unset(void)
 {
     m_Checked = false;
@@ -182,6 +189,11 @@ void RadioButton::initialiseColours(void)
     }
 
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * data.size(), data.data());
+}
+
+void RadioButton::initialise(void)
+{
+
 }
 
 } //~ namespace zeno

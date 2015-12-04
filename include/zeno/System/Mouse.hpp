@@ -26,11 +26,11 @@ public:
 	/// \brief	Enumeration of supported mouse buttons
 	///
 	////////////////////////////////////////////////////////////
-	enum Button {	Left,       ///<    Left mouse button
-					Right,      ///<    Right mouse button
-					Middle,     ///<    Middle (wheel) mouse button
-					Extra1,     ///<    First extra mouse button
-					Extra2,     ///<    Second extra mouse button
+	enum Button {	Left = 0,       ///<    Left mouse button
+					Right = 1,      ///<    Right mouse button
+					Middle = 2,     ///<    Middle (wheel) mouse button
+					Extra1 = 3,     ///<    First extra mouse button
+					Extra2 = 4,     ///<    Second extra mouse button
 					NUM_BUTTONS ///<    Number of mouse buttons
     };
 
@@ -44,17 +44,8 @@ public:
     ///             the given mouse button is held down
     ///
 	////////////////////////////////////////////////////////////
-	static bool isButtonDown(Button _button);
+	static bool isButtonDown(Button _button, const Window& _window);
 
-	////////////////////////////////////////////////////////////
-	///
-    /// \brief  Gets the position of the mouse cursor in desktop
-    ///         coordinates
-    ///
-    /// \return Vector2 representing position of mouse cursor
-    ///
-	////////////////////////////////////////////////////////////
-	static Vector2i getPosition(void);
 	////////////////////////////////////////////////////////////
     ///
     /// \brief  Gets the position of the mouse cursor relative
@@ -66,17 +57,6 @@ public:
     ///
 	////////////////////////////////////////////////////////////
 	static Vector2i getPosition(const Window& _window);
-	
-	////////////////////////////////////////////////////////////
-	///
-    /// \brief  Sets the position of the mouse cursor in desktop
-    ///         coordinates
-    ///
-    /// \param  _position   Vector2 representing the desktop
-    ///                     coordinates to set the mouse position to
-    ///
-	////////////////////////////////////////////////////////////
-	static void setPosition(const Vector2i& _position);
 
 	////////////////////////////////////////////////////////////
     ///

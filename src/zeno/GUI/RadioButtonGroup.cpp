@@ -72,4 +72,16 @@ void RadioButtonGroup::render(Mat4x4 _transform) const
     }
 }
 
+FloatRect RadioButtonGroup::getBounds(void)
+{
+    std::cout << "TODO: RadioButtonGroup::getBounds()" << std::endl;
+
+    return FloatRect();
+}
+
+void RadioButtonGroup::initialise(void)
+{
+
+}
+
 } //~ namespace zeno

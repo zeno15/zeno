@@ -5,6 +5,8 @@
 
 #include <GL/glew.h>
 
+#include <iostream>
+
 #define NUM_VERTEXES 18
 
 #define TOTAL_SIZE zeno::Vector2f(16.0f, 16.0f)
@@ -94,6 +96,13 @@ void CheckBox::render(Mat4x4 _transform) const
     shader.unbind();
 }
 
+FloatRect CheckBox::getBounds(void)
+{
+    std::cout << "TODO: CheckBox::getBounds()" << std::endl;
+
+    return FloatRect();
+}
+
 void CheckBox::initialisePositions(void)
 {
     glBindVertexArray(m_VAO);
@@ -166,6 +175,11 @@ void CheckBox::initialiseColours(void)
 bool CheckBox::isChecked(void) const
 {
     return m_Checked;
+}
+
+void CheckBox::initialise(void)
+{
+
 }
 
 } //~ namespace zeno

@@ -18,12 +18,6 @@ m_Desktop(_desktop)
 
 }
 
-
-FloatRect GuiBase::getBounds(void)
-{
-    throw std::runtime_error("unimplemented function GuiBase::getBounds()");
-}
-
 void GuiBase::setActive(bool _active)
 {
 	m_Active = _active;
@@ -73,10 +67,9 @@ std::string GuiBase::getId(void) const
 {
 	return m_Id;
 }
-
-void GuiBase::initialise(void)
+void GuiBase::receiveNotificationOfSizeChange(GuiBase *_changedChild)
 {
-
+    m_ChildrenGlobalBounds.expandToContain(_changedChild->getBounds());
 }
 
 } //~ namespace zeno

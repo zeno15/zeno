@@ -4,13 +4,13 @@
 #include <zeno/System/Event.hpp>
 #include <zeno/System/Vector2.hpp>
 
-#include <zeno/Window/ContextImplementation.hpp>
-#include <zeno/Window/WindowHandle.hpp>
-#include <zeno/Window/WindowImplementation.hpp>
 #include <zeno/Window/WindowStyle.hpp>
 #include <zeno/Window/VideoMode.hpp>
 
 #include <vector>
+#include <cstdint>
+
+class GLFWwindow;
 
 ////////////////////////////////////////////////////////////
 ///
@@ -19,8 +19,6 @@
 ////////////////////////////////////////////////////////////
 namespace zeno {
 
-//~ TODO Need context settings to set antialiasing/opengl version
-
 ////////////////////////////////////////////////////////////
 ///
 /// \brief	Platform independent window class
@@ -28,8 +26,112 @@ namespace zeno {
 ////////////////////////////////////////////////////////////
 class Window
 {
+friend class Mouse;
+friend class Keyboard;
+
+private:
+    ////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Internal class to handle GLFW states
+    ///
+    ////////////////////////////////////////////////////////////
+    class GLFWState
+    {
+    public:
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        GLFWState(void);
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        ~GLFWState(void);
+
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        static void glfwErrorCallback(int _error, const char *_description);
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        static void glfwCloseCallback(GLFWwindow *_window);
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        static void glfwKeyCallback(GLFWwindow *_window, int _key, int _scanCode, int _action, int _modifier);
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        static void glfwCharacterCallback(GLFWwindow *_window, unsigned int _character);
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        static void glfwMousePositionCallback(GLFWwindow *_window, double _xPos, double _yPos);
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        static void glfwMouseEnterLeaveCallback(GLFWwindow *_window, int _entered);
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        static void glfwMouseButtonCallback(GLFWwindow *_window, int _button, int _action, int _mods);
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        static void glfwScrollCallback(GLFWwindow *_window, double _xOffset, double _yOffset);
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        static void glfwWindowSizeCallback(GLFWwindow *_window, int _width, int _height);
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        static void glfwWindowIconfifyCallback(GLFWwindow *_window, int _iconified);
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        static void glfwWindowPositionCallback(GLFWwindow *_window, int _x, int _y);
+    };
 public:
-	////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////
 	///
 	/// \brief	Constructor
     ///
@@ -171,15 +273,6 @@ public:
 
 	////////////////////////////////////////////////////////////
 	///
-	///	\brief  Returns the system specific window handle
-    ///
-    /// \return WindowHandle, only for internal use
-	///
-	////////////////////////////////////////////////////////////
-	WindowHandle getHandle(void) const;
-
-	////////////////////////////////////////////////////////////
-	///
 	/// \brief	Sets the title of the window
     ///
     /// \param  _title  String to set the Window title to
@@ -224,16 +317,20 @@ public:
 	////////////////////////////////////////////////////////////
 	void switchToFullscreen(const VideoMode& _videoMode);
 
+    Vector2d getMousePos(void);
+
 private:
+    GLFWwindow *                m_Window;           ///<    GLFW window pointer
+
 	VideoMode					m_VideoMode;        ///<    The currently implemented video mode
 
 	std::string					m_Title;            ///<    The title of the window
 
 	uint32_t					m_WindowStyle;      ///<    The style of the window
 
-	WindowImplementation		m_WindowImpl;       ///<    The system specific window implementation
+    bool                        m_IsOpen;           ///<    Whether the window is open or not
 
-	ContextImplementation		m_ContextImpl;      ///<    The system specific context implementation
+    std::vector<Event>          m_Events;           ///<    Internal event queue
 };
 
 } //~ namespace zeno

@@ -29,11 +29,23 @@ public:
 	////////////////////////////////////////////////////////////
 	virtual void render(Mat4x4 _transform) const;
 
+    ////////////////////////////////////////////////////////////
+    //
+    //	Returns the Rect object that contains all the points of
+    //	the GUI element.
+    //
+    ////////////////////////////////////////////////////////////
+    virtual FloatRect getBounds(void);
+
     void setColour(const Colour& _col);
 
     void setBounds(const FloatRect& _bounds);
 
     void removeBounds(void);
+
+    void scroll(const Vector2f& _scroll);
+
+    virtual void initialise(void);
 
 private:
 
@@ -58,6 +70,11 @@ private:
 private:
     bool                    m_Bounded;
     FloatRect               m_Bounds;
+
+	Vector2f                m_MaxSize;
+    Vector2f                m_CurrentOffset;
+
+    bool                    m_RequiresScrolling;
 
     unsigned int            m_VAO;
     unsigned int            m_PositionVBO;

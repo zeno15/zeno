@@ -145,14 +145,6 @@ void Slider::render(Mat4x4 _transform) const
 	shader.unbind();
 }
 
-FloatRect Slider::getBounds(void)
-{
-	//~ TODO
-
-	return FloatRect();
-}
-
-
 void Slider::registerCallback(std::function<void(float)> _function)
 {
 	m_ChangeFunction = _function;
@@ -255,6 +247,13 @@ void Slider::recreate(void)
 	resendColours(State::DEFAULT);
 }
 
+FloatRect Slider::getBounds(void)
+{
+    std::cout << "TODO: Slider::getBounds()" << std::endl;
+
+    return FloatRect();
+}
+
 void Slider::resendPositions(void)
 {
 	glBindVertexArray(m_VAO);
@@ -327,6 +326,11 @@ float Slider::calculateDiscretePosition(float _continuousPosition)
 Slider *Slider::createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop)
 {
     return new Slider(_id, _parent, _desktop);
+}
+
+void Slider::initialise(void)
+{
+
 }
 
 } //~ namespace zeno

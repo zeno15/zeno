@@ -33,12 +33,14 @@ public:
 		LostFocus,				///<	Window has lost focus (no associated data)
 		WindowSizeChanged,		///<	Windows size has changed (data in event.size)
 		KeyDown,				///<	Key has been pressed (data in event.key)
-		KeyUp,					///<	Key has been released (data in event.key)
+        KeyUp,					///<	Key has been released (data in event.key)
+        KeyRepeat,				///<	Key has been repeated (data in event.key)
 		TextEntered,			///<	Text has been entered (data in event.text)
 		MouseWheelChanged,		///<	Mouse wheel has been scrolled (data in event.wheel)
 		MouseButtonPressed,		///<	Mouse button has been pressed (data in event.mouseButton)
 		MouseButtonReleased,	///<	Mouse button has been released (data in event.mouseButton)
-		MouseMoved				///<	Mouse has been moved (data in event.position)
+		MouseMoved, 			///<	Mouse has been moved (data in event.position)
+        MouseEntered            ///<    Mouse has entered/left the window (data in event.entered)
 	};
 
 	////////////////////////////////////////////////////////////
@@ -114,15 +116,25 @@ public:
 		int				y;			///<	Associated y position
 	};
 
-	////////////////////////////////////////////////////////////
-	///
-	///	\brief	Struct representing all data for an event about
-	///			entering text
-	///
-	////////////////////////////////////////////////////////////
-	struct TextEnteredEvent {
-		uint32_t		character;	///<	Character that was entered
-	};
+    ////////////////////////////////////////////////////////////
+    ///
+    ///	\brief	Struct representing all data for an event about
+    ///			entering text
+    ///
+    ////////////////////////////////////////////////////////////
+    struct TextEnteredEvent {
+        uint32_t		character;	///<	Character that was entered
+    };
+
+    ////////////////////////////////////////////////////////////
+    ///
+    ///	\brief	Struct representing all data for an event about
+    ///			entering/exiting window
+    ///
+    ////////////////////////////////////////////////////////////
+    struct MouseEnteredEvent {
+        bool		    entered;    ///<    true if mouse cursor entered window or false if exited
+    };
 
 public:
 	EventType		type;			///< The Event type that this event is representing
@@ -139,6 +151,7 @@ public:
 		MouseButtonEvent	mouseButton;	///<	Data about mouse button events
 		PositionEvent		position;		///<	Data about position events
 		TextEnteredEvent	text;			///<	Data about text entered events
+        MouseEnteredEvent   enter;          ///<    Data about mouse enter events
 	};
 };
 

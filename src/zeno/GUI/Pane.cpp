@@ -10,7 +10,8 @@ namespace zeno {
 Pane::Pane(const std::string& _id, GuiBase *_parent, Desktop& _desktop) :
 GuiBase(_id, _parent, _desktop),
 m_Bounded(false),
-m_VAO(0)
+m_VAO(0),
+m_RequiresScrolling(false)
 {
     m_IsPane = true;
     glGenVertexArrays(1, &m_VAO);
@@ -94,7 +95,13 @@ void Pane::render(Mat4x4 _transform) const
         glDrawArrays(GL_TRIANGLES, 0, NUM_VERTEXES);
         glBindVertexArray(0);
 
-        _transform *= Mat4x4::createTranslation(Vector3f(0.0f, 0.0f, 0.1f));
+        Vector3f offset(0.0f, 0.0f, 0.1f);
+        if (m_RequiresScrolling)
+        {
+            offset = Vector3f(m_CurrentOffset.x, m_CurrentOffset.y, 0.0f);
+        }
+
+        _transform *= Mat4x4::createTranslation(offset);
     }
 
     shader.unbind();
@@ -105,6 +112,11 @@ void Pane::render(Mat4x4 _transform) const
     }
 
     glDisable(GL_SCISSOR_TEST);
+}
+
+FloatRect Pane::getBounds(void)
+{
+    return (m_Bounded ? m_Bounds : FloatRect());
 }
 
 Pane *Pane::createElement(const std::string& _id, GuiBase *_parent, Desktop& _desktop)
@@ -137,6 +149,7 @@ void Pane::setBounds(const FloatRect& _bounds)
     }
 
     m_Bounds = _bounds;
+    m_MaxSize = Vector2f(_bounds.width, _bounds.height);
     m_Bounded = true;
 
     std::vector<float> posData = {
@@ -158,6 +171,17 @@ void Pane::removeBounds(void)
 {
     m_Bounds = FloatRect();
     m_Bounded = false;
+}
+
+void Pane::scroll(const Vector2f& _scroll)
+{
+    std::cout << "Scrolling by " << _scroll << std::endl;
+    m_CurrentOffset += _scroll;
+}
+
+void Pane::initialise(void)
+{
+
 }
 
 } //~ namespace zeno

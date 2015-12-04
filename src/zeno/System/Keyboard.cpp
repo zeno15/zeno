@@ -1,16 +1,14 @@
 #include <zeno/System/Keyboard.hpp>
 
-#ifdef _WIN32
-#include <zeno/System/InputImplementationWindows.hpp>
-#else
-#include <zeno/System/InputImplementationUnix.hpp>
-#endif //~ _WIN32
+#include <zeno/Window/Window.hpp>
+
+#include <GLFW/glfw3.h>
 
 namespace zeno {
 
-bool Keyboard::isKeyDown(Key _key)
+bool Keyboard::isKeyDown(Key _key, const Window& _window)
 {
-	return InputImplementation::isKeyDown(_key);
+    return (GLFW_PRESS == glfwGetKey(_window.m_Window, _key));
 }
 
 } //~ namespace zeno
