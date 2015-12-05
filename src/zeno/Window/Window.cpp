@@ -235,7 +235,7 @@ bool Window::create(const VideoMode& _videoMode, const std::string& _title, uint
 
 void Window::close(void)
 {
-    if (!m_IsOpen)
+    if (m_IsOpen)
     {
         glfwDestroyWindow(m_Window);
 

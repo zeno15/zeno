@@ -1,4 +1,4 @@
-#include <zeno/Game/Game.hpp>
+#include <zeno/Game/Core/Scene.hpp>
 
 namespace zeno {
 

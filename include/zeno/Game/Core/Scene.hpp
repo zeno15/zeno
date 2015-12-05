@@ -1,5 +1,5 @@
-#ifndef ZENO_GAME_GAME_HPP
-#define ZENO_GAME_GAME_HPP
+#ifndef ZENO_GAME_CORE_SCENE_HPP
+#define ZENO_GAME_CORE_SCENE_HPP
 
 ///////////////////////////////////////////////////////////////////////////////
 ///
@@ -10,13 +10,22 @@ namespace zeno {
 
 ///////////////////////////////////////////////////////////////////////////////
 ///
-/// \brief  Game class that contains basic application
+/// \brief  Class to manage a selection of entities and computation for a
+///         certain period of a Game
 ///
 ///////////////////////////////////////////////////////////////////////////////
-class Game {
+class Scene
+{
+public:
+
+private:
+
+public:
+
+private:
 
 };
 
 } //~ namespace zeno
 
-#endif //~ ZENO_GAME_GAME_HPP
+#endif //~ ZENO_GAME_CORE_SCENE_HPP

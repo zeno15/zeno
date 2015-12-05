@@ -56,6 +56,9 @@ INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Utility/XML.hpp
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Utility/Zip.hpp
 
 # Game Module
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Game/Core/Game.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Game/Core/Scene.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Game/Graphics/Renderable.hpp
 
 
 OUTPUT_DIRECTORY = @CMAKE_CURRENT_SOURCE_DIR@/doc

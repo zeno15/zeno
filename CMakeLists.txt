@@ -297,11 +297,14 @@ set(UTILITY_SOURCE_FILES ${UTILITY_SOURCE_FILES}
 
 #-----------------------------  Game start    ----------------------
 set(GAME_HEADER_FILES ${GAME_HEADER_FILES}
-        ${CMAKE_SOURCE_DIR}/include/zeno/Game/Game.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Game/Core/Game.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Game/Core/Scene.hpp
+		${CMAKE_SOURCE_DIR}/include/zeno/Game/Graphics/Renderable.hpp
 		)
 
 set(GAME_SOURCE_FILES ${GAME_SOURCE_FILES}
-        ${CMAKE_SOURCE_DIR}/src/zeno/Game/Game.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/Game/Core/Game.cpp
+		${CMAKE_SOURCE_DIR}/src/zeno/Game/Core/Scene.cpp
 		)
 #-----------------------------  Game end    ----------------------
 

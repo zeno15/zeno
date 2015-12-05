@@ -1,22 +1,7 @@
 TODO
 	-	http://sourceforge.net/projects/mingw-w64/files/latest/download
-CMAKE
-    -   Document CMakeLists.txt
-    -	Make sure that in the cmake process you need to define the locations of the directories, rather than using the extlibs folder
-    -   use find_required in cmake for glew, opengl, freetype etc
-    -   Have glew static option etc
-    -   Look into configuration files
-        -	Version numbers
-        -	Source file lists etc
-    -   Add options to not build network module etc
 
 Graphics
-    -   Complete Graphics.hpp
-        -   Move glew const values somewhere else
-
-    *   Colour
-        -   Fill in the "How this works" section at the bottom of each class
-        -   Comment doxygen for each function and class etc
     *   Font
         -   Fill in the "How this works" section at the bottom of each class
         -   Comment doxygen for each function and class etc
