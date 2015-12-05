@@ -1,12 +1,17 @@
 #include <zeno/Game/Core/Game.hpp>
 
 #include <GL/glew.h>
+#include <iostream>
 
 namespace zeno {
 
 
 Game::Game(const std::string _title, unsigned int _width, unsigned int _height) :
-m_Running(false)
+m_Running(false),
+m_DesiredFPS(60),
+m_DesiredUPS(60),
+m_ClearColour(zeno::Colour::Blue),
+m_SceneTime(zeno::Time::seconds(1.0f))
 {
     if (!m_Window.create(zeno::VideoMode(_width, _height), _title))
     {
@@ -58,6 +63,23 @@ void Game::stop(void)
     m_Running = false;
 }
 
+void Game::setDesiredFPS(unsigned int _FPS)
+{
+    m_DesiredFPS = _FPS;
+}
+unsigned int Game::getDesiredFPS(void) const
+{
+    return m_DesiredFPS;
+}
+void Game::setDesiredUPS(unsigned int _UPS)
+{
+    m_DesiredUPS = _UPS;
+}
+unsigned int Game::getDesiredUPS(void) const
+{
+    return m_DesiredUPS;
+}
+
 void Game::setClearColour(const zeno::Colour& _colour)
 {
     if (m_ClearColour != _colour)
@@ -66,7 +88,7 @@ void Game::setClearColour(const zeno::Colour& _colour)
         glClearColor(m_ClearColour.r, m_ClearColour.g, m_ClearColour.b, m_ClearColour.a);
     }
 }
-zeno::Colour Game::getClearColour(void)
+zeno::Colour Game::getClearColour(void) const
 {
     return m_ClearColour;
 }
@@ -84,7 +106,7 @@ void Game::setOnCloseButtonMethod(std::function<bool(void)> _closeMethod)
 
 void Game::update(float _delta)
 {
-
+    m_SceneTime += zeno::Time::seconds(_delta);
 }
 
 void Game::render(void) const

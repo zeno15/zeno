@@ -5,6 +5,7 @@
 #include <functional>
 
 #include <zeno/Graphics/Colour.hpp>
+#include <zeno/System/Clock.hpp>
 #include <zeno/Window/Window.hpp>
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -50,6 +51,39 @@ public:
 
     ///////////////////////////////////////////////////////////////////////////////
     ///
+    /// \brief  Sets the desired number of frames to be rendered per second
+    ///
+    /// \param  _FPS    Desired frame rate
+    ///
+    ///////////////////////////////////////////////////////////////////////////////
+    void setDesiredFPS(unsigned int _FPS);
+    ///////////////////////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Returns the current desired number of frames to be rendered per second
+    ///
+    /// \return unsigned int representing current desired FPS
+    ///
+    ///////////////////////////////////////////////////////////////////////////////
+    unsigned int getDesiredFPS(void) const;
+    ///////////////////////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Sets the desired number of updates to be processed per second
+    ///
+    /// \param  _UPS    Desired update rate
+    ///
+    ///////////////////////////////////////////////////////////////////////////////
+    void setDesiredUPS(unsigned int _UPS);
+    ///////////////////////////////////////////////////////////////////////////////
+    ///
+    /// \brief  Returns the current desired number of updates to be processed per second
+    ///
+    /// \return unsigned int representing current desired UPS
+    ///
+    ///////////////////////////////////////////////////////////////////////////////
+    unsigned int getDesiredUPS(void) const;
+
+    ///////////////////////////////////////////////////////////////////////////////
+    ///
     /// \brief  Sets the Colour used to clear the screen
     ///
     /// \param  _colour Colour to set the screen when clearing
@@ -63,7 +97,7 @@ public:
     /// \return Colour that the screen is being cleared to
     ///
     ///////////////////////////////////////////////////////////////////////////////
-    zeno::Colour getClearColour(void);
+    zeno::Colour getClearColour(void) const;
 
     ///////////////////////////////////////////////////////////////////////////////
     ///
@@ -112,7 +146,12 @@ private:
 private:
     bool                                                m_Running;          ///~ Whether the game is running or not
 
+    unsigned int                                        m_DesiredFPS;       ///~ The desired Frames to be rendered per second
+    unsigned int                                        m_DesiredUPS;       ///~ The desired Updates to process per second
+
     zeno::Colour                                        m_ClearColour;      ///~ Colour to use when clearing the screen
+
+    zeno::Time                                          m_SceneTime;        ///~ Time associated with the age of the scene
 
     zeno::Window                                        m_Window;           ///~ Window that the game will use to render
 

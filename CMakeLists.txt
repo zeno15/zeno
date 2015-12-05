@@ -411,8 +411,8 @@ target_link_libraries(testProgram LINK_PUBLIC   zeno-window${LIBRARY_EXTENSION}
                                                 zeno-network${LIBRARY_EXTENSION}
                                                 zeno-gui${LIBRARY_EXTENSION}
                                                 zeno-graphics${LIBRARY_EXTENSION}
+												zeno-utility${LIBRARY_EXTENSION}
+												zeno-game${LIBRARY_EXTENSION}
                                                 zeno-system${LIBRARY_EXTENSION}
-                                                zeno-utility${LIBRARY_EXTENSION}
-                                                zeno-game${LIBRARY_EXTENSION}
                                                 ${LIBS})
 
