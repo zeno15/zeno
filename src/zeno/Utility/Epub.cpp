@@ -31,7 +31,7 @@ void Epub::writeToFile(const std::string& _filename)
     std::string UNIQUE_ID = "UID";
     std::string IDENTIFIER_CONTENT = "asdadadsasdad";
 
-    containerxml.addDeclaration("xml version=\"1.0\" encoding=\"UTF-8\"");
+/*    containerxml.addDeclaration("xml version=\"1.0\" encoding=\"UTF-8\"");
     containerxml.addElement("container", {{"xmlns", "urn:oasis:names:tc:opendocument:xmlns:container"}, {"version", "1.0"}}, "/");
     containerxml.addElement("rootfiles", {}, "/container/");
     containerxml.addClosedElement("rootfile", {{"media-type", "application/oebps-package+xml"}, {"full-path", "EPUB/content.opf"}}, "/container/rootfiles/");
@@ -133,7 +133,7 @@ void Epub::writeToFile(const std::string& _filename)
         zip.addFileFromMemory(std::vector<unsigned char>(m_ChapterVector.at(i - 1).begin(), m_ChapterVector.at(i - 1).end()), std::string("Chapter" + stringIndex + ".xhtml"), "EPUB/");
     }
 
-    zip.saveToFile(_filename);
+    zip.saveToFile(_filename);*/
 }
 
 void Epub::addChapterContent(const std::string& _data, const std::string& _chapterName)

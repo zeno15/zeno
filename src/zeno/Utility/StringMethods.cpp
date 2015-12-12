@@ -45,9 +45,14 @@ bool endsWith(const std::string& _str, const std::string& _end)
     return (_str.find(_end) == _str.size() - _end.size());
 }
 
-std::string stripLeadingWhitespace(const std::string& _str)
+std::string stripWhitespace(const std::string& _str)
 {
     std::string str(_str);
+
+    if (!_str.size())
+    {
+        return str;
+    }
 
     const std::string whitespace(" \n\r\t");
 

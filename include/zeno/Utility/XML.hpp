@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <functional>
 
 ////////////////////////////////////////////////////////////
 ///
@@ -18,79 +19,101 @@ namespace zeno {
 ////////////////////////////////////////////////////////////
 class XML
 {
+public:
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    XML(void);
+
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    void loadFromFile(const std::string &_filename);
+
 private:
-    class XMLNode
-    {
-    public:
-        enum NodeType {
-            DECLARATION,
-            COMMENT,
-            CONTENT,
-            ELEMENT,
-            CLOSED_ELEMENT,
-            ROOT
-        };
-
-        void clear(void);
-
-        bool create(const std::string& _data);
-
-        std::string writeToString(unsigned int _indentation);
-
-        unsigned int getNumChildren(void)
-        {
-            return m_Nodes.size();
-        }
-
-        XMLNode *getChild(const std::string& _tagName, int _index = -1);
-
-    public:
-        std::vector<XMLNode *>      m_Nodes;
-
-        NodeType                    m_Type;
-
-        //~ Used for element and closed element
-        std::string                 m_Tag;
-
-        std::vector<std::pair<std::string, std::string>>    m_AttributePairs;
-
-        //~ Used for content node, declaration and comment node
-        std::string                 m_Content;
+    enum QuoteType {
+        Double,
+        Single,
+        Neither
     };
 
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    void readTag(std::ifstream& _input);
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    void readContent(std::ifstream& _input);
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    void handleContent(std::string& _content);
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    void handleGenericTag(const std::string& _tag);
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    void parseDeclaration(const std::string& _declarationTag);
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    void parseCommentTag(const std::string& _commentTag);
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    void parseOpeningTag(const std::string& _openingTag);
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    void parseClosingTag(const std::string& _closingTag);
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    void parseSelfClosingTag(const std::string& _selfClosingTag);
 
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    std::vector<std::pair<std::string, std::string>> extractAttributes(const std::string& _attributeString);
 
-public:
-    ~XML(void);
-
-    bool loadFromFile(const std::string& _filename);
-
-    bool createTree(const std::string& _data);
-
-    void printTree(void);
-
-    //~ TODO see if you can insert at a given index within the desired node
-    bool addComment(const std::string& _comment, const std::string& _path = "/", std::vector<int> _index = std::vector<int>());
-    bool addContent(const std::string& _content, const std::string& _path = "/", std::vector<int> _index = std::vector<int>());
-    bool addElement(const std::string& _tag, const std::vector<std::pair<std::string, std::string>>& _attributes = std::vector<std::pair<std::string, std::string>>(), const std::string& _path = "/", std::vector<int> _index = std::vector<int>());
-    bool addClosedElement(const std::string& _tag, const std::vector<std::pair<std::string, std::string>>& _attributes = std::vector<std::pair<std::string, std::string>>(), const std::string& _path = "/", std::vector<int> _index = std::vector<int>());
-    bool addDeclaration(const std::string& _declaration);
-
-    std::vector<std::pair<std::string, std::string>>& getAttributes(const std::string& _tag, const std::string& _path = "/", std::vector<int> _index = std::vector<int>());
-
-    std::string getContent(const std::string& _path = "/", std::vector<int> _index = std::vector<int>());
-    bool setContent(const std::string& _content, const std::string& _path = "/", std::vector<int> _index = std::vector<int>());
-
-    std::string writeToString(void);
-    bool writeToFile(const std::string& _filename);
-
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    QuoteType discoverNextAttributeQuoteType(const std::string& _attributes);
+    
 private:
-    static bool extractFromBetweenTag(const std::string& _tag, std::string& _extracted, std::string& _data);
+    std::function<void(const std::string&)>                     m_TagOpenMethod;    ///~ Method to call when opening Tag is found
+    std::function<void(const std::string&)>                     m_TagCloseMethod;    ///~ Method to call when opening Tag is found
 
-    static bool extractAttributesFromElement(const std::string& _element, XMLNode *node);
-
-private:
-    XMLNode     m_Root;
 };
 
 } //~ namespace zeno

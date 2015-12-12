@@ -5,663 +5,295 @@
 #include <fstream>
 #include <iostream>
 
-#define DECLARATION_START       "<?"
-#define DECLARATION_END         "?>"
-#define COMMENT_START           "<!--"
-#define COMMENT_END             "-->"
-#define CLOSED_ELEMENT_START    "<"
-#define CLOSED_ELEMENT_END      "/>"
+
+static const char OpenTag = '<';
+static const char CloseTag = '>';
+static const char NewLine = '\n';
+static const char ForwardSlash = '/';
+static const char Exclaimation = '!';
+static const char Question = '?';
+static const char Space = ' ';
+static const char Equals = '=';
+static const char DoubleQuote = '"';
+static const char SingleQuote = '\'';
+
+static const std::string CommentSequenceOpen = "<!--";
+static const std::string CommentSequenceClose = "-->";
 
 namespace zeno {
 
-void XML::XMLNode::clear(void)
-{
-    for (XMLNode *node : m_Nodes)
+    XML::XML(void)
     {
-        node->clear();
-
-        delete node;
+        m_TagOpenMethod = [](const std::string& _tagString)
+        {
+            std::cout << "Encountered opening tag: '" << _tagString << "'" << std::endl;
+        };
+        m_TagCloseMethod = [](const std::string& _tagString)
+        {
+            std::cout << "Encountered closing tag: '" << _tagString << "'" << std::endl;
+        };
     }
 
-    m_Nodes.clear();
-}
-
-bool XML::XMLNode::create(const std::string& _data)
-{
-    std::string data = _data;
-
-    while (data.size())
+    void XML::loadFromFile(const std::string &_filename)
     {
-        std::size_t startLoc = data.find('<');
-        std::size_t closeLoc = data.find('>');
+        std::ifstream input(_filename);
 
-        if (startLoc == std::string::npos)
+        if (!input.good())
         {
-            //~ Either _data is pure content, or an error has occured
-            //~ Assume content
+            return;
+        }
 
-            data = stripLeadingWhitespace(data);
+        for (unsigned int i = 0; i < 200; i += 1)
+        {
+            readTag(input);
+            readContent(input);
+        }
 
-            if (data.size())
+        input.close();
+    }
+
+    void XML::readTag(std::ifstream& _input)
+    {
+        std::string tag;
+
+        bool running = true;
+        bool withinTag = false;
+        bool withinComment = false;
+
+        while (running)
+        {
+            if (!_input.good())
             {
-                XMLNode *node = new XMLNode();
-
-                node->m_Type = NodeType::CONTENT;
-                node->m_Content = data;
-
-                m_Nodes.push_back(node);
+                return;
             }
 
-            return true;
-        }
-
-        if (closeLoc == std::string::npos)
-        {
-            std::cout << "Found close < without open >: poorly formatted xml" << std::endl;
-            return false;
-        }
-        std::string element = data.substr(startLoc, closeLoc - startLoc + 1);
-
-        if (startsWith(element, DECLARATION_START) && endsWith(element, DECLARATION_END))
-        {
-            //~ TODO extract declaration from element
-
-            XMLNode *node = new XMLNode();
-
-            node->m_Type = NodeType::DECLARATION;
-            node->m_Content = element;
-
-            m_Nodes.push_back(node);
-            data = data.substr(data.find('<', closeLoc), std::string::npos);
-        }
-        else if (startsWith(element, COMMENT_START) && endsWith(element, COMMENT_END))
-        {
-            //~ TODO extract comment from element
-
-            XMLNode *node = new XMLNode();
-
-            node->m_Type = NodeType::COMMENT;
-            node->m_Content = element;
-
-            m_Nodes.push_back(node);
-            data = data.substr(data.find('<', closeLoc), std::string::npos);
-        }
-        else if (startsWith(element, CLOSED_ELEMENT_START) && endsWith(element, CLOSED_ELEMENT_END))
-        {
-            std::size_t startLocation = data.find('<', closeLoc);
-
-            //~ If you cant find a tag start '<' then the data can be replaced with an empty string, no more content/tags
-            data = (startLocation == std::string::npos) ? "" : data.substr(startLocation, std::string::npos);
-
-
-            std::size_t loc = element.find_first_of("> ");
-            std::string tag = element.substr(1, loc - 1);
-
-            XMLNode *node = new XMLNode();
-
-            node->m_Tag = tag;
-            node->m_Type = NodeType::CLOSED_ELEMENT;
-
-            if (!extractAttributesFromElement(element, node))
+            switch (_input.peek())
             {
-                std::cout << "Closed element failed to extract attributes" << std::endl;
-                return false;
+                case OpenTag:
+                    tag += _input.get();
+                    withinTag = true;
+                    if (_input.peek() == Exclaimation)
+                    {
+                        withinComment = true;
+                    }
+                    break;
+                case CloseTag:
+                    tag += _input.get();
+                    running = false;
+                    break;
+                case NewLine:
+                    if (!withinComment)
+                    {
+                        _input.get();
+                    }
+                    break;
+                default:
+                    if (withinTag) {
+                        tag += _input.get();
+                    }
+                    else {
+                        _input.get();
+                    }
+                    break;
             }
+        }
 
-            m_Nodes.push_back(node);
+        handleGenericTag(tag);
+    }
+
+    void XML::readContent(std::ifstream& _input)
+    {
+        std::string content;
+
+        while (_input.good() && _input.peek() != OpenTag)
+        {
+            unsigned int c = _input.get();
+
+            if (c != std::numeric_limits<unsigned int>().max())
+            {
+                content += c;
+            }
+        }
+
+        trim(content);
+
+        if (!content.size())
+        {
+            return;
+        }
+
+        handleContent(content);
+    }
+
+    void XML::handleContent(std::string& _content)
+    {
+        std::cout << "Content: '" << _content << "'" << std::endl;
+    }
+
+    void XML::handleGenericTag(const std::string& _tag)
+    {
+
+        std::size_t slashLoc = _tag.find(ForwardSlash);
+        std::size_t exclaimLoc = _tag.find(Exclaimation);
+        std::size_t questionLoc = _tag.find(Question);
+
+        if (questionLoc == 1)
+        {
+            parseDeclaration(_tag);
+        }
+        else if (exclaimLoc == 1)
+        {
+            parseCommentTag(_tag);
+        }
+        else if (slashLoc == std::string::npos)
+        {
+            parseOpeningTag(_tag);
+        }
+        else if (slashLoc == 1)
+        {
+            parseClosingTag(_tag);
+        }
+        else if (slashLoc == _tag.size() - 2)
+        {
+            parseSelfClosingTag(_tag);
         }
         else
         {
-            std::size_t loc = element.find_first_of("> ");
-            std::string tag = element.substr(1, loc - 1);
+            throw std::invalid_argument("Unhadled XML tag type: '" + _tag + "'");
+        }
+    }
 
-            std::string extracted;
+    void XML::parseDeclaration(const std::string& _declarationTag)
+    {
+        std::cout << "Parsing a declaration tag: '" << _declarationTag << "'" << std::endl;
+    }
+    void XML::parseCommentTag(const std::string& _commentTag)
+    {
+        std::size_t startLocation = _commentTag.find(CommentSequenceOpen);
+        std::size_t closeLocation = _commentTag.find(CommentSequenceClose);
 
-            if (!extractFromBetweenTag(tag, extracted, data))
+        std::string comment = _commentTag.substr(startLocation + CommentSequenceOpen.size(), closeLocation - startLocation - CommentSequenceOpen.size());
+
+        trim(comment);
+
+        std::cout << "Comment tag: '" << comment << "'" << std::endl;
+    }
+    void XML::parseOpeningTag(const std::string& _openingTag)
+    {
+        std::size_t startIndex = _openingTag.find(OpenTag);
+        std::size_t closeIndex = std::min(_openingTag.find(Space), _openingTag.find(CloseTag));
+
+        std::string tagName = _openingTag.substr(startIndex + 1, closeIndex - startIndex - 1);
+
+        std::string attributes = _openingTag.substr(closeIndex - startIndex, _openingTag.find(CloseTag) - (closeIndex - startIndex));
+
+        std::cout << "Opening tag: '" << tagName << "'" << std::endl;
+        auto a = extractAttributes(attributes);
+        for (auto p : a)
+        {
+            std::cout << "\t" << p.first << ": " << p.second << std::endl;
+        }
+    }
+    void XML::parseClosingTag(const std::string& _closingTag)
+    {
+        std::size_t startIndex = _closingTag.find(ForwardSlash);
+        std::size_t closeIndex = _closingTag.find(CloseTag);
+
+        std::string tagName = _closingTag.substr(startIndex + 1, closeIndex - startIndex - 1);
+
+        std::cout << "Closing tag '" << tagName << "'" << std::endl;
+    }
+    void XML::parseSelfClosingTag(const std::string& _selfClosingTag)
+    {
+        std::size_t startIndex = _selfClosingTag.find(OpenTag);
+        std::size_t closeIndex = std::min(_selfClosingTag.find(Space), _selfClosingTag.find(ForwardSlash));
+
+        std::string tagName = _selfClosingTag.substr(startIndex + 1, closeIndex - startIndex - 1);
+
+        std::string attributes = _selfClosingTag.substr(startIndex + 1 + tagName.size(), _selfClosingTag.find(ForwardSlash) - (startIndex + 1 + tagName.size()));
+
+        std::cout << "Self-Closing tag '" << tagName << "'" << std::endl;
+        auto a = extractAttributes(attributes);
+        for (auto p : a)
+        {
+            std::cout << "\t'" << p.first << "': '" << p.second << "'" << std::endl;
+        }
+    }
+
+    std::vector<std::pair<std::string, std::string>> XML::extractAttributes(const std::string& _attributeString)
+    {
+        std::vector<std::pair<std::string, std::string>> attributes;
+
+        std::cout << "Working on attributes: '" << _attributeString << "'" << std::endl;
+
+        std::string att = _attributeString;
+
+        while (att.size())
+        {
+            trim(att);
+
+            std::size_t equalsLoc = att.find(Equals);
+
+            std::string attribute = att.substr(0, equalsLoc);
+
+            QuoteType type = discoverNextAttributeQuoteType(att);
+
+            if (type == QuoteType::Neither)
             {
-                std::cout << "Could not extract data from between the '<" << tag << ">' tag." << std::endl;
+                break;
+            }
 
-                return false;
+            char quote = (type == QuoteType::Double ? '"' : '\'');
+
+            std::size_t quoteOpenLoc = att.find(quote);
+            std::size_t quoteCloseLoc = att.find(quote, quoteOpenLoc + 1);
+
+            std::string value = att.substr(quoteOpenLoc + 1, quoteCloseLoc - quoteOpenLoc - 1);
+
+            att = att.substr(quoteCloseLoc + 1);
+
+            attributes.push_back(std::make_pair(attribute, value));
+        }
+
+        return attributes;
+    }
+
+    XML::QuoteType XML::discoverNextAttributeQuoteType(const std::string& _attributes)
+    {
+        std::size_t doubleOpenLoc = _attributes.find(DoubleQuote);
+        std::size_t singleOpenLoc = _attributes.find(SingleQuote);
+
+
+        if (doubleOpenLoc == std::string::npos)
+        {
+            if (singleOpenLoc == std::string::npos)
+            {
+                return QuoteType::Neither;
             }
             else
             {
-                XMLNode *node = new XMLNode();
-
-                if (!node->create(extracted))
-                {
-                    return false;
-                }
-
-                node->m_Tag = tag;
-                node->m_Type = NodeType::ELEMENT;
-
-                if (!extractAttributesFromElement(element, node))
-                {
-                    std::cout << "Element failed to extract attributes" << std::endl;
-
-                    delete node;
-
-                    return false;
-                }
-
-                m_Nodes.push_back(node);
+                return QuoteType::Single;
             }
         }
-
-    }
-
-    return true;
-}
-
-
-std::string XML::XMLNode::writeToString(unsigned int _indentation)
-{
-    std::string output;
-
-    std::string indent(4 * _indentation, ' ');
-
-    if (m_Type == NodeType::DECLARATION ||
-        m_Type == NodeType::COMMENT ||
-        m_Type == NodeType::CONTENT)
-    {
-        output += (indent + m_Content + "\n");
-    }
-    if (m_Type == NodeType::ELEMENT)
-    {
-        output += (indent + "<" + m_Tag);
-
-        for (std::pair<std::string, std::string>& pair : m_AttributePairs)
+        else
         {
-            //~ TODO Check if pair.second contains ", if so use 'pair.second'
-            output += (" " + pair.first + "=\"" + pair.second + "\"");
-        }
-
-        output += (">\n");
-    }
-    if (m_Type == NodeType::CLOSED_ELEMENT)
-    {
-        output += (indent + "<" + m_Tag);
-
-        for (std::pair<std::string, std::string>& pair : m_AttributePairs)
-        {
-            //~ TODO Check if pair.second contains ", if so use 'pair.second'
-            output += (" " + pair.first + "=\"" + pair.second + "\"");
-        }
-
-        output += ("/>\n");
-    }
-
-    for (XMLNode *node : m_Nodes)
-    {
-        output += node->writeToString(_indentation + 1);
-    }
-
-    if (m_Type == NodeType::ELEMENT)
-    {
-        //std::cout << indent << "</" << m_Tag << ">" << std::endl;
-        output += (indent + "</" + m_Tag + ">\n");
-    }
-
-    return output;
-}
-
-XML::XMLNode *XML::XMLNode::getChild(const std::string& _tagName, int _index /*= -1*/)
-{
-    int count = 0;
-
-    for (XMLNode *node : m_Nodes)
-    {
-        if (node->m_Tag == _tagName)
-        {
-            if (count == _index || _index == -1)
+            if (singleOpenLoc == std::string::npos)
             {
-                return node;
+                return QuoteType::Double;
             }
-
-            count += 1;
+            else
+            {
+                //~ Both valid
+                if (doubleOpenLoc < singleOpenLoc)
+                {
+                    return QuoteType::Double;
+                }
+                else
+                {
+                    return QuoteType::Single;
+                }
+            }
         }
     }
-
-    return nullptr;
-}
-
-
-XML::~XML(void)
-{
-    m_Root.clear();
-}
-
-
-bool XML::loadFromFile(const std::string& _filename)
-{
-    std::ifstream file;
-    file.open(_filename);
-
-    if (!file.good())
-    {
-        std::cout << "Failed to load XML file: " << _filename << std::endl;
-        return false;
-    }
-
-    std::string str;
-
-    file.seekg(0, std::ios::end);
-    str.reserve(static_cast<unsigned int>(file.tellg()));
-    file.seekg(0, std::ios::beg);
-
-    str.insert(str.begin(), std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
-
-    bool outcome = createTree(str);
-
-    if (!outcome)
-    {
-        std::cout << "Failed to build xml tree." << std::endl;
-    }
-
-    file.close();
-
-    return outcome;
-}
-
-bool XML::createTree(const std::string& _data)
-{
-    m_Root.clear();
-
-    bool val = m_Root.create(_data);
-
-    m_Root.m_Type = XMLNode::NodeType::ROOT;
-
-    return val;
-}
-
-void XML::printTree(void)
-{
-    std::cout << writeToString();
-}
-
-bool XML::addComment(const std::string& _comment, const std::string& _path /*= "/"*/, std::vector<int> _index /* = std::vector<int>()*/)
-{
-    //~ TODO remove this common code from the various addXXX methods
-    std::vector<std::string> pathVector = splitStringByString(_path, "/");
-
-    XMLNode *node = &m_Root;
-
-    if (_index.size() == 0)
-    {
-        _index = std::vector<int>(pathVector.size(), -1);
-    }
-    if (_index.size() != pathVector.size())
-    {
-        std::cout << "Incorrectly sized index vector" << std::endl;
-        return false;
-    }
-
-
-    for (unsigned int i = 0; i < pathVector.size(); i += 1)
-    {
-        if (node->getChild(pathVector.at(i), _index.at(i)) != nullptr)
-        {
-            node = node->getChild(pathVector.at(i), _index.at(i));
-        }
-        else
-        {
-            std::cout << "Could not get desired node" << std::endl;
-            return false;
-        }
-    }
-
-    XMLNode *newNode = new XMLNode();
-    newNode->m_Type = XMLNode::NodeType::COMMENT;
-    newNode->m_Content = "<!--" + _comment + "-->";
-
-    node->m_Nodes.insert(node->m_Nodes.begin(), newNode);
-
-    return true;
-}
-bool XML::addContent(const std::string& _content, const std::string& _path /*= "/"*/, std::vector<int> _index /*= std::vector<int>()*/)
-{
-    std::vector<std::string> pathVector = splitStringByString(_path, "/");
-
-    XMLNode *node = &m_Root;
-
-    if (_index.size() == 0)
-    {
-        _index = std::vector<int>(pathVector.size(), -1);
-    }
-    if (_index.size() != pathVector.size())
-    {
-        std::cout << "Incorrectly sized index vector" << std::endl;
-        return false;
-    }
-
-
-    for (unsigned int i = 0; i < pathVector.size(); i += 1)
-    {
-        if (node->getChild(pathVector.at(i), _index.at(i)) != nullptr)
-        {
-            node = node->getChild(pathVector.at(i), _index.at(i));
-        }
-        else
-        {
-            std::cout << "Could not get desired node" << std::endl;
-            return false;
-        }
-    }
-
-    XMLNode *newNode = new XMLNode();
-    newNode->m_Type = XMLNode::NodeType::CONTENT;
-    newNode->m_Content = _content;
-
-    node->m_Nodes.push_back(newNode);
-
-    return true;
-}
-bool XML::addElement(const std::string& _tag,
-                     const std::vector<std::pair<std::string, std::string>>& _attributes /*= std::vector<std::pair<std::string, std::string>>()*/,
-                     const std::string& _path /*= "/"*/,
-                     std::vector<int> _index /*= std::vector<int>()*/)
-
-{
-    std::vector<std::string> pathVector = splitStringByString(_path, "/");
-
-    XMLNode *node = &m_Root;
-
-    if (_index.size() == 0)
-    {
-        _index = std::vector<int>(pathVector.size(), -1);
-    }
-    if (_index.size() != pathVector.size())
-    {
-        std::cout << "Incorrectly sized index vector" << std::endl;
-        return false;
-    }
-
-
-    for (unsigned int i = 0; i < pathVector.size(); i += 1)
-    {
-        if (node->getChild(pathVector.at(i), _index.at(i)) != nullptr)
-        {
-            node = node->getChild(pathVector.at(i), _index.at(i));
-        }
-        else
-        {
-            std::cout << "Could not get desired node" << std::endl;
-            return false;
-        }
-    }
-    XMLNode *newNode = new XMLNode();
-    newNode->m_Type = XMLNode::NodeType::ELEMENT;
-    newNode->m_Tag = _tag;
-    for (auto& pair : _attributes)
-    {
-        newNode->m_AttributePairs.push_back(pair);
-    }
-
-    node->m_Nodes.push_back(newNode);
-
-    return true;
-}
-bool XML::addClosedElement(const std::string& _tag,
-                           const std::vector<std::pair<std::string, std::string>>& _attributes /*= std::vector<std::pair<std::string, std::string>>()*/,
-                           const std::string& _path /*= "/"*/,
-                           std::vector<int> _index /*= std::vector<int>()*/)
-{
-    std::vector<std::string> pathVector = splitStringByString(_path, "/");
-
-    XMLNode *node = &m_Root;
-
-    if (_index.size() == 0)
-    {
-        _index = std::vector<int>(pathVector.size(), -1);
-    }
-    if (_index.size() != pathVector.size())
-    {
-        std::cout << "Incorrectly sized index vector" << std::endl;
-        return false;
-    }
-
-
-    for (unsigned int i = 0; i < pathVector.size(); i += 1)
-    {
-        if (node->getChild(pathVector.at(i), _index.at(i)) != nullptr)
-        {
-            node = node->getChild(pathVector.at(i), _index.at(i));
-        }
-        else
-        {
-            std::cout << "Could not get desired node" << std::endl;
-            return false;
-        }
-    }
-    XMLNode *newNode = new XMLNode();
-    newNode->m_Type = XMLNode::NodeType::CLOSED_ELEMENT;
-    newNode->m_Tag = _tag;
-    for (const std::pair<std::string, std::string>& pair : _attributes)
-    {
-        newNode->m_AttributePairs.push_back(pair);
-    }
-
-    node->m_Nodes.push_back(newNode);
-
-    return true;
-}
-bool XML::addDeclaration(const std::string& _declaration)
-{
-    XMLNode *newNode = new XMLNode();
-    newNode->m_Type = XMLNode::NodeType::DECLARATION;
-    newNode->m_Content = "<?" + _declaration + "?>";
-
-    m_Root.m_Nodes.insert(m_Root.m_Nodes.begin(), newNode);
-
-    return true;
-}
-
-std::vector<std::pair<std::string, std::string>>& XML::getAttributes(const std::string& _tag, const std::string& _path /*= "/"*/, std::vector<int> _index /*= std::vector<int>()*/)
-{
-    std::vector<std::string> pathVector = splitStringByString(_path, "/");
-
-    XMLNode *node = &m_Root;
-
-    if (_index.size() == 0)
-    {
-        _index = std::vector<int>(pathVector.size(), -1);
-    }
-    if (_index.size() != pathVector.size())
-    {
-        std::cout << "Incorrectly sized index vector" << std::endl;
-
-        return m_Root.m_AttributePairs;
-    }
-
-
-    for (unsigned int i = 0; i < pathVector.size(); i += 1)
-    {
-        if (node->getChild(pathVector.at(i), _index.at(i)) != nullptr)
-        {
-            node = node->getChild(pathVector.at(i), _index.at(i));
-        }
-        else
-        {
-            std::cout << "Could not get desired node" << std::endl;
-
-            return m_Root.m_AttributePairs;
-        }
-    }
-
-    for (XMLNode *n : node->m_Nodes)
-    {
-        if (n->m_Tag == _tag)
-        {
-            return n->m_AttributePairs;
-        }
-    }
-
-    return m_Root.m_AttributePairs;
-}
-
-std::string XML::getContent(const std::string& _path /*= "/"*/, std::vector<int> _index /*= std::vector<int>()*/)
-{
-    std::vector<std::string> pathVector = splitStringByString(_path, "/");
-
-    XMLNode *node = &m_Root;
-
-    if (_index.size() == 0)
-    {
-        _index = std::vector<int>(pathVector.size(), -1);
-    }
-    if (_index.size() != pathVector.size())
-    {
-        std::cout << "Incorrectly sized index vector" << std::endl;
-        return "";
-    }
-
-
-    for (unsigned int i = 0; i < pathVector.size(); i += 1)
-    {
-        if (node->getChild(pathVector.at(i), _index.at(i)) != nullptr)
-        {
-            node = node->getChild(pathVector.at(i), _index.at(i));
-        }
-        else
-        {
-            std::cout << "Could not get desired node" << std::endl;
-            return "";
-        }
-    }
-
-    for (XMLNode *n : node->m_Nodes)
-    {
-        if (n->m_Type == XMLNode::NodeType::CONTENT)
-        {
-            return n->m_Content;
-        }
-    }
-
-    return "";
-}
-bool XML::setContent(const std::string& _content, const std::string& _path /*= "/"*/, std::vector<int> _index /*= std::vector<int>()*/)
-{
-    std::vector<std::string> pathVector = splitStringByString(_path, "/");
-
-    XMLNode *node = &m_Root;
-
-    if (_index.size() == 0)
-    {
-        _index = std::vector<int>(pathVector.size(), -1);
-    }
-    if (_index.size() != pathVector.size())
-    {
-        std::cout << "Incorrectly sized index vector" << std::endl;
-        return false;
-    }
-
-
-    for (unsigned int i = 0; i < pathVector.size(); i += 1)
-    {
-        if (node->getChild(pathVector.at(i), _index.at(i)) != nullptr)
-        {
-            node = node->getChild(pathVector.at(i), _index.at(i));
-        }
-        else
-        {
-            std::cout << "Could not get desired node" << std::endl;
-            return false;
-        }
-    }
-
-    for (XMLNode *n : node->m_Nodes)
-    {
-        if (n->m_Type == XMLNode::NodeType::CONTENT)
-        {
-            n->m_Content = _content;
-            return true;
-        }
-    }
-
-    return false;
-}
-
-std::string XML::writeToString(void)
-{
-    std::string output;
-
-    for (XMLNode *node : m_Root.m_Nodes)
-    {
-        output += node->writeToString(0);
-    }
-
-    return output;
-}
-bool XML::writeToFile(const std::string& _filename)
-{
-    std::ofstream output;
-    output.open(_filename);
-    if (!output.good())
-    {
-        return false;
-    }
-
-    output << (writeToString());
-
-    output.close();
-
-    return true;
-}
-
-bool XML::extractFromBetweenTag(const std::string& _tag, std::string& _extracted, std::string& _data)
-{
-    std::size_t loc = _data.find(std::string("<" + _tag));
-
-    if (loc == std::string::npos) {
-        return false;
-    }
-
-    std::size_t nextTagLoc = _data.find('<', loc + _tag.size());
-
-    if (nextTagLoc == _data.find(std::string("</" + _tag + ">")))
-    {
-
-        std::size_t openEnd = _data.find('>');
-        std::size_t closeStart = _data.find("</");
-
-        _extracted = _data.substr(openEnd + 1, closeStart - openEnd - 1);
-    }
-    else
-    {
-        _extracted = _data.substr(nextTagLoc, std::string::npos);
-
-        _extracted = _extracted.substr(0, _extracted.find(std::string("</" + _tag + ">")));
-    }
-
-    _data = _data.substr(_data.find(std::string("</" + _tag + ">")) + 3 + _tag.size(), std::string::npos);
-
-    return true;
-}
-
-bool XML::extractAttributesFromElement(const std::string& _element, XMLNode *node)
-{
-    std::string element(_element);
-
-    std::size_t equalLoc = element.find('=');
-
-    while (equalLoc != std::string::npos)
-    {
-        std::size_t attribStart = element.find_last_of(" ", equalLoc);
-
-        std::string attrib = element.substr(attribStart + 1, equalLoc - attribStart - 1);
-
-        std::size_t endValueLoc = element.find(element[equalLoc + 1], equalLoc + 2);
-
-        std::string value = element.substr(equalLoc + 2, endValueLoc - equalLoc - 2);
-
-        element = element.substr(endValueLoc, std::string::npos);
-
-        node->m_AttributePairs.push_back(std::pair<std::string, std::string>(attrib, value));
-
-        equalLoc = element.find('=');
-    }
-
-    return true;
-}
 
 } //~ namespace zeno

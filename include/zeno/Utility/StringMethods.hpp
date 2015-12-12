@@ -3,6 +3,10 @@
 
 #include <vector>
 #include <string>
+#include <algorithm>
+#include <functional>
+#include <cctype>
+#include <locale>
 
 namespace zeno {
 
@@ -37,9 +41,25 @@ std::vector<std::string> splitStringByDelimeters(const std::string& _string, con
 bool startsWith(const std::string& _str, const std::string& _start);
 bool endsWith(const std::string& _str, const std::string& _end);
 
-std::string stripLeadingWhitespace(const std::string& _str);
+std::string stripWhitespace(const std::string& _str);
 
 void replaceAll(std::string& _string, const std::string& _substring, const std::string& _replacement);
+
+static inline std::string &ltrim(std::string &s) {
+        s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+        return s;
+}
+
+// trim from end
+static inline std::string &rtrim(std::string &s) {
+        s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+        return s;
+}
+
+// trim from both ends
+static inline std::string &trim(std::string &s) {
+        return ltrim(rtrim(s));
+}
 
 } //~ namespace zeno
 
