@@ -34,6 +34,170 @@ public:
     ////////////////////////////////////////////////////////////
     void loadFromFile(const std::string &_filename);
 
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    void setDeclarationTagCallback(std::function<void(const std::string&, const std::vector<std::pair<std::string, std::string>>)> _method);
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    void setClosingTagCallback(std::function<void(const std::string&)> _method);
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    void setContentCallback(std::function<void(const std::string&)> _method);
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    void setCommentTagCallback(std::function<void(const std::string&)> _method);
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    void setOpeningTagCallback(std::function<void(const std::string&, const std::vector<std::pair<std::string, std::string>>)> _method);
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    void setSelfClosingTagCallback(std::function<void(const std::string&, const std::vector<std::pair<std::string, std::string>>)> _method);
+
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    enum NodeType {
+        Declaration,            ///<    Node representing document Declaration
+        Comment,                ///<    Node representing a comment tag
+        Regular,                ///<    Node representing a normal tag
+        Content                 ///<    Node representing content
+    };
+
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    class Node
+    {
+    public:
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        Node(NodeType _type, Node *_parent);
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        NodeType getType(void) const;
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        std::string toString(unsigned int indentation) const;
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        void setTag(const std::string& _tag);
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        void setContent(const std::string& _content);
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        void addAttribute(const std::string& _key, const std::string& _value);
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        std::string getTag(void) const;
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        std::string getContent(void) const;
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        std::vector<std::pair<std::string, std::string>> getAttributes(void) const;
+    private:
+        NodeType                                                m_Type;
+        Node *                                                  m_Parent;
+        std::vector<Node *>                                     m_ChildNodes;
+
+        std::string                                             m_Tag;
+        std::string                                             m_Content;
+        std::vector<std::pair<std::string, std::string>>        m_Attributes;
+
+        bool                                                    m_IsSelfClosing;
+    };
+
+    ////////////////////////////////////////////////////////////
+    ///
+    ///
+    ///
+    ////////////////////////////////////////////////////////////
+    class Document
+    {
+    public:
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        Document(void);
+
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        void loadFromFile(const std::string& _filename);
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        void addDeclarationStream(const std::string& _declarationTag, const std::vector<std::pair<std::string, std::string>>& _attributes);
+        ////////////////////////////////////////////////////////////
+        ///
+        ///
+        ///
+        ////////////////////////////////////////////////////////////
+        std::string dumpTree(void) const;
+    private:
+        std::vector<Node *>     m_Nodes;
+    };
+
 private:
     enum QuoteType {
         Double,
@@ -111,8 +275,12 @@ private:
     QuoteType discoverNextAttributeQuoteType(const std::string& _attributes);
     
 private:
-    std::function<void(const std::string&)>                     m_TagOpenMethod;    ///~ Method to call when opening Tag is found
-    std::function<void(const std::string&)>                     m_TagCloseMethod;    ///~ Method to call when opening Tag is found
+    std::function<void(const std::string&, const std::vector<std::pair<std::string, std::string>>)>     m_TagDeclarationMethod;     ///~ Method to call when declaration Tag is found
+    std::function<void(const std::string&)>                                                             m_TagCloseMethod;           ///~ Method to call when closing Tag is found
+    std::function<void(const std::string&)>                                                             m_ContentMethod;            ///~ Method to call when content is found
+    std::function<void(const std::string&)>                                                             m_CommentMethod;            ///~ Method to call when a comment Tag is found
+    std::function<void(const std::string&, const std::vector<std::pair<std::string, std::string>>)>     m_TagOpenMethod;            ///~ Method to call when opening Tag is found
+    std::function<void(const std::string&, const std::vector<std::pair<std::string, std::string>>)>     m_TagSelfCloseMethod;       ///~ Method to call when self closing Tag is found
 
 };
 

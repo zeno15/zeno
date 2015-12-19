@@ -24,32 +24,196 @@ namespace zeno {
 
     XML::XML(void)
     {
-        m_TagOpenMethod = [](const std::string& _tagString)
+        /*m_TagDeclarationMethod = [](const std::string& _declarationString)
         {
-            std::cout << "Encountered opening tag: '" << _tagString << "'" << std::endl;
+            std::cout << "Func Encountered declaration tag: '" << _declarationString << "'" << std::endl;
         };
         m_TagCloseMethod = [](const std::string& _tagString)
         {
-            std::cout << "Encountered closing tag: '" << _tagString << "'" << std::endl;
+            std::cout << "Func Encountered closing tag: '" << _tagString << "'" << std::endl;
         };
+        m_ContentMethod = [](const std::string& _content)
+        {
+            std::cout << "Func Encountered content: '" << _content << "'" << std::endl;
+        };
+        m_CommentMethod = [](const std::string& _comment)
+        {
+            std::cout << "Func Encountered a comment: '" << _comment << "'" << std::endl;
+        };
+        m_TagOpenMethod = [](const std::string& _tagString, const std::vector<std::pair<std::string, std::string>> _attirbutes)
+        {
+            std::cout << "Func Encountered opening tag: '" << _tagString << "'";
+            for (const auto& p : _attirbutes)
+            {
+                std::cout << " " << p.first << "=\"" << p.second << "\"";
+            }
+            std::cout << std::endl;
+        };
+        m_TagSelfCloseMethod = [](const std::string& _tagString, const std::vector<std::pair<std::string, std::string>> _attirbutes)
+        {
+            std::cout << "Func Encountered self closing tag: '" << _tagString << "'";
+            for (const auto& p : _attirbutes)
+            {
+                std::cout << " " << p.first << "=\"" << p.second << "\"";
+            }
+            std::cout << std::endl;
+        };*/
     }
 
     void XML::loadFromFile(const std::string &_filename)
     {
         std::ifstream input(_filename);
 
-        if (!input.good())
-        {
-            return;
-        }
-
-        for (unsigned int i = 0; i < 200; i += 1)
+        while (input.good())
         {
             readTag(input);
             readContent(input);
         }
 
         input.close();
+    }
+
+    void XML::setDeclarationTagCallback(std::function<void(const std::string&, const std::vector<std::pair<std::string, std::string>>)> _method)
+    {
+        m_TagDeclarationMethod = _method;
+    }
+    void XML::setClosingTagCallback(std::function<void(const std::string&)> _method)
+    {
+        m_TagCloseMethod = _method;
+    }
+    void XML::setContentCallback(std::function<void(const std::string&)> _method)
+    {
+        m_ContentMethod = _method;
+    }
+    void XML::setCommentTagCallback(std::function<void(const std::string&)> _method)
+    {
+        m_CommentMethod = _method;
+    }
+    void XML::setOpeningTagCallback(std::function<void(const std::string&, const std::vector<std::pair<std::string, std::string>>)> _method)
+    {
+        m_TagOpenMethod = _method;
+    }
+    void XML::setSelfClosingTagCallback(std::function<void(const std::string&, const std::vector<std::pair<std::string, std::string>>)> _method)
+    {
+        m_TagSelfCloseMethod = _method;
+    }
+
+    XML::Node::Node(NodeType _type, Node *_parent) :
+    m_Type(_type),
+    m_Parent(_parent)
+    {
+    }
+
+    XML::NodeType XML::Node::getType(void) const
+    {
+        return m_Type;
+    }
+
+    std::string XML::Node::toString(unsigned int indentation) const
+    {
+        std::string nodeString;
+
+        switch (m_Type)
+        {
+            case NodeType::Declaration:
+                nodeString += "<?" + m_Tag;
+                for (const auto& p : m_Attributes)
+                {
+                    nodeString += " " + p.first + ": \"" + p.second + "\"";
+                }
+                nodeString += "?>\n";
+                break;
+            default:
+                throw new std::runtime_error("Invalid node type");
+        }
+
+        return nodeString;
+    }
+
+    void XML::Node::setTag(const std::string& _tag)
+    {
+        m_Tag = _tag;
+    }
+    void XML::Node::setContent(const std::string& _content)
+    {
+        m_Content = _content;
+    }
+    void XML::Node::addAttribute(const std::string& _key, const std::string& _value)
+    {
+        m_Attributes.push_back(std::pair<std::string, std::string>(_key, _value));
+    }
+
+    std::string XML::Node::getTag(void) const
+    {
+        return m_Tag;
+    }
+    std::string XML::Node::getContent(void) const
+    {
+        return m_Content;
+    }
+    std::vector<std::pair<std::string, std::string>> XML::Node::getAttributes(void) const
+    {
+        return m_Attributes;
+    }
+
+    XML::Document::Document(void)
+    {
+        Node *dec = new Node(NodeType::Declaration, nullptr);
+
+        dec->setTag("xml");
+        dec->addAttribute("version", "1.0");
+
+        m_Nodes.push_back(dec);
+    }
+
+    void XML::Document::loadFromFile(const std::string& _filename)
+    {
+        XML xml;
+        xml.setDeclarationTagCallback([&](const std::string& _declarationTag, const std::vector<std::pair<std::string, std::string>>& _attributes){
+            this->addDeclarationStream(_declarationTag, _attributes);
+        });
+
+        xml.loadFromFile(_filename);
+    }
+
+    void XML::Document::addDeclarationStream(const std::string& _declarationTag, const std::vector<std::pair<std::string, std::string>>& _attributes)
+    {
+        for (Node *node : m_Nodes)
+        {
+            if (node->getType() == NodeType::Declaration)
+            {
+                delete node;
+                node = new Node(NodeType::Declaration, nullptr);
+                node->setTag(_declarationTag);
+                for (const auto& p : _attributes)
+                {
+                    node->addAttribute(p.first, p.second);
+                }
+                return;
+            }
+        }
+
+
+        Node *node = new Node(NodeType::Declaration, nullptr);
+        node->setTag(_declarationTag);
+        for (const auto& p : _attributes)
+        {
+            node->addAttribute(p.first, p.second);
+        }
+
+        m_Nodes.push_back(node);
+    }
+
+    std::string XML::Document::dumpTree(void) const
+    {
+        std::string tree;
+        
+        for (Node *node : m_Nodes)
+        {
+            tree += node->toString(0);
+        }
+
+        return tree;
     }
 
     void XML::readTag(std::ifstream& _input)
@@ -127,7 +291,10 @@ namespace zeno {
 
     void XML::handleContent(std::string& _content)
     {
-        std::cout << "Content: '" << _content << "'" << std::endl;
+        if (m_ContentMethod)
+        {
+            m_ContentMethod(_content);
+        }
     }
 
     void XML::handleGenericTag(const std::string& _tag)
@@ -165,7 +332,19 @@ namespace zeno {
 
     void XML::parseDeclaration(const std::string& _declarationTag)
     {
-        std::cout << "Parsing a declaration tag: '" << _declarationTag << "'" << std::endl;
+        std::size_t startIndex = _declarationTag.find(OpenTag);
+        std::size_t closeIndex = std::min(_declarationTag.find(Space), _declarationTag.find(CloseTag));
+
+        std::string tagName = _declarationTag.substr(startIndex + 2, closeIndex - startIndex - 2);
+
+        std::string attributes = _declarationTag.substr(closeIndex - startIndex, _declarationTag.find(CloseTag) - (closeIndex - startIndex));
+
+        auto a = extractAttributes(attributes);
+
+        if (m_TagDeclarationMethod)
+        {
+            m_TagDeclarationMethod(tagName, a);
+        }
     }
     void XML::parseCommentTag(const std::string& _commentTag)
     {
@@ -176,7 +355,10 @@ namespace zeno {
 
         trim(comment);
 
-        std::cout << "Comment tag: '" << comment << "'" << std::endl;
+        if (m_CommentMethod)
+        {
+            m_CommentMethod(comment);
+        }
     }
     void XML::parseOpeningTag(const std::string& _openingTag)
     {
@@ -187,11 +369,11 @@ namespace zeno {
 
         std::string attributes = _openingTag.substr(closeIndex - startIndex, _openingTag.find(CloseTag) - (closeIndex - startIndex));
 
-        std::cout << "Opening tag: '" << tagName << "'" << std::endl;
         auto a = extractAttributes(attributes);
-        for (auto p : a)
+
+        if (m_TagOpenMethod)
         {
-            std::cout << "\t" << p.first << ": " << p.second << std::endl;
+            m_TagOpenMethod(tagName, a);
         }
     }
     void XML::parseClosingTag(const std::string& _closingTag)
@@ -201,7 +383,10 @@ namespace zeno {
 
         std::string tagName = _closingTag.substr(startIndex + 1, closeIndex - startIndex - 1);
 
-        std::cout << "Closing tag '" << tagName << "'" << std::endl;
+        if (m_TagCloseMethod)
+        {
+            m_TagCloseMethod(tagName);
+        }
     }
     void XML::parseSelfClosingTag(const std::string& _selfClosingTag)
     {
@@ -212,19 +397,17 @@ namespace zeno {
 
         std::string attributes = _selfClosingTag.substr(startIndex + 1 + tagName.size(), _selfClosingTag.find(ForwardSlash) - (startIndex + 1 + tagName.size()));
 
-        std::cout << "Self-Closing tag '" << tagName << "'" << std::endl;
         auto a = extractAttributes(attributes);
-        for (auto p : a)
+
+        if (m_TagSelfCloseMethod)
         {
-            std::cout << "\t'" << p.first << "': '" << p.second << "'" << std::endl;
+            m_TagSelfCloseMethod(tagName, a);
         }
     }
 
     std::vector<std::pair<std::string, std::string>> XML::extractAttributes(const std::string& _attributeString)
     {
         std::vector<std::pair<std::string, std::string>> attributes;
-
-        std::cout << "Working on attributes: '" << _attributeString << "'" << std::endl;
 
         std::string att = _attributeString;
 
@@ -243,7 +426,7 @@ namespace zeno {
                 break;
             }
 
-            char quote = (type == QuoteType::Double ? '"' : '\'');
+            char quote = (type == QuoteType::Double ? static_cast<char>('"') : static_cast<char>('\''));
 
             std::size_t quoteOpenLoc = att.find(quote);
             std::size_t quoteCloseLoc = att.find(quote, quoteOpenLoc + 1);
