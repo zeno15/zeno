@@ -98,9 +98,10 @@ namespace zeno {
         m_TagSelfCloseMethod = _method;
     }
 
-    XML::Node::Node(NodeType _type, Node *_parent) :
+    XML::Node::Node(NodeType _type, Node *_parent, bool _selfClosing /*= false*/) :
     m_Type(_type),
-    m_Parent(_parent)
+    m_Parent(_parent),
+    m_IsSelfClosing(_selfClosing)
     {
     }
 
@@ -112,16 +113,49 @@ namespace zeno {
     std::string XML::Node::toString(unsigned int indentation) const
     {
         std::string nodeString;
+        std::string indentationStr;
+        for (unsigned int i = 0; i < indentation * 4; i += 1)
+        {
+            indentationStr += ' ';
+        }
 
         switch (m_Type)
         {
             case NodeType::Declaration:
-                nodeString += "<?" + m_Tag;
+                nodeString += indentationStr + "<?" + m_Tag;
                 for (const auto& p : m_Attributes)
                 {
                     nodeString += " " + p.first + ": \"" + p.second + "\"";
                 }
                 nodeString += "?>\n";
+                break;
+            case NodeType::Comment:
+                nodeString += indentationStr + "<!--" + m_Content + "-->\n";
+                break;
+            case NodeType::Content:
+                nodeString += indentationStr + m_Content + "\n";
+                break;
+            case NodeType::Regular:
+                nodeString += indentationStr + "<" + m_Tag;
+                for (const auto& p : m_Attributes)
+                {
+                    nodeString += " " + p.first + ":\"" + p.second + "\"";
+                }
+                if (m_IsSelfClosing)
+                {
+                    nodeString += "/>\n";
+                }
+                else
+                {
+                    nodeString += ">\n";
+
+                    for (Node *child : m_ChildNodes)
+                    {
+                        nodeString += child->toString(indentation + 1);
+                    }
+
+                    nodeString += indentationStr + "</" + m_Tag + ">\n";
+                }
                 break;
             default:
                 throw new std::runtime_error("Invalid node type");
@@ -155,8 +189,23 @@ namespace zeno {
     {
         return m_Attributes;
     }
+    XML::Node *XML::Node::getParent(void) const
+    {
+        return m_Parent;
+    }
 
-    XML::Document::Document(void)
+    bool XML::Node::isSelfClosing(void) const
+    {
+        return m_IsSelfClosing;
+    }
+
+    void XML::Node::addChild(Node *_node)
+    {
+        m_ChildNodes.push_back(_node);
+    }
+
+    XML::Document::Document(void) :
+    m_CurrentNode(nullptr)
     {
         Node *dec = new Node(NodeType::Declaration, nullptr);
 
@@ -169,13 +218,56 @@ namespace zeno {
     void XML::Document::loadFromFile(const std::string& _filename)
     {
         XML xml;
+
         xml.setDeclarationTagCallback([&](const std::string& _declarationTag, const std::vector<std::pair<std::string, std::string>>& _attributes){
             this->addDeclarationStream(_declarationTag, _attributes);
+        });
+        xml.setOpeningTagCallback([&](const std::string& _tag, const std::vector<std::pair<std::string, std::string>>& _attributes){
+            this->addOpeningTag(_tag, _attributes);
+        });
+        xml.setCommentTagCallback([&](const std::string& _comment){
+            this->addCommentStream(_comment);
+        });
+        xml.setContentCallback([&](const std::string& _content){
+            this->addContentStream(_content);
+        });
+        xml.setClosingTagCallback([&](const std::string& _tag){
+           this->addClosingTag(_tag);
         });
 
         xml.loadFromFile(_filename);
     }
 
+    void XML::Document::addCommentStream(const std::string& _comment)
+    {
+        Node *commentNode = new Node(NodeType::Comment, m_CurrentNode);
+
+        commentNode->setContent(_comment);
+
+        if (m_CurrentNode == nullptr)
+        {
+            m_Nodes.push_back(commentNode);
+        }
+        else
+        {
+            m_CurrentNode->addChild(commentNode);
+        }
+    }
+    void XML::Document::addContentStream(const std::string& _content)
+    {
+        Node *contentNode = new Node(NodeType::Content, m_CurrentNode);
+
+        contentNode->setContent(_content);
+
+        if (m_CurrentNode == nullptr)
+        {
+            m_Nodes.push_back(contentNode);
+        }
+        else
+        {
+            m_CurrentNode->addChild(contentNode);
+        }
+    }
     void XML::Document::addDeclarationStream(const std::string& _declarationTag, const std::vector<std::pair<std::string, std::string>>& _attributes)
     {
         for (Node *node : m_Nodes)
@@ -203,11 +295,45 @@ namespace zeno {
 
         m_Nodes.push_back(node);
     }
+    void XML::Document::addOpeningTag(const std::string& _tag, const std::vector<std::pair<std::string, std::string>>& _attributes, bool _isSelfClosing /*= false*/)
+    {
+        Node *openingNode = new Node(NodeType::Regular, m_CurrentNode);
+
+        openingNode->setTag(_tag);
+        for (const auto p : _attributes)
+        {
+            openingNode->addAttribute(p.first, p.second);
+        }
+
+        if (m_CurrentNode == nullptr)
+        {
+            m_Nodes.push_back(openingNode);
+        }
+        else
+        {
+            m_CurrentNode->addChild(openingNode);
+        }
+
+        if (!_isSelfClosing)
+        {
+            m_CurrentNode = openingNode;
+        }
+    }
+    void XML::Document::addClosingTag(const std::string& _tag)
+    {
+        if (_tag != m_CurrentNode->getTag())
+        {
+            std::string error = "Got closing tag of '" + _tag + "' and current node is '" + m_CurrentNode->getTag() + "'";
+            throw std::runtime_error(error);
+        }
+
+        m_CurrentNode = m_CurrentNode->getParent();
+    }
 
     std::string XML::Document::dumpTree(void) const
     {
         std::string tree;
-        
+
         for (Node *node : m_Nodes)
         {
             tree += node->toString(0);
