@@ -51,6 +51,10 @@ INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Network/HTTPProtocol.hpp
 
 # Utility Module
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Utility/Epub.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Utility/JSON.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Utility/JSON/JSONNode.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Utility/JSON/JSONValueNode.hpp
+INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Utility/JSON/JSONObjectNode.hpp
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Utility/StringMethods.hpp
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Utility/XML.hpp
 INPUT += @CMAKE_CURRENT_SOURCE_DIR@/include/zeno/Utility/Zip.hpp

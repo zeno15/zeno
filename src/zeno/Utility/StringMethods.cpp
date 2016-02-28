@@ -75,4 +75,17 @@ void replaceAll(std::string& _string, const std::string& _substring, const std::
     }
 }
 
+    bool compareCaseInsensitive(const std::string& _left, const std::string& _right)
+    {
+        if (_left.length() == _right.length())
+        {
+            return std::equal(_left.begin(), _left.end(), _right.begin(), [](char _a, char _b)
+            {
+                return std::tolower(_a) == std::tolower(_b);
+            });
+        }
+
+        return false;
+    }
+
 } //~ namespace zeno

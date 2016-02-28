@@ -61,6 +61,8 @@ static inline std::string &trim(std::string &s) {
         return ltrim(rtrim(s));
 }
 
+bool compareCaseInsensitive(const std::string& _left, const std::string& _right);
+
 } //~ namespace zeno
 
 #endif //~ INCLUDED_ZENO_UTILITY_STRING_METHODS_HPP

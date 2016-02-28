@@ -1,0 +1,37 @@
+#ifndef ZENO_UTILITY_JSONOBJECTNODE_HPP
+#define ZENO_UTILITY_JSONOBJECTNODE_HPP
+
+#include <zeno/Utility/JSON/JSONNode.hpp>
+
+////////////////////////////////////////////////////////////
+///
+///	\namespace	zeno
+///
+////////////////////////////////////////////////////////////
+namespace zeno {
+
+////////////////////////////////////////////////////////////
+///
+///	\brief  JSON Node that contains an Object
+///
+////////////////////////////////////////////////////////////
+class JSONObjectNode : public JSONNode
+{
+public:
+////////////////////////////////////////////////////////////
+///
+/// \brief  Constructor
+///
+/// \param  _key    Key for the Object Node
+///
+/// \param  _value  Value to use for the Nodes value
+///
+////////////////////////////////////////////////////////////
+JSONObjectNode(const std::string& _key, const std::string& _value);
+
+private:
+};
+
+} //~ namespace zeno
+
+#endif //~ ZENO_UTILITY_JSONOBJECTNODE_HPP
