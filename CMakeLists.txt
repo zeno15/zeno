@@ -193,6 +193,7 @@ endif (BUILD_SSL STREQUAL "TRUE")
 
 #-----------------------------  Graphics start    ----------------------
 set(GRAPHICS_HEADER_FILES ${GRAPHICS_HEADER_FILES}
+		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/AnimatedSprite.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Circle.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Colour.hpp
 		${CMAKE_SOURCE_DIR}/include/zeno/Graphics/Font.hpp
@@ -214,6 +215,7 @@ set(GRAPHICS_HEADER_FILES ${GRAPHICS_HEADER_FILES}
 	)
 
 set(GRAPHICS_SOURCE_FILES ${GRAPHICS_SOURCE_FILES}
+		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/AnimatedSprite.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Circle.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Colour.cpp
 		${CMAKE_SOURCE_DIR}/src/zeno/Graphics/Font.cpp

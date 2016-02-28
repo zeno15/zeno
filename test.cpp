@@ -13,10 +13,7 @@ int main(int _argc, char **_argv)
        return true;
     });
 
-
     game.setClearColour(zeno::Colour::Cyan);
-
-
 
     game.start();
 
